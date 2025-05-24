@@ -1259,7 +1259,7 @@
 						thisObj.captionsPopup.css('left', thisObj.$ccButton.position().left)
 						// Place focus on the first button (even if another button is checked)
 						thisObj.captionsPopup.find('li').removeClass('able-focus');
-						thisObj.captionsPopup.find('li').first().focus().addClass('able-focus');
+						thisObj.captionsPopup.find('li').first().trigger('focus').addClass('able-focus');
 					}, 50);
 				}
 			}
@@ -1279,7 +1279,7 @@
 		var _timeout = (timeout === undefined || timeout === null) ? 50 : timeout;
 
 		setTimeout(function() {
-			$el.focus();
+			$el.trigger('focus');
 		}, _timeout);
 	}
 
@@ -1293,7 +1293,7 @@
 		if (this.chaptersPopup.is(':visible')) {
 			this.chaptersPopup.hide();
 			this.hidingPopup = false;
-			this.$chaptersButton.attr('aria-expanded','false').focus();
+			this.$chaptersButton.attr('aria-expanded','false').trigger('focus');
 		}
 		else {
 			this.closePopups();
@@ -1306,10 +1306,10 @@
 			// Otherwise, place focus on the first chapter
 			this.chaptersPopup.find('li').removeClass('able-focus');
 			if (this.chaptersPopup.find('li[aria-checked="true"]').length) {
-				this.chaptersPopup.find('li[aria-checked="true"]').focus().addClass('able-focus');
+				this.chaptersPopup.find('li[aria-checked="true"]').trigger('focus').addClass('able-focus');
 			}
 			else {
-				this.chaptersPopup.find('li').first().addClass('able-focus').attr('aria-checked','true').focus();
+				this.chaptersPopup.find('li').first().addClass('able-focus').attr('aria-checked','true').trigger('focus');
 			}
 		}
 	};
@@ -1360,7 +1360,7 @@
 			// restore each menu item to original hidden state
 			this.prefsPopup.find('li').removeClass('able-focus').attr('tabindex','-1');
 			if (!this.showingPrefsDialog) {
-				this.$prefsButton.focus();
+				this.$prefsButton.trigger('focus');
 			}
 			// wait briefly, then reset hidingPopup
 			setTimeout(function() {
@@ -1371,7 +1371,7 @@
 			this.closePopups();
 			this.prefsPopup.show();
 			this.$prefsButton.attr('aria-expanded','true');
-			this.$prefsButton.focus(); // focus first on prefs button to announce expanded state
+			this.$prefsButton.trigger('focus'); // focus first on prefs button to announce expanded state
 			// give time for focus on button then adjust popup settings and focus
 			setTimeout(function() {
 				prefsButtonPosition = thisObj.$prefsButton.position();
@@ -1381,7 +1381,7 @@
 				thisObj.prefsPopup.css('left', prefsMenuLeft);
 				// remove prior focus and set focus on first item; also change tabindex from -1 to 0
 				thisObj.prefsPopup.find('li').removeClass('able-focus').attr('tabindex','0');
-				thisObj.prefsPopup.find('li').first().focus().addClass('able-focus');
+				thisObj.prefsPopup.find('li').first().trigger('focus').addClass('able-focus');
 			}, 50);
 		}
 	};
@@ -1400,7 +1400,7 @@
 			this.$transcriptButton.addClass('buttonOff').attr('aria-label',this.tt.showTranscript);
 			this.$transcriptButton.find('span.able-clipped').text(this.tt.showTranscript);
 			this.prefTranscript = 0;
-			this.$transcriptButton.focus().addClass('able-focus');
+			this.$transcriptButton.trigger('focus').addClass('able-focus');
 			// wait briefly before resetting stopgap var
 			// otherwise the keypress used to select 'Close' will trigger the transcript button
 			// Benchmark tests: If this is gonna happen, it typically happens in around 3ms; max 12ms
@@ -1420,7 +1420,7 @@
 			this.prefTranscript = 1;
 			// move focus to first focusable element (window options button)
 			this.focusNotClick = true;
-			this.$transcriptArea.find('button').first().focus();
+			this.$transcriptArea.find('button').first().trigger('focus');
 			// wait briefly before resetting stopgap var
 			setTimeout(function() {
 				thisObj.focusNotClick = false;
@@ -1438,7 +1438,7 @@
 			this.$signButton.addClass('buttonOff').attr('aria-label',this.tt.showSign);
 			this.$signButton.find('span.able-clipped').text(this.tt.showSign);
 			this.prefSign = 0;
-			this.$signButton.focus().addClass('able-focus');
+			this.$signButton.trigger('focus').addClass('able-focus');
 			// wait briefly before resetting stopgap var
 			// otherwise the keypress used to select 'Close' will trigger the transcript button
 			setTimeout(function() {
@@ -1455,7 +1455,7 @@
 			this.$signButton.find('span.able-clipped').text(this.tt.hideSign);
 			this.prefSign = 1;
 			this.focusNotClick = true;
-			this.$signWindow.find('button').first().focus();
+			this.$signWindow.find('button').first().trigger('focus');
 			// wait briefly before resetting stopgap var
 			// otherwise the keypress used to select 'Close' will trigger the transcript button
 			setTimeout(function() {

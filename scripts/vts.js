@@ -739,7 +739,7 @@
 		this.showVtsAlert('A new row ' + newRowNum + ' has been inserted'); // TODO: Localize this
 
 		// Place focus in new select field
-		$select.focus();
+		$select.trigger('focus');
 
 	};
 

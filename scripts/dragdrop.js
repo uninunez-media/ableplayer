@@ -339,12 +339,12 @@
 			}
 			resizeDialog.hide();
 			$windowPopup.hide();
-			$windowButton.focus();
+			$windowButton.trigger('focus');
 		});
 		$cancelButton.on('click',function () {
 			resizeDialog.hide();
 			$windowPopup.hide();
-			$windowButton.focus();
+			$windowButton.trigger('focus');
 		});
 
 		// Now assemble all the parts
@@ -406,7 +406,7 @@
 						// also restore menu items to their original state
 						$windowPopup.find('li').removeClass('able-focus').attr('tabindex','-1');
 						// also return focus to window options button
-						$windowButton.focus();
+						$windowButton.trigger('focus');
 					});
 				}
 				else {
@@ -433,7 +433,7 @@
 				thisObj.windowMenuClickRegistered = false; // reset
 			});
 			$windowPopup.find('li').removeClass('able-focus');
-			$windowButton.attr('aria-expanded','false').focus();
+			$windowButton.attr('aria-expanded','false').trigger('focus');
 		}
 		else {
 			// first, be sure window is on top
@@ -442,7 +442,7 @@
 			$windowPopup.css('top', popupTop);
 			$windowPopup.show(200,'',function() {
 				$windowButton.attr('aria-expanded','true');
-				$(this).find('li').first().focus().addClass('able-focus');
+				$(this).find('li').first().trigger('focus').addClass('able-focus');
 				thisObj.windowMenuClickRegistered = false; // reset
 			});
 		}
@@ -477,7 +477,7 @@
 					$windowPopup.find('li').removeClass('able-focus').attr('tabindex','-1');
 					$windowButton.attr('aria-expanded','false');
 					// also return focus to window options button
-					$windowButton.focus();
+					$windowButton.trigger('focus');
 				});
 				return false;
 			}
@@ -499,7 +499,7 @@
 			$windowButton.attr('aria-expanded','false');
 		});
 		if (choice !== 'close') {
-			$windowButton.focus();
+			$windowButton.trigger('focus');
 		}
 		if (choice === 'move') {
 
@@ -523,7 +523,7 @@
 				this.dragDevice = 'mouse';
 			}
 			this.startDrag(which, $window);
-			$windowPopup.hide().parent().focus();
+			$windowPopup.hide().parent().trigger('focus');
 		}
 		else if (choice == 'resize') {
 			// resize through the menu uses a form, not drag
@@ -608,7 +608,7 @@
 			'position': 'absolute',
 			'top': this.dragStartY + 'px',
 			'left': this.dragStartX + 'px'
-		}).focus();
+		}).trigger('focus');
 
 		// add device-specific event listeners
 		if (this.dragDevice === 'mouse') { // might also be a touchpad
@@ -725,7 +725,7 @@
 		this.$activeWindow = null;
 
 		if (this.dragDevice === 'keyboard') {
-			$windowButton.focus();
+			$windowButton.trigger('focus');
 		}
 		this.dragging = false;
 
@@ -786,7 +786,7 @@
 
 		// if window's popup menu is open, close it & place focus on button (???)
 		if ($windowPopup.is(':visible')) {
-			$windowPopup.hide().parent().focus();
+			$windowPopup.hide().parent().trigger('focus');
 		}
 
 		// get starting width and height
@@ -823,7 +823,7 @@
 
 		$(document).off('mousemove mouseup touchmove touchup');
 		this.$activeWindow.off('keydown');
-		$windowButton.show().focus();
+		$windowButton.show().trigger('focus');
 		this.resizing = false;
 		this.$activeWindow.removeClass('able-resize');
 

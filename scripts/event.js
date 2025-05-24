@@ -253,7 +253,7 @@
 				classList = this.$focusedElement.attr("class").split(/\s+/);
 				$.each(classList, function(index, item) {
 					if (item.substring(0,20) === 'able-button-handler-') {
-						$('div.able-controller div.' + item).focus();
+						$('div.able-controller div.' + item).trigger('focus');
 					}
 				});
 			}

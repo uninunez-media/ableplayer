@@ -54,7 +54,7 @@
             } else if (line.toLowerCase().substring(0, 6) == "focus:") {
               focusTarget = line.substring(6).trim();
               if ($(focusTarget).length) {
-                $(focusTarget).focus();
+                $(focusTarget).trigger('focus');
               }
             } else {
               if ($(line).length) {

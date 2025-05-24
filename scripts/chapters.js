@@ -266,7 +266,7 @@
 			setTimeout(function() {
 				thisObj.hidingPopup = false;
 			}, 100);
-			thisObj.$chaptersButton.focus();
+			thisObj.$chaptersButton.trigger('focus');
 		}
 	};
 

@@ -79,13 +79,13 @@
 				if (e.shiftKey) {
 					// If backwards from first element, go to last.
 					if (currentIndex === 0) {
-						focusable.get(focusable.length - 1).focus();
+						focusable.get(focusable.length - 1).trigger('focus');
 						e.preventDefault();
 					}
 				}
 				else {
 					if (currentIndex === focusable.length - 1) {
-						focusable.get(0).focus();
+						focusable.get(0).trigger('focus');
 						e.preventDefault();
 					}
 				}
@@ -128,7 +128,7 @@
 		var thisObj = this;
 		setTimeout(function () {
 			// set focus on the first focusable element
-			thisObj.modal.find('button.modalCloseButton').first().focus();
+			thisObj.modal.find('button.modalCloseButton').first().trigger('focus');
 		}, 300);
 	};
 
@@ -140,7 +140,7 @@
 		this.modal.attr('aria-hidden', 'true');
 		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').removeAttr('aria-hidden');
 
-		this.focusedElementBeforeModal.focus();
+		this.focusedElementBeforeModal.trigger('focus');
 	};
 
 	AccessibleDialog.prototype.getInputs = function () {

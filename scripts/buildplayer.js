@@ -588,20 +588,20 @@
 			if (e.which === 9) { // Tab
 				if (e.shiftKey) {
 					$thisItem.removeClass('able-focus');
-					$prevItem.focus().addClass('able-focus');
+					$prevItem.trigger('focus').addClass('able-focus');
 				}
 				else {
 					$thisItem.removeClass('able-focus');
-					$nextItem.focus().addClass('able-focus');
+					$nextItem.trigger('focus').addClass('able-focus');
 				}
 			}
 			else if (e.which === 40 || e.which === 39) { // down or right arrow
 				$thisItem.removeClass('able-focus');
-				$nextItem.focus().addClass('able-focus');
+				$nextItem.trigger('focus').addClass('able-focus');
 			}
 			else if (e.which == 38 || e.which === 37) { // up or left arrow
 				$thisItem.removeClass('able-focus');
-				$prevItem.focus().addClass('able-focus');
+				$prevItem.trigger('focus').addClass('able-focus');
 			}
 			else if (e.which === 32 || e.which === 13) { // space or enter
 				$thisItem.trigger( 'click' );
@@ -623,7 +623,7 @@
 
 		if (this.chaptersPopup && this.chaptersPopup.is(':visible')) {
 			this.chaptersPopup.hide();
-			this.$chaptersButton.attr('aria-expanded','false').focus();
+			this.$chaptersButton.attr('aria-expanded','false').trigger('focus');
 		}
 		if (this.captionsPopup && this.captionsPopup.is(':visible')) {
 			this.captionsPopup.hide();
@@ -646,14 +646,14 @@
 		}
 		if (this.$volumeSlider && this.$volumeSlider.is(':visible')) {
 			this.$volumeSlider.hide().attr('aria-hidden','true');
-			this.$volumeButton.attr('aria-expanded', 'false').focus();
+			this.$volumeButton.attr('aria-expanded', 'false').trigger('focus');
 		}
 		if (this.$transcriptPopup && this.$transcriptPopup.is(':visible')) {
 			this.hidingPopup = true;
 			this.$transcriptPopup.hide();
 			// restore menu items to their original state
 			this.$transcriptPopup.find('li').removeClass('able-focus').attr('tabindex','-1');
-			this.$transcriptPopupButton.attr('aria-expanded','false').focus();
+			this.$transcriptPopupButton.attr('aria-expanded','false').trigger('focus');
 			// wait briefly, then reset hidingPopup
 			setTimeout(function() {
 				thisObj.hidingPopup = false;
@@ -663,7 +663,7 @@
 			this.$signPopup.hide();
 			// restore menu items to their original state
 			this.$signPopup.find('li').removeClass('able-focus').attr('tabindex','-1');
-			this.$signPopupButton.attr('aria-expanded','false').focus();
+			this.$signPopupButton.attr('aria-expanded','false').trigger('focus');
 		}
 	};
 
@@ -1400,7 +1400,7 @@
 						// if player is being rebuilt because user clicked the Prev button
 						// return focus to that (newly built) button
 						if (this.buttonWithFocus == 'previous') {
-							this.$prevButton.focus();
+							this.$prevButton.trigger('focus');
 							this.buttonWithFocus = null;
 						}
 					}
@@ -1409,7 +1409,7 @@
 						// if player is being rebuilt because user clicked the Next button
 						// return focus to that (newly built) button
 						if (this.buttonWithFocus == 'next') {
-							this.$nextButton.focus();
+							this.$nextButton.trigger('focus');
 							this.buttonWithFocus = null;
 						}
 					}
