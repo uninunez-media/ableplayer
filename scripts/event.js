@@ -479,7 +479,7 @@
 				if ($thisElement.attr('role') === 'button') {
 					// register a click on this element
 					e.preventDefault();
-					$thisElement.click();
+					$thisElement.trigger( 'click' );
 				}
 			}
 			else if (which === 112) { // p = play/pause
@@ -558,10 +558,10 @@
 				if ($thisElement.attr('role') === 'button' || $thisElement.prop('tagName') === 'SPAN') {
 					// register a click on this element
 					// if it's a transcript span the transcript span click handler will take over
-					$thisElement.click();
+					$thisElement.trigger( 'click' );
 				}
 				else if ($thisElement.prop('tagName') === 'LI') {
-					$thisElement.click();
+					$thisElement.trigger( 'click' );
 				}
 			}
 		}

@@ -604,7 +604,7 @@
 				$prevItem.focus().addClass('able-focus');
 			}
 			else if (e.which === 32 || e.which === 13) { // space or enter
-				$thisItem.click();
+				$thisItem.trigger( 'click' );
 			}
 			else if (e.which === 27) {	// Escape
 				$thisItem.removeClass('able-focus');
