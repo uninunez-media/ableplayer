@@ -2008,10 +2008,10 @@
 		}
 		else if (control === 'fullscreen') {
 			if (!this.fullscreen) {
-				return this.tt.enterFullscreen;
+				return this.tt.enterFullScreen;
 			}
 			else {
-				return this.tt.exitFullscreen;
+				return this.tt.exitFullScreen;
 			}
 		}
 		else {
