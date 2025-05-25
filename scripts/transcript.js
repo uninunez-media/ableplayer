@@ -110,6 +110,8 @@
     // If client has provided separate transcript location, put it there.
     // Otherwise append it to the body
     if (this.transcriptDivLocation) {
+	  this.$transcriptArea.removeAttr( 'role' );
+	  this.$transcriptArea.removeAttr( 'aria-label' );
       $("#" + this.transcriptDivLocation).append(this.$transcriptArea);
     } else {
       this.$ableWrapper.append(this.$transcriptArea);
