@@ -1892,14 +1892,21 @@
 		if (typeof this.$captionsDiv !== 'undefined') {
 
 			// Font-size is too small in full screen view
-			// use viewport units (vw) instead
+			// use viewport units (vw) for large viewports
 			// % units work fine if not fullscreen
 			// prefCaptionSize is expressed as a percentage
-			captionSize = parseInt(this.prefCaptionsSize,10);
-			if (this.fullscreen) {
-				captionSize = (captionSize / 100) + 'vw';
+			var isSmallScreen = false;
+			var windowWidth = window.screen.width;
+			console.log( windowWidth );
+			if ( windowWidth < 1200 ) {
+				isSmallScreen = true;
 			}
-			else {
+			captionSize = parseInt(this.prefCaptionsSize,10);
+			if (this.fullscreen && ! isSmallScreen ) {
+				captionSize = (captionSize / 100) + 'vw';
+			} else if ( this.fullscreen && isSmallScreen ) {
+				captionSize = '1.2rem';
+			} else {
 				captionSize = captionSize + '%';
 			}
 			this.$captionsDiv.css({
