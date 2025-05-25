@@ -934,7 +934,7 @@
 
 		// handle clicks on playlist items
 		if (this.$playlist) {
-			this.$playlist.click(function(e) {
+			this.$playlist.on( 'click', function(e) {
 				if (!thisObj.userClickedPlaylist) {
 					// stopgap in case multiple clicks are fired on the same playlist item
 					thisObj.userClickedPlaylist = true; // will be set to false after new src is loaded & canplaythrough is triggered
@@ -945,7 +945,7 @@
 		}
 
 		// Also play/pause when clicking on the media.
-		this.$media.click(function () {
+		this.$media.on( 'click', function () {
 			thisObj.handlePlay();
 		});
 

@@ -136,7 +136,7 @@
   AblePlayer.prototype.addTranscriptAreaEvents = function () {
     var thisObj = this;
 
-    this.$autoScrollTranscriptCheckbox.click(function () {
+    this.$autoScrollTranscriptCheckbox.on( 'click', function () {
       thisObj.handleTranscriptLockToggle(
         thisObj.$autoScrollTranscriptCheckbox.prop("checked")
       );
@@ -307,7 +307,7 @@
     if (this.$transcriptArea.length > 0) {
       this.$transcriptArea
         .find("span.able-transcript-seekpoint")
-        .click(function (e) {
+        .on( 'click', function (e) {
           thisObj.seekTrigger = "transcript";
           var spanStart = parseFloat($(this).attr("data-start"));
           // Add a tiny amount so that we're inside the span.

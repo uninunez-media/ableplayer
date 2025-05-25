@@ -28,7 +28,7 @@
 				if (e.which === 32) {
 					thisObj.hide();
 				}
-			}).click(function () {
+			}).on( 'click', function () {
 				thisObj.hide();
 			});
 

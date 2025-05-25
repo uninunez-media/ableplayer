@@ -121,7 +121,7 @@
 			this.$bigPlayButton.append(this.$bigPlayIcon);
 		}
 
-		this.$bigPlayButton.click(function (event) {
+		this.$bigPlayButton.on( 'click', function (event) {
 			event.preventDefault();
 			thisObj.handlePlay();
 		});

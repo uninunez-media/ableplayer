@@ -789,11 +789,11 @@
 		$prefsDiv.append('<hr>');
 		saveButton = $('<button class="modal-button">' + this.tt.save + '</button>');
 		cancelButton = $('<button class="modal-button">' + this.tt.cancel + '</button>');
-		saveButton.click(function () {
+		saveButton.on( 'click', function () {
 			dialog.hide();
 			thisObj.savePrefsFromForm();
 		});
-		cancelButton.click(function () {
+		cancelButton.on( 'click', function () {
 			dialog.hide();
 			thisObj.resetPrefsForm();
 		});
@@ -823,7 +823,7 @@
 
 		// Add click handler for dialog close button
 		// (button is added in dialog.js)
-		$('div.able-prefs-form button.modalCloseButton').click(function() {
+		$('div.able-prefs-form button.modalCloseButton').on( 'click', function() {
 			thisObj.resetPrefsForm();
 		})
 		// Add handler for escape key
