@@ -1897,7 +1897,6 @@
 			// prefCaptionSize is expressed as a percentage
 			var isSmallScreen = false;
 			var windowWidth = window.screen.width;
-			console.log( windowWidth );
 			if ( windowWidth < 1200 ) {
 				isSmallScreen = true;
 			}
