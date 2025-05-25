@@ -196,6 +196,10 @@ var AblePlayerInstances = [];
 			this.readDescriptionsAloud = true;
 		}
 
+		// setting initial this.descVoices to an empty array
+		// to be populated later by getBrowserVoices
+		this.descVoices = [];
+
 		// Method by which text descriptions are read
 		// valid values of data-desc-reader are:
 		// 'brower' (default) - text-based audio description is handled by the browser, if supported
