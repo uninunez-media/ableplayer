@@ -458,7 +458,7 @@
 					});
 					if (thisPref !== 'prefCaptions' && thisPref !== 'prefCaptionsStyle') {
 						// add a change handler that updates the style of the sample caption text
-						$thisField.change(function() {
+						$thisField.on( 'change', function() {
 							changedPref = $(this).attr('name');
 							thisObj.stylizeCaptions(thisObj.$sampleCapsDiv,changedPref);
 						});
