@@ -23,7 +23,7 @@
 				 'title': thisObj.closeButtonLabel,
 				 'aria-label': thisObj.closeButtonLabel
 			}).text('X');
-			closeButton.keydown(function (e) {
+			closeButton.on( 'keydown', function (e) {
 				// Space key down
 				if (e.which === 32) {
 					thisObj.hide();
@@ -53,7 +53,7 @@
 			modal.attr('aria-modal','true');
 		}
 
-		modal.keydown(function (e) {
+		modal.on( 'keydown', function (e) {
 			// Escape
 			if (e.which === 27) {
 				if (thisObj.escapeHook) {

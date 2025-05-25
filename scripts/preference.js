@@ -827,7 +827,7 @@
 			thisObj.resetPrefsForm();
 		})
 		// Add handler for escape key
-		$('div.able-prefs-form').keydown(function(e) {
+		$('div.able-prefs-form').on( 'keydown', function(e) {
 			if (e.which === 27) { // escape
 				thisObj.resetPrefsForm();
 			}
