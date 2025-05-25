@@ -301,8 +301,7 @@
 }
 
 .able-volume-slider input[type="range"] {
-  appearance: slider-vertical;
-  writing-mode: bt-rl;
+  writing-mode: vertical-rl;
   /* -webkit-appearance: none; */ /* Hides the slider so that custom slider can be made */
   width: 28px;
   height: 100%;
