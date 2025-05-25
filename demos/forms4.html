@@ -42,7 +42,7 @@
 	(function () {
 		var feedback, answer;
 		$(document).ready(function () {
-			$('#submit').click(function(event) {
+			$('#submit').on( 'click', function(event) {
 				event.preventDefault();
 				answer = $('#favplayer').val().toLowerCase();
 				if (answer.substring(0,4) == 'able') {

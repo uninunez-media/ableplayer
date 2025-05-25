@@ -65,7 +65,7 @@
 		(function () {
 			var feedback, answer;
 			$(document).ready(function () {
-				$('#submit').click(function() {
+				$('#submit').on( 'click', function() {
 					answer = $('#favplayer').val().toLowerCase();
 					if (answer.substring(0,4) == 'able') {
 						feedback = 'Correct!';
