@@ -93,7 +93,7 @@
 			e.stopPropagation();
 		});
 
-		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').removeAttr('aria-hidden');
+		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').removeAttr('inert');
 	};
 
 	AccessibleDialog.prototype.show = function () {
@@ -112,7 +112,7 @@
 			});
 		}
 
-		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').attr('aria-hidden', 'true');
+		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').attr('inert', true);
 
 		this.overlay.css('display', 'block');
 		this.modal.css('display', 'block');
@@ -138,7 +138,7 @@
 		}
 		this.modal.css('display', 'none');
 		this.modal.attr('aria-hidden', 'true');
-		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').removeAttr('aria-hidden');
+		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').removeAttr('inert');
 
 		this.focusedElementBeforeModal.trigger('focus');
 	};
