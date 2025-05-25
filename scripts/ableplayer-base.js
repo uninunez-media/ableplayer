@@ -131,7 +131,7 @@ var AblePlayerInstances = [];
 
 		// start-time
 		var startTime = $(media).data('start-time');
-		var isNumeric = ( typeof startTime === number || ( typeof startTime === 'string' && value.trim() !== '' && ! isNaN(value) && isFinite( Number(value) ) ) ) ? true : false;
+		var isNumeric = ( typeof startTime === 'number' || ( typeof startTime === 'string' && value.trim() !== '' && ! isNaN(value) && isFinite( Number(value) ) ) ) ? true : false;
 		if ( startTime !== undefined && isNumeric ) {
 			this.startTime = $(media).data('start-time');
 		}
