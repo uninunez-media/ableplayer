@@ -1478,7 +1478,9 @@ var AblePlayerInstances = [];
 		}
 
 		// start-time
-		if ($(media).data('start-time') !== undefined && $.isNumeric($(media).data('start-time'))) {
+		var startTime = $(media).data('start-time');
+		var isNumeric = ( typeof startTime === 'number' || ( typeof startTime === 'string' && value.trim() !== '' && ! isNaN(value) && isFinite( Number(value) ) ) ) ? true : false;
+		if ( startTime !== undefined && isNumeric ) {
 			this.startTime = $(media).data('start-time');
 		}
 		else {
@@ -3376,7 +3378,7 @@ var AblePlayerInstances = [];
 					});
 					if (thisPref !== 'prefCaptions' && thisPref !== 'prefCaptionsStyle') {
 						// add a change handler that updates the style of the sample caption text
-						$thisField.change(function() {
+						$thisField.on( 'change', function() {
 							changedPref = $(this).attr('name');
 							thisObj.stylizeCaptions(thisObj.$sampleCapsDiv,changedPref);
 						});
@@ -3707,11 +3709,11 @@ var AblePlayerInstances = [];
 		$prefsDiv.append('<hr>');
 		saveButton = $('<button class="modal-button">' + this.tt.save + '</button>');
 		cancelButton = $('<button class="modal-button">' + this.tt.cancel + '</button>');
-		saveButton.click(function () {
+		saveButton.on( 'click', function () {
 			dialog.hide();
 			thisObj.savePrefsFromForm();
 		});
-		cancelButton.click(function () {
+		cancelButton.on( 'click', function () {
 			dialog.hide();
 			thisObj.resetPrefsForm();
 		});
@@ -3741,11 +3743,11 @@ var AblePlayerInstances = [];
 
 		// Add click handler for dialog close button
 		// (button is added in dialog.js)
-		$('div.able-prefs-form button.modalCloseButton').click(function() {
+		$('div.able-prefs-form button.modalCloseButton').on( 'click', function() {
 			thisObj.resetPrefsForm();
 		})
 		// Add handler for escape key
-		$('div.able-prefs-form').keydown(function(e) {
+		$('div.able-prefs-form').on( 'keydown', function(e) {
 			if (e.which === 27) { // escape
 				thisObj.resetPrefsForm();
 			}
@@ -4021,7 +4023,7 @@ var AblePlayerInstances = [];
 			// update prefs for ALL of them
 			for (var i=0; i<AblePlayerInstances.length; i++) {
 				AblePlayerInstances[i].updatePrefs();
-				AblePlayerInstances[i].geteferences();
+				AblePlayerInstances[i].loadCurrentPreferences();
 				AblePlayerInstances[i].resetPrefsForm();
 				if (numCapChanges > 0) {
 					AblePlayerInstances[i].stylizeCaptions(AblePlayerInstances[i].$captionsDiv);
@@ -4277,10 +4279,10 @@ var AblePlayerInstances = [];
 			if (nextLine.indexOf('NOTE') === 0 && ((nextLine.length === 4) || (nextLine[4] === ' ') || (nextLine[4] === '\t'))) {
 				actList(state, [eatComment, eatEmptyLines]);
 			}
-			else if ($.trim(nextLine).length === 0 && state.text.length > 0) {
+			else if (nextLine.trim().length === 0 && state.text.length > 0) {
 				act(state, eatEmptyLines);
 			}
-			else if ($.trim(nextLine).length > 0) {
+			else if (nextLine.trim().length > 0) {
 				act(state, parseCue);
 			}
 			else {
@@ -4638,14 +4640,14 @@ var AblePlayerInstances = [];
 			else if (tokenState === 'startTagAnnotation') {
 				if (c === '>') {
 					cut(state, 1);
-					buffer = $.trim(buffer).replace(/ +/, ' ');
+					buffer = buffer.trim().replace(/ +/, ' ');
 					token.type = 'startTag';
 					token.tagName = result.join('');
 					token.annotation = buffer;
 					return token;
 				}
 				else if (c === '\u0004') {
-					buffer = $.trim(buffer).replace(/ +/, ' ');
+					buffer = buffer.trim().replace(/ +/, ' ');
 					token.type = 'startTag';
 					token.tagName = result.join('');
 					token.annotation = buffer;
@@ -4704,7 +4706,7 @@ var AblePlayerInstances = [];
 		}
 		while (true) {
 			var nextLine = peekLine(state);
-			if ($.trim(nextLine).length === 0) {
+			if ( nextLine.trim().length === 0) {
 				// End of comment.
 				return;
 			}
@@ -4784,7 +4786,7 @@ var AblePlayerInstances = [];
 	function eatEmptyLines(state) {
 		while (state.text.length > 0) {
 			var nextLine = peekLine(state);
-			if ($.trim(nextLine).length === 0) {
+			if ( nextLine.trim().length === 0) {
 				cutLine(state);
 			}
 			else {
@@ -4798,7 +4800,7 @@ var AblePlayerInstances = [];
 		var linesEaten = 0;
 		while (state.text.length > 0) {
 			var nextLine = peekLine(state);
-			if ($.trim(nextLine).length === 0) {
+			if ( nextLine.trim().length === 0) {
 				cutLine(state);
 				linesEaten += 1;
 			}
@@ -4979,7 +4981,7 @@ var AblePlayerInstances = [];
 			this.$bigPlayButton.append(this.$bigPlayIcon);
 		}
 
-		this.$bigPlayButton.click(function (event) {
+		this.$bigPlayButton.on( 'click', function (event) {
 			event.preventDefault();
 			thisObj.handlePlay();
 		});
@@ -5446,23 +5448,23 @@ var AblePlayerInstances = [];
 			if (e.which === 9) { // Tab
 				if (e.shiftKey) {
 					$thisItem.removeClass('able-focus');
-					$prevItem.focus().addClass('able-focus');
+					$prevItem.trigger('focus').addClass('able-focus');
 				}
 				else {
 					$thisItem.removeClass('able-focus');
-					$nextItem.focus().addClass('able-focus');
+					$nextItem.trigger('focus').addClass('able-focus');
 				}
 			}
 			else if (e.which === 40 || e.which === 39) { // down or right arrow
 				$thisItem.removeClass('able-focus');
-				$nextItem.focus().addClass('able-focus');
+				$nextItem.trigger('focus').addClass('able-focus');
 			}
 			else if (e.which == 38 || e.which === 37) { // up or left arrow
 				$thisItem.removeClass('able-focus');
-				$prevItem.focus().addClass('able-focus');
+				$prevItem.trigger('focus').addClass('able-focus');
 			}
 			else if (e.which === 32 || e.which === 13) { // space or enter
-				$thisItem.click();
+				$thisItem.trigger( 'click' );
 			}
 			else if (e.which === 27) {	// Escape
 				$thisItem.removeClass('able-focus');
@@ -5481,7 +5483,7 @@ var AblePlayerInstances = [];
 
 		if (this.chaptersPopup && this.chaptersPopup.is(':visible')) {
 			this.chaptersPopup.hide();
-			this.$chaptersButton.attr('aria-expanded','false').focus();
+			this.$chaptersButton.attr('aria-expanded','false').trigger('focus');
 		}
 		if (this.captionsPopup && this.captionsPopup.is(':visible')) {
 			this.captionsPopup.hide();
@@ -5504,14 +5506,14 @@ var AblePlayerInstances = [];
 		}
 		if (this.$volumeSlider && this.$volumeSlider.is(':visible')) {
 			this.$volumeSlider.hide().attr('aria-hidden','true');
-			this.$volumeButton.attr('aria-expanded', 'false').focus();
+			this.$volumeButton.attr('aria-expanded', 'false').trigger('focus');
 		}
 		if (this.$transcriptPopup && this.$transcriptPopup.is(':visible')) {
 			this.hidingPopup = true;
 			this.$transcriptPopup.hide();
 			// restore menu items to their original state
 			this.$transcriptPopup.find('li').removeClass('able-focus').attr('tabindex','-1');
-			this.$transcriptPopupButton.attr('aria-expanded','false').focus();
+			this.$transcriptPopupButton.attr('aria-expanded','false').trigger('focus');
 			// wait briefly, then reset hidingPopup
 			setTimeout(function() {
 				thisObj.hidingPopup = false;
@@ -5521,7 +5523,7 @@ var AblePlayerInstances = [];
 			this.$signPopup.hide();
 			// restore menu items to their original state
 			this.$signPopup.find('li').removeClass('able-focus').attr('tabindex','-1');
-			this.$signPopupButton.attr('aria-expanded','false').focus();
+			this.$signPopupButton.attr('aria-expanded','false').trigger('focus');
 		}
 	};
 
@@ -6038,45 +6040,6 @@ var AblePlayerInstances = [];
 					}
 					else if (this.iconType === 'svg') {
 
-					/*
-						// Unused option for adding SVG:
-						// Use <use> element to link to button-icons/able-icons.svg
-						// Advantage: SVG file can be cached
-						// Disadvantage: Not supported by Safari 6, IE 6-11, or Edge 12
-						// Instead, adding <svg> element within each <button>
-						if (control === 'volume') {
-							iconClass = 'svg-' + this.volumeButton;
-						}
-						else if (control === 'fullscreen') {
-							iconClass = 'svg-fullscreen-expand';
-						}
-						else if (control === 'slower') {
-							if (this.speedIcons === 'animals') {
-								iconClass = 'svg-turtle';
-							}
-							else {
-								iconClass = 'svg-slower';
-							}
-						}
-						else if (control === 'faster') {
-							if (this.speedIcons === 'animals') {
-								iconClass = 'svg-rabbit';
-							}
-							else {
-								iconClass = 'svg-faster';
-							}
-						}
-						else {
-							iconClass = 'svg-' + control;
-						}
-						buttonIcon = $('<svg>',{
-							'class': iconClass
-						});
-						buttonUse = $('<use>',{
-							'xlink:href': this.rootPath + 'button-icons/able-icons.svg#' + iconClass
-						});
-						buttonIcon.append(buttonUse);
-						*/
 						var svgData;
 						if (control === 'volume') {
 							svgData = this.getSvgData(this.volumeButton);
@@ -6258,7 +6221,7 @@ var AblePlayerInstances = [];
 						// if player is being rebuilt because user clicked the Prev button
 						// return focus to that (newly built) button
 						if (this.buttonWithFocus == 'previous') {
-							this.$prevButton.focus();
+							this.$prevButton.trigger('focus');
 							this.buttonWithFocus = null;
 						}
 					}
@@ -6267,7 +6230,7 @@ var AblePlayerInstances = [];
 						// if player is being rebuilt because user clicked the Next button
 						// return focus to that (newly built) button
 						if (this.buttonWithFocus == 'next') {
-							this.$nextButton.focus();
+							this.$nextButton.trigger('focus');
 							this.buttonWithFocus = null;
 						}
 					}
@@ -6866,10 +6829,10 @@ var AblePlayerInstances = [];
 		}
 		else if (control === 'fullscreen') {
 			if (!this.fullscreen) {
-				return this.tt.enterFullscreen;
+				return this.tt.enterFullScreen;
 			}
 			else {
-				return this.tt.exitFullscreen;
+				return this.tt.exitFullScreen;
 			}
 		}
 		else {
@@ -8482,7 +8445,6 @@ if (typeof module !== "undefined" && module.exports) {
 			'min': '0',
 			'max': '10',
 			'step': '1',
-			'orient': 'vertical', // non-standard, but required for Firefox
 			'aria-label': this.tt.volumeUpDown,
 			'value': this.volume
 			// 'list': tickLabelsId // Uncomment this to use tickLabels (see note below)
@@ -8821,12 +8783,12 @@ if (typeof module !== "undefined" && module.exports) {
 				 'title': thisObj.closeButtonLabel,
 				 'aria-label': thisObj.closeButtonLabel
 			}).text('X');
-			closeButton.keydown(function (e) {
+			closeButton.on( 'keydown', function (e) {
 				// Space key down
 				if (e.which === 32) {
 					thisObj.hide();
 				}
-			}).click(function () {
+			}).on( 'click', function () {
 				thisObj.hide();
 			});
 
@@ -8851,7 +8813,7 @@ if (typeof module !== "undefined" && module.exports) {
 			modal.attr('aria-modal','true');
 		}
 
-		modal.keydown(function (e) {
+		modal.on( 'keydown', function (e) {
 			// Escape
 			if (e.which === 27) {
 				if (thisObj.escapeHook) {
@@ -8877,13 +8839,13 @@ if (typeof module !== "undefined" && module.exports) {
 				if (e.shiftKey) {
 					// If backwards from first element, go to last.
 					if (currentIndex === 0) {
-						focusable.get(focusable.length - 1).focus();
+						focusable.get(focusable.length - 1).trigger('focus');
 						e.preventDefault();
 					}
 				}
 				else {
 					if (currentIndex === focusable.length - 1) {
-						focusable.get(0).focus();
+						focusable.get(0).trigger('focus');
 						e.preventDefault();
 					}
 				}
@@ -8891,7 +8853,7 @@ if (typeof module !== "undefined" && module.exports) {
 			e.stopPropagation();
 		});
 
-		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').removeAttr('aria-hidden');
+		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').removeAttr('inert');
 	};
 
 	AccessibleDialog.prototype.show = function () {
@@ -8910,7 +8872,7 @@ if (typeof module !== "undefined" && module.exports) {
 			});
 		}
 
-		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').attr('aria-hidden', 'true');
+		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').attr('inert', true);
 
 		this.overlay.css('display', 'block');
 		this.modal.css('display', 'block');
@@ -8926,7 +8888,7 @@ if (typeof module !== "undefined" && module.exports) {
 		var thisObj = this;
 		setTimeout(function () {
 			// set focus on the first focusable element
-			thisObj.modal.find('button.modalCloseButton').first().focus();
+			thisObj.modal.find('button.modalCloseButton').first().trigger('focus');
 		}, 300);
 	};
 
@@ -8936,9 +8898,9 @@ if (typeof module !== "undefined" && module.exports) {
 		}
 		this.modal.css('display', 'none');
 		this.modal.attr('aria-hidden', 'true');
-		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').removeAttr('aria-hidden');
+		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').removeAttr('inert');
 
-		this.focusedElementBeforeModal.focus();
+		this.focusedElementBeforeModal.trigger('focus');
 	};
 
 	AccessibleDialog.prototype.getInputs = function () {
@@ -10686,16 +10648,16 @@ if (typeof module !== "undefined" && module.exports) {
 		if (context === 'fullscreen' || context == 'init'){
 			if (this.$fullscreenButton) {
 				if (!this.fullscreen) {
-					this.$fullscreenButton.attr('aria-label', this.tt.enterFullscreen);
+					this.$fullscreenButton.attr('aria-label', this.tt.enterFullScreen);
 					if (this.iconType === 'font') {
 						this.$fullscreenButton.find('span').first().removeClass('icon-fullscreen-collapse').addClass('icon-fullscreen-expand');
-						this.$fullscreenButton.find('span.able-clipped').text(this.tt.enterFullscreen);
+						this.$fullscreenButton.find('span.able-clipped').text(this.tt.enterFullScreen);
 					}
 					else if (this.iconType === 'svg') {
 						newSvgData = this.getSvgData('fullscreen-expand');
 						this.$fullscreenButton.find('svg').attr('viewBox',newSvgData[0]);
 						this.$fullscreenButton.find('path').attr('d',newSvgData[1]);
-						this.$fullscreenButton.find('span.able-clipped').text(this.tt.enterFullscreen);
+						this.$fullscreenButton.find('span.able-clipped').text(this.tt.enterFullScreen);
 					}
 					else {
 						this.$fullscreenButton.find('img').attr('src',this.fullscreenExpandButtonImg);
@@ -11236,7 +11198,7 @@ if (typeof module !== "undefined" && module.exports) {
 						thisObj.captionsPopup.css('left', thisObj.$ccButton.position().left)
 						// Place focus on the first button (even if another button is checked)
 						thisObj.captionsPopup.find('li').removeClass('able-focus');
-						thisObj.captionsPopup.find('li').first().focus().addClass('able-focus');
+						thisObj.captionsPopup.find('li').first().trigger('focus').addClass('able-focus');
 					}, 50);
 				}
 			}
@@ -11256,7 +11218,7 @@ if (typeof module !== "undefined" && module.exports) {
 		var _timeout = (timeout === undefined || timeout === null) ? 50 : timeout;
 
 		setTimeout(function() {
-			$el.focus();
+			$el.trigger('focus');
 		}, _timeout);
 	}
 
@@ -11270,7 +11232,7 @@ if (typeof module !== "undefined" && module.exports) {
 		if (this.chaptersPopup.is(':visible')) {
 			this.chaptersPopup.hide();
 			this.hidingPopup = false;
-			this.$chaptersButton.attr('aria-expanded','false').focus();
+			this.$chaptersButton.attr('aria-expanded','false').trigger('focus');
 		}
 		else {
 			this.closePopups();
@@ -11283,10 +11245,10 @@ if (typeof module !== "undefined" && module.exports) {
 			// Otherwise, place focus on the first chapter
 			this.chaptersPopup.find('li').removeClass('able-focus');
 			if (this.chaptersPopup.find('li[aria-checked="true"]').length) {
-				this.chaptersPopup.find('li[aria-checked="true"]').focus().addClass('able-focus');
+				this.chaptersPopup.find('li[aria-checked="true"]').trigger('focus').addClass('able-focus');
 			}
 			else {
-				this.chaptersPopup.find('li').first().addClass('able-focus').attr('aria-checked','true').focus();
+				this.chaptersPopup.find('li').first().addClass('able-focus').attr('aria-checked','true').trigger('focus');
 			}
 		}
 	};
@@ -11337,7 +11299,7 @@ if (typeof module !== "undefined" && module.exports) {
 			// restore each menu item to original hidden state
 			this.prefsPopup.find('li').removeClass('able-focus').attr('tabindex','-1');
 			if (!this.showingPrefsDialog) {
-				this.$prefsButton.focus();
+				this.$prefsButton.trigger('focus');
 			}
 			// wait briefly, then reset hidingPopup
 			setTimeout(function() {
@@ -11348,7 +11310,7 @@ if (typeof module !== "undefined" && module.exports) {
 			this.closePopups();
 			this.prefsPopup.show();
 			this.$prefsButton.attr('aria-expanded','true');
-			this.$prefsButton.focus(); // focus first on prefs button to announce expanded state
+			this.$prefsButton.trigger('focus'); // focus first on prefs button to announce expanded state
 			// give time for focus on button then adjust popup settings and focus
 			setTimeout(function() {
 				prefsButtonPosition = thisObj.$prefsButton.position();
@@ -11358,7 +11320,7 @@ if (typeof module !== "undefined" && module.exports) {
 				thisObj.prefsPopup.css('left', prefsMenuLeft);
 				// remove prior focus and set focus on first item; also change tabindex from -1 to 0
 				thisObj.prefsPopup.find('li').removeClass('able-focus').attr('tabindex','0');
-				thisObj.prefsPopup.find('li').first().focus().addClass('able-focus');
+				thisObj.prefsPopup.find('li').first().trigger('focus').addClass('able-focus');
 			}, 50);
 		}
 	};
@@ -11377,7 +11339,7 @@ if (typeof module !== "undefined" && module.exports) {
 			this.$transcriptButton.addClass('buttonOff').attr('aria-label',this.tt.showTranscript);
 			this.$transcriptButton.find('span.able-clipped').text(this.tt.showTranscript);
 			this.prefTranscript = 0;
-			this.$transcriptButton.focus().addClass('able-focus');
+			this.$transcriptButton.trigger('focus').addClass('able-focus');
 			// wait briefly before resetting stopgap var
 			// otherwise the keypress used to select 'Close' will trigger the transcript button
 			// Benchmark tests: If this is gonna happen, it typically happens in around 3ms; max 12ms
@@ -11397,7 +11359,7 @@ if (typeof module !== "undefined" && module.exports) {
 			this.prefTranscript = 1;
 			// move focus to first focusable element (window options button)
 			this.focusNotClick = true;
-			this.$transcriptArea.find('button').first().focus();
+			this.$transcriptArea.find('button').first().trigger('focus');
 			// wait briefly before resetting stopgap var
 			setTimeout(function() {
 				thisObj.focusNotClick = false;
@@ -11415,7 +11377,7 @@ if (typeof module !== "undefined" && module.exports) {
 			this.$signButton.addClass('buttonOff').attr('aria-label',this.tt.showSign);
 			this.$signButton.find('span.able-clipped').text(this.tt.showSign);
 			this.prefSign = 0;
-			this.$signButton.focus().addClass('able-focus');
+			this.$signButton.trigger('focus').addClass('able-focus');
 			// wait briefly before resetting stopgap var
 			// otherwise the keypress used to select 'Close' will trigger the transcript button
 			setTimeout(function() {
@@ -11432,7 +11394,7 @@ if (typeof module !== "undefined" && module.exports) {
 			this.$signButton.find('span.able-clipped').text(this.tt.hideSign);
 			this.prefSign = 1;
 			this.focusNotClick = true;
-			this.$signWindow.find('button').first().focus();
+			this.$signWindow.find('button').first().trigger('focus');
 			// wait briefly before resetting stopgap var
 			// otherwise the keypress used to select 'Close' will trigger the transcript button
 			setTimeout(function() {
@@ -11521,7 +11483,7 @@ if (typeof module !== "undefined" && module.exports) {
 				// create a hidden alert, communicated to screen readers via aria-describedby
 				var $fsDialogAlert = $('<p>',{
 					'class': 'able-screenreader-alert'
-				}).text(this.tt.fullscreen); // In English: "Full screen"; TODO: Add alert text that is more descriptive
+				}).text(this.tt.fullScreen); // In English: "Full screen"; TODO: Add alert text that is more descriptive
 				$dialogDiv.append($fsDialogAlert);
 				// now render this as a dialog
 				this.fullscreenDialog = new AccessibleDialog($dialogDiv, this.$fullscreenButton, 'dialog', true, 'Fullscreen video player', $fsDialogAlert, this.tt.exitFullscreen, '100%', true, function () { thisObj.handleFullscreenToggle() });
@@ -11869,14 +11831,20 @@ if (typeof module !== "undefined" && module.exports) {
 		if (typeof this.$captionsDiv !== 'undefined') {
 
 			// Font-size is too small in full screen view
-			// use viewport units (vw) instead
+			// use viewport units (vw) for large viewports
 			// % units work fine if not fullscreen
 			// prefCaptionSize is expressed as a percentage
-			captionSize = parseInt(this.prefCaptionsSize,10);
-			if (this.fullscreen) {
-				captionSize = (captionSize / 100) + 'vw';
+			var isSmallScreen = false;
+			var windowWidth = window.screen.width;
+			if ( windowWidth < 1200 ) {
+				isSmallScreen = true;
 			}
-			else {
+			captionSize = parseInt(this.prefCaptionsSize,10);
+			if (this.fullscreen && ! isSmallScreen ) {
+				captionSize = (captionSize / 100) + 'vw';
+			} else if ( this.fullscreen && isSmallScreen ) {
+				captionSize = '1.2rem';
+			} else {
 				captionSize = captionSize + '%';
 			}
 			this.$captionsDiv.css({
@@ -12822,7 +12790,7 @@ if (typeof module !== "undefined" && module.exports) {
 			setTimeout(function() {
 				thisObj.hidingPopup = false;
 			}, 100);
-			thisObj.$chaptersButton.focus();
+			thisObj.$chaptersButton.trigger('focus');
 		}
 	};
 
@@ -12876,7 +12844,7 @@ if (typeof module !== "undefined" && module.exports) {
           cueText = this.flattenCueForMeta(cues[thisMeta]);
           cueLines = cueText.split("\n");
           for (i = 0; i < cueLines.length; i++) {
-            line = $.trim(cueLines[i]);
+            line = cueLines[i].trim();
             if (line.toLowerCase().trim() === "pause") {
               // don't show big play button when pausing via metadata
               this.hideBigPlayButton = true;
@@ -12884,7 +12852,7 @@ if (typeof module !== "undefined" && module.exports) {
             } else if (line.toLowerCase().substring(0, 6) == "focus:") {
               focusTarget = line.substring(6).trim();
               if ($(focusTarget).length) {
-                $(focusTarget).focus();
+                $(focusTarget).trigger('focus');
               }
             } else {
               if ($(line).length) {
@@ -13077,6 +13045,8 @@ if (typeof module !== "undefined" && module.exports) {
     // If client has provided separate transcript location, put it there.
     // Otherwise append it to the body
     if (this.transcriptDivLocation) {
+	  this.$transcriptArea.removeAttr( 'role' );
+	  this.$transcriptArea.removeAttr( 'aria-label' );
       $("#" + this.transcriptDivLocation).append(this.$transcriptArea);
     } else {
       this.$ableWrapper.append(this.$transcriptArea);
@@ -13103,7 +13073,7 @@ if (typeof module !== "undefined" && module.exports) {
   AblePlayer.prototype.addTranscriptAreaEvents = function () {
     var thisObj = this;
 
-    this.$autoScrollTranscriptCheckbox.click(function () {
+    this.$autoScrollTranscriptCheckbox.on( 'click', function () {
       thisObj.handleTranscriptLockToggle(
         thisObj.$autoScrollTranscriptCheckbox.prop("checked")
       );
@@ -13274,7 +13244,7 @@ if (typeof module !== "undefined" && module.exports) {
     if (this.$transcriptArea.length > 0) {
       this.$transcriptArea
         .find("span.able-transcript-seekpoint")
-        .click(function (e) {
+        .on( 'click', function (e) {
           thisObj.seekTrigger = "transcript";
           var spanStart = parseFloat($(this).attr("data-start"));
           // Add a tiny amount so that we're inside the span.
@@ -14179,7 +14149,7 @@ if (typeof module !== "undefined" && module.exports) {
 				classList = this.$focusedElement.attr("class").split(/\s+/);
 				$.each(classList, function(index, item) {
 					if (item.substring(0,20) === 'able-button-handler-') {
-						$('div.able-controller div.' + item).focus();
+						$('div.able-controller div.' + item).trigger('focus');
 					}
 				});
 			}
@@ -14405,7 +14375,7 @@ if (typeof module !== "undefined" && module.exports) {
 				if ($thisElement.attr('role') === 'button') {
 					// register a click on this element
 					e.preventDefault();
-					$thisElement.click();
+					$thisElement.trigger( 'click' );
 				}
 			}
 			else if (which === 112) { // p = play/pause
@@ -14484,10 +14454,10 @@ if (typeof module !== "undefined" && module.exports) {
 				if ($thisElement.attr('role') === 'button' || $thisElement.prop('tagName') === 'SPAN') {
 					// register a click on this element
 					// if it's a transcript span the transcript span click handler will take over
-					$thisElement.click();
+					$thisElement.trigger( 'click' );
 				}
 				else if ($thisElement.prop('tagName') === 'LI') {
-					$thisElement.click();
+					$thisElement.trigger( 'click' );
 				}
 			}
 		}
@@ -14806,7 +14776,7 @@ if (typeof module !== "undefined" && module.exports) {
 		});
 
 		// if user presses a key from anywhere on the page, show player controls
-		$(document).keydown(function(e) {
+		$(document).on( 'keydown', function(e) {
 			if (thisObj.controlsHidden) {
 				thisObj.fadeControls('in');
 				thisObj.controlsHidden = false;
@@ -14835,7 +14805,7 @@ if (typeof module !== "undefined" && module.exports) {
 
 		// handle local keydown events if this isn't the only player on the page;
 		// otherwise these are dispatched by global handler (see ableplayer-base,js)
-		this.$ableDiv.keydown(function (e) {
+		this.$ableDiv.on( 'keydown', function (e) {
 			if (AblePlayer.nextIndex > 1) {
 				thisObj.onPlayerKeyPress(e);
 			}
@@ -14860,7 +14830,7 @@ if (typeof module !== "undefined" && module.exports) {
 
 		// handle clicks on playlist items
 		if (this.$playlist) {
-			this.$playlist.click(function(e) {
+			this.$playlist.on( 'click', function(e) {
 				if (!thisObj.userClickedPlaylist) {
 					// stopgap in case multiple clicks are fired on the same playlist item
 					thisObj.userClickedPlaylist = true; // will be set to false after new src is loaded & canplaythrough is triggered
@@ -14871,7 +14841,7 @@ if (typeof module !== "undefined" && module.exports) {
 		}
 
 		// Also play/pause when clicking on the media.
-		this.$media.click(function () {
+		this.$media.on( 'click', function () {
 			thisObj.handlePlay();
 		});
 
@@ -15232,12 +15202,12 @@ if (typeof module !== "undefined" && module.exports) {
 			}
 			resizeDialog.hide();
 			$windowPopup.hide();
-			$windowButton.focus();
+			$windowButton.trigger('focus');
 		});
 		$cancelButton.on('click',function () {
 			resizeDialog.hide();
 			$windowPopup.hide();
-			$windowButton.focus();
+			$windowButton.trigger('focus');
 		});
 
 		// Now assemble all the parts
@@ -15299,7 +15269,7 @@ if (typeof module !== "undefined" && module.exports) {
 						// also restore menu items to their original state
 						$windowPopup.find('li').removeClass('able-focus').attr('tabindex','-1');
 						// also return focus to window options button
-						$windowButton.focus();
+						$windowButton.trigger('focus');
 					});
 				}
 				else {
@@ -15326,7 +15296,7 @@ if (typeof module !== "undefined" && module.exports) {
 				thisObj.windowMenuClickRegistered = false; // reset
 			});
 			$windowPopup.find('li').removeClass('able-focus');
-			$windowButton.attr('aria-expanded','false').focus();
+			$windowButton.attr('aria-expanded','false').trigger('focus');
 		}
 		else {
 			// first, be sure window is on top
@@ -15335,7 +15305,7 @@ if (typeof module !== "undefined" && module.exports) {
 			$windowPopup.css('top', popupTop);
 			$windowPopup.show(200,'',function() {
 				$windowButton.attr('aria-expanded','true');
-				$(this).find('li').first().focus().addClass('able-focus');
+				$(this).find('li').first().trigger('focus').addClass('able-focus');
 				thisObj.windowMenuClickRegistered = false; // reset
 			});
 		}
@@ -15370,7 +15340,7 @@ if (typeof module !== "undefined" && module.exports) {
 					$windowPopup.find('li').removeClass('able-focus').attr('tabindex','-1');
 					$windowButton.attr('aria-expanded','false');
 					// also return focus to window options button
-					$windowButton.focus();
+					$windowButton.trigger('focus');
 				});
 				return false;
 			}
@@ -15392,7 +15362,7 @@ if (typeof module !== "undefined" && module.exports) {
 			$windowButton.attr('aria-expanded','false');
 		});
 		if (choice !== 'close') {
-			$windowButton.focus();
+			$windowButton.trigger('focus');
 		}
 		if (choice === 'move') {
 
@@ -15416,7 +15386,7 @@ if (typeof module !== "undefined" && module.exports) {
 				this.dragDevice = 'mouse';
 			}
 			this.startDrag(which, $window);
-			$windowPopup.hide().parent().focus();
+			$windowPopup.hide().parent().trigger('focus');
 		}
 		else if (choice == 'resize') {
 			// resize through the menu uses a form, not drag
@@ -15501,7 +15471,7 @@ if (typeof module !== "undefined" && module.exports) {
 			'position': 'absolute',
 			'top': this.dragStartY + 'px',
 			'left': this.dragStartX + 'px'
-		}).focus();
+		}).trigger('focus');
 
 		// add device-specific event listeners
 		if (this.dragDevice === 'mouse') { // might also be a touchpad
@@ -15618,7 +15588,7 @@ if (typeof module !== "undefined" && module.exports) {
 		this.$activeWindow = null;
 
 		if (this.dragDevice === 'keyboard') {
-			$windowButton.focus();
+			$windowButton.trigger('focus');
 		}
 		this.dragging = false;
 
@@ -15679,7 +15649,7 @@ if (typeof module !== "undefined" && module.exports) {
 
 		// if window's popup menu is open, close it & place focus on button (???)
 		if ($windowPopup.is(':visible')) {
-			$windowPopup.hide().parent().focus();
+			$windowPopup.hide().parent().trigger('focus');
 		}
 
 		// get starting width and height
@@ -15716,7 +15686,7 @@ if (typeof module !== "undefined" && module.exports) {
 
 		$(document).off('mousemove mouseup touchmove touchup');
 		this.$activeWindow.off('keydown');
-		$windowButton.show().focus();
+		$windowButton.show().trigger('focus');
 		this.resizing = false;
 		this.$activeWindow.removeClass('able-resize');
 
@@ -17923,7 +17893,7 @@ if (typeof module !== "undefined" && module.exports) {
 		this.showVtsAlert('A new row ' + newRowNum + ' has been inserted'); // TODO: Localize this
 
 		// Place focus in new select field
-		$select.focus();
+		$select.trigger('focus');
 
 	};
 
