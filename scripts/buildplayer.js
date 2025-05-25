@@ -1180,45 +1180,6 @@
 					}
 					else if (this.iconType === 'svg') {
 
-					/*
-						// Unused option for adding SVG:
-						// Use <use> element to link to button-icons/able-icons.svg
-						// Advantage: SVG file can be cached
-						// Disadvantage: Not supported by Safari 6, IE 6-11, or Edge 12
-						// Instead, adding <svg> element within each <button>
-						if (control === 'volume') {
-							iconClass = 'svg-' + this.volumeButton;
-						}
-						else if (control === 'fullscreen') {
-							iconClass = 'svg-fullscreen-expand';
-						}
-						else if (control === 'slower') {
-							if (this.speedIcons === 'animals') {
-								iconClass = 'svg-turtle';
-							}
-							else {
-								iconClass = 'svg-slower';
-							}
-						}
-						else if (control === 'faster') {
-							if (this.speedIcons === 'animals') {
-								iconClass = 'svg-rabbit';
-							}
-							else {
-								iconClass = 'svg-faster';
-							}
-						}
-						else {
-							iconClass = 'svg-' + control;
-						}
-						buttonIcon = $('<svg>',{
-							'class': iconClass
-						});
-						buttonUse = $('<use>',{
-							'xlink:href': this.rootPath + 'button-icons/able-icons.svg#' + iconClass
-						});
-						buttonIcon.append(buttonUse);
-						*/
 						var svgData;
 						if (control === 'volume') {
 							svgData = this.getSvgData(this.volumeButton);
