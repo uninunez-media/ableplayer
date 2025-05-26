@@ -30,6 +30,7 @@
 			'min': '0',
 			'max': '10',
 			'step': '1',
+			'orient': 'vertical', // non-standard, but required for Firefox
 			'aria-label': this.tt.volumeUpDown,
 			'value': this.volume
 			// 'list': tickLabelsId // Uncomment this to use tickLabels (see note below)
