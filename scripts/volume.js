@@ -44,6 +44,7 @@
 		this.$volumeButton.attr({
 			'aria-describedby': volumeHelpId
 		});
+		/*
 		$tickLabels = $('<datalist>',{
 			'id': tickLabelsId
 		});
@@ -60,10 +61,11 @@
 			})
 			$tickLabels.append($tickOption);
 		}
+		*/
 		this.$volumeSlider.append(this.$volumeSliderTooltip,this.$volumeRange,this.$volumeHelp);
 		// To add $tickLabels, use the following line of code to replace the one above
-		// and uncommnet the 'list' property in the definition of this.$volumeRange above
-		// As of Nov 2022, this feature is not supported by any screen reader
+		// and uncomment the 'list' property in the definition of this.$volumeRange above
+		// As of May 2025, this feature has very limited support.
 		// this.$volumeSlider.append(this.$volumeSliderTooltip,this.$volumeRange,this.$volumeHelp,$tickLabels);
 
 		$div.append(this.$volumeSlider);
