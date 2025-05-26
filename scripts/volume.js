@@ -7,7 +7,7 @@
 		// including screen reader support
 		// TODO: Improve presentation of vertical slider. That requires some CSS finesse.
 
-		var thisObj, volumeSliderId, volumeHelpId, volumePct, tickLabelsId, $tickLabels, i, $tickOption, tickLabel;
+		var thisObj, volumeSliderId, volumeHelpId, volumePct, volumeLabel, tickLabelsId, $tickLabels, i, $tickOption, tickLabel;
 
 		thisObj = this;
 
@@ -41,9 +41,8 @@
 			'class': 'able-volume-help',
 			'aria-live': 'polite'
 		}).text(volumePct + '%');
-		this.$volumeButton.attr({
-			'aria-describedby': volumeHelpId
-		});
+		volumeLabel = this.$volumeButton.attr( 'aria-label' );
+		this.$volumeButton.attr( 'aria-label', volumeLabel + ' ' + volumePct + '%');
 		/*
 		$tickLabels = $('<datalist>',{
 			'id': tickLabelsId
@@ -133,6 +132,7 @@
 		else if (this.iconType === 'image') {
 			volumeImg = this.imgPath + 'volume-' + volumeName + '.png';
 			this.$volumeButton.find('img').attr('src',volumeImg);
+			this.$volumeButton.find('img').attr('alt',volumeLabel);
 		}
 		else if (this.iconType === 'svg') {
 			if (volumeName !== 'mute') {
@@ -141,6 +141,7 @@
 			newSvgData = this.getSvgData(volumeName);
 			this.$volumeButton.find('svg').attr('viewBox',newSvgData[0]);
 			this.$volumeButton.find('path').attr('d',newSvgData[1]);
+			this.$volumeButton.attr( 'aria-label', volumeLabel );
 		}
 	};
 
@@ -299,7 +300,6 @@
 			newVolume = volume / 10;
 			this.vimeoPlayer.setVolume(newVolume).then(function() {
 				// setVolume finished.
-				// could do something here
 				// successful completion also fires a 'volumechange' event (see event.js)
 			});
 		}
