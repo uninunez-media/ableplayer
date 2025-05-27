@@ -46,16 +46,16 @@
   position: relative;
   margin: 0;
   padding: 0;
-  width: 100%; /* will be changed dynamically as player is contructed */
+  width: 100%; /* will be changed dynamically as player is constructed */
   background-color: #000;
   box-shadow: 0px 0px 16px #262626;
   z-index: 5000;
 }
-.able-column-left {
-    float: left;
-}
-.able-column-right {
-    float: left;
+.able-control-row {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	align-items: center;
 }
 .able .able-vidcap-container {
   background-color: #000;
@@ -164,12 +164,6 @@
 }
 .able-left-controls div[role="button"], .able-right-controls div[role="button"] {
     vertical-align: middle;
-}
-.able-left-controls {
-  float: left;
-}
-.able-right-controls {
-  float: right;
 }
 .able-black-controls,
 .able-black-controls div[role="button"],
