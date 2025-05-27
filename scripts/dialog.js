@@ -34,7 +34,6 @@
 
 			var titleH1 = $('<h1></h1>');
 			titleH1.attr('id', 'modalTitle-' + this.baseId);
-			titleH1.css('text-align', 'center');
 			titleH1.text(title);
 			this.titleH1 = titleH1;
 
