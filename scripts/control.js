@@ -1748,10 +1748,6 @@
 			});
 		}
 		else if (location !== 'screenreader') {
-			// The original formula incorporated offset() into the calculation
-			// but at some point this began resulting in an alert that's off-centered
-			// Changed in v2.2.17, but here's the original for reference in case needed:
-			// left: this.$playerDiv.offset().left + (this.$playerDiv.width() / 2) - ($alertBox.width() / 2)
 			$alertBox.css({
 				left: (this.$playerDiv.width() / 2) - ($alertBox.width() / 2)
 			});
