@@ -65,7 +65,6 @@ var AblePlayerInstances = [];
 	// media - jQuery selector or element identifying the media.
 	window.AblePlayer = function(media) {
 
-
 		var thisObj = this;
 
 		// Keep track of the last player created for use with global events.
