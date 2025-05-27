@@ -213,15 +213,6 @@
 		// - 'buffering' - Momentarily paused to load, but will resume once data is loaded.
 		// - 'playing' - Currently playing.
 
-		// Commented out the following in 3.2.1 - not sure of its intended purpose
-		// It can be useful to know player state even when swapping src
-		// and the overhead is seemingly minimal
-		// TODO - Investigate this further. Delete if it's not needed
-		/*
-		if (this.swappingSrc) {
-			return;
-		}
-		*/
 		var deferred, promise, thisObj, duration, elapsed;
 		deferred = new $.Deferred();
 		promise = deferred.promise();
