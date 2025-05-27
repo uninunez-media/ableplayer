@@ -2,7 +2,7 @@
 
 	AblePlayer.prototype.initYouTubePlayer = function () {
 
-		var thisObj, deferred, promise, youTubeId, googleApiPromise, json;
+		var thisObj, deferred, promise, youTubeId;
 		thisObj = this;
 
 		deferred = new $.Deferred();
@@ -47,7 +47,7 @@
 
 		// This is called once we're sure the Youtube iFrame API is loaded -- see above
 
-		var deferred, promise, thisObj, containerId, ccLoadPolicy, videoDimensions, autoplay;
+		var deferred, promise, thisObj, containerId, ccLoadPolicy, autoplay;
 
 		deferred = new $.Deferred();
 		promise = deferred.promise();

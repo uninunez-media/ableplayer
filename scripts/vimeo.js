@@ -2,7 +2,7 @@
 
 	AblePlayer.prototype.initVimeoPlayer = function () {
 
-		var thisObj, deferred, promise, containerId, vimeoId, autoplay, videoDimensions, options;
+		var thisObj, deferred, promise, containerId, vimeoId, autoplay, options;
 		thisObj = this;
 
 		deferred = new $.Deferred();
