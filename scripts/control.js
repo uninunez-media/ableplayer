@@ -1787,9 +1787,7 @@
 	// Resizes all relevant player attributes.
 	AblePlayer.prototype.resizePlayer = function (width, height) {
 
-		var captionSizeOkMin, captionSizeOkMax, captionSize, newCaptionSize, newLineHeight;
-
-		var newWidth, newHeight, $iframe, alertTop;
+		var captionSize, newWidth, newHeight, $iframe, alertTop;
 
 		if (this.mediaType === 'audio') {
 			return;
