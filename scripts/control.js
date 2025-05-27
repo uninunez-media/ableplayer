@@ -1969,41 +1969,18 @@
 		}
 	};
 
-	AblePlayer.prototype.getHighestZIndex = function() {
-
-		// returns the highest z-index on page
-		// used to ensure dialogs (or potentially other windows) are on top
-
-		var max, $elements, z;
-		max = 0;
-
-		// exclude the Able Player dialogs and windows
-		$elements = $('body *').not('.able-modal-dialog,.able-modal-dialog *,.able-modal-overlay,.able-modal-overlay *,.able-sign-window,.able-transcript-area');
-
-		$elements.each(function(){
-			z = $(this).css('z-index');
-			if (Number.isInteger(+z)) { // work only with integer values, not 'auto'
-				if (parseInt(z) > max) {
-					max = parseInt(z);
-				}
-			}
-		});
-		return max;
-	};
-
 	AblePlayer.prototype.updateZIndex = function(which) {
 
 		// update z-index of 'transcript' or 'sign', relative to each other
 		// direction is always 'up' (i.e., move window to top)
 		// windows come to the top when the user clicks on them
-		var defHighZ, defLowZ, highestZ, transcriptZ, signZ, newHighZ, newLowZ;
+		var defHighZ, defLowZ, transcriptZ, signZ, newHighZ, newLowZ;
 
 		// set the default z-indexes, as defined in ableplayer.css
 		defHighZ = 8000; // by default, assigned to the sign window
 		defLowZ = 7000; // by default, assigned to the transcript area
-		highestZ = this.getHighestZIndex(); // highest z-index on the page, excluding Able Player windows & modals
 
-		// NOTE: Although highestZ is collected here, it currently isn't used.
+		// Previously collected the highest z-index. Removed in 4.6.
 		// If something on the page has a higher z-index than the transcript or sign window, do we care?
 		// Excluding it here assumes "No". Our immediate concern is with the relationship between our own components.
 		// If we elevate our z-indexes so our content is on top, we run the risk of starting a z-index war.
