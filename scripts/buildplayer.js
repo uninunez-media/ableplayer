@@ -166,7 +166,8 @@
 
 		this.$speed = $('<span>',{
 			'class' : 'able-speed',
-			'aria-live' : 'assertive'
+			'aria-live' : 'assertive',
+			'aria-atomic' : 'true'
 		}).text(this.tt.speed + ': 1x');
 
 		this.$status = $('<span>',{
