@@ -2,7 +2,6 @@
 	// Media events
 	AblePlayer.prototype.onMediaUpdateTime = function (duration, elapsed) {
 
-
 		// duration and elapsed are passed from callback functions of Vimeo API events
 		// duration is expressed as sss.xxx
 		// elapsed is expressed as sss.xxx
@@ -809,11 +808,6 @@
 			});
 			var config = { attributes: true, childList: true, characterData: true };
 			observer.observe(target, config);
-		}
-		else {
-			// browser doesn't support MutationObserver
-			// TODO: Figure out an alternative solution for this rare use case in older browsers
-			// See example in buildplayer.js > useSvg()
 		}
 		if (typeof this.seekBar !== 'undefined') {
 			this.addSeekbarListeners();
