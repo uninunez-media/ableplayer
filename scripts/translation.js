@@ -8,9 +8,7 @@
 	AblePlayer.prototype.getTranslationText = function() {
 
 		// determine language, then get labels and prompts from corresponding translation var
-
-		var deferred, thisObj, supportedLangs, docLang, msg, translationFile, collapsedLang, i,
-			similarLangFound;
+		var deferred, thisObj, supportedLangs, docLang, translationFile, i,	similarLangFound;
 		deferred = $.Deferred();
 		thisObj = this;
 
