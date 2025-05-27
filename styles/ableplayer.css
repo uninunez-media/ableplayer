@@ -326,18 +326,8 @@ input[type=range]::-moz-range-thumb {
 }
 
 /*
-  TODO: Style the slider in webkit to match the one in Mozilla
-  First attempt at this was unsuccessful; it's quite fussy
-  Placeholder selectors are provided below
-  Also, will need to uncomment -webkit-appearance: none in slider rule above
-*/
-.able-volume-slider input[type=range]::-webkit-slider-runnable-track {}
-.able-volume-slider input[type=range]::-webkit-slider-thumb {}
-
-/*
   Status Bar
 */
-
 .able-status-bar {
   height: 1.5em;
   min-height: 1.5em;
@@ -1135,10 +1125,6 @@ button.able-search-results-time:active {
 #able-vts table td button svg {
   width: 16px;
   height: 16px;
-}
-#able-vts table button:hover,
-#able-vts table button:focus  {
-  /*    border: 3px solid #66c2ff; */
 }
 #able-vts table button:hover svg {
   fill: #c00;
