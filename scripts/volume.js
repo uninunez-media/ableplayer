@@ -7,14 +7,13 @@
 		// including screen reader support
 		// TODO: Improve presentation of vertical slider. That requires some CSS finesse.
 
-		var thisObj, volumeSliderId, volumeHelpId, volumePct, volumeLabel, tickLabelsId, $tickLabels, i, $tickOption, tickLabel;
+		var thisObj, volumeSliderId, volumeHelpId, volumePct, volumeLabel;
 
 		thisObj = this;
 
 		// define a few variables
 		volumeSliderId = this.mediaId + '-volume-slider';
 		volumeHelpId = this.mediaId + '-volume-help';
-		tickLabelsId = this.mediaId + '-volume-tick-labels';
 
 		this.$volumeSlider = $('<div>',{
 			'id': volumeSliderId,
@@ -33,7 +32,6 @@
 			'orient': 'vertical', // non-standard, but required for Firefox
 			'aria-label': this.tt.volumeUpDown,
 			'value': this.volume
-			// 'list': tickLabelsId // Uncomment this to use tickLabels (see note below)
 		});
 		volumePct = parseInt(thisObj.volume) / 10 * 100;
 		this.$volumeHelp = $('<div>',{
@@ -43,29 +41,7 @@
 		}).text(volumePct + '%');
 		volumeLabel = this.$volumeButton.attr( 'aria-label' );
 		this.$volumeButton.attr( 'aria-label', volumeLabel + ' ' + volumePct + '%');
-		/*
-		$tickLabels = $('<datalist>',{
-			'id': tickLabelsId
-		});
-		for (i = 0; i <= 10; i++) {
-			if (i === 0) {
-				tickLabel = this.tt.mute;
-			}
-			else {
-				tickLabel = (i * 10) + '%';
-			}
-			$tickOption = $('<option>',{
-				'value': i,
-				'label': tickLabel
-			})
-			$tickLabels.append($tickOption);
-		}
-		*/
 		this.$volumeSlider.append(this.$volumeSliderTooltip,this.$volumeRange,this.$volumeHelp);
-		// To add $tickLabels, use the following line of code to replace the one above
-		// and uncomment the 'list' property in the definition of this.$volumeRange above
-		// As of May 2025, this feature has very limited support.
-		// this.$volumeSlider.append(this.$volumeSliderTooltip,this.$volumeRange,this.$volumeHelp,$tickLabels);
 
 		$div.append(this.$volumeSlider);
 
