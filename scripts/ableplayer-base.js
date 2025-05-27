@@ -2,11 +2,11 @@
 	// JavaScript for Able Player
 
 	// HTML5 Media API:
-	// http://www.w3.org/TR/html5/embedded-content-0.html#htmlmediaelement
-	// http://dev.w3.org/html5/spec-author-view/video.html
+	http://www.w3.org/TR/html5/embedded-content-0.html#htmlmediaelement
+	http://dev.w3.org/html5/spec-author-view/video.html
 
 	// W3C API Test Page:
-	// http://www.w3.org/2010/05/video/mediaevents.html
+	http://www.w3.org/2010/05/video/mediaevents.html
 
 	// YouTube Player API for iframe Embeds
 	https://developers.google.com/youtube/iframe_api_reference
@@ -27,8 +27,8 @@
 	https://developers.google.com/apis-explorer/#s/youtube/v3/
 
 	// Web Speech API (Speech Synthesis)
-	// https://w3c.github.io/speech-api/#tts-section
-	// https://developer.mozilla.org/en-US/docs/Web/API/Window/speechSynthesis
+	https://w3c.github.io/speech-api/#tts-section
+	https://developer.mozilla.org/en-US/docs/Web/API/Window/speechSynthesis
 */
 
 /*jslint node: true, browser: true, white: true, indent: 2, unparam: true, plusplus: true */
