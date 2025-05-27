@@ -15,7 +15,7 @@
 		//   This is only a problem in IOS 6 and earlier,
 		//   & is a known bug, fixed in IOS 7
 
-		var thisObj, captionsContainer, prefsGroups, i;
+		var thisObj, captionsContainer, i;
 		thisObj = this;
 
 		// create three wrappers and wrap them around the media element.
@@ -229,7 +229,7 @@
 
 		// which is either 'transcript' or 'sign'
 
-		var cookie, cookiePos, $window, dragged, windowPos, currentWindowPos, firstTime, zIndex;
+		var cookie, cookiePos, $window, windowPos;
 
 		cookie = this.getCookie();
 		if (which === 'transcript') {
@@ -292,21 +292,17 @@
 		// else if there is room the left of the player, position element there
 		// else position element beneath player
 
-		var gap, position, ableWidth, ableHeight, ableOffset, ableTop, ableLeft,
-			 windowWidth, otherWindowWidth, zIndex;
+		var gap, position, ableWidth, ableOffset, ableLeft, windowWidth, otherWindowWidth;
 
 		if (typeof targetWidth === 'undefined') {
 			targetWidth = this.getDefaultWidth(targetWindow);
 		}
 
 		gap = 5; // number of pixels to preserve between Able Player objects
-
 		position = []; // position, top, left
 
 		ableWidth = this.$ableDiv.width();
-		ableHeight = this.$ableDiv.height();
 		ableOffset = this.$ableDiv.offset();
-		ableTop = ableOffset.top;
 		ableLeft = ableOffset.left;
 		windowWidth = $(window).width();
 		otherWindowWidth = 0; // width of other visiable draggable windows will be added to this
@@ -390,9 +386,8 @@
 		// 'which' parameter is either 'captions', 'chapters', 'prefs', 'transcript-window' or 'sign-window'
 		// 'tracks', if provided, is a list of tracks to be used as menu items
 
-		var thisObj, $menu, includeMenuItem, prefCats, i, $menuItem, prefCat, whichPref,
-			hasDefault, track, windowOptions, whichPref, whichMenu,
-			$thisItem, $prevItem, $nextItem;
+		var thisObj, $menu, includeMenuItem, i, $menuItem, prefCat, whichPref, hasDefault, track, 
+		windowOptions, $thisItem, $prevItem, $nextItem;
 
 		thisObj = this;
 
@@ -569,7 +564,6 @@
 		// add keyboard handlers for navigating within popups
 		$menu.on('keydown',function (e) {
 
-			whichMenu = $(this).attr('id').split('-')[1];
 			$thisItem = $(this).find('li:focus');
 			if ($thisItem.is(':first-child')) {
 				// this is the first item in the menu
@@ -673,10 +667,7 @@
 		// parameter 'which' is passed if refreshing content of an existing popup ('captions' or 'chapters')
 		// If which is undefined, automatically setup 'captions', 'chapters', and 'prefs' popups
 		// However, only setup 'transcript-window' and 'sign-window' popups if passed as value of which
-		var popups, thisObj, hasDefault, i, j,
-				tracks, track, $trackButton, $trackLabel,
-				radioName, radioId, $menu, $menuItem,
-				prefCats, prefCat, prefLabel;
+		var popups, thisObj, i,	tracks;
 
 		popups = [];
 		if (typeof which === 'undefined') {
@@ -703,7 +694,6 @@
 			thisObj = this;
 			for (var i=0; i<popups.length; i++) {
 				var popup = popups[i];
-				hasDefault = false;
 				if (popup == 'prefs') {
 					this.prefsPopup = this.createPopup('prefs');
 				}
@@ -846,7 +836,7 @@
 		// 3 = Bottom right (legacy skin only)
 		// Each key contains an array of control names to put in that section.
 
-		var controlLayout, volumeSupported, playbackSupported, totalButtonWidth, numA11yButtons;
+		var controlLayout, playbackSupported, numA11yButtons;
 
 		controlLayout = [];
 		controlLayout[0] = [];
@@ -963,7 +953,6 @@
 		}
 
 		if (this.browserSupportsVolume()) {
-			volumeSupported = true; // defined in case we decide to move volume button elsewhere
 			this.volumeButton = 'volume-' + this.getVolumeName(this.volume);
 			if (this.skin === 'legacy') {
 				controlLayout[1].push('volume');
@@ -973,7 +962,6 @@
 			}
 		}
 		else {
-			volumeSupported = false;
 			this.volume = false;
 		}
 		return controlLayout;
@@ -992,7 +980,7 @@
 		i, j, k, controls, $controllerSpan, $sliderDiv, sliderLabel, $pipe, $pipeImg,
 		svgData, svgPath, control,
 		$buttonLabel, $buttonImg, buttonImgSrc, buttonTitle, $newButton, iconClass, buttonIcon,
-		buttonUse, buttonText, position, buttonHeight, buttonWidth, buttonSide, controllerWidth,
+		buttonText, position, buttonHeight, buttonWidth, buttonSide, controllerWidth,
 		tooltipId, tooltipY, tooltipX, tooltipWidth, tooltipStyle, tooltip, tooltipTimerId,
 		captionLabel, popupMenuId;
 
@@ -1184,7 +1172,7 @@
 					}
 					else if (this.iconType === 'svg') {
 
-						var svgData;
+						svgData;
 						if (control === 'volume') {
 							svgData = this.getSvgData(this.volumeButton);
 						}
@@ -1234,7 +1222,7 @@
 						$newButton.append($buttonImg);
 					}
 					// add the visibly-hidden label for screen readers that don't support aria-label on the button
-					var $buttonLabel = $('<span>',{
+					$buttonLabel = $('<span>',{
 						'class': 'able-clipped'
 					}).text(buttonTitle);
 					$newButton.append($buttonLabel);
@@ -1245,68 +1233,60 @@
 						// since the same tooltip div is used, it's location just changes.
 						clearTimeout(tooltipTimerId);
 
-						var buttonText = $(this).attr('aria-label');
+						buttonText = $(this).attr('aria-label');
 						// get position of this button
-						var position = $(this).position();
-						var buttonHeight = $(this).height();
-						var buttonWidth = $(this).width();
+						position = $(this).position();
+						buttonHeight = $(this).height();
+						buttonWidth = $(this).width();
 						// position() is expressed using top and left (of button);
 						// add right (of button) too, for convenience
-						var controllerWidth = thisObj.$controllerDiv.width();
+						controllerWidth = thisObj.$controllerDiv.width();
 						position.right = controllerWidth - position.left - buttonWidth;
-
-						// The following formula positions tooltip above the button
-						// var tooltipY = position.top - buttonHeight - 15;
 
 						// The following formula positions tooltip below the button
 						// which allows the tooltip to be hoverable as per WCAG 2.x SC 1.4.13
 						// without obstructing the seekbar
-						var tooltipY = position.top + buttonHeight + 5;
+						tooltipY = position.top + buttonHeight + 5;
 
 						if ($(this).parent().hasClass('able-right-controls')) {
 							// this control is on the right side
-							var buttonSide = 'right';
+							buttonSide = 'right';
 						}
 						else {
 							// this control is on the left side
-							var buttonSide = 'left';
+							buttonSide = 'left';
 						}
 						// populate tooltip, then calculate its width before showing it
-						var tooltipWidth = AblePlayer.localGetElementById($newButton[0], tooltipId).text(buttonText).width();
+						tooltipWidth = AblePlayer.localGetElementById($newButton[0], tooltipId).text(buttonText).width();
 						// center the tooltip horizontally over the button
 						if (buttonSide == 'left') {
-							var tooltipX = position.left - tooltipWidth/2;
+							tooltipX = position.left - tooltipWidth/2;
 							if (tooltipX < 0) {
 								// tooltip would exceed the bounds of the player. Adjust.
 								tooltipX = 2;
 							}
-							var tooltipStyle = {
+							tooltipStyle = {
 								left: tooltipX + 'px',
 								right: '',
 								top: tooltipY + 'px'
 							};
 						}
 						else {
-							var tooltipX = position.right - tooltipWidth/2;
+							tooltipX = position.right - tooltipWidth/2;
 							if (tooltipX < 0) {
 								// tooltip would exceed the bounds of the player. Adjust.
 								tooltipX = 2;
 							}
-							var tooltipStyle = {
+							tooltipStyle = {
 								left: '',
 								right: tooltipX + 'px',
 								top: tooltipY + 'px'
 							};
 						}
-						var tooltip = AblePlayer.localGetElementById($newButton[0], tooltipId).text(buttonText).css(tooltipStyle);
+						tooltip = AblePlayer.localGetElementById($newButton[0], tooltipId).text(buttonText).css(tooltipStyle);
 						thisObj.showTooltip(tooltip);
 						$(this).on('mouseleave blur',function() {
 
-							// hide tooltip  (original line of code)
-							// AblePlayer.localGetElementById($newButton[0], tooltipId).text('').hide();
-
-							// The above line was replaced with the following block
-							// in order to meet WCAG 2.x SC 1.4.13
 							// (keep the tooltip visible if user hovers over it)
 							// This causes unwanted side effects if tooltips are positioned above the buttons
 							// as the persistent tooltip obstructs the seekbar,
@@ -1619,13 +1599,6 @@
 			inProgressCount += 1;
 			observeIfDone();
 		};
-/*
-		// The load event fires when all resources have finished loading, which allows detecting whether SVG use elements are empty.
-		window.addEventListener('load', function winLoad() {
-			window.removeEventListener('load', winLoad, false); // to prevent memory leaks
-			tid = setTimeout(checkUseElems, 0);
-		}, false);
-*/
 	};
 
 	AblePlayer.prototype.cuePlaylistItem = function(sourceIndex) {
@@ -1634,19 +1607,7 @@
 		// NOTE: Swapping source for audio description is handled elsewhere;
 		// see description.js > swapDescription()
 
-		/*
-			// Decided against preventing a reload of the current item in the playlist.
-			// If it's clickable, users should be able to click on it and expect something to happen.
-			// Leaving here though in case it's determined to be desirable.
-		if (sourceIndex === this.playlistItemIndex) {
-			// user has requested the item that's currently playing
-			// just ignore the request
-			return;
-		}
-		this.playlistItemIndex = sourceIndex;
-		*/
-
-		var $newItem, prevPlayer, newPlayer, itemTitle, itemLang, sources, s, i, $newSource, nowPlayingSpan;
+		var $newItem, prevPlayer, newPlayer, itemTitle, itemLang, $newSource, nowPlayingSpan;
 
 		var thisObj = this;
 
@@ -1737,7 +1698,7 @@
 			$sourceSpans.each(function() {
 				if (thisObj.hasAttr($(this),'data-src')) {
 					// this is the only required attribute
-					var $newSource = $('<source>',{
+					$newSource = $('<source>',{
 						'src': $(this).attr('data-src')
 					});
 					if (thisObj.hasAttr($(this),'data-type')) {
@@ -1851,12 +1812,6 @@
 			this.vimeoPlayer.destroy();
 		}
 
-
-/*	TODO - Investigate: when is this needed?
-		// remove previous video's attributes and child elements from media element
-		this.$media.removeAttr('poster width height');
-		this.$media.empty();
-*/
 		// Empty elements that will be rebuilt
 		this.$controllerDiv.empty();
 		// this.$statusBarDiv.empty();
@@ -1989,6 +1944,4 @@
 			return control.charAt(0).toUpperCase() + control.slice(1);
 		}
 	};
-
-
 })(jQuery);
