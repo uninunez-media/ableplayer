@@ -57,11 +57,6 @@
 		containerId = this.mediaId + '_youtube';
 
 		this.$mediaContainer.prepend($('<div>').attr('id', containerId));
-		// NOTE: Tried the following in place of the above in January 2016
-		// because in some cases two videos were being added to the DOM
-		// However, once v2.2.23 was fairly stable, unable to reproduce that problem
-		// so maybe it's not an issue. This is preserved here temporarily, just in case it's needed...
-		// thisObj.$mediaContainer.html($('<div>').attr('id', containerId));
 
 		// cc_load_policy:
 		// 0 - show captions depending on user's preference on YouTube
