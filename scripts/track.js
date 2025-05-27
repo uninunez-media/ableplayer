@@ -263,7 +263,7 @@
 
   AblePlayer.prototype.setupCaptions = function (track, cues) {
     // Setup player for display of captions (one track at a time)
-    var thisObj, captions, inserted, i, capLabel;
+    var thisObj, inserted, i, capLabel;
 
     // Insert track into captions array
     // in its proper alphabetical sequence by label
