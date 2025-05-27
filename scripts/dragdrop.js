@@ -7,7 +7,7 @@
 		// NOTE: "Drag and Drop" for Able Player is a metaphor only!!!
 		// HTML5 Drag & Drop API enables moving elements to new locations in the DOM
 		// Thats not our purpose; we're simply changing the visible position on-screen
-		// Therefore, the drag & drop interface was overhauled in v2.3.41 to simple
+		// Therefore, the drag & drop interface was overhauled in v2.3.41 to simply
 		// use mouse (and keyboard) events to change CSS positioning properties
 
 		// There are nevertheless lessons to be learned from Drag & Drop about accessibility:
@@ -137,9 +137,7 @@
 	AblePlayer.prototype.addWindowMenu = function(which, $window, windowName) {
 
 		var thisObj, $windowAlert, menuId, $newButton, $buttonIcon, buttonImgSrc, $buttonImg,
-			$buttonLabel, tooltipId, $tooltip, $popup,
-			label, position, buttonHeight, buttonWidth, tooltipY, tooltipX, tooltipStyle, tooltip,
-			$optionList, menuBaseId, options, i, $optionItem, option, menuId;
+			$buttonLabel, tooltipId, $tooltip, $popup, menuId;
 
 		thisObj = this;
 
@@ -264,11 +262,9 @@
 
 		var thisObj, $windowPopup, $windowButton,
 			widthId, heightId, startingWidth, startingHeight, aspectRatio,
-			$resizeForm, $resizeWrapper,
-			$resizeWidthDiv, $resizeWidthInput, $resizeWidthLabel,
+			$resizeForm, $resizeWrapper, $resizeWidthDiv, $resizeWidthInput, $resizeWidthLabel,
 			$resizeHeightDiv, $resizeHeightInput, $resizeHeightLabel,
-			tempWidth, tempHeight,
-			$saveButton, $cancelButton, newWidth, newHeight, resizeDialog;
+			tempWidth, tempHeight, $saveButton, $cancelButton, newWidth, newHeight, resizeDialog;
 
 		thisObj = this;
 
@@ -450,7 +446,7 @@
 
 	AblePlayer.prototype.handleMenuChoice = function (which, choice, e) {
 
-		var thisObj, $window, $windowPopup, $windowButton, resizeDialog, width, height, $thisRadio;
+		var thisObj, $window, $windowPopup, $windowButton, resizeDialog;
 
 		thisObj = this;
 		if (which === 'transcript') {
@@ -550,7 +546,7 @@
 
 	AblePlayer.prototype.startDrag = function(which, $element) {
 
-		var thisObj, $windowPopup, zIndex, startPos, newX, newY;
+		var thisObj, $windowPopup, startPos, newX, newY;
 
 		thisObj = this;
 
@@ -697,7 +693,7 @@
 
 		if (which === 'transcript') {
 			// $activeWindow is the outer $transcriptArea
-			// but the inner able-transcript also needs to be resized proporitionally
+			// but the inner able-transcript also needs to be resized proportionally
 			// (it's 50px less than its outer container)
 			innerHeight = height - 50;
 			this.$transcriptDiv.css('height', innerHeight + 'px');
@@ -706,7 +702,7 @@
 
 	AblePlayer.prototype.endDrag = function(which) {
 
-		var thisObj, $window, $windowPopup, $windowButton;
+		var thisObj, $windowPopup, $windowButton;
 		thisObj = this;
 
 		if (which === 'transcript') {
@@ -771,7 +767,7 @@
 
 	AblePlayer.prototype.startResize = function(which, $element) {
 
-		var thisObj, $windowPopup, zIndex, startPos, newWidth, newHeight;
+		var thisObj, $windowPopup, startPos, newWidth, newHeight;
 
 		thisObj = this;
 		this.$activeWindow = $element;
@@ -810,7 +806,7 @@
 
 	AblePlayer.prototype.endResize = function(which) {
 
-		var $window, $windowPopup, $windowButton;
+		var $windowPopup, $windowButton;
 
 		if (which === 'transcript') {
 			$windowPopup = this.$transcriptPopup;
@@ -842,5 +838,4 @@
 			this.finishingDrag = false;
 		}, 100);
 	};
-
 })(jQuery);
