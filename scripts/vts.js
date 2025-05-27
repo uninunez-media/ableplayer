@@ -10,10 +10,8 @@
 		// Add <div id="able-vts"></div> to the web page
 
 		// Define all variables
-		var thisObj, tracks, $heading;
-		var $instructions, $p1, $p2, $ul, $li1, $li2, $li3;
-		var $fieldset, $legend, i, $radioDiv, radioId, $label, $radio;
-		var $saveButton, $savedTable;
+		var thisObj, $heading, $instructions, $p1, $p2, $ul, $li1, $li2, $li3, 
+		$fieldset, $legend, i, $radioDiv, radioId, $label, $radio, $saveButton, $savedTable;
 
 		thisObj = this;
 
@@ -104,9 +102,8 @@
 				this.injectVtsTable('add',this.vtsLang);
 
 				// TODO: Add drag/drop functionality for mousers
-
 				// Add event listeners for contenteditable cells
-				var kindOptions, beforeEditing, editedCell, editedContent, i, closestKind;
+				var kindOptions, beforeEditing, editedCell, editedContent, i;
 				kindOptions = ['captions','chapters','descriptions','subtitles'];
 				$('td[contenteditable="true"]').on('focus',function() {
 					beforeEditing = $(this).text();
@@ -145,8 +142,6 @@
 					// while user is editing
 					e.stopPropagation();
 				});
-
-				// handle click on the Save button
 
 				// handle click on the Save button
 				$('#able-vts-save').on('click',function(e) {
@@ -652,9 +647,8 @@
 	AblePlayer.prototype.insertRow = function(rowNum) {
 
 		// Insert empty row below rowNum
-		var $table, $rows, numRows, newRowNum, newRowId, newTimes, $tr, $td;
-		var $select, options, i, $option, newKind, newClass, $parentRow;
-		var i, nextRowNum, $buttons;
+		var $table, $rows, numRows, newRowNum, newRowId, $tr, $td, $select, 
+		options, i, $option, newKind, newClass, $parentRow, nextRowNum, $buttons;
 
 		$table = $('#able-vts table');
 		$rows = $table.find('tr');
@@ -769,7 +763,7 @@
 	AblePlayer.prototype.moveRow = function(rowNum,direction) {
 
 		// swap two rows
-		var $rows, $thisRow, otherRowNum, $otherRow, newTimes, msg;
+		var $rows, $thisRow, otherRowNum, $otherRow, msg;
 
 		$rows = $('#able-vts table').find('tr');
 		$thisRow = $('#able-vts table').find('tr').eq(rowNum);
