@@ -257,7 +257,6 @@ var AblePlayerInstances = [];
 		// 2. "external" - Automatically generated, written to an external div (requires data-transcript-div)
 		// 3. "popup" - Automatically generated, written to a draggable, resizable popup window that can be toggled on/off with a button
 		// If data-include-transcript="false", there is no "popup" transcript
-
 		if ($(media).data('transcript-div') !== undefined && $(media).data('transcript-div') !== "") {
 			this.transcriptDivLocation = $(media).data('transcript-div');
 		}
