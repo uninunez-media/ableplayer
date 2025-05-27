@@ -22,7 +22,7 @@
 				 'class': 'modalCloseButton',
 				 'title': thisObj.closeButtonLabel,
 				 'aria-label': thisObj.closeButtonLabel
-			}).text('X');
+			}).text('×');
 			closeButton.on( 'keydown', function (e) {
 				// Space key down
 				if (e.which === 32) {

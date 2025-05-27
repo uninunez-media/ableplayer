@@ -467,6 +467,8 @@ button.modalCloseButton {
   position: absolute;
   top: 5px;
   right: 5px;
+  font-weight: 700;
+  font-size: 1.2rem;
 }
 button.modal-button {
   margin-right: 5px;
