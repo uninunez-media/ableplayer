@@ -893,7 +893,6 @@ ul.able-popup {
 .able-transcript-area {
   border-width: 1px;
   border-style: solid;
-  height: 400px;
   z-index: 7000;
   outline: none;
   padding-bottom: 25px; /* keep content above 16x16px drag icon */
@@ -902,9 +901,8 @@ ul.able-popup {
 .able-transcript {
   position: relative; /* must be positioned for scrolling */
   overflow-y: scroll;
-  padding-left: 5%;
-  padding-right: 5%;
-  /* width: 90%; */
+  padding-left: 1rem;
+  padding-right: 1rem;
   background-color: #fff;
   height: 350px;
 }
