@@ -1020,6 +1020,10 @@
 			this.seekBar = new AccessibleSlider(this.mediaType, $sliderDiv, 'horizontal', baseSliderWidth, 0, this.duration, this.seekInterval, sliderLabel, 'seekbar', true, 'visible');
 		}
 
+		// add a full-width seek bar
+		let $controlRow = $('<div class="able-control-row"></div>');
+		this.$controllerDiv.append($controlRow);
+
 		for (i = 0; i < numSections; i++) {
 			controls = controlLayout[i];
 			if ((i % 2) === 0) { // even keys on the left
@@ -1032,7 +1036,7 @@
 					'class': 'able-right-controls'
 				});
 			}
-			this.$controllerDiv.append($controllerSpan);
+			$controlRow.append($controllerSpan);
 
 			for (j=0; j<controls.length; j++) {
 				control = controls[j];
