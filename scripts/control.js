@@ -213,7 +213,7 @@
 		// - 'buffering' - Momentarily paused to load, but will resume once data is loaded.
 		// - 'playing' - Currently playing.
 
-		var deferred, promise, thisObj, duration, elapsed;
+		var deferred, promise, thisObj;
 		deferred = new $.Deferred();
 		promise = deferred.promise();
 		thisObj = this;
@@ -503,11 +503,9 @@
 		// duration is expressed as sss.xxx
 		// elapsed is expressed as sss.xxx
 
-		var thisObj, duration, elapsed, lastChapterIndex, displayElapsed,
-			updateLive, textByState, timestamp, widthUsed,
-			leftControls, rightControls, seekbarWidth, seekbarSpacer, captionsCount,
-			buffered, newTop, statusBarHeight, speedHeight, statusBarWidthBreakpoint,
-			newSvgData;
+		var thisObj, duration, lastChapterIndex, displayElapsed, updateLive, textByState, timestamp, widthUsed,
+			leftControls, rightControls, seekbarWidth, captionsCount, buffered, newTop, statusBarHeight, 
+			speedHeight, statusBarWidthBreakpoint, newSvgData;
 
 		thisObj = this;
 		if (this.swappingSrc) {
@@ -1919,8 +1917,7 @@
 			});
 		}
 
-		// Reposition alert message (video player only)
-		// just below the vertical center of the mediaContainer
+		// Reposition alert message (video player only) below the vertical center of the mediaContainer
 		// hopefully above captions, but not too far from the controller bar
 		if (this.mediaType === 'video') {
 			alertTop = Math.round(this.$mediaContainer.height() / 3) * 2;
@@ -2085,7 +2082,7 @@
 		// This was a group decision based on the belief that users may want a transcript
 		// that is in a different language than the captions
 
-		var i, captions, descriptions, chapters, meta, langHasChanged;
+		var i, captions, descriptions, chapters, meta;
 
 		// Captions
 		for (i = 0; i < this.captions.length; i++) {
