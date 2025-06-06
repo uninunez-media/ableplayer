@@ -69,6 +69,16 @@ describe("validate.js tests", () => {
         expectedOutput: "<v.first.second>Some text</v>",
       },
       {
+        description: "should postprocess <v> tags correctly, multiple attributes",
+        input: '<v class="first second" title="Hello">Some text</v>',
+        expectedOutput: '<v.first.second title="Hello">Some text</v>',
+      },
+            {
+        description: "should postprocess <v> tags correctly, different attribute order",
+        input: '<v title="Hello" class="first second">Some text</v>',
+        expectedOutput: '<v.first.second title="Hello">Some text</v>',
+      },
+      {
         description: "should postprocess <lang> tags correctly",
         input: '<lang lang="en">Some text</lang>',
         expectedOutput: "<lang en>Some text</lang>",

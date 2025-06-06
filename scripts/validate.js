@@ -40,10 +40,14 @@ var preProcessing = {
   },
 
   /**
-   * Transforms <v> tags by adding a title attribute with the concatenated text and retaining other attributes.
+   * Transforms <v> tags by extracting any non-attribute text as a `title` attribute,
+   * retains existing attributes (except class), and preserves the class attribute if present.
+   * Example: <v John class="foo" data-x="y"> becomes <v title="John" data-x="y" class="foo">
+   *
+   * @function
    * @memberof preProcessing
-   * @param {string} content - The content with processed <lang> tags.
-   * @returns {string} - The content with <v> tags transformed.
+   * @param {string} content - The string content containing <v> tags to process.
+   * @returns {string} The content with <v> tags transformed to include a title attribute and preserved attributes.
    */
   transformVTags: function (content) {
     return content.replace(/<v\s+([^>]*?)>/g, function (_, tagAttributes) {
@@ -109,17 +113,26 @@ var postProcessing = {
   },
 
   /**
-   * Post-processes <v> tags by converting class attributes to dot-separated class names.
+   * * Post-processes <v> tags by converting class attributes, no matter where found in the attribute order, to dot-separated class names.
+   * For example, <v class="foo bar" title="John"> becomes <v.foo.bar title="John">.
+   * Removes the class attribute and appends other attributes after the class names.
+   *
+   * @function
    * @memberof postProcessing
    * @param {string} vttContent - The VTT content to be processed.
    * @returns {string} - The VTT content with processed <v> tags.
    */
   postprocessVTag: function (vttContent) {
     return vttContent.replace(
-      /<v class="([\w\s]+)"([^>]*)>/g,
-      function (_, classNames, otherAttrs) {
-        var classes = classNames.split(" ").join(".");
-        return "<v." + classes + otherAttrs + ">";
+      /<v([^>]*)class="([\w\s]+)"([^>]*)>/g,
+      function (_, beforeClass, classNames, afterClass) {
+        var classes = classNames.trim().split(/\s+/).join(".");
+        // Rebuild the tag: <v.{classes}{other attributes}>
+        // Remove class="..." from attributes
+        var attrs = (beforeClass + afterClass)
+          .replace(/\s*class="[\w\s]+"/, "")
+          .trim();
+        return "<v." + classes + (attrs ? " " + attrs : "") + ">";
       }
     );
   },
