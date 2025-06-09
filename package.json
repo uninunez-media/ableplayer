@@ -11,7 +11,7 @@
   },
   "main": "build/ableplayer.min.js",
   "scripts": {
-    "build": "grunt",
+    "build": "grunt && grunt build_separate_dompurify",
     "test": "jest"
   },
   "dependencies": {

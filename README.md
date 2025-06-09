@@ -757,7 +757,7 @@ npm install -g grunt-cli
 npm install
 
 # Build CSS and JS
-grunt
+npm run build
 ```
 
 The npm and Grunt build process is defined by the *Gruntfile.js* and *package.json*
@@ -774,6 +774,8 @@ Files created by the build process are put into the */build* directory:
   a minified version of the *dist* file
 - **build/ableplayer.min.css** -
   a minified combined version of all Able Player CSS files
+- **build/separate-dompurify/ directory** -
+   same files as above, except DOMPurify is provided as a separate file rather than bundled to give the option of loading the library separately or using a CDN-hosted version.
 
 Acknowledgments
 ---------------
