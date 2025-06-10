@@ -141,7 +141,7 @@ var postProcessing = {
 };
 
 /**
- * Preprocesses, sanitizes and post-processes VTT content.
+ * Preprocesses, sanitizes and post-processes VTT content as well as other utility functions.
  * @namespace validate
  */
 var validate = {
@@ -207,6 +207,17 @@ var validate = {
     );
 
     return validate.postProcessVttContent(sanitizedVttContent, vttContent);
+  },
+  // Utility validation functions
+  isProtocolSafe: function (url) {
+    //creates a new URL object for analysis to check if the protocol is http or https
+    //returns true if there is a match false otherwise
+    try {
+      const parsedUrl = new URL(url, window.location.origin); // Resolve relative URLs
+      return ["http:", "https:"].includes(parsedUrl.protocol); // Allow only HTTP and HTTPS
+    } catch (e) {
+      return false; // Invalid URL
+    }
   },
 };
 
