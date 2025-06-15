@@ -1,4 +1,4 @@
-/*! ableplayer V4.5.2-dev - In this file, DOMPurify is not bundled in with AblePlayer, but is a required dependency that can be added to the project via a local copy or a CDN */
+/*! ableplayer V4.6.0-beta - In this file, DOMPurify is not bundled in with AblePlayer, but is a required dependency that can be added to the project via a local copy or a CDN */
 /*
 	// JavaScript for Able Player
 
@@ -195,6 +195,10 @@ var AblePlayerInstances = [];
 		else {
 			this.readDescriptionsAloud = true;
 		}
+
+		// setting initial this.descVoices to an empty array
+		// to be populated later by getBrowserVoices
+		this.descVoices = [];
 
 		// Method by which text descriptions are read
 		// valid values of data-desc-reader are:
@@ -7851,90 +7855,57 @@ if (typeof module !== "undefined" && module.exports) {
 		}
 	};
 
+/**
+   * Initializes speech synthesis capabilities for the player.
+   * This method addresses browser and OS limitations that require user interaction
+   * before speech synthesis functions become available. It handles different contexts
+   * like initialization, playing media, accessing preferences, or announcing descriptions.
+   * @param {string} context - The context in which the function is called ('init', 'play', 'prefs', 'desc').
+   */
 	AblePlayer.prototype.initSpeech = function (context) {
-
-		// Some browsers &/or operating systems require a user-initiated click
-		// before this.synth.getVoices() will work. As of Nov 2022:
-		// Chrome requires a click before synth.getVoices() will work
-		// iOS requires a click before synth.speak() will work
-		// A hack to address this: Listen for ANY click, then play an inaudible utterance
-		// to intitiate speech synthesis
-		// https://stackoverflow.com/questions/32193704/js-speech-synthesis-issue-on-ios
-		// This function does that, and sets this.speechEnabled
-		// It's called with either of these contexts:
-		// 'init' - player is being initialized
-		// 'play' - user has clicked play
-		// 'prefs' - user has clicked prefs button
-		// 'desc' - it's time to announce a description!
-
 		var thisObj = this;
 
+		// Function to attempt enabling speech synthesis
+		function attemptEnableSpeech() {
+			var greeting = new SpeechSynthesisUtterance("\x20");
+			greeting.onend = function () {
+				thisObj.getBrowserVoices();
+				if (
+					(Array.isArray(thisObj.descVoices) && thisObj.descVoices.length) ||
+					context !== "init"
+				) {
+					thisObj.speechEnabled = true;
+				}
+			};
+			thisObj.synth.speak(greeting);
+		}
+
+		// Function to handle the initial click and enable speech synthesis
+		function handleInitialClick() {
+			attemptEnableSpeech();
+			// Once the utterance starts, remove this specific click event listener
+			// Ensures the event handler only runs once and cleans up after itself
+			$(document).off("click", handleInitialClick);
+		}
+
 		if (this.speechEnabled === null) {
-
-			if (typeof this.synth !== 'undefined') {
-				// cancel any previous synth instance and reinitialize
-				this.synth.cancel();
-			}
-
 			if (window.speechSynthesis) {
-
-				// browser supports speech synthesis
+				// Browser supports speech synthesis
 				this.synth = window.speechSynthesis;
-				this.synth.cancel();
-				if (context === 'init') {
-					// handle a click on anything, in case the user
-					// clicks something before they click 'play' or 'prefs' buttons
-					// that would allow us to init speech before it's needed
-					$(document).on('click',function() {
-						var greeting = new SpeechSynthesisUtterance('\x20');
-						thisObj.synth.speak(greeting);
-						greeting.onstart = function(e) {
-							// utterance has started
-							$(document).off('click'); // unbind the click event listener
-						}
-						greeting.onend = function(e) {
-							// should now be able to get browser voices
-							// in browsers that require a click
-							thisObj.getBrowserVoices();
-							if (thisObj.descVoices.length) {
-								thisObj.speechEnabled = true;
-							}
-						};
-					});
+				this.synth.cancel(); // Cancel any ongoing speech synthesis
 
-					// go ahead and call get browser voices in case it might work,
-					// for browsers that don't require a click				
-					this.getBrowserVoices();
-					if (this.descVoices.length) {
-						this.speechEnabled = true;
-					}
+				if (context === "init") {
+					// Attempt to enable speech synthesis directly for browsers that don't require a click
+					attemptEnableSpeech();
+					// For initial setup, require a user click to enable speech synthesis
+					// Scoping to a particular handler to avoid conflicts with other click events
+					$(document).on("click", handleInitialClick);
+				} else {
+					// For other contexts, attempt to enable speech synthesis directly
+					attemptEnableSpeech();
 				}
-				else {  // context is either 'play' or 'prefs' or 'desc'
-					var greeting = new SpeechSynthesisUtterance('\x20');
-					thisObj.synth.speak(greeting);
-					greeting.onstart = function(e) {
-						// utterance has started
-						$(document).off('click'); // unbind the click event listener
-					};
-					greeting.onend = function(e) {
-						// should now be able to get browser voices
-						// in browsers that require a click
-						thisObj.getBrowserVoices();
-						/*  
-						// Safari 15.4 on MacOS has a bug: No voice array is returned
-						// The browser speaks, but we have no control over voices. 
-						// Therefore, speechEnabled cannot be dependent on descVoices 
-						// as long as Safari 15.4 is still supported
-						if (thisObj.descVoices.length) {
-							thisObj.speechEnabled = true;
-						}
-						*/
-						thisObj.speechEnabled = true; 
-					};
-				}
-			}
-			else {
-				// browser does not support speech synthesis
+			} else {
+				// Browser does not support speech synthesis
 				this.speechEnabled = false;
 			}
 		}
