@@ -6560,19 +6560,6 @@ var AblePlayerInstances = [];
 		var $sourceSpans = $newItem.children('span.able-source');
 		if ($sourceSpans.length) {
 			$sourceSpans.each(function() {
-				if (thisObj.hasAttr($(this),'data-src')) {
-					// this is the only required attribute
-					$newSource = $('<source>',{
-						'src': $(this).attr('data-src')
-					});
-					if (thisObj.hasAttr($(this),'data-type')) {
-						$newSource.attr('type',$(this).attr('data-type'));
-					}
-					if (thisObj.hasAttr($(this),'data-desc-src')) {
-						$newSource.attr('data-desc-src',$(this).attr('data-desc-src'));
-					}
-					if (thisObj.hasAttr($(this),'data-sign-src')) {
-						$newSource.attr('data-sign-src',$(this).attr('data-sign-src'));
 				const $this = $(this);
  
 				// Check if the required data-src attribute exists
