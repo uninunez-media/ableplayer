@@ -205,6 +205,11 @@ describe("isProtocolSafe", () => {
       expected: true,
     },
     {
+      description: "returns true for omitted protocol URL",
+      url: "//example.com",
+      expected: true,
+    },
+    {
       description: "returns true for relative URL",
       url: "/path/to/resource",
       expected: true,
@@ -226,9 +231,9 @@ describe("isProtocolSafe", () => {
     test(description, async () => {
       const result = await page.evaluate((url) => {
         return window.validate.isProtocolSafe(url);
-      }, url); 
+      }, url);
       // Pass the `url` variable into the browser context
       expect(result).toBe(expected);
-    }); 
+    });
   });
 });
