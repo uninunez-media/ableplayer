@@ -5205,21 +5205,42 @@ var AblePlayerInstances = [];
 		var $sourceSpans = $newItem.children('span.able-source');
 		if ($sourceSpans.length) {
 			$sourceSpans.each(function() {
-				if (thisObj.hasAttr($(this),'data-src')) {
-					// this is the only required attribute
-					$newSource = $('<source>',{
-						'src': $(this).attr('data-src')
-					});
-					if (thisObj.hasAttr($(this),'data-type')) {
-						$newSource.attr('type',$(this).attr('data-type'));
+				const $this = $(this);
+ 
+				// Check if the required data-src attribute exists
+				if (thisObj.hasAttr($this, "data-src")) {
+					const sanitizedSrc = DOMPurify.sanitize($this.attr("data-src"));
+
+					// Validate the protocol of the sanitized URL
+					if (validate.isProtocolSafe(sanitizedSrc)) {
+						// Create a new <source> element with the sanitized src
+						const $newSource = $("<source>", { src: sanitizedSrc });
+			
+						// List of optional attributes to sanitize and add
+						const optionalAttributes = [
+							"data-type",
+							"data-desc-src",
+							"data-sign-src",
+						];
+	
+						// Process optional attributes
+						optionalAttributes.forEach((attr) => {
+							if (thisObj.hasAttr($this, attr)) {
+								const attrValue = $this.attr(attr); // Get the attribute value
+								const sanitizedValue = DOMPurify.sanitize(attrValue); // Sanitize the value
+				
+								// If the attribute ends with "-src", validate the protocol
+								if (attr.endsWith("-src") && validate.isProtocolSafe(sanitizedValue)) {
+									$newSource.attr(attr, sanitizedValue); // Add the sanitized and validated attribute
+								} else if (!attr.endsWith("-src")) {
+									$newSource.attr(attr, sanitizedValue); // Add sanitized value for non-src attributes
+								}
+							}
+             			});
+ 
+						// Append the new <source> element to the media object
+						thisObj.$media.append($newSource);
 					}
-					if (thisObj.hasAttr($(this),'data-desc-src')) {
-						$newSource.attr('data-desc-src',$(this).attr('data-desc-src'));
-					}
-					if (thisObj.hasAttr($(this),'data-sign-src')) {
-						$newSource.attr('data-sign-src',$(this).attr('data-sign-src'));
-					}
-					thisObj.$media.append($newSource);
 				}
 			});
 		}
@@ -5229,22 +5250,32 @@ var AblePlayerInstances = [];
 		if ($trackSpans.length) {
 			 // for each element in $trackSpans, create a new <track> element
 			$trackSpans.each(function() {
-				if (thisObj.hasAttr($(this),'data-src') &&
-					thisObj.hasAttr($(this),'data-kind') &&
-					thisObj.hasAttr($(this),'data-srclang')) {
+				const $this = $(this);
+				if (thisObj.hasAttr($this, "data-src") && thisObj.hasAttr($this, "data-kind") && thisObj.hasAttr($this, "data-srclang")) {
 					// all required attributes are present
-					var $newTrack = $('<track>',{
-						'src': $(this).attr('data-src'),
-						'kind': $(this).attr('data-kind'),
-						'srclang': $(this).attr('data-srclang')
-					});
-					if (thisObj.hasAttr($(this),'data-label')) {
-						$newTrack.attr('label',$(this).attr('data-label'));
+					const sanitizedSrc = DOMPurify.sanitize($this.attr("data-src"));
+					// Validate the protocol of the sanitized URL
+					if (validate.isProtocolSafe(sanitizedSrc)) {
+						// Create a new <track> element with the sanitized src
+						const $newTrack = $("<track>", {
+							src: sanitizedSrc,
+							kind: $this.attr("data-kind"),
+							srclang: $this.attr("data-srclang"),
+						});
+						// List of optional attributes to sanitize and add
+						const optionalAttributes = [
+							"data-label",
+							"data-desc",
+							"data-default",
+						];
+						optionalAttributes.forEach((attr) => {
+							if (thisObj.hasAttr($this, attr)) {
+								$newTrack.attr(attr, DOMPurify.sanitize($this.attr(attr)));
+							}
+						});
+						// Append the new <track> element to the media object
+						thisObj.$media.append($newTrack);
 					}
-					if (thisObj.hasAttr($(this),'data-desc')) {
-						$newTrack.attr('data-desc',$(this).attr('data-desc'));
-					}
-					thisObj.$media.append($newTrack);
 				}
 			});
 		}
@@ -5611,7 +5642,7 @@ var postProcessing = {
 };
 
 /**
- * Preprocesses, sanitizes and post-processes VTT content.
+ * Preprocesses, sanitizes and post-processes VTT content as well as other utility functions.
  * @namespace validate
  */
 var validate = {
@@ -5677,6 +5708,17 @@ var validate = {
     );
 
     return validate.postProcessVttContent(sanitizedVttContent, vttContent);
+  },
+  // Utility validation functions
+  isProtocolSafe: function (url) {
+    //creates a new URL object for analysis to check if the protocol is http or https
+    //returns true if there is a match false otherwise
+    try {
+      const parsedUrl = new URL(url, window.location.origin); // Resolve relative URLs
+      return ["http:", "https:"].includes(parsedUrl.protocol); // Allow only HTTP and HTTPS
+    } catch (e) {
+      return false; // Invalid URL
+    }
   },
 };
 
