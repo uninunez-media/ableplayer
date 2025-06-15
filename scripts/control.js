@@ -1,4 +1,5 @@
 (function ($) {
+
 	AblePlayer.prototype.seekTo = function (newTime) {
 
 		var thisObj = this;
@@ -11,8 +12,8 @@
 		this.seeking = true;
 		this.liveUpdatePending = true;
 
-		if (this.speakingDescription) { 			
-			this.synth.cancel(); 
+		if (this.speakingDescription) {
+			this.synth.cancel();
 		}
 
 		if (this.player === 'html5') {
@@ -25,8 +26,8 @@
 				// ok to seek to startTime
 				// canplaythrough will be triggered when seeking is complete
 				// this.seeking will be set to false at that point
-				this.media.currentTime = this.startTime; 
-				this.seekStatus = 'complete'; 
+				this.media.currentTime = this.startTime;
+				this.seekStatus = 'complete';
 				if (this.hasSignLanguage && this.signVideo) {
 					// keep sign languge video in sync
 					this.signVideo.currentTime = this.startTime;
@@ -119,15 +120,15 @@
 		else {
 			var duration;
 			if (this.player === 'html5') {
-				duration = this.media.duration;			
+				duration = this.media.duration;
 			}
 			else if (this.player === 'youtube') {
 				if (this.youTubePlayerReady) {
-					if (this.duration > 0) { 
+					if (this.duration > 0) {
 						// duration was already retrieved while checking for captions
-						duration = this.duration; 
+						duration = this.duration;
 					}
-					else { 
+					else {
 						duration = this.youTubePlayer.getDuration();
 					}
 				}
@@ -197,11 +198,11 @@
 	AblePlayer.prototype.getPlayerState = function () {
 
 		// Returns one of the following states:
-		//	'stopped' - Not yet played for the first time, or otherwise reset to unplayed.
-		//	'ended' - Finished playing.
-		//	'paused' - Not playing, but not stopped or ended.
-		//	'buffering' - Momentarily paused to load, but will resume once data is loaded.
-		//	'playing' - Currently playing.
+		// - 'stopped' - Not yet played for the first time, or otherwise reset to unplayed.
+		// - 'ended' - Finished playing.
+		// - 'paused' - Not playing, but not stopped or ended.
+		// - 'buffering' - Momentarily paused to load, but will resume once data is loaded.
+		// - 'playing' - Currently playing.
 
 		// Commented out the following in 3.2.1 - not sure of its intended purpose
 		// It can be useful to know player state even when swapping src
@@ -282,13 +283,13 @@
 			}
 		}
 		else if (this.player === 'youtube') {
-			// Youtube supports varying playback rates per video.	 
+			// Youtube supports varying playback rates per video.
 			// Only expose controls if more than one playback rate is available.
-			if (this.youTubePlayerReady) { 
+			if (this.youTubePlayerReady) {
 				if (this.youTubePlayer.getAvailablePlaybackRates().length > 1) {
 					return true;
 				}
-				else { 
+				else {
 					return false;
 				}
 			}
@@ -303,12 +304,12 @@
 	};
 
 	AblePlayer.prototype.setPlaybackRate = function (rate) {
-		
+
 		rate = Math.max(0.5, rate);
 
-		if (this.hasClosedDesc && this.descMethod === 'text') { 
-			// keep speech rate in sync with playback rate even if descOn is false 
-			this.syncSpeechToPlaybackRate(rate); 
+		if (this.hasClosedDesc && this.descMethod === 'text') {
+			// keep speech rate in sync with playback rate even if descOn is false
+			this.syncSpeechToPlaybackRate(rate);
 		}
 
 		if (this.player === 'html5') {
@@ -325,7 +326,7 @@
 		}
 		this.playbackRate = rate;
 		this.$speed.text(this.tt.speed + ': ' + rate.toFixed(2).toString() + 'x');
-	};	
+	};
 
 	AblePlayer.prototype.getPlaybackRate = function () {
 
@@ -341,7 +342,7 @@
 
 	AblePlayer.prototype.isPaused = function () {
 
-		 // Note there are three player states that count as paused in this sense,
+		// Note there are three player states that count as paused in this sense,
 		// and one of them is named 'paused'.
 		// A better name would be 'isCurrentlyNotPlayingOrBuffering'
 
@@ -550,7 +551,7 @@
 					// Only update the aria live region if we have an update pending
 					// (from a seek button control) or if the seekBar has focus.
 					// We use document.activeElement instead of $(':focus') due to a strange bug:
-					// 	When the seekHead element is focused, .is(':focus') is failing and $(':focus') is returning an undefined element.
+					// When the seekHead element is focused, .is(':focus') is failing and $(':focus') is returning an undefined element.
 					updateLive = this.liveUpdatePending || this.seekBar.seekHead.is($(document.activeElement));
 					this.liveUpdatePending = false;
 					if (this.useChapterTimes) {
@@ -609,9 +610,9 @@
 					}
 					else {
 						// seekbar is wide enough to fill the remaining space
-						// include a 5px buffer to account for minor browser differences  
+						// include a 5px buffer to account for minor browser differences
 						seekbarWidth = this.$ableWrapper.width() - widthUsed - 5;
-					}					
+					}
 					// Sometimes some minor fluctuations based on browser weirdness, so set a threshold.
 					if (Math.abs(seekbarWidth - this.seekBar.getWidth()) > 5) {
 						this.seekBar.setWidth(seekbarWidth);
@@ -708,16 +709,16 @@
 		if (context === 'fullscreen' || context == 'init'){
 			if (this.$fullscreenButton) {
 				if (!this.fullscreen) {
-					this.$fullscreenButton.attr('aria-label', this.tt.enterFullscreen);
+					this.$fullscreenButton.attr('aria-label', this.tt.enterFullScreen);
 					if (this.iconType === 'font') {
 						this.$fullscreenButton.find('span').first().removeClass('icon-fullscreen-collapse').addClass('icon-fullscreen-expand');
-						this.$fullscreenButton.find('span.able-clipped').text(this.tt.enterFullscreen);
+						this.$fullscreenButton.find('span.able-clipped').text(this.tt.enterFullScreen);
 					}
 					else if (this.iconType === 'svg') {
 						newSvgData = this.getSvgData('fullscreen-expand');
 						this.$fullscreenButton.find('svg').attr('viewBox',newSvgData[0]);
 						this.$fullscreenButton.find('path').attr('d',newSvgData[1]);
-						this.$fullscreenButton.find('span.able-clipped').text(this.tt.enterFullscreen);
+						this.$fullscreenButton.find('span.able-clipped').text(this.tt.enterFullScreen);
 					}
 					else {
 						this.$fullscreenButton.find('img').attr('src',this.fullscreenExpandButtonImg);
@@ -982,36 +983,36 @@
 	AblePlayer.prototype.handlePlay = function(e) {
 
 		if (this.paused) {
-			// user clicked play 
-			this.okToPlay = true; 
+			// user clicked play
+			this.okToPlay = true;
 			this.playMedia();
-			if (this.synth.paused) { 
-				// media was paused while description was speaking 
-				// resume utterance 
-				this.synth.resume(); 
+			if (this.synth.paused) {
+				// media was paused while description was speaking
+				// resume utterance
+				this.synth.resume();
 			}
 		}
 		else {
 			// user clicked pause
-			this.okToPlay = false; 
+			this.okToPlay = false;
 			this.pauseMedia();
-			if (this.speakingDescription) { 
-				// pause the current utterance 
-				// it will resume when the user presses play 
-				this.synth.pause();				
+			if (this.speakingDescription) {
+				// pause the current utterance
+				// it will resume when the user presses play
+				this.synth.pause();
 			}
 		}
-		if (this.speechEnabled === null) { 			
-			this.initSpeech('play'); 
+		if (this.speechEnabled === null) {
+			this.initSpeech('play');
 		}
 	};
 
 	AblePlayer.prototype.handleRestart = function() {
 
-		if (this.speakingDescription) { 
-			// cancel audio description 
-			this.synth.cancel();				
-		}			
+		if (this.speakingDescription) {
+			// cancel audio description
+			this.synth.cancel();
+		}
 		this.seekTo(0);
 	};
 
@@ -1184,8 +1185,8 @@
 				if (this.usingYouTubeCaptions) {
 					this.youTubePlayer.unloadModule('captions');
 				}
-				else if (this.usingVimeoCaptions) { 
-					this.vimeoPlayer.disableTextTrack(); 
+				else if (this.usingVimeoCaptions) {
+					this.vimeoPlayer.disableTextTrack();
 				}
 				else {
 					this.$captionsWrapper.hide();
@@ -1200,7 +1201,7 @@
 				if (this.usingYouTubeCaptions) {
 					this.youTubePlayer.loadModule('captions');
 				}
-				else if (this.usingVimeoCaptions) { 
+				else if (this.usingVimeoCaptions) {
 					this.vimeoPlayer.enableTextTrack(this.captionLang).then(function(track) {
 						// track.language = the iso code for the language
 						// track.kind = 'captions' or 'subtitles'
@@ -1220,7 +1221,7 @@
 								console.log('Error loading ' + track.label + ' ' + track.kind + ' track');
 								break;
 							}
-					});	
+					});
 				}
 				else {
 					this.$captionsWrapper.show();
@@ -1258,7 +1259,7 @@
 						thisObj.captionsPopup.css('left', thisObj.$ccButton.position().left)
 						// Place focus on the first button (even if another button is checked)
 						thisObj.captionsPopup.find('li').removeClass('able-focus');
-						thisObj.captionsPopup.find('li').first().focus().addClass('able-focus');
+						thisObj.captionsPopup.find('li').first().trigger('focus').addClass('able-focus');
 					}, 50);
 				}
 			}
@@ -1268,7 +1269,7 @@
 	/**
 	 * Gives enough time for DOM changes to take effect before adjusting focus.
 	 * Helpful for allowing screen reading of elements whose state is intermittently changed.
-	 * 
+	 *
 	 * @param {*} $el element to focus on
 	 * @param {*} timeout optional wait time in milliseconds before focus
 	 */
@@ -1276,9 +1277,9 @@
 
 		// Default wait time of 50 ms
 		var _timeout = (timeout === undefined || timeout === null) ? 50 : timeout;
-		
+
 		setTimeout(function() {
-			$el.focus();
+			$el.trigger('focus');
 		}, _timeout);
 	}
 
@@ -1292,7 +1293,7 @@
 		if (this.chaptersPopup.is(':visible')) {
 			this.chaptersPopup.hide();
 			this.hidingPopup = false;
-			this.$chaptersButton.attr('aria-expanded','false').focus();
+			this.$chaptersButton.attr('aria-expanded','false').trigger('focus');
 		}
 		else {
 			this.closePopups();
@@ -1305,10 +1306,10 @@
 			// Otherwise, place focus on the first chapter
 			this.chaptersPopup.find('li').removeClass('able-focus');
 			if (this.chaptersPopup.find('li[aria-checked="true"]').length) {
-				this.chaptersPopup.find('li[aria-checked="true"]').focus().addClass('able-focus');
+				this.chaptersPopup.find('li[aria-checked="true"]').trigger('focus').addClass('able-focus');
 			}
 			else {
-				this.chaptersPopup.find('li').first().addClass('able-focus').attr('aria-checked','true').focus();
+				this.chaptersPopup.find('li').first().addClass('able-focus').attr('aria-checked','true').trigger('focus');
 			}
 		}
 	};
@@ -1322,7 +1323,7 @@
 			if (!this.$descDiv.is(':hidden')) {
 				this.$descDiv.hide();
 			}
-			// NOTE: now showing $descDiv here if previously hidden 
+			// NOTE: now showing $descDiv here if previously hidden
 			// that's handled elsewhere, dependent on whether there's text to show
 		}
 		this.initDescription();
@@ -1344,8 +1345,8 @@
 
 		thisObj = this;
 
-		if (this.speechEnabled === null) { 			
-			this.initSpeech('prefs'); 
+		if (this.speechEnabled === null) {
+			this.initSpeech('prefs');
 		}
 		if (this.hidingPopup) {
 			// stopgap to prevent spacebar in Firefox from reopening popup
@@ -1359,7 +1360,7 @@
 			// restore each menu item to original hidden state
 			this.prefsPopup.find('li').removeClass('able-focus').attr('tabindex','-1');
 			if (!this.showingPrefsDialog) {
-				this.$prefsButton.focus();
+				this.$prefsButton.trigger('focus');
 			}
 			// wait briefly, then reset hidingPopup
 			setTimeout(function() {
@@ -1370,7 +1371,7 @@
 			this.closePopups();
 			this.prefsPopup.show();
 			this.$prefsButton.attr('aria-expanded','true');
-			this.$prefsButton.focus(); // focus first on prefs button to announce expanded state
+			this.$prefsButton.trigger('focus'); // focus first on prefs button to announce expanded state
 			// give time for focus on button then adjust popup settings and focus
 			setTimeout(function() {
 				prefsButtonPosition = thisObj.$prefsButton.position();
@@ -1380,7 +1381,7 @@
 				thisObj.prefsPopup.css('left', prefsMenuLeft);
 				// remove prior focus and set focus on first item; also change tabindex from -1 to 0
 				thisObj.prefsPopup.find('li').removeClass('able-focus').attr('tabindex','0');
-				thisObj.prefsPopup.find('li').first().focus().addClass('able-focus');
+				thisObj.prefsPopup.find('li').first().trigger('focus').addClass('able-focus');
 			}, 50);
 		}
 	};
@@ -1399,7 +1400,7 @@
 			this.$transcriptButton.addClass('buttonOff').attr('aria-label',this.tt.showTranscript);
 			this.$transcriptButton.find('span.able-clipped').text(this.tt.showTranscript);
 			this.prefTranscript = 0;
-			this.$transcriptButton.focus().addClass('able-focus');
+			this.$transcriptButton.trigger('focus').addClass('able-focus');
 			// wait briefly before resetting stopgap var
 			// otherwise the keypress used to select 'Close' will trigger the transcript button
 			// Benchmark tests: If this is gonna happen, it typically happens in around 3ms; max 12ms
@@ -1419,7 +1420,7 @@
 			this.prefTranscript = 1;
 			// move focus to first focusable element (window options button)
 			this.focusNotClick = true;
-			this.$transcriptArea.find('button').first().focus();
+			this.$transcriptArea.find('button').first().trigger('focus');
 			// wait briefly before resetting stopgap var
 			setTimeout(function() {
 				thisObj.focusNotClick = false;
@@ -1437,7 +1438,7 @@
 			this.$signButton.addClass('buttonOff').attr('aria-label',this.tt.showSign);
 			this.$signButton.find('span.able-clipped').text(this.tt.showSign);
 			this.prefSign = 0;
-			this.$signButton.focus().addClass('able-focus');
+			this.$signButton.trigger('focus').addClass('able-focus');
 			// wait briefly before resetting stopgap var
 			// otherwise the keypress used to select 'Close' will trigger the transcript button
 			setTimeout(function() {
@@ -1454,7 +1455,7 @@
 			this.$signButton.find('span.able-clipped').text(this.tt.hideSign);
 			this.prefSign = 1;
 			this.focusNotClick = true;
-			this.$signWindow.find('button').first().focus();
+			this.$signWindow.find('button').first().trigger('focus');
 			// wait briefly before resetting stopgap var
 			// otherwise the keypress used to select 'Close' will trigger the transcript button
 			setTimeout(function() {
@@ -1516,7 +1517,7 @@
 			}
 			else {
 				// Exit fullscreen
-				this.restoringAfterFullscreen = true; 
+				this.restoringAfterFullscreen = true;
 				if (document.exitFullscreen) {
 					document.exitFullscreen();
 				}
@@ -1543,7 +1544,7 @@
 				// create a hidden alert, communicated to screen readers via aria-describedby
 				var $fsDialogAlert = $('<p>',{
 					'class': 'able-screenreader-alert'
-				}).text(this.tt.fullscreen); // In English: "Full screen"; TODO: Add alert text that is more descriptive
+				}).text(this.tt.fullScreen); // In English: "Full screen"; TODO: Add alert text that is more descriptive
 				$dialogDiv.append($fsDialogAlert);
 				// now render this as a dialog
 				this.fullscreenDialog = new AccessibleDialog($dialogDiv, this.$fullscreenButton, 'dialog', true, 'Fullscreen video player', $fsDialogAlert, this.tt.exitFullscreen, '100%', true, function () { thisObj.handleFullscreenToggle() });
@@ -1568,7 +1569,7 @@
 					$el.width('100%');
 				}
 				var newHeight = $(window).height() - this.$playerDiv.height();
-				if (typeof this.$descDiv !== 'undefined') {				
+				if (typeof this.$descDiv !== 'undefined') {
 					if (!this.$descDiv.is(':hidden')) {
 						newHeight -= this.$descDiv.height();
 					}
@@ -1589,9 +1590,9 @@
 				this.playMedia();
 			}
 		}
-		// add event handlers for changes in fullscreen mode. 
-		// Browsers natively trigger this event with the Escape key,  
-		// in addition to clicking the exit fullscreen button 
+		// add event handlers for changes in fullscreen mode.
+		// Browsers natively trigger this event with the Escape key,
+		// in addition to clicking the exit fullscreen button
 		$(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', function(e) {
 			// NOTE: e.type = the specific event that fired (in case needing to control for browser-specific idiosyncrasies)
 			if (!thisObj.fullscreen) {
@@ -1615,9 +1616,9 @@
 			// resetting clickedFullscreenButton after a timeout seems to be better approach
 			setTimeout(function() {
 				thisObj.clickedFullscreenButton = false;
-				thisObj.restoringAfterFullscreen = false; 
+				thisObj.restoringAfterFullscreen = false;
 			},1000);
-		});		
+		});
 	};
 
 	AblePlayer.prototype.handleFullscreenToggle = function () {
@@ -1655,7 +1656,7 @@
 				}
 			}
 		}
-		// don't resizePlayer yet; that will be called in response to the window resize event 
+		// don't resizePlayer yet; that will be called in response to the window resize event
 		// this.resizePlayer();
 	};
 
@@ -1771,103 +1772,103 @@
 
 		var captionSizeOkMin, captionSizeOkMax, captionSize, newCaptionSize, newLineHeight;
 
-		var newWidth, newHeight, $iframe, alertTop; 
+		var newWidth, newHeight, $iframe, alertTop;
 
-		if (this.mediaType === 'audio') { 
-			return; 
+		if (this.mediaType === 'audio') {
+			return;
 		}
 
-		if (typeof width !== 'undefined' && typeof height !== 'undefined') { 
-			// this is being called the first time a player is initialized 
+		if (typeof width !== 'undefined' && typeof height !== 'undefined') {
+			// this is being called the first time a player is initialized
 			// width and height were collected from the HTML, YouTube, or Vimeo media API
-			// so are reflective of the actual size of the media 
-			// use these values to calculate aspectRatio 
-			this.aspectRatio = height / width;  
-			if (this.playerWidth) { 
-				// default width is already defined via a width or data-width attribute. Use that. 				
-				newWidth = this.playerWidth; 
-				if (this.playerHeight) { 
-					newHeight = this.playerHeight; 
-				}
-				else { 
-					newHeight = Math.round(newWidth * this.aspectRatio); 
-					this.playerHeight = newHeight; 
-				}
-			}
-			else { 
-				// playerWidth was not defined via HTML attributes 
-				if (this.player === 'html5') { 
-					newWidth = $(window).width();
-				}
-				else { 
-					newWidth = this.$ableWrapper.width(); 
-				}
-				newHeight = Math.round(newWidth * this.aspectRatio); 
-			}				
-		}			
-		else if (this.fullscreen) { 
-			this.$ableWrapper.addClass('fullscreen');  
-			newWidth = $(window).width();			
-			// the 5 pixel buffer is arbitrary, but results in a better fit for all browsers
-			newHeight = $(window).height() - this.$playerDiv.outerHeight() - 5; 
-			this.positionCaptions('overlay');
-		}
-		else { // not fullscreen, and not first time initializing player 			
-			this.$ableWrapper.removeClass('fullscreen');
-			if (this.player === 'html5') { 
-				if (this.playerWidth) { 
-					newWidth = this.playerWidth; 
+			// so are reflective of the actual size of the media
+			// use these values to calculate aspectRatio
+			this.aspectRatio = height / width;
+			if (this.playerWidth) {
+				// default width is already defined via a width or data-width attribute. Use that.
+				newWidth = this.playerWidth;
+				if (this.playerHeight) {
+					newHeight = this.playerHeight;
 				}
 				else {
-					// use full size of window 
-					// player will be downsized to fit container if CSS requires it 
+					newHeight = Math.round(newWidth * this.aspectRatio);
+					this.playerHeight = newHeight;
+				}
+			}
+			else {
+				// playerWidth was not defined via HTML attributes
+				if (this.player === 'html5') {
+					newWidth = $(window).width();
+				}
+				else {
+					newWidth = this.$ableWrapper.width();
+				}
+				newHeight = Math.round(newWidth * this.aspectRatio);
+			}
+		}
+		else if (this.fullscreen) {
+			this.$ableWrapper.addClass('fullscreen');
+			newWidth = $(window).width();
+			// the 5 pixel buffer is arbitrary, but results in a better fit for all browsers
+			newHeight = $(window).height() - this.$playerDiv.outerHeight() - 5;
+			this.positionCaptions('overlay');
+		}
+		else { // not fullscreen, and not first time initializing player
+			this.$ableWrapper.removeClass('fullscreen');
+			if (this.player === 'html5') {
+				if (this.playerWidth) {
+					newWidth = this.playerWidth;
+				}
+				else {
+					// use full size of window
+					// player will be downsized to fit container if CSS requires it
 					newWidth = $(window).width();
 				}
 			}
-			else { 
-				newWidth = this.$ableWrapper.width(); 
+			else {
+				newWidth = this.$ableWrapper.width();
 			}
-			newHeight = Math.round(newWidth * this.aspectRatio); 
-			this.positionCaptions(this.prefCaptionsPosition); 
+			newHeight = Math.round(newWidth * this.aspectRatio);
+			this.positionCaptions(this.prefCaptionsPosition);
 		}
 		if (this.debug) {
-			console.log('resizePlayer to ' + newWidth + 'x' + newHeight); 		
+			console.log('resizePlayer to ' + newWidth + 'x' + newHeight);
 		}
 		// Now size the player with newWidth and newHeight
-		if (this.player === 'youtube' || this.player === 'vimeo') { 
-			$iframe = this.$ableWrapper.find('iframe'); 
-			if (this.player === 'youtube' && this.youTubePlayer) { 
-				// alternatively, YouTube API offers a method for setting the video size 
-				// this adds width and height attributes to the iframe 
-				// but might have other effects, so best to do it this way 
-				this.youTubePlayer.setSize(newWidth,newHeight); 
+		if (this.player === 'youtube' || this.player === 'vimeo') {
+			$iframe = this.$ableWrapper.find('iframe');
+			if (this.player === 'youtube' && this.youTubePlayer) {
+				// alternatively, YouTube API offers a method for setting the video size
+				// this adds width and height attributes to the iframe
+				// but might have other effects, so best to do it this way
+				this.youTubePlayer.setSize(newWidth,newHeight);
 			}
-			else { 
-				// Vimeo API does not have a method for changing size of player 
-				// Therefore, need to change iframe attributes directly 
+			else {
+				// Vimeo API does not have a method for changing size of player
+				// Therefore, need to change iframe attributes directly
 				$iframe.attr({
 					'width': newWidth,
 					'height': newHeight
-				}); 
+				});
 			}
-			if (this.playerWidth && this.playerHeight) { 
-				if (this.fullscreen) { 
-					// remove constraints 
-					$iframe.css({ 
+			if (this.playerWidth && this.playerHeight) {
+				if (this.fullscreen) {
+					// remove constraints
+					$iframe.css({
 						'max-width': '',
 						'max-height': ''
-					});	
+					});
 				}
 				else {
 					// use CSS on iframe to enforce explicitly defined size constraints
-					$iframe.css({ 
+					$iframe.css({
 						'max-width': this.playerWidth + 'px',
 						'max-height': this.playerHeight + 'px'
 					});
 				}
 			}
 		}
-		else if (this.player === 'html5') { 
+		else if (this.player === 'html5') {
 			if (this.fullscreen) {
 				this.$media.attr({
 					'width': newWidth,
@@ -1878,28 +1879,34 @@
 					'height': newHeight
 				});
 			}
-			else { 
-				// No constraints. Let CSS handle the positioning. 
+			else {
+				// No constraints. Let CSS handle the positioning.
 				this.$media.removeAttr('width height');
 				this.$ableWrapper.css({
 					'width': newWidth + 'px',
 					'height': 'auto'
 				});
-			}				
+			}
 		}
 		// Resize captions
 		if (typeof this.$captionsDiv !== 'undefined') {
 
-			// Font-size is too small in full screen view 
-			// use viewport units (vw) instead
-			// % units work fine if not fullscreen  
-			// prefCaptionSize is expressed as a percentage 
-			captionSize = parseInt(this.prefCaptionsSize,10);
-			if (this.fullscreen) { 
-				captionSize = (captionSize / 100) + 'vw'; 
+			// Font-size is too small in full screen view
+			// use viewport units (vw) for large viewports
+			// % units work fine if not fullscreen
+			// prefCaptionSize is expressed as a percentage
+			var isSmallScreen = false;
+			var windowWidth = window.screen.width;
+			if ( windowWidth < 1200 ) {
+				isSmallScreen = true;
 			}
-			else { 
-				captionSize = captionSize + '%'; 
+			captionSize = parseInt(this.prefCaptionsSize,10);
+			if (this.fullscreen && ! isSmallScreen ) {
+				captionSize = (captionSize / 100) + 'vw';
+			} else if ( this.fullscreen && isSmallScreen ) {
+				captionSize = '1.2rem';
+			} else {
+				captionSize = captionSize + '%';
 			}
 			this.$captionsDiv.css({
 				'font-size': captionSize
@@ -1908,15 +1915,15 @@
 
 		// Reposition alert message (video player only)
 		// just below the vertical center of the mediaContainer
-		// hopefully above captions, but not too far from the controller bar		
-		if (this.mediaType === 'video') { 
-			alertTop = Math.round(this.$mediaContainer.height() / 3) * 2;			
+		// hopefully above captions, but not too far from the controller bar
+		if (this.mediaType === 'video') {
+			alertTop = Math.round(this.$mediaContainer.height() / 3) * 2;
 			this.$alertBox.css({
 				top: alertTop + 'px'
 			});
 		}
 
-		this.refreshControls();			
+		this.refreshControls();
 	};
 
 	AblePlayer.prototype.retrieveOffscreenWindow = function( which, width, height ) {
@@ -2121,14 +2128,14 @@
 			this.transcriptDescriptions = descriptions;
 		}
 		if (this.selectedDescriptions) {
-			// updating description voice to match new description language			
-			this.setDescriptionVoice();			
-			if (this.$sampleDescDiv) { 
-				if (this.sampleText) { 
-					for (i = 0; i < this.sampleText.length; i++) { 
-						if (this.sampleText[i].lang === this.selectedDescriptions.language) { 
-							this.currentSampleText = this.sampleText[i]['text']; 
-							this.$sampleDescDiv.html(this.currentSampleText); 
+			// updating description voice to match new description language
+			this.setDescriptionVoice();
+			if (this.$sampleDescDiv) {
+				if (this.sampleText) {
+					for (i = 0; i < this.sampleText.length; i++) {
+						if (this.sampleText[i].lang === this.selectedDescriptions.language) {
+							this.currentSampleText = this.sampleText[i]['text'];
+							this.$sampleDescDiv.html(this.currentSampleText);
 						}
 					}
 				}

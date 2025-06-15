@@ -110,6 +110,8 @@
     // If client has provided separate transcript location, put it there.
     // Otherwise append it to the body
     if (this.transcriptDivLocation) {
+	  this.$transcriptArea.removeAttr( 'role' );
+	  this.$transcriptArea.removeAttr( 'aria-label' );
       $("#" + this.transcriptDivLocation).append(this.$transcriptArea);
     } else {
       this.$ableWrapper.append(this.$transcriptArea);
@@ -136,7 +138,7 @@
   AblePlayer.prototype.addTranscriptAreaEvents = function () {
     var thisObj = this;
 
-    this.$autoScrollTranscriptCheckbox.click(function () {
+    this.$autoScrollTranscriptCheckbox.on( 'click', function () {
       thisObj.handleTranscriptLockToggle(
         thisObj.$autoScrollTranscriptCheckbox.prop("checked")
       );
@@ -307,7 +309,7 @@
     if (this.$transcriptArea.length > 0) {
       this.$transcriptArea
         .find("span.able-transcript-seekpoint")
-        .click(function (e) {
+        .on( 'click', function (e) {
           thisObj.seekTrigger = "transcript";
           var spanStart = parseFloat($(this).attr("data-start"));
           // Add a tiny amount so that we're inside the span.

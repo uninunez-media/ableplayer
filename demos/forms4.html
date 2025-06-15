@@ -42,7 +42,7 @@
 	(function () {
 		var feedback, answer;
 		$(document).ready(function () {
-			$('#submit').click(function(event) {
+			$('#submit').on( 'click', function(event) {
 				event.preventDefault();
 				answer = $('#favplayer').val().toLowerCase();
 				if (answer.substring(0,4) == 'able') {
@@ -52,7 +52,7 @@
 					feedback = 'Wrong answer! Please try again.';
 				}
 				$('#feedback').text(feedback).show();
-				$('#favplayer').focus();
+				$('#favplayer').trigger('focus');
 			})
 		});
 	})();
@@ -74,7 +74,7 @@
 
 		<form action="#" method="post">
 
-			<video id="video1" preload="auto" width="480" height="360" poster="../media/wwa.jpg" data-able-player data-skin="2020" playsinline>
+			<video id="video1" preload="auto" width="480" height="360" poster="../media/wwa.jpg" data-able-player playsinline>
 				<source type="video/mp4" src="../media/wwa.mp4"/>
 				<source type="video/webm" src="../media/wwa.webm"/>
 				<track kind="captions" src="../media/wwa_captions_en.vtt" srclang="en" label="English captions"/>

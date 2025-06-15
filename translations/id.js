@@ -111,14 +111,11 @@
 // "preferences": "Preferences",
 "preferences": "Preferensi",
 
-// "enterFullscreen": "Enter full screen",
-"enterFullscreen": "Masuk ke mode layar penuh",
+"enterFullScreen": "Masuk ke mode layar penuh",
 
-// "exitFullscreen": "Exit full screen",
-"exitFullscreen": "Keluar dari mode layar penuh",
+"exitFullScreen": "Keluar dari mode layar penuh",
 
-// "fullscreen": "Full screen",
-"fullscreen": "Layar penuh",
+"fullScreen": "Layar penuh",
 
 // "speed": "Speed",
 "speed": "Kecepatan",
