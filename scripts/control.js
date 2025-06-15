@@ -16,6 +16,11 @@
 			this.synth.cancel();
 		}
 
+		if (this.hasSignLanguage && this.signVideo) {
+			// keep sign languge video in sync
+			this.signVideo.currentTime = this.startTime;
+		}
+
 		if (this.player === 'html5') {
 			var seekable;
 
@@ -40,6 +45,10 @@
 				if (typeof this.$posterImg !== 'undefined') {
 					this.$posterImg.hide();
 				}
+			}
+			if (this.hasSignLanguage && this.signVideo) {
+				// keep sign languge video in sync
+				this.signVideo.currentTime = newTime;
 			}
 		}
 		else if (this.player === 'vimeo') {
@@ -204,16 +213,7 @@
 		// - 'buffering' - Momentarily paused to load, but will resume once data is loaded.
 		// - 'playing' - Currently playing.
 
-		// Commented out the following in 3.2.1 - not sure of its intended purpose
-		// It can be useful to know player state even when swapping src
-		// and the overhead is seemingly minimal
-		// TODO - Investigate this further. Delete if it's not needed
-		/*
-		if (this.swappingSrc) {
-			return;
-		}
-		*/
-		var deferred, promise, thisObj, duration, elapsed;
+		var deferred, promise, thisObj;
 		deferred = new $.Deferred();
 		promise = deferred.promise();
 		thisObj = this;
@@ -312,6 +312,10 @@
 			this.syncSpeechToPlaybackRate(rate);
 		}
 
+		if (this.hasSignLanguage && this.signVideo) {
+			this.signVideo.playbackRate = rate;
+		}
+
 		if (this.player === 'html5') {
 			this.media.playbackRate = rate;
 		}
@@ -369,6 +373,10 @@
 
 		var thisObj = this;
 
+		if (this.hasSignLanguage && this.signVideo) {
+			this.signVideo.pause(true);
+		}
+
 		if (this.player === 'html5') {
 			this.media.pause(true);
 			if (this.hasSignLanguage && this.signVideo) {
@@ -386,6 +394,10 @@
 	AblePlayer.prototype.playMedia = function () {
 
 		var thisObj = this;
+
+		if (this.hasSignLanguage && this.signVideo) {
+			this.signVideo.play(true);
+		}
 
 		if (this.player === 'html5') {
 			this.media.play(true);
@@ -491,11 +503,9 @@
 		// duration is expressed as sss.xxx
 		// elapsed is expressed as sss.xxx
 
-		var thisObj, duration, elapsed, lastChapterIndex, displayElapsed,
-			updateLive, textByState, timestamp, widthUsed,
-			leftControls, rightControls, seekbarWidth, seekbarSpacer, captionsCount,
-			buffered, newTop, statusBarHeight, speedHeight, statusBarWidthBreakpoint,
-			newSvgData;
+		var thisObj, duration, lastChapterIndex, displayElapsed, updateLive, textByState, timestamp, widthUsed,
+			leftControls, rightControls, seekbarWidth, captionsCount, buffered, newTop, statusBarHeight, 
+			speedHeight, statusBarWidthBreakpoint, newSvgData;
 
 		thisObj = this;
 		if (this.swappingSrc) {
@@ -1727,10 +1737,6 @@
 			});
 		}
 		else if (location !== 'screenreader') {
-			// The original formula incorporated offset() into the calculation
-			// but at some point this began resulting in an alert that's off-centered
-			// Changed in v2.2.17, but here's the original for reference in case needed:
-			// left: this.$playerDiv.offset().left + (this.$playerDiv.width() / 2) - ($alertBox.width() / 2)
 			$alertBox.css({
 				left: (this.$playerDiv.width() / 2) - ($alertBox.width() / 2)
 			});
@@ -1770,9 +1776,7 @@
 	// Resizes all relevant player attributes.
 	AblePlayer.prototype.resizePlayer = function (width, height) {
 
-		var captionSizeOkMin, captionSizeOkMax, captionSize, newCaptionSize, newLineHeight;
-
-		var newWidth, newHeight, $iframe, alertTop;
+		var captionSize, newWidth, newHeight, $iframe, alertTop;
 
 		if (this.mediaType === 'audio') {
 			return;
@@ -1913,8 +1917,7 @@
 			});
 		}
 
-		// Reposition alert message (video player only)
-		// just below the vertical center of the mediaContainer
+		// Reposition alert message (video player only) below the vertical center of the mediaContainer
 		// hopefully above captions, but not too far from the controller bar
 		if (this.mediaType === 'video') {
 			alertTop = Math.round(this.$mediaContainer.height() / 3) * 2;
@@ -1966,41 +1969,18 @@
 		}
 	};
 
-	AblePlayer.prototype.getHighestZIndex = function() {
-
-		// returns the highest z-index on page
-		// used to ensure dialogs (or potentially other windows) are on top
-
-		var max, $elements, z;
-		max = 0;
-
-		// exclude the Able Player dialogs and windows
-		$elements = $('body *').not('.able-modal-dialog,.able-modal-dialog *,.able-modal-overlay,.able-modal-overlay *,.able-sign-window,.able-transcript-area');
-
-		$elements.each(function(){
-			z = $(this).css('z-index');
-			if (Number.isInteger(+z)) { // work only with integer values, not 'auto'
-				if (parseInt(z) > max) {
-					max = parseInt(z);
-				}
-			}
-		});
-		return max;
-	};
-
 	AblePlayer.prototype.updateZIndex = function(which) {
 
 		// update z-index of 'transcript' or 'sign', relative to each other
 		// direction is always 'up' (i.e., move window to top)
 		// windows come to the top when the user clicks on them
-		var defHighZ, defLowZ, highestZ, transcriptZ, signZ, newHighZ, newLowZ;
+		var defHighZ, defLowZ, transcriptZ, signZ, newHighZ, newLowZ;
 
 		// set the default z-indexes, as defined in ableplayer.css
 		defHighZ = 8000; // by default, assigned to the sign window
 		defLowZ = 7000; // by default, assigned to the transcript area
-		highestZ = this.getHighestZIndex(); // highest z-index on the page, excluding Able Player windows & modals
 
-		// NOTE: Although highestZ is collected here, it currently isn't used.
+		// Previously collected the highest z-index. Removed in 4.6.
 		// If something on the page has a higher z-index than the transcript or sign window, do we care?
 		// Excluding it here assumes "No". Our immediate concern is with the relationship between our own components.
 		// If we elevate our z-indexes so our content is on top, we run the risk of starting a z-index war.
@@ -2079,7 +2059,7 @@
 		// This was a group decision based on the belief that users may want a transcript
 		// that is in a different language than the captions
 
-		var i, captions, descriptions, chapters, meta, langHasChanged;
+		var i, captions, descriptions, chapters, meta;
 
 		// Captions
 		for (i = 0; i < this.captions.length; i++) {

@@ -323,7 +323,6 @@
 				this.prefDescVoiceLang = descLang;
 				// select this voice in the Description Prefs dialog
 				if (this.$voiceSelectField) {
-					var selectedOption = this.$voiceSelectField.find('option[value="' + this.prefDescVoice + '"]');
 					this.$voiceSelectField.val(this.prefDescVoice);
 				}
 				this.updateCookie('voice');
@@ -509,7 +508,7 @@
 			return;
 		}
 
-		var thisObj, i, cues, d, thisDescription, descText, msg;
+		var thisObj, i, cues, d, thisDescription, descText;
 		thisObj = this;
 
 		var flattenComponentForDescription = function (component) {

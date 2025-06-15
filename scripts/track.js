@@ -2,18 +2,9 @@
   // Loads files referenced in track elements, and performs appropriate setup.
   // For example, captions and text descriptions.
   // This will be called whenever the player is recreated.
-  // Added in v2.2.23: Also handles YouTube caption tracks
 
   AblePlayer.prototype.setupTracks = function () {
-    var thisObj,
-      deferred,
-      promise,
-      loadingPromises,
-      loadingPromise,
-      i,
-      tracks,
-      track,
-      kind;
+    var thisObj, deferred, promise, loadingPromises, loadingPromise, i, tracks, track, kind;
 
     thisObj = this;
 
@@ -114,22 +105,8 @@
     // cues - array with startTime, endTime, and payload
     // desc - Boolean, true if track includes a data-desc attribute
 
-    var thisObj,
-      deferred,
-      promise,
-      captionTracks,
-      altCaptionTracks,
-      trackLang,
-      trackLabel,
-      isDefault,
-      forDesc,
-      hasDefault,
-      hasTrackInDefLang,
-      trackFound,
-      i,
-      j,
-      capLabel,
-      inserted;
+    var thisObj, deferred, promise, trackLang, trackLabel, isDefault, forDesc, 
+	hasDefault, hasTrackInDefLang, trackFound, i, j;
 
     thisObj = this;
     hasDefault = false;
@@ -286,7 +263,7 @@
 
   AblePlayer.prototype.setupCaptions = function (track, cues) {
     // Setup player for display of captions (one track at a time)
-    var thisObj, captions, inserted, i, capLabel;
+    var thisObj, inserted, i, capLabel;
 
     // Insert track into captions array
     // in its proper alphabetical sequence by label

@@ -357,7 +357,7 @@
     // this function handles stylizing of the sample caption text in the Prefs dialog
     // plus the actual production captions
     // TODO: consider applying the same user prefs to visible text-based description
-    var property, newValue, opacity, lineHeight;
+    var property, newValue, opacity;
 
     if (typeof $element !== "undefined") {
       if (pref == "prefCaptionsPosition") {

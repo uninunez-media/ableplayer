@@ -721,7 +721,6 @@
     // organize transcript into blocks using [] and () as starting points
     var $components = $main.children();
     var spanCount = 0;
-    var openBlock = true;
     $components.each(function () {
       if ($(this).hasClass("able-transcript-caption")) {
         if (

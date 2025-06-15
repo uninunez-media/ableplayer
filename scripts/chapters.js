@@ -2,8 +2,7 @@
 
 	AblePlayer.prototype.populateChaptersDiv = function() {
 
-		var headingLevel, headingType, headingId, $chaptersHeading,
-			$chaptersList;
+		var headingLevel, headingType, headingId, $chaptersHeading;
 
 		if ($('#' + this.chaptersDivLocation)) {
 
@@ -42,7 +41,7 @@
 	AblePlayer.prototype.updateChaptersList = function() {
 
 		var thisObj, cues, $chaptersList, c, thisChapter,
-			$chapterItem, $chapterButton, buttonId, hasDefault,
+			$chapterItem, $chapterButton, hasDefault,
 			getClickFunction, $clickedItem, $chaptersList, thisChapterIndex;
 
 		thisObj = this;
@@ -155,7 +154,7 @@
 			return;
 		}
 
-		var chapters, i, thisChapterIndex, chapterLabel;
+		var chapters, i, thisChapterIndex;
 
 		chapters = this.selectedChapters.cues;
 		for (i = 0; i < chapters.length; i++) {

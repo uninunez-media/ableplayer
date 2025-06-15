@@ -22,7 +22,7 @@
 				 'class': 'modalCloseButton',
 				 'title': thisObj.closeButtonLabel,
 				 'aria-label': thisObj.closeButtonLabel
-			}).text('X');
+			}).text('×');
 			closeButton.on( 'keydown', function (e) {
 				// Space key down
 				if (e.which === 32) {
@@ -34,7 +34,6 @@
 
 			var titleH1 = $('<h1></h1>');
 			titleH1.attr('id', 'modalTitle-' + this.baseId);
-			titleH1.css('text-align', 'center');
 			titleH1.text(title);
 			this.titleH1 = titleH1;
 

@@ -74,7 +74,7 @@
 			var caption =
 				thisObj.computeEndTime(attributes.begin, '00:00:0') +
 				' --> ' +
-				thisObj.computeEndTime(attributes.begin, attributes.dur) +
+				endTime +
 				'\n' +
 				(isArray ? text.join('\n') : text) +
 				'\n\n';

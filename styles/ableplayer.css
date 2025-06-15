@@ -46,16 +46,16 @@
   position: relative;
   margin: 0;
   padding: 0;
-  width: 100%; /* will be changed dynamically as player is contructed */
+  width: 100%; /* will be changed dynamically as player is constructed */
   background-color: #000;
   box-shadow: 0px 0px 16px #262626;
   z-index: 5000;
 }
-.able-column-left {
-    float: left;
-}
-.able-column-right {
-    float: left;
+.able-control-row {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	align-items: center;
 }
 .able .able-vidcap-container {
   background-color: #000;
@@ -164,12 +164,6 @@
 }
 .able-left-controls div[role="button"], .able-right-controls div[role="button"] {
     vertical-align: middle;
-}
-.able-left-controls {
-  float: left;
-}
-.able-right-controls {
-  float: right;
 }
 .able-black-controls,
 .able-black-controls div[role="button"],
@@ -285,14 +279,13 @@
   Volume Slider
 */
 .able-volume-slider {
-  width: 34px;
-  height: 80px;
+  height: 120px;
   background-color: #464646; /* same as .able-controller */
   margin: 0;
-  padding: 5px 0;
+  padding: 8px;
   position: absolute;
   right: 0px;
-  bottom: 60px;
+  bottom: 66px;
   display: block;
   z-index: 9100;
 }
@@ -301,7 +294,8 @@
 }
 
 .able-volume-slider input[type="range"] {
-  writing-mode: vertical-lr;
+  appearance: slider-vertical;
+  writing-mode: bt-rl;
   /* -webkit-appearance: none; */ /* Hides the slider so that custom slider can be made */
   width: 28px;
   height: 100%;
@@ -325,18 +319,8 @@ input[type=range]::-moz-range-thumb {
 }
 
 /*
-  TODO: Style the slider in webkit to match the one in Mozilla
-  First attempt at this was unsuccessful; it's quite fussy
-  Placeholder selectors are provided below
-  Also, will need to uncomment -webkit-appearance: none in slider rule above
-*/
-.able-volume-slider input[type=range]::-webkit-slider-runnable-track {}
-.able-volume-slider input[type=range]::-webkit-slider-thumb {}
-
-/*
   Status Bar
 */
-
 .able-status-bar {
   height: 1.5em;
   min-height: 1.5em;
@@ -449,12 +433,16 @@ div.able-modal-dialog {
   box-sizing: content-box !important;
   z-index: 10000;
   max-height: 90%;
-  overflow: scroll;
+  overflow: auto;
 }
 @supports (transform: translate(-50%,-50%)) {
   div.able-modal-dialog {
     top: 50%;
     left: 50%;
+	width: 50rem;
+	max-width: 100%;
+	margin-left: 0;
+	margin-right: 0;
     transform: translate(-50%,-50%) !important;
   }
 }
@@ -476,6 +464,8 @@ button.modalCloseButton {
   position: absolute;
   top: 5px;
   right: 5px;
+  font-weight: 700;
+  font-size: 1.2rem;
 }
 button.modal-button {
   margin-right: 5px;
@@ -892,7 +882,6 @@ ul.able-popup {
 .able-transcript-area {
   border-width: 1px;
   border-style: solid;
-  height: 400px;
   z-index: 7000;
   outline: none;
   padding-bottom: 25px; /* keep content above 16x16px drag icon */
@@ -901,9 +890,8 @@ ul.able-popup {
 .able-transcript {
   position: relative; /* must be positioned for scrolling */
   overflow-y: scroll;
-  padding-left: 5%;
-  padding-right: 5%;
-  /* width: 90%; */
+  padding-left: 1rem;
+  padding-right: 1rem;
   background-color: #fff;
   height: 350px;
 }
@@ -1136,10 +1124,6 @@ button.able-search-results-time:active {
 #able-vts table td button svg {
   width: 16px;
   height: 16px;
-}
-#able-vts table button:hover,
-#able-vts table button:focus  {
-  /*    border: 3px solid #66c2ff; */
 }
 #able-vts table button:hover svg {
   fill: #c00;
@@ -1384,5 +1368,3 @@ div.able-skin-2020 div.able-seekbar-wrapper {
 .icon-help:before {
     content: "\f128";
 }
-
-

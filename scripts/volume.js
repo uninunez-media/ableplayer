@@ -7,14 +7,13 @@
 		// including screen reader support
 		// TODO: Improve presentation of vertical slider. That requires some CSS finesse.
 
-		var thisObj, volumeSliderId, volumeHelpId, volumePct, tickLabelsId, $tickLabels, i, $tickOption, tickLabel;
+		var thisObj, volumeSliderId, volumeHelpId, volumePct, volumeLabel;
 
 		thisObj = this;
 
 		// define a few variables
 		volumeSliderId = this.mediaId + '-volume-slider';
 		volumeHelpId = this.mediaId + '-volume-help';
-		tickLabelsId = this.mediaId + '-volume-tick-labels';
 
 		this.$volumeSlider = $('<div>',{
 			'id': volumeSliderId,
@@ -30,9 +29,9 @@
 			'min': '0',
 			'max': '10',
 			'step': '1',
+			'orient': 'vertical', // non-standard, but required for Firefox
 			'aria-label': this.tt.volumeUpDown,
 			'value': this.volume
-			// 'list': tickLabelsId // Uncomment this to use tickLabels (see note below)
 		});
 		volumePct = parseInt(thisObj.volume) / 10 * 100;
 		this.$volumeHelp = $('<div>',{
@@ -40,30 +39,9 @@
 			'class': 'able-volume-help',
 			'aria-live': 'polite'
 		}).text(volumePct + '%');
-		this.$volumeButton.attr({
-			'aria-describedby': volumeHelpId
-		});
-		$tickLabels = $('<datalist>',{
-			'id': tickLabelsId
-		});
-		for (i = 0; i <= 10; i++) {
-			if (i === 0) {
-				tickLabel = this.tt.mute;
-			}
-			else {
-				tickLabel = (i * 10) + '%';
-			}
-			$tickOption = $('<option>',{
-				'value': i,
-				'label': tickLabel
-			})
-			$tickLabels.append($tickOption);
-		}
+		volumeLabel = this.$volumeButton.attr( 'aria-label' );
+		this.$volumeButton.attr( 'aria-label', volumeLabel + ' ' + volumePct + '%');
 		this.$volumeSlider.append(this.$volumeSliderTooltip,this.$volumeRange,this.$volumeHelp);
-		// To add $tickLabels, use the following line of code to replace the one above
-		// and uncommnet the 'list' property in the definition of this.$volumeRange above
-		// As of Nov 2022, this feature is not supported by any screen reader
-		// this.$volumeSlider.append(this.$volumeSliderTooltip,this.$volumeRange,this.$volumeHelp,$tickLabels);
 
 		$div.append(this.$volumeSlider);
 
@@ -130,6 +108,7 @@
 		else if (this.iconType === 'image') {
 			volumeImg = this.imgPath + 'volume-' + volumeName + '.png';
 			this.$volumeButton.find('img').attr('src',volumeImg);
+			this.$volumeButton.find('img').attr('alt',volumeLabel);
 		}
 		else if (this.iconType === 'svg') {
 			if (volumeName !== 'mute') {
@@ -138,6 +117,7 @@
 			newSvgData = this.getSvgData(volumeName);
 			this.$volumeButton.find('svg').attr('viewBox',newSvgData[0]);
 			this.$volumeButton.find('path').attr('d',newSvgData[1]);
+			this.$volumeButton.attr( 'aria-label', volumeLabel );
 		}
 	};
 
@@ -296,7 +276,6 @@
 			newVolume = volume / 10;
 			this.vimeoPlayer.setVolume(newVolume).then(function() {
 				// setVolume finished.
-				// could do something here
 				// successful completion also fires a 'volumechange' event (see event.js)
 			});
 		}
