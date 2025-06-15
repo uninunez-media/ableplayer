@@ -1,5 +1,5 @@
 /*! ableplayer V4.5.2-dev with DOMPurify included */
-/*! @license DOMPurify 3.2.4 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.2.4/LICENSE */
+/*! @license DOMPurify 3.2.6 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.2.6/LICENSE */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -65,6 +65,9 @@
    */
   function unapply(func) {
     return function (thisArg) {
+      if (thisArg instanceof RegExp) {
+        thisArg.lastIndex = 0;
+      }
       for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
         args[_key - 1] = arguments[_key];
       }
@@ -206,7 +209,7 @@
   const TMPLIT_EXPR = seal(/\$\{[\w\W]*/gm); // eslint-disable-line unicorn/better-regex
   const DATA_ATTR = seal(/^data-[\-\w.\u00B7-\uFFFF]+$/); // eslint-disable-line no-useless-escape
   const ARIA_ATTR = seal(/^aria-[\-\w]+$/); // eslint-disable-line no-useless-escape
-  const IS_ALLOWED_URI = seal(/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i // eslint-disable-line no-useless-escape
+  const IS_ALLOWED_URI = seal(/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp|matrix):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i // eslint-disable-line no-useless-escape
   );
   const IS_SCRIPT_OR_DATA = seal(/^(?:\w+script|data):/i);
   const ATTR_WHITESPACE = seal(/[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g // eslint-disable-line no-control-regex
@@ -303,7 +306,7 @@
   function createDOMPurify() {
     let window = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : getGlobal();
     const DOMPurify = root => createDOMPurify(root);
-    DOMPurify.version = '3.2.4';
+    DOMPurify.version = '3.2.6';
     DOMPurify.removed = [];
     if (!window || !window.document || window.document.nodeType !== NODE_TYPE.document || !window.Element) {
       // Not running in a browser, provide a factory function
@@ -542,8 +545,8 @@
       URI_SAFE_ATTRIBUTES = objectHasOwnProperty(cfg, 'ADD_URI_SAFE_ATTR') ? addToSet(clone(DEFAULT_URI_SAFE_ATTRIBUTES), cfg.ADD_URI_SAFE_ATTR, transformCaseFunc) : DEFAULT_URI_SAFE_ATTRIBUTES;
       DATA_URI_TAGS = objectHasOwnProperty(cfg, 'ADD_DATA_URI_TAGS') ? addToSet(clone(DEFAULT_DATA_URI_TAGS), cfg.ADD_DATA_URI_TAGS, transformCaseFunc) : DEFAULT_DATA_URI_TAGS;
       FORBID_CONTENTS = objectHasOwnProperty(cfg, 'FORBID_CONTENTS') ? addToSet({}, cfg.FORBID_CONTENTS, transformCaseFunc) : DEFAULT_FORBID_CONTENTS;
-      FORBID_TAGS = objectHasOwnProperty(cfg, 'FORBID_TAGS') ? addToSet({}, cfg.FORBID_TAGS, transformCaseFunc) : {};
-      FORBID_ATTR = objectHasOwnProperty(cfg, 'FORBID_ATTR') ? addToSet({}, cfg.FORBID_ATTR, transformCaseFunc) : {};
+      FORBID_TAGS = objectHasOwnProperty(cfg, 'FORBID_TAGS') ? addToSet({}, cfg.FORBID_TAGS, transformCaseFunc) : clone({});
+      FORBID_ATTR = objectHasOwnProperty(cfg, 'FORBID_ATTR') ? addToSet({}, cfg.FORBID_ATTR, transformCaseFunc) : clone({});
       USE_PROFILES = objectHasOwnProperty(cfg, 'USE_PROFILES') ? cfg.USE_PROFILES : false;
       ALLOW_ARIA_ATTR = cfg.ALLOW_ARIA_ATTR !== false; // Default true
       ALLOW_DATA_ATTR = cfg.ALLOW_DATA_ATTR !== false; // Default true
@@ -908,7 +911,7 @@
         allowedTags: ALLOWED_TAGS
       });
       /* Detect mXSS attempts abusing namespace confusion */
-      if (currentNode.hasChildNodes() && !_isNode(currentNode.firstElementChild) && regExpTest(/<[/\w]/g, currentNode.innerHTML) && regExpTest(/<[/\w]/g, currentNode.textContent)) {
+      if (SAFE_FOR_XML && currentNode.hasChildNodes() && !_isNode(currentNode.firstElementChild) && regExpTest(/<[/\w!]/g, currentNode.innerHTML) && regExpTest(/<[/\w!]/g, currentNode.textContent)) {
         _forceRemove(currentNode);
         return true;
       }
@@ -1060,7 +1063,8 @@
           value: attrValue
         } = attr;
         const lcName = transformCaseFunc(name);
-        let value = name === 'value' ? attrValue : stringTrim(attrValue);
+        const initValue = attrValue;
+        let value = name === 'value' ? initValue : stringTrim(initValue);
         /* Execute a hook if present */
         hookEvent.attrName = lcName;
         hookEvent.attrValue = value;
@@ -1086,10 +1090,9 @@
         if (hookEvent.forceKeepAttr) {
           continue;
         }
-        /* Remove attribute */
-        _removeAttribute(name, currentNode);
         /* Did the hooks approve of the attribute? */
         if (!hookEvent.keepAttr) {
+          _removeAttribute(name, currentNode);
           continue;
         }
         /* Work around a security issue in jQuery 3.0 */
@@ -1106,6 +1109,7 @@
         /* Is `value` valid for this attribute? */
         const lcTag = transformCaseFunc(currentNode.nodeName);
         if (!_isValidAttribute(lcTag, lcName, value)) {
+          _removeAttribute(name, currentNode);
           continue;
         }
         /* Handle attributes that require Trusted Types */
@@ -1126,19 +1130,23 @@
           }
         }
         /* Handle invalid data-* attribute set by try-catching it */
-        try {
-          if (namespaceURI) {
-            currentNode.setAttributeNS(namespaceURI, name, value);
-          } else {
-            /* Fallback to setAttribute() for browser-unrecognized namespaces e.g. "x-schema". */
-            currentNode.setAttribute(name, value);
+        if (value !== initValue) {
+          try {
+            if (namespaceURI) {
+              currentNode.setAttributeNS(namespaceURI, name, value);
+            } else {
+              /* Fallback to setAttribute() for browser-unrecognized namespaces e.g. "x-schema". */
+              currentNode.setAttribute(name, value);
+            }
+            if (_isClobbered(currentNode)) {
+              _forceRemove(currentNode);
+            } else {
+              arrayPop(DOMPurify.removed);
+            }
+          } catch (_) {
+            _removeAttribute(name, currentNode);
           }
-          if (_isClobbered(currentNode)) {
-            _forceRemove(currentNode);
-          } else {
-            arrayPop(DOMPurify.removed);
-          }
-        } catch (_) {}
+        }
       }
       /* Execute a hook if present */
       _executeHooks(hooks.afterSanitizeAttributes, currentNode, null);
@@ -6552,6 +6560,19 @@ var AblePlayerInstances = [];
 		var $sourceSpans = $newItem.children('span.able-source');
 		if ($sourceSpans.length) {
 			$sourceSpans.each(function() {
+				if (thisObj.hasAttr($(this),'data-src')) {
+					// this is the only required attribute
+					$newSource = $('<source>',{
+						'src': $(this).attr('data-src')
+					});
+					if (thisObj.hasAttr($(this),'data-type')) {
+						$newSource.attr('type',$(this).attr('data-type'));
+					}
+					if (thisObj.hasAttr($(this),'data-desc-src')) {
+						$newSource.attr('data-desc-src',$(this).attr('data-desc-src'));
+					}
+					if (thisObj.hasAttr($(this),'data-sign-src')) {
+						$newSource.attr('data-sign-src',$(this).attr('data-sign-src'));
 				const $this = $(this);
  
 				// Check if the required data-src attribute exists
@@ -6875,10 +6896,14 @@ var preProcessing = {
   },
 
   /**
-   * Transforms <v> tags by adding a title attribute with the concatenated text and retaining other attributes.
+   * Transforms <v> tags by extracting any non-attribute text as a `title` attribute,
+   * retains existing attributes (except class), and preserves the class attribute if present.
+   * Example: <v John class="foo" data-x="y"> becomes <v title="John" data-x="y" class="foo">
+   *
+   * @function
    * @memberof preProcessing
-   * @param {string} content - The content with processed <lang> tags.
-   * @returns {string} - The content with <v> tags transformed.
+   * @param {string} content - The string content containing <v> tags to process.
+   * @returns {string} The content with <v> tags transformed to include a title attribute and preserved attributes.
    */
   transformVTags: function (content) {
     return content.replace(/<v\s+([^>]*?)>/g, function (_, tagAttributes) {
@@ -6944,17 +6969,26 @@ var postProcessing = {
   },
 
   /**
-   * Post-processes <v> tags by converting class attributes to dot-separated class names.
+   * * Post-processes <v> tags by converting class attributes, no matter where found in the attribute order, to dot-separated class names.
+   * For example, <v class="foo bar" title="John"> becomes <v.foo.bar title="John">.
+   * Removes the class attribute and appends other attributes after the class names.
+   *
+   * @function
    * @memberof postProcessing
    * @param {string} vttContent - The VTT content to be processed.
    * @returns {string} - The VTT content with processed <v> tags.
    */
   postprocessVTag: function (vttContent) {
     return vttContent.replace(
-      /<v class="([\w\s]+)"([^>]*)>/g,
-      function (_, classNames, otherAttrs) {
-        var classes = classNames.split(" ").join(".");
-        return "<v." + classes + otherAttrs + ">";
+      /<v([^>]*)class="([\w\s]+)"([^>]*)>/g,
+      function (_, beforeClass, classNames, afterClass) {
+        var classes = classNames.trim().split(/\s+/).join(".");
+        // Rebuild the tag: <v.{classes}{other attributes}>
+        // Remove class="..." from attributes
+        var attrs = (beforeClass + afterClass)
+          .replace(/\s*class="[\w\s]+"/, "")
+          .trim();
+        return "<v." + classes + (attrs ? " " + attrs : "") + ">";
       }
     );
   },
