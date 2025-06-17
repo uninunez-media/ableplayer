@@ -92,7 +92,7 @@ Dependencies
 
 *Able Player* has the following third party dependencies: 
 
-- *Able Player* uses [jQuery][]. Version 3.2.1 or higher is recommended.
+- *Able Player* uses [jQuery][]. Version 3.5.0 or higher is recommended.
     The example code below uses Google’s hosted libraries; no download required.
 - *Able Player* uses [js-cookie][] to store and retrieve user
     preferences in cookies. The example code below uses CDN’s hosted libraries; 
@@ -103,19 +103,18 @@ Dependencies
   - Alternatively, the `build/separate-dompurify` directory houses copies of the AblePlayer files with AblePlayer code only and a stand-alone copy of the current version of DOMPurify that the project is currently using. These files are available for those who want to load DOMPurify via a separate file or want to use a CDN hosted version.
     
 To install Able Player, copy the following files from the Able Player repo into a folder on your web server:
-- 		build/* 
--		button-icons/*
-- 		images/*
--		styles/* (optional, see note below)
--		translations/* 
--		LICENSE 
+- `build/*` 
+- `button-icons/*`
+- `images/*`
+- `styles/*` (optional, see note below)
+- `translations/*`
+- `LICENSE` 
 
 The *build* folder includes minified production code (*ableplayer.min.js* and *ableplayer.min.css*). 
 For debugging and/or style customization purposes, human-readable source files are also available: 
--		build/ableplayer.js 
--		styles/ableplayer.css 
+- `build/ableplayer.js`
+- `styles/ableplayer.css`
  
-
 Fallback
 --------
 
