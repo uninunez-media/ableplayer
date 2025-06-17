@@ -38,8 +38,9 @@
 - Add URL validation to src and track URLs.
 
 ### Internationalization
-- Fixed Polish, Canadian, Indonesian translations.
+- Fixed issues in Polish, Canadian, and Indonesian translations.
 - Fix translations references for full screen text strings.
+- Added Malay translation.
 
 ### Contributors
 
