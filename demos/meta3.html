@@ -20,7 +20,6 @@
 <style>
 	div#video-and-meta-wrapper {
 		position: relative;
-		/* no width and height, this will be assigned dynamically */
 	}
 	div.meta {
 		position: absolute;
@@ -86,7 +85,7 @@
 	$(document).ready(function() {
 
 		// In order to absolute-position block overlays on video,
-		// a parent of both video & overlays (in this case, div#vide-and-meta-wrapper)
+		// a parent of both video & overlays (in this case, div#video-and-meta-wrapper)
 		// must be positioned with width and height
 		// However, with fixed width and height the video is not responsive using CSS alone
 		// So, we need to use JavaScript to calculate and assign the width and height

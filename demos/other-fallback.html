@@ -19,12 +19,8 @@
 <!-- Example CSS for fallback content -->
 <style>
 	.fallback {
-		margin: 1em; 
 		padding: 1em;
 		border: 3px solid #340449; 
-		width: 640px;
-		max-width: 90%;
-		font-weight: bold;
 		background-color: #FFC;
 		color: #000; 
 	}
@@ -46,24 +42,13 @@
 
 		<p>This page includes several examples of media elements with fallback content:</p>
 		<ul>
-			<li>If there is an error building Able Player, 
-				the browser's native media player should appear 
-				(emulated here with <strong>data-test-fallback="1"</strong>).
-			</li>
-			<li>If the browser doesn't support HTML media, 
-				the browser should display fallback content that's nested within the 
-				&lt;audio&gt; or &lt;video&gt; elements
-				(emulated here with <strong>data-test-fallback="2"</strong>). 
-			</li>
+			<li>If there is an error building Able Player, the browser's native media player should appear (emulated here with <strong>data-test-fallback="1"</strong>).</li>
+			<li>If the browser doesn't support HTML media, the browser should display fallback content that's nested within the &lt;audio&gt; or &lt;video&gt; elements (emulated here with <strong>data-test-fallback="2"</strong>).</li>
 		</ul>
 
-		<p><strong>NOTE:</strong> On this example page, the fallback content 
-			has been stylized using CSS. If no fallback content is provided, Able Player will display 
-				a short error message in Engish (see Video Example 4). This content is not stylized;   
-				it's better to provide your own fallback than to rely on ours. 
+		<p>
+			<strong>NOTE:</strong> On this example page, the fallback content has been stylized using CSS. If no fallback content is provided, Able Player will display a short error message in Engish (see Video Example 4). This content is not stylized; it's better to provide your own fallback than to rely on ours. 
 		</p>
-
-		<p>For additional demos see the <a href="index.html">Index of <em>Able Player</em> Examples</a>.</p>
 
 		<section aria-labelledby="audio1-heading">
 			<h2 id="audio1-heading">Audio Example 1</h2>
@@ -160,7 +145,6 @@
 				<track kind="chapters" src="../media/wwa_chapters_en.vtt" srclang="en"/>
 			</video>
 		</section>
-
 	</main>
 </body>
 </html>
