@@ -21,6 +21,8 @@ header {
 	color: white; 
 	background: #212121;
 	background: linear-gradient(to top, #373737, #212121);
+	display: flex;
+	align-items: center;
 }
 
 header .title,
@@ -33,9 +35,12 @@ nav {
 }
 
 header .title { 
-	padding: 1em 0.5em 1em;
 	font-size: 2.6em;
 	font-weight: 700;
+}
+
+nav {
+	max-width: 680px;
 }
 
 nav ul { 
@@ -48,7 +53,6 @@ nav ul {
 	background: #fff;
 	border-radius: 0 0 8px 8px;
 	box-shadow: 3px 3px 3px #ccc;
-	max-width: 680px;
 }
 nav li { 
 	display: inline;
