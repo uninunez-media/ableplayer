@@ -31,29 +31,30 @@
 	<main>
 		<h1>Audio in "Lyrics Mode"</h1>
 
-<p>All tracks are supported in Able Player for both video and audio, with the exception of 
-	descriptions. This example includes captions, subtitles, and chapters tracks.
-</p>
-<p>The transcript (in this case, song lyrics) is provided in a captions file (in French) 
-	and a subtitles file (in English). Since the song is in French, the French subtitles 
-	are set as the default track with the <strong>default</strong> attribute. 
-	The following optional attributes affect the transcript:
-</p>
-<ul>
-	<li><strong>data-lyrics-mode</strong> - forces a line break between and within captions in the transcript</li>
-	<li><strong>data-transcript-title</strong> - to override default title, which is "Transcript", or "Lyrics" if the data-lyrics-mode attribute is present</li>
-</ul>
+		<p>All tracks are supported in Able Player for both video and audio, with the exception of 
+			descriptions. This example includes captions, subtitles, and chapters tracks.
+		</p>
+		<p>The transcript (in this case, song lyrics) is provided in a captions file (in French) 
+			and a subtitles file (in English). Since the song is in French, the French subtitles 
+			are set as the default track with the <strong>default</strong> attribute. 
+			The following optional attributes affect the transcript:
+		</p>
+		<ul>
+			<li><strong>data-lyrics-mode</strong> - forces a line break between and within captions in the transcript</li>
+			<li><strong>data-transcript-title</strong> - to override default title, which is "Transcript", or "Lyrics" if the data-lyrics-mode attribute is present</li>
+		</ul>
 
-<!-- use the following markup for each media element -->
-<audio id="audio1" width="480" class="ump-media" preload="auto" data-able-player data-lyrics-mode data-transcript-title="Sing along!">
-	<source type="audio/mpeg" src="../media/frenchsong.mp3"/>
-	<source type="audio/ogg" src="../media/frenchsong.ogg"/>
-	<track kind="captions" src="../media/frenchsong_captions_fr.vtt" srclang="fr" label="Français" default/>
-	<track kind="subtitles" src="../media/frenchsong_captions_en.vtt" srclang="en" label="English"/>
-	<track kind="chapters" src="../media/frenchsong_chapters_fr.vtt" srclang="fr" label="Français"/>
-	<track kind="chapters" src="../media/frenchsong_chapters_en.vtt" srclang="en" label="English"/>
-</audio>
-
+		<div id="wrapper">
+			<!-- use the following markup for each media element -->
+			<audio id="audio1" width="480" class="ump-media" preload="auto" data-able-player data-lyrics-mode data-transcript-title="Sing along!">
+				<source type="audio/mpeg" src="../media/frenchsong.mp3"/>
+				<source type="audio/ogg" src="../media/frenchsong.ogg"/>
+				<track kind="captions" src="../media/frenchsong_captions_fr.vtt" srclang="fr" label="Français" default/>
+				<track kind="subtitles" src="../media/frenchsong_captions_en.vtt" srclang="en" label="English"/>
+				<track kind="chapters" src="../media/frenchsong_chapters_fr.vtt" srclang="fr" label="Français"/>
+				<track kind="chapters" src="../media/frenchsong_chapters_en.vtt" srclang="en" label="English"/>
+			</audio>
+		</div>
 </main>
 </body>
 </html>
