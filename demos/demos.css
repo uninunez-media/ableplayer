@@ -48,6 +48,7 @@ nav ul {
 	background: #fff;
 	border-radius: 0 0 8px 8px;
 	box-shadow: 3px 3px 3px #ccc;
+	max-width: 680px;
 }
 nav li { 
 	display: inline;
