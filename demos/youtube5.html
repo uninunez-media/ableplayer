@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Audio with One Track | Able Player Demos</title>
+<title>YouTube player (no captions) | Able Player Demos</title>
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
@@ -15,7 +15,6 @@
 
 <!-- Able Player JavaScript -->
 <script src="../build/ableplayer.js"></script>
-
 </head>
 
 <body>
@@ -29,12 +28,24 @@
 		</ul>
 	</nav>
 	<main>
-		<h1>Audio with One Track</h1>
+		<h1>YouTube player (no captions)</h1>
 
-		<audio id="audio1" width="480" preload="auto" data-able-player>
-			<source type="audio/mpeg" src="../media/smallf.mp3"/>
-			<source type="audio/ogg" src="../media/smallf.ogg"/>
-		</audio>
+		<div id="intro">
+
+			<p>This page features an example of Able Player being used to play a YouTube video. 
+			This video does not have captions, and is used solely to test Able Player's ability to handle uncaptioned videos. However, all videos <em>should</em> be captioned.</p>
+				
+		</div>
+
+		<!-- Example YouTube IDs for testing: 
+		Video with machine-generated captions: r13a8d5YGFY
+		Video with no captions at all: zaonYTmFaBU
+		-->
+		<div class="wrapper">
+			<video id="video1" data-able-player preload="auto" data-youtube-id="zaonYTmFaBU" playsinline>
+			</video>
+		</div>
+
 	</main>
 </body>
 </html>

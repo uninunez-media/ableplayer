@@ -69,6 +69,16 @@ describe("validate.js tests", () => {
         expectedOutput: "<v.first.second>Some text</v>",
       },
       {
+        description: "should postprocess <v> tags correctly, multiple attributes",
+        input: '<v class="first second" title="Hello">Some text</v>',
+        expectedOutput: '<v.first.second title="Hello">Some text</v>',
+      },
+            {
+        description: "should postprocess <v> tags correctly, different attribute order",
+        input: '<v title="Hello" class="first second">Some text</v>',
+        expectedOutput: '<v.first.second title="Hello">Some text</v>',
+      },
+      {
         description: "should postprocess <lang> tags correctly",
         input: '<lang lang="en">Some text</lang>',
         expectedOutput: "<lang en>Some text</lang>",
@@ -169,7 +179,7 @@ describe("sanitizeVttContent", () => {
     console.log("Result ends with:", result.slice(-30));
     console.log("Expected ends with:", "<v>text</v>".repeat(3));
 
-    debugger; // Pause execution here to inspect the logs
+    // debugger; // Pause execution here to inspect the logs
 
     expect(result.length).toBe(
       largeInput.length - '<script>alert("XSS")</script>'.length
@@ -186,5 +196,54 @@ describe("sanitizeVttContent", () => {
       return window.validate.sanitizeVttContent(input);
     }, randomInput);
     expect(result).toBe(randomInput);
+  });
+});
+/**
+ * Test cases for isProtocolSafe function
+ */
+describe("isProtocolSafe", () => {
+  // Define test cases inside the describe block
+  const testCases = [
+    {
+      description: "returns true for valid HTTP URL",
+      url: "http://example.com",
+      expected: true,
+    },
+    {
+      description: "returns true for valid HTTPS URL",
+      url: "https://example.com",
+      expected: true,
+    },
+    {
+      description: "returns true for omitted protocol URL",
+      url: "//example.com",
+      expected: true,
+    },
+    {
+      description: "returns true for relative URL",
+      url: "/path/to/resource",
+      expected: true,
+    },
+    {
+      description: "returns false for javascript protocol",
+      url: "javascript:alert(1)",
+      expected: false,
+    },
+    {
+      description: "returns false for data protocol",
+      url: "data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==",
+      expected: false,
+    },
+  ];
+
+  // Iterate through each test case
+  testCases.forEach(({ description, url, expected }) => {
+    test(description, async () => {
+      const result = await page.evaluate((url) => {
+        return window.validate.isProtocolSafe(url);
+      }, url);
+      // Pass the `url` variable into the browser context
+      expect(result).toBe(expected);
+    });
   });
 });

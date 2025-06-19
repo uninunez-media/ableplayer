@@ -4,21 +4,21 @@
 
 		// create and inject surrounding HTML structure
 		// If IOS:
-		//	If video:
-		//	 IOS does not support any of the player's functionality
-		//	 - everything plays in its own player
-		//	 Therefore, AblePlayer is not loaded & all functionality is disabled
-		//	 (this all determined. If this is IOS && video, this function is never called)
-		//	If audio:
-		//	 HTML cannot be injected as a *parent* of the <audio> element
-		//	 It is therefore injected *after* the <audio> element
-		//	 This is only a problem in IOS 6 and earlier,
-		//	 & is a known bug, fixed in IOS 7
+		//  If video:
+		//   IOS does not support any of the player's functionality
+		//   - everything plays in its own player
+		//   Therefore, AblePlayer is not loaded & all functionality is disabled
+		//   (this all determined. If this is IOS && video, this function is never called)
+		//  If audio:
+		//   HTML cannot be injected as a *parent* of the <audio> element
+		//   It is therefore injected *after* the <audio> element
+		//   This is only a problem in IOS 6 and earlier,
+		//   & is a known bug, fixed in IOS 7
 
-		var thisObj, captionsContainer, prefsGroups, i;
+		var thisObj, captionsContainer, i;
 		thisObj = this;
 
-		// create three wrappers and wrap them around the media element. 
+		// create three wrappers and wrap them around the media element.
 		// From inner to outer:
 		// $mediaContainer - contains the original media element
 		// $ableDiv - contains the media player and all its objects (e.g., captions, controls, descriptions)
@@ -27,9 +27,9 @@
 		this.$ableDiv = this.$mediaContainer.wrap('<div class="able"></div>').parent();
 		this.$ableWrapper = this.$ableDiv.wrap('<div class="able-wrapper"></div>').parent();
 		this.$ableWrapper.addClass('able-skin-' + this.skin);
-				
+
 		this.$ableWrapper.css({
-			'width': this.playerWidth + 'px' 
+			'width': this.playerWidth + 'px'
 		});
 
 		if (this.mediaType === 'video') {
@@ -43,17 +43,17 @@
 
 		// add container that captions or description will be appended to
 		// Note: new Jquery object must be assigned _after_ wrap, hence the temp captionsContainer variable
-		captionsContainer = $('<div>'); 
-		if (this.mediaType === 'video') { 
-			captionsContainer.addClass('able-vidcap-container'); 
+		captionsContainer = $('<div>');
+		if (this.mediaType === 'video') {
+			captionsContainer.addClass('able-vidcap-container');
 		}
-		else if (this.mediaType === 'audio') { 
-			captionsContainer.addClass('able-audcap-container'); 
-			// hide this by default. It will be shown if captions are available 
+		else if (this.mediaType === 'audio') {
+			captionsContainer.addClass('able-audcap-container');
+			// hide this by default. It will be shown if captions are available
 			captionsContainer.addClass('captions-off');
 		}
 
-		this.injectPlayerControlArea(); // this may need to be injected after captions??? 
+		this.injectPlayerControlArea(); // this may need to be injected after captions???
 		this.$captionsContainer = this.$mediaContainer.wrap(captionsContainer).parent();
 		this.injectAlert();
 		this.injectPlaylist();
@@ -89,7 +89,7 @@
 
 		var thisObj, svgData, buttonIcon, svgPath;
 
-		thisObj = this; 
+		thisObj = this;
 
 		this.$bigPlayButton = $('<button>', {
 			'class': 'able-big-play-button',
@@ -98,7 +98,7 @@
 			'tabindex': 0
 		});
 
-		if (this.iconType == 'svg') { 
+		if (this.iconType == 'svg') {
 			svgData = this.getSvgData('play');
 			buttonIcon = $('<svg>',{
 				'focusable': 'false',
@@ -114,18 +114,18 @@
 			// Final step: Need to refresh the DOM in order for browser to process & display the SVG
 			this.$bigPlayButton.html(this.$bigPlayButton.html());
 		}
-		else { // use icon font 
+		else { // use icon font
 			this.$bigPlayIcon = $('<span>', {
 				'class': 'icon-play',
 			});
 			this.$bigPlayButton.append(this.$bigPlayIcon);
 		}
 
-		this.$bigPlayButton.click(function (event) {
+		this.$bigPlayButton.on( 'click', function (event) {
 			event.preventDefault();
 			thisObj.handlePlay();
 		});
-		
+
 		this.$mediaContainer.append(this.$bigPlayButton);
 	};
 
@@ -137,7 +137,7 @@
 			'aria-label' : this.mediaType + ' player'
 		});
 		this.$playerDiv.addClass('able-'+this.mediaType);
-		if (this.hasPlaylist && this.showNowPlaying) { 
+		if (this.hasPlaylist && this.showNowPlaying) {
 			this.$nowPlayingDiv = $('<div>',{
 				'class' : 'able-now-playing',
 				'aria-live' : 'assertive',
@@ -166,7 +166,8 @@
 
 		this.$speed = $('<span>',{
 			'class' : 'able-speed',
-			'aria-live' : 'assertive'
+			'aria-live' : 'assertive',
+			'aria-atomic' : 'true'
 		}).text(this.tt.speed + ': 1x');
 
 		this.$status = $('<span>',{
@@ -179,15 +180,15 @@
 		if (this.showNowPlaying) {
 			this.$playerDiv.append(this.$nowPlayingDiv, this.$controllerDiv, this.$statusBarDiv);
 		}
-		else { 
+		else {
 			this.$playerDiv.append(this.$controllerDiv, this.$statusBarDiv);
 		}
-		if (this.mediaType === 'video') { 
-			// the player controls go after the media & captions 
+		if (this.mediaType === 'video') {
+			// the player controls go after the media & captions
 			this.$ableDiv.append(this.$playerDiv);
 		}
-		else { 
-			// the player controls go before the media & captions 
+		else {
+			// the player controls go before the media & captions
 			this.$ableDiv.prepend(this.$playerDiv);
 		}
 	};
@@ -199,9 +200,9 @@
 			'class': 'able-descriptions'
 		});
 		// Add ARIA so description will be announced by screen readers
-		// Later (in description.js > showDescription()), 
+		// Later (in description.js > showDescription()),
 		// if browser supports Web Speech API and this.descMethod === 'browser'
-		// these attributes will be removed 
+		// these attributes will be removed
 		this.$descDiv.attr({
 			'aria-live': 'assertive',
 			'aria-atomic': 'true'
@@ -229,7 +230,7 @@
 
 		// which is either 'transcript' or 'sign'
 
-		var cookie, cookiePos, $window, dragged, windowPos, currentWindowPos, firstTime, zIndex;
+		var cookie, cookiePos, $window, windowPos;
 
 		cookie = this.getCookie();
 		if (which === 'transcript') {
@@ -292,21 +293,17 @@
 		// else if there is room the left of the player, position element there
 		// else position element beneath player
 
-		var gap, position, ableWidth, ableHeight, ableOffset, ableTop, ableLeft,
-			 windowWidth, otherWindowWidth, zIndex;
+		var gap, position, ableWidth, ableOffset, ableLeft, windowWidth, otherWindowWidth;
 
 		if (typeof targetWidth === 'undefined') {
 			targetWidth = this.getDefaultWidth(targetWindow);
 		}
 
 		gap = 5; // number of pixels to preserve between Able Player objects
-
 		position = []; // position, top, left
 
 		ableWidth = this.$ableDiv.width();
-		ableHeight = this.$ableDiv.height();
 		ableOffset = this.$ableDiv.offset();
-		ableTop = ableOffset.top;
 		ableLeft = ableOffset.left;
 		windowWidth = $(window).width();
 		otherWindowWidth = 0; // width of other visiable draggable windows will be added to this
@@ -359,10 +356,10 @@
 			top = '-10';
 		}
 		else {
-			// position just below top of video by default 
-			// but this will change after video player is fully sized 
-			// see control.js > resizePlayer() 
-			top = '10'; 
+			// position just below top of video by default
+			// but this will change after video player is fully sized
+			// see control.js > resizePlayer()
+			top = '10';
 		}
 		this.$alertBox.css({
 			top: top + 'px'
@@ -390,9 +387,8 @@
 		// 'which' parameter is either 'captions', 'chapters', 'prefs', 'transcript-window' or 'sign-window'
 		// 'tracks', if provided, is a list of tracks to be used as menu items
 
-		var thisObj, $menu, includeMenuItem, prefCats, i, $menuItem, prefCat, whichPref,
-			hasDefault, track, windowOptions, whichPref, whichMenu,
-			$thisItem, $prevItem, $nextItem;
+		var thisObj, $menu, includeMenuItem, i, $menuItem, prefCat, whichPref, hasDefault, track, 
+		windowOptions, $thisItem, $prevItem, $nextItem;
 
 		thisObj = this;
 
@@ -460,11 +456,11 @@
 			hasDefault = false;
 			for (i = 0; i < tracks.length; i++) {
 				track = tracks[i];
-				if (which === 'captions' && this.player === 'html5' && typeof track.cues === 'undefined') {						
-					includeMenuItem = false; 
+				if (which === 'captions' && this.player === 'html5' && typeof track.cues === 'undefined') {
+					includeMenuItem = false;
 				}
-				else { 
-					includeMenuItem = true; 
+				else {
+					includeMenuItem = true;
 				}
 				if (includeMenuItem) {
 					$menuItem = $('<li></li>',{
@@ -478,7 +474,7 @@
 					}
 					else {
 						$menuItem.attr('aria-checked','false');
-					}			
+					}
 					// Get a label using track data
 					if (which == 'captions') {
 						$menuItem.text(track.label);
@@ -501,7 +497,7 @@
 					$menuItem.attr('aria-checked','true');
 					hasDefault = true;
 				}
-				else { 
+				else {
 					$menuItem.attr('aria-checked','false');
 				}
 				$menuItem.on('click',this.getCaptionOffFunction());
@@ -568,8 +564,7 @@
 		}
 		// add keyboard handlers for navigating within popups
 		$menu.on('keydown',function (e) {
-			
-			whichMenu = $(this).attr('id').split('-')[1];
+
 			$thisItem = $(this).find('li:focus');
 			if ($thisItem.is(':first-child')) {
 				// this is the first item in the menu
@@ -588,23 +583,23 @@
 			if (e.which === 9) { // Tab
 				if (e.shiftKey) {
 					$thisItem.removeClass('able-focus');
-					$prevItem.focus().addClass('able-focus');
+					$prevItem.trigger('focus').addClass('able-focus');
 				}
 				else {
 					$thisItem.removeClass('able-focus');
-					$nextItem.focus().addClass('able-focus');
+					$nextItem.trigger('focus').addClass('able-focus');
 				}
 			}
 			else if (e.which === 40 || e.which === 39) { // down or right arrow
 				$thisItem.removeClass('able-focus');
-				$nextItem.focus().addClass('able-focus');
+				$nextItem.trigger('focus').addClass('able-focus');
 			}
 			else if (e.which == 38 || e.which === 37) { // up or left arrow
 				$thisItem.removeClass('able-focus');
-				$prevItem.focus().addClass('able-focus');
+				$prevItem.trigger('focus').addClass('able-focus');
 			}
 			else if (e.which === 32 || e.which === 13) { // space or enter
-				$thisItem.click();
+				$thisItem.trigger( 'click' );
 			}
 			else if (e.which === 27) {	// Escape
 				$thisItem.removeClass('able-focus');
@@ -623,7 +618,7 @@
 
 		if (this.chaptersPopup && this.chaptersPopup.is(':visible')) {
 			this.chaptersPopup.hide();
-			this.$chaptersButton.attr('aria-expanded','false').focus();
+			this.$chaptersButton.attr('aria-expanded','false').trigger('focus');
 		}
 		if (this.captionsPopup && this.captionsPopup.is(':visible')) {
 			this.captionsPopup.hide();
@@ -645,15 +640,15 @@
 			},100);
 		}
 		if (this.$volumeSlider && this.$volumeSlider.is(':visible')) {
-			this.$volumeSlider.hide().attr('aria-hidden','true');			
-			this.$volumeButton.attr('aria-expanded', 'false').focus();
+			this.$volumeSlider.hide().attr('aria-hidden','true');
+			this.$volumeButton.attr('aria-expanded', 'false').trigger('focus');
 		}
 		if (this.$transcriptPopup && this.$transcriptPopup.is(':visible')) {
-			this.hidingPopup = true; 
+			this.hidingPopup = true;
 			this.$transcriptPopup.hide();
 			// restore menu items to their original state
 			this.$transcriptPopup.find('li').removeClass('able-focus').attr('tabindex','-1');
-			this.$transcriptPopupButton.attr('aria-expanded','false').focus();			
+			this.$transcriptPopupButton.attr('aria-expanded','false').trigger('focus');
 			// wait briefly, then reset hidingPopup
 			setTimeout(function() {
 				thisObj.hidingPopup = false;
@@ -663,7 +658,7 @@
 			this.$signPopup.hide();
 			// restore menu items to their original state
 			this.$signPopup.find('li').removeClass('able-focus').attr('tabindex','-1');
-			this.$signPopupButton.attr('aria-expanded','false').focus();
+			this.$signPopupButton.attr('aria-expanded','false').trigger('focus');
 		}
 	};
 
@@ -673,10 +668,7 @@
 		// parameter 'which' is passed if refreshing content of an existing popup ('captions' or 'chapters')
 		// If which is undefined, automatically setup 'captions', 'chapters', and 'prefs' popups
 		// However, only setup 'transcript-window' and 'sign-window' popups if passed as value of which
-		var popups, thisObj, hasDefault, i, j,
-				tracks, track, $trackButton, $trackLabel,
-				radioName, radioId, $menu, $menuItem,
-				prefCats, prefCat, prefLabel;
+		var popups, thisObj, i,	tracks;
 
 		popups = [];
 		if (typeof which === 'undefined') {
@@ -703,7 +695,6 @@
 			thisObj = this;
 			for (var i=0; i<popups.length; i++) {
 				var popup = popups[i];
-				hasDefault = false;
 				if (popup == 'prefs') {
 					this.prefsPopup = this.createPopup('prefs');
 				}
@@ -738,101 +729,101 @@
 
 	AblePlayer.prototype.provideFallback = function() {
 
-		// provide fallback in case of a critical error building the player 
-		// to test, set data-test-fallback to either of the following values: 
-		// 1 = emulate failure to build Able Player 
-		// 2 = emulate browser that doesn't support HTML5 media 
+		// provide fallback in case of a critical error building the player
+		// to test, set data-test-fallback to either of the following values:
+		// 1 = emulate failure to build Able Player
+		// 2 = emulate browser that doesn't support HTML5 media
 
 		var i, $fallback;
 
-		if (this.usingFallback) { 
-			// fallback has already been implemented. 
+		if (this.usingFallback) {
+			// fallback has already been implemented.
 			// stopgap to prevent this function from executing twice on the same media element
-			return; 
+			return;
 		}
-		else { 
-			this.usingFallback = true; 
-		}
-
-		if (!this.testFallback) { 
-			// this is not a test. 
-			// an actual error has resulted in this function being called. 
-			// use scenario 1 
-			this.testFallback = 1; 
+		else {
+			this.usingFallback = true;
 		}
 
-		if (typeof this.$media === 'undefined') { 
-			// this function has been called prior to initialize.js > reinitialize() 
+		if (!this.testFallback) {
+			// this is not a test.
+			// an actual error has resulted in this function being called.
+			// use scenario 1
+			this.testFallback = 1;
+		}
+
+		if (typeof this.$media === 'undefined') {
+			// this function has been called prior to initialize.js > reinitialize()
 			// before doing anything, need to create the jQuery media object
-			this.$media = $(this.media); 
-		} 
-
-		// get/assign an id for the media element 
-		if (this.$media.attr('id')) { 
-			this.mediaId = this.$media.attr('id'); 
+			this.$media = $(this.media);
 		}
-		else { 
-			this.mediaId = 'media' + Math.floor(Math.random() * 1000000000).toString();
-		} 
 
-		// check whether element has nested fallback content 
-		this.hasFallback = false; 
-		if (this.$media.children().length) { 
-			i = 0; 
-			while (i < this.$media.children().length && !this.hasFallback) { 
-				if (!(this.$media.children()[i].tagName === 'SOURCE' || 
-					this.$media.children()[i].tagName === 'TRACK')) { 
-					// this element is something other than <source> or <track> 
-					this.hasFallback = true; 
+		// get/assign an id for the media element
+		if (this.$media.attr('id')) {
+			this.mediaId = this.$media.attr('id');
+		}
+		else {
+			this.mediaId = 'media' + Math.floor(Math.random() * 1000000000).toString();
+		}
+
+		// check whether element has nested fallback content
+		this.hasFallback = false;
+		if (this.$media.children().length) {
+			i = 0;
+			while (i < this.$media.children().length && !this.hasFallback) {
+				if (!(this.$media.children()[i].tagName === 'SOURCE' ||
+					this.$media.children()[i].tagName === 'TRACK')) {
+					// this element is something other than <source> or <track>
+					this.hasFallback = true;
 				}
-				i++; 
+				i++;
 			}
 		}
-		if (!this.hasFallback) { 
-			// the HTML code does not include any nested fallback content 
-			// inject our own 
-			// NOTE: this message is not translated, since fallback may be needed 
-			// due to an error loading the translation file 
-			// This will only be needed on very rare occasions, so English is ok. 
-			$fallback = $('<p>').text('Media player unavailable.'); 
-			this.$media.append($fallback); 
+		if (!this.hasFallback) {
+			// the HTML code does not include any nested fallback content
+			// inject our own
+			// NOTE: this message is not translated, since fallback may be needed
+			// due to an error loading the translation file
+			// This will only be needed on very rare occasions, so English is ok.
+			$fallback = $('<p>').text('Media player unavailable.');
+			this.$media.append($fallback);
 		}
 
-		// get height and width attributes, if present 
+		// get height and width attributes, if present
 		// and add them to a style attribute
-		if (this.$media.attr('width')) { 
-			this.$media.css('width',this.$media.attr('width') + 'px'); 
+		if (this.$media.attr('width')) {
+			this.$media.css('width',this.$media.attr('width') + 'px');
 		}
-		if (this.$media.attr('height')) { 
-			this.$media.css('height',this.$media.attr('height') + 'px'); 
+		if (this.$media.attr('height')) {
+			this.$media.css('height',this.$media.attr('height') + 'px');
 		}
-		// Remove data-able-player attribute 
-		this.$media.removeAttr('data-able-player'); 
+		// Remove data-able-player attribute
+		this.$media.removeAttr('data-able-player');
 
 		// Add controls attribute (so browser will add its own controls)
-		this.$media.prop('controls',true); 
+		this.$media.prop('controls',true);
 
-		if (this.testFallback == 2) { 
+		if (this.testFallback == 2) {
 
-			// emulate browser failure to support HTML5 media by changing the media tag name 
-			// browsers should display the supported content that's nested inside 
+			// emulate browser failure to support HTML5 media by changing the media tag name
+			// browsers should display the supported content that's nested inside
 			$(this.$media).replaceWith($('<foobar id="foobar-' + this.mediaId + '">'));
-			this.$newFallbackElement = $('#foobar-' + this.mediaId); 			
+			this.$newFallbackElement = $('#foobar-' + this.mediaId);
 
-			// append all children from the original media 
-			if (this.$media.children().length) { 
-				i = this.$media.children().length - 1; 
-				while (i >= 0) { 
-					this.$newFallbackElement.prepend($(this.$media.children()[i])); 
-					i--; 
+			// append all children from the original media
+			if (this.$media.children().length) {
+				i = this.$media.children().length - 1;
+				while (i >= 0) {
+					this.$newFallbackElement.prepend($(this.$media.children()[i]));
+					i--;
 				}
 			}
-			if (!this.hasFallback) { 
+			if (!this.hasFallback) {
 				// inject our own fallback content, defined above
 				this.$newFallbackElement.append($fallback);
 			}
 		}
-		return; 
+		return;
 	};
 
 	AblePlayer.prototype.calculateControlLayout = function () {
@@ -846,7 +837,7 @@
 		// 3 = Bottom right (legacy skin only)
 		// Each key contains an array of control names to put in that section.
 
-		var controlLayout, volumeSupported, playbackSupported, totalButtonWidth, numA11yButtons;
+		var controlLayout, playbackSupported, numA11yButtons;
 
 		controlLayout = [];
 		controlLayout[0] = [];
@@ -906,7 +897,7 @@
 				controlLayout[1].push('sign');
 			}
 		}
-		if (this.mediaType === 'video') { 
+		if (this.mediaType === 'video') {
 			if (this.hasOpenDesc || this.hasClosedDesc) {
 				numA11yButtons++;
 				if (this.skin === 'legacy') {
@@ -963,7 +954,6 @@
 		}
 
 		if (this.browserSupportsVolume()) {
-			volumeSupported = true; // defined in case we decide to move volume button elsewhere
 			this.volumeButton = 'volume-' + this.getVolumeName(this.volume);
 			if (this.skin === 'legacy') {
 				controlLayout[1].push('volume');
@@ -973,7 +963,6 @@
 			}
 		}
 		else {
-			volumeSupported = false;
 			this.volume = false;
 		}
 		return controlLayout;
@@ -992,7 +981,7 @@
 		i, j, k, controls, $controllerSpan, $sliderDiv, sliderLabel, $pipe, $pipeImg,
 		svgData, svgPath, control,
 		$buttonLabel, $buttonImg, buttonImgSrc, buttonTitle, $newButton, iconClass, buttonIcon,
-		buttonUse, buttonText, position, buttonHeight, buttonWidth, buttonSide, controllerWidth,
+		buttonText, position, buttonHeight, buttonWidth, buttonSide, controllerWidth,
 		tooltipId, tooltipY, tooltipX, tooltipWidth, tooltipStyle, tooltip, tooltipTimerId,
 		captionLabel, popupMenuId;
 
@@ -1012,13 +1001,17 @@
 		}).hide();
 		this.$controllerDiv.append(this.$tooltipDiv);
 
-		if (this.skin == '2020') {			
+		if (this.skin == '2020') {
 			// add a full-width seek bar
 			$sliderDiv = $('<div class="able-seekbar"></div>');
 			sliderLabel = this.mediaType + ' ' + this.tt.seekbarLabel;
 			this.$controllerDiv.append($sliderDiv);
 			this.seekBar = new AccessibleSlider(this.mediaType, $sliderDiv, 'horizontal', baseSliderWidth, 0, this.duration, this.seekInterval, sliderLabel, 'seekbar', true, 'visible');
 		}
+
+		// add a full-width seek bar
+		let $controlRow = $('<div class="able-control-row"></div>');
+		this.$controllerDiv.append($controlRow);
 
 		for (i = 0; i < numSections; i++) {
 			controls = controlLayout[i];
@@ -1032,7 +1025,7 @@
 					'class': 'able-right-controls'
 				});
 			}
-			this.$controllerDiv.append($controllerSpan);
+			$controlRow.append($controllerSpan);
 
 			for (j=0; j<controls.length; j++) {
 				control = controls[j];
@@ -1180,46 +1173,7 @@
 					}
 					else if (this.iconType === 'svg') {
 
-					/*
-						// Unused option for adding SVG:
-						// Use <use> element to link to button-icons/able-icons.svg
-						// Advantage: SVG file can be cached
-						// Disadvantage: Not supported by Safari 6, IE 6-11, or Edge 12
-						// Instead, adding <svg> element within each <button>
-						if (control === 'volume') {
-							iconClass = 'svg-' + this.volumeButton;
-						}
-						else if (control === 'fullscreen') {
-							iconClass = 'svg-fullscreen-expand';
-						}
-						else if (control === 'slower') {
-							if (this.speedIcons === 'animals') {
-								iconClass = 'svg-turtle';
-							}
-							else {
-								iconClass = 'svg-slower';
-							}
-						}
-						else if (control === 'faster') {
-							if (this.speedIcons === 'animals') {
-								iconClass = 'svg-rabbit';
-							}
-							else {
-								iconClass = 'svg-faster';
-							}
-						}
-						else {
-							iconClass = 'svg-' + control;
-						}
-						buttonIcon = $('<svg>',{
-							'class': iconClass
-						});
-						buttonUse = $('<use>',{
-							'xlink:href': this.rootPath + 'button-icons/able-icons.svg#' + iconClass
-						});
-						buttonIcon.append(buttonUse);
-						*/
-						var svgData;
+						svgData;
 						if (control === 'volume') {
 							svgData = this.getSvgData(this.volumeButton);
 						}
@@ -1269,7 +1223,7 @@
 						$newButton.append($buttonImg);
 					}
 					// add the visibly-hidden label for screen readers that don't support aria-label on the button
-					var $buttonLabel = $('<span>',{
+					$buttonLabel = $('<span>',{
 						'class': 'able-clipped'
 					}).text(buttonTitle);
 					$newButton.append($buttonLabel);
@@ -1280,73 +1234,65 @@
 						// since the same tooltip div is used, it's location just changes.
 						clearTimeout(tooltipTimerId);
 
-						var buttonText = $(this).attr('aria-label');
+						buttonText = $(this).attr('aria-label');
 						// get position of this button
-						var position = $(this).position();
-						var buttonHeight = $(this).height();
-						var buttonWidth = $(this).width();
+						position = $(this).position();
+						buttonHeight = $(this).height();
+						buttonWidth = $(this).width();
 						// position() is expressed using top and left (of button);
 						// add right (of button) too, for convenience
-						var controllerWidth = thisObj.$controllerDiv.width();
+						controllerWidth = thisObj.$controllerDiv.width();
 						position.right = controllerWidth - position.left - buttonWidth;
 
-						// The following formula positions tooltip above the button  
-						// var tooltipY = position.top - buttonHeight - 15;
-
-						// The following formula positions tooltip below the button 
+						// The following formula positions tooltip below the button
 						// which allows the tooltip to be hoverable as per WCAG 2.x SC 1.4.13
-						// without obstructing the seekbar 
-						var tooltipY = position.top + buttonHeight + 5; 
+						// without obstructing the seekbar
+						tooltipY = position.top + buttonHeight + 5;
 
 						if ($(this).parent().hasClass('able-right-controls')) {
 							// this control is on the right side
-							var buttonSide = 'right';
+							buttonSide = 'right';
 						}
 						else {
 							// this control is on the left side
-							var buttonSide = 'left';
+							buttonSide = 'left';
 						}
 						// populate tooltip, then calculate its width before showing it
-						var tooltipWidth = AblePlayer.localGetElementById($newButton[0], tooltipId).text(buttonText).width();
+						tooltipWidth = AblePlayer.localGetElementById($newButton[0], tooltipId).text(buttonText).width();
 						// center the tooltip horizontally over the button
 						if (buttonSide == 'left') {
-							var tooltipX = position.left - tooltipWidth/2;
+							tooltipX = position.left - tooltipWidth/2;
 							if (tooltipX < 0) {
 								// tooltip would exceed the bounds of the player. Adjust.
 								tooltipX = 2;
 							}
-							var tooltipStyle = {
+							tooltipStyle = {
 								left: tooltipX + 'px',
 								right: '',
 								top: tooltipY + 'px'
 							};
 						}
 						else {
-							var tooltipX = position.right - tooltipWidth/2;
+							tooltipX = position.right - tooltipWidth/2;
 							if (tooltipX < 0) {
 								// tooltip would exceed the bounds of the player. Adjust.
 								tooltipX = 2;
 							}
-							var tooltipStyle = {
+							tooltipStyle = {
 								left: '',
 								right: tooltipX + 'px',
 								top: tooltipY + 'px'
 							};
 						}
-						var tooltip = AblePlayer.localGetElementById($newButton[0], tooltipId).text(buttonText).css(tooltipStyle);
+						tooltip = AblePlayer.localGetElementById($newButton[0], tooltipId).text(buttonText).css(tooltipStyle);
 						thisObj.showTooltip(tooltip);
 						$(this).on('mouseleave blur',function() {
 
-							// hide tooltip  (original line of code)
-							// AblePlayer.localGetElementById($newButton[0], tooltipId).text('').hide();
-
-							// The above line was replaced with the following block 
-							// in order to meet WCAG 2.x SC 1.4.13 
 							// (keep the tooltip visible if user hovers over it)
-							// This causes unwanted side effects if tooltips are positioned above the buttons 
-							// as the persistent tooltip obstructs the seekbar, 
-							// blocking users from being able to move a pointer from a button to the seekbar 
-							// This limitation was addressed in 4.4.49 by moving the tooltip below the buttons 
+							// This causes unwanted side effects if tooltips are positioned above the buttons
+							// as the persistent tooltip obstructs the seekbar,
+							// blocking users from being able to move a pointer from a button to the seekbar
+							// This limitation was addressed in 4.4.49 by moving the tooltip below the buttons
 
 							// clear existing timeout before reassigning variable
 							clearTimeout(tooltipTimerId);
@@ -1363,8 +1309,8 @@
 							thisObj.$tooltipDiv.on('mouseleave blur', function() {
 								AblePlayer.localGetElementById($newButton[0], tooltipId).text('').hide();
 							});
-							
-						}); 
+
+						});
 					});
 
 					if (control === 'captions') {
@@ -1400,7 +1346,7 @@
 						// if player is being rebuilt because user clicked the Prev button
 						// return focus to that (newly built) button
 						if (this.buttonWithFocus == 'previous') {
-							this.$prevButton.focus();
+							this.$prevButton.trigger('focus');
 							this.buttonWithFocus = null;
 						}
 					}
@@ -1409,7 +1355,7 @@
 						// if player is being rebuilt because user clicked the Next button
 						// return focus to that (newly built) button
 						if (this.buttonWithFocus == 'next') {
-							this.$nextButton.focus();
+							this.$nextButton.trigger('focus');
 							this.buttonWithFocus = null;
 						}
 					}
@@ -1654,13 +1600,6 @@
 			inProgressCount += 1;
 			observeIfDone();
 		};
-/*
-		// The load event fires when all resources have finished loading, which allows detecting whether SVG use elements are empty.
-		window.addEventListener('load', function winLoad() {
-			window.removeEventListener('load', winLoad, false); // to prevent memory leaks
-			tid = setTimeout(checkUseElems, 0);
-		}, false);
-*/
 	};
 
 	AblePlayer.prototype.cuePlaylistItem = function(sourceIndex) {
@@ -1669,19 +1608,7 @@
 		// NOTE: Swapping source for audio description is handled elsewhere;
 		// see description.js > swapDescription()
 
-		/*
-			// Decided against preventing a reload of the current item in the playlist.
-			// If it's clickable, users should be able to click on it and expect something to happen.
-			// Leaving here though in case it's determined to be desirable.
-		if (sourceIndex === this.playlistItemIndex) {
-			// user has requested the item that's currently playing
-			// just ignore the request
-			return;
-		}
-		this.playlistItemIndex = sourceIndex;
-		*/
-
-		var $newItem, prevPlayer, newPlayer, itemTitle, itemLang, sources, s, i, $newSource, nowPlayingSpan;
+		var $newItem, prevPlayer, newPlayer, itemTitle, itemLang, $newSource, nowPlayingSpan;
 
 		var thisObj = this;
 
@@ -1700,19 +1627,19 @@
 		// set swappingSrc; needs to be true within recreatePlayer(), called below
 		this.swappingSrc = true;
 
-		// if a new playlist item is being requested, and playback has already started,  
-		// it should be ok to play automatically, regardless of how it was requested 
-		if (this.startedPlaying) { 
-			this.okToPlay = true; 
+		// if a new playlist item is being requested, and playback has already started,
+		// it should be ok to play automatically, regardless of how it was requested
+		if (this.startedPlaying) {
+			this.okToPlay = true;
 		}
-		else { 
-			this.okToPlay = false; 
+		else {
+			this.okToPlay = false;
 		}
 
-		// We are no longer loading the previous media source 
-		// Only now, as a new source is requested, is it safe to reset this var 
-		// It will be reset to true when media.load() is called 
-		this.loadingMedia = false; 
+		// We are no longer loading the previous media source
+		// Only now, as a new source is requested, is it safe to reset this var
+		// It will be reset to true when media.load() is called
+		this.loadingMedia = false;
 
 		// Determine appropriate player to play this media
 		$newItem = this.$playlist.eq(sourceIndex);
@@ -1770,21 +1697,42 @@
 		var $sourceSpans = $newItem.children('span.able-source');
 		if ($sourceSpans.length) {
 			$sourceSpans.each(function() {
-				if (thisObj.hasAttr($(this),'data-src')) {
-					// this is the only required attribute
-					var $newSource = $('<source>',{
-						'src': $(this).attr('data-src')
-					});
-					if (thisObj.hasAttr($(this),'data-type')) {
-						$newSource.attr('type',$(this).attr('data-type'));
+				const $this = $(this);
+ 
+				// Check if the required data-src attribute exists
+				if (thisObj.hasAttr($this, "data-src")) {
+					const sanitizedSrc = DOMPurify.sanitize($this.attr("data-src"));
+
+					// Validate the protocol of the sanitized URL
+					if (validate.isProtocolSafe(sanitizedSrc)) {
+						// Create a new <source> element with the sanitized src
+						const $newSource = $("<source>", { src: sanitizedSrc });
+			
+						// List of optional attributes to sanitize and add
+						const optionalAttributes = [
+							"data-type",
+							"data-desc-src",
+							"data-sign-src",
+						];
+	
+						// Process optional attributes
+						optionalAttributes.forEach((attr) => {
+							if (thisObj.hasAttr($this, attr)) {
+								const attrValue = $this.attr(attr); // Get the attribute value
+								const sanitizedValue = DOMPurify.sanitize(attrValue); // Sanitize the value
+				
+								// If the attribute ends with "-src", validate the protocol
+								if (attr.endsWith("-src") && validate.isProtocolSafe(sanitizedValue)) {
+									$newSource.attr(attr, sanitizedValue); // Add the sanitized and validated attribute
+								} else if (!attr.endsWith("-src")) {
+									$newSource.attr(attr, sanitizedValue); // Add sanitized value for non-src attributes
+								}
+							}
+             			});
+ 
+						// Append the new <source> element to the media object
+						thisObj.$media.append($newSource);
 					}
-					if (thisObj.hasAttr($(this),'data-desc-src')) {
-						$newSource.attr('data-desc-src',$(this).attr('data-desc-src'));
-					}
-					if (thisObj.hasAttr($(this),'data-sign-src')) {
-						$newSource.attr('data-sign-src',$(this).attr('data-sign-src'));
-					}
-					thisObj.$media.append($newSource);
 				}
 			});
 		}
@@ -1794,22 +1742,32 @@
 		if ($trackSpans.length) {
 			 // for each element in $trackSpans, create a new <track> element
 			$trackSpans.each(function() {
-				if (thisObj.hasAttr($(this),'data-src') &&
-					thisObj.hasAttr($(this),'data-kind') &&
-					thisObj.hasAttr($(this),'data-srclang')) {
+				const $this = $(this);
+				if (thisObj.hasAttr($this, "data-src") && thisObj.hasAttr($this, "data-kind") && thisObj.hasAttr($this, "data-srclang")) {
 					// all required attributes are present
-					var $newTrack = $('<track>',{
-						'src': $(this).attr('data-src'),
-						'kind': $(this).attr('data-kind'),
-						'srclang': $(this).attr('data-srclang')
-					});
-					if (thisObj.hasAttr($(this),'data-label')) {
-						$newTrack.attr('label',$(this).attr('data-label'));
+					const sanitizedSrc = DOMPurify.sanitize($this.attr("data-src"));
+					// Validate the protocol of the sanitized URL
+					if (validate.isProtocolSafe(sanitizedSrc)) {
+						// Create a new <track> element with the sanitized src
+						const $newTrack = $("<track>", {
+							src: sanitizedSrc,
+							kind: $this.attr("data-kind"),
+							srclang: $this.attr("data-srclang"),
+						});
+						// List of optional attributes to sanitize and add
+						const optionalAttributes = [
+							"data-label",
+							"data-desc",
+							"data-default",
+						];
+						optionalAttributes.forEach((attr) => {
+							if (thisObj.hasAttr($this, attr)) {
+								$newTrack.attr(attr, DOMPurify.sanitize($this.attr(attr)));
+							}
+						});
+						// Append the new <track> element to the media object
+						thisObj.$media.append($newTrack);
 					}
-					if (thisObj.hasAttr($(this),'data-desc')) {
-						$newTrack.attr('data-desc',$(this).attr('data-desc'));
-					}
-					thisObj.$media.append($newTrack);
 				}
 			});
 		}
@@ -1822,18 +1780,18 @@
 		this.$sources = this.$media.find('source');
 
 		// recreate player, informed by new attributes and track elements
-		if (this.recreatingPlayer) { 
+		if (this.recreatingPlayer) {
 			// stopgap to prevent multiple firings of recreatePlayer()
-			return; 
+			return;
 		}
-		this.recreatePlayer().then(function() { 
+		this.recreatePlayer().then(function() {
 
 			// update playlist to indicate which item is playing
 			thisObj.$playlist.removeClass('able-current')
 				.children('button').removeAttr('aria-current');
 			thisObj.$playlist.eq(sourceIndex).addClass('able-current')
-				.children('button').attr('aria-current','true'); 
-			
+				.children('button').attr('aria-current','true');
+
 			// update Now Playing div
 			if (thisObj.showNowPlaying === true) {
 				if (typeof thisObj.$nowPlayingDiv !== 'undefined') {
@@ -1852,53 +1810,47 @@
 			}
 			else {
 				if (thisObj.player === 'html5') {
-					if (!thisObj.loadingMedia) { 
+					if (!thisObj.loadingMedia) {
 						thisObj.media.load();
-						thisObj.loadingMedia = true; 
+						thisObj.loadingMedia = true;
 					}
 				}
 				else if (thisObj.player === 'youtube') {
-					thisObj.okToPlay = true; 
+					thisObj.okToPlay = true;
 				}
 			}
 			thisObj.initializing = false;
-			thisObj.playerCreated = true; // remains true until browser is refreshed		
-		});	
+			thisObj.playerCreated = true; // remains true until browser is refreshed
+		});
 	};
 
 	AblePlayer.prototype.deletePlayer = function(context) {
 
-		// remove player components that need to be rebuilt 
-		// after swapping media sources that have different durations 
-		// or explicitly declared data-desc attributes  
+		// remove player components that need to be rebuilt
+		// after swapping media sources that have different durations
+		// or explicitly declared data-desc attributes
 
-		// Context is one of the following: 
-		// playlist - called from cuePlaylistItem() 
+		// Context is one of the following:
+		// playlist - called from cuePlaylistItem()
 		// swap-desc-html - called from swapDescription with this.player == 'html'
-		// swap-desc-youtube - called from swapDescription with this.player == 'youtube'  
-		// swap-desc-vimeo -  called from swapDescription with this.player == 'vimeo'  
+		// swap-desc-youtube - called from swapDescription with this.player == 'youtube'
+		// swap-desc-vimeo -  called from swapDescription with this.player == 'vimeo'
 
-		if (this.player === 'youtube' && this.youTubePlayer) { 
-			this.youTubePlayer.destroy(); 
+		if (this.player === 'youtube' && this.youTubePlayer) {
+			this.youTubePlayer.destroy();
 		}
 
-		if (this.player === 'vimeo' && this.vimeoPlayer) { 
-			this.vimeoPlayer.destroy(); 
+		if (this.player === 'vimeo' && this.vimeoPlayer) {
+			this.vimeoPlayer.destroy();
 		}
 
-
-/*	TODO - Investigate: when is this needed? 
-		// remove previous video's attributes and child elements from media element
-		this.$media.removeAttr('poster width height');
-		this.$media.empty();
-*/
 		// Empty elements that will be rebuilt
 		this.$controllerDiv.empty();
 		// this.$statusBarDiv.empty();
 		// this.$timer.empty();
 		this.$elapsedTimeContainer.empty().text('0:00'); // span.able-elapsedTime
 		this.$durationContainer.empty(); // span.able-duration
-		
+
 		// Remove popup windows and modal dialogs; these too will be rebuilt
 		if (this.$signWindow) {
 				this.$signWindow.remove();
@@ -1907,27 +1859,27 @@
 				this.$transcriptArea.remove();
 		}
 		$('.able-modal-dialog').remove();
-		
-		// Remove caption and description wrappers 
+
+		// Remove caption and description wrappers
 		if (this.$captionsWrapper) {
 			this.$captionsWrapper.remove();
 		}
-		if (this.$descDiv) { 
-			this.$descDiv.remove(); 
+		if (this.$descDiv) {
+			this.$descDiv.remove();
 		}
-		
+
 		// reset key variables
 		this.hasCaptions = false;
 		this.hasChapters = false;
-		this.hasDescTracks = false; 
+		this.hasDescTracks = false;
 		this.hasOpenDesc = false;
-		this.hasClosedDesc = false; 
+		this.hasClosedDesc = false;
 
 		this.captionsPopup = null;
 		this.chaptersPopup = null;
 		this.transcriptType = null;
 
-		this.playerDeleted = true; // will reset to false in recreatePlayer() 
+		this.playerDeleted = true; // will reset to false in recreatePlayer()
 	};
 
 	AblePlayer.prototype.getButtonTitle = function(control) {
@@ -2006,12 +1958,12 @@
 		else if (control === 'help') {
 			// return this.tt.help;
 		}
-		else if (control === 'fullscreen') { 
+		else if (control === 'fullscreen') {
 			if (!this.fullscreen) {
-				return this.tt.enterFullscreen; 
+				return this.tt.enterFullScreen;
 			}
-			else { 
-				return this.tt.exitFullscreen; 
+			else {
+				return this.tt.exitFullScreen;
 			}
 		}
 		else {
@@ -2024,6 +1976,4 @@
 			return control.charAt(0).toUpperCase() + control.slice(1);
 		}
 	};
-
-
 })(jQuery);

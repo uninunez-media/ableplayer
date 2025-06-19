@@ -10,10 +10,8 @@
 		// Add <div id="able-vts"></div> to the web page
 
 		// Define all variables
-		var thisObj, tracks, $heading;
-		var $instructions, $p1, $p2, $ul, $li1, $li2, $li3;
-		var $fieldset, $legend, i, $radioDiv, radioId, $label, $radio;
-		var $saveButton, $savedTable;
+		var thisObj, $heading, $instructions, $p1, $p2, $ul, $li1, $li2, $li3, 
+		$fieldset, $legend, i, $radioDiv, radioId, $label, $radio, $saveButton, $savedTable;
 
 		thisObj = this;
 
@@ -84,7 +82,7 @@
 					$label = $('<label>', {
 						'for': radioId
 						// Two options for label:
-						// getLanguageName() - with second parameter "local" would return native name, otherwise returns English; 
+						// getLanguageName() - with second parameter "local" would return native name, otherwise returns English;
 						// TODO: if using this be sure to add lang attr to <div> (see above)
 					}).text(this.getLanguageName(this.langs[i]));
 					$radioDiv.append($radio,$label);
@@ -104,9 +102,8 @@
 				this.injectVtsTable('add',this.vtsLang);
 
 				// TODO: Add drag/drop functionality for mousers
-
 				// Add event listeners for contenteditable cells
-				var kindOptions, beforeEditing, editedCell, editedContent, i, closestKind;
+				var kindOptions, beforeEditing, editedCell, editedContent, i;
 				kindOptions = ['captions','chapters','descriptions','subtitles'];
 				$('td[contenteditable="true"]').on('focus',function() {
 					beforeEditing = $(this).text();
@@ -147,8 +144,6 @@
 				});
 
 				// handle click on the Save button
-
-				// handle click on the Save button
 				$('#able-vts-save').on('click',function(e) {
 					e.stopPropagation();
 					if ($(this).attr('value') == 'save') {
@@ -178,8 +173,8 @@
 
 	AblePlayer.prototype.setupVtsTracks = function(kind, lang, trackDesc, label, src, contents) {
 
-		// TODO: Add support for trackDesc 
-		// (to destinguish between tracks for the decribed vs non-described versions)		
+		// TODO: Add support for trackDesc
+		// (to destinguish between tracks for the decribed vs non-described versions)
 
 		// Called from tracks.js
 		var srcFile, vtsCues;
@@ -571,14 +566,12 @@
 
 	AblePlayer.prototype.getIconCredit = function() {
 
-		var credit;
-		credit = '<div id="able-vts-icon-credit">'
-			+ 'Action buttons made by <a href="https://www.flaticon.com/authors/elegant-themes">Elegant Themes</a> '
-			+ 'from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> '
-			+ 'are licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" '
-			+ 'target="_blank">CC 3.0 BY</a>'
-			+ '</div>';
-			return credit;
+		var credit
+			= 'Action buttons made by <a target="_blank" rel="noreferrer" href="https://www.elegantthemes.com">Elegant Themes</a>'
+			+ ' from <a target="_blank" rel="noreferrer" href="https://www.flaticon.com">flaticon</a>'
+			+ ' are licensed by <a target="_blank" rel="noreferrer" href="https://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC 3.0 BY</a>'
+		;
+		return '<div id="able-vts-icon-credit">' + credit + '</div>';
 	};
 
 	AblePlayer.prototype.getAllLangs = function(tracks) {
@@ -654,9 +647,8 @@
 	AblePlayer.prototype.insertRow = function(rowNum) {
 
 		// Insert empty row below rowNum
-		var $table, $rows, numRows, newRowNum, newRowId, newTimes, $tr, $td;
-		var $select, options, i, $option, newKind, newClass, $parentRow;
-		var i, nextRowNum, $buttons;
+		var $table, $rows, numRows, newRowNum, newRowId, $tr, $td, $select, 
+		options, i, $option, newKind, newClass, $parentRow, nextRowNum, $buttons;
 
 		$table = $('#able-vts table');
 		$rows = $table.find('tr');
@@ -741,7 +733,7 @@
 		this.showVtsAlert('A new row ' + newRowNum + ' has been inserted'); // TODO: Localize this
 
 		// Place focus in new select field
-		$select.focus();
+		$select.trigger('focus');
 
 	};
 
@@ -771,7 +763,7 @@
 	AblePlayer.prototype.moveRow = function(rowNum,direction) {
 
 		// swap two rows
-		var $rows, $thisRow, otherRowNum, $otherRow, newTimes, msg;
+		var $rows, $thisRow, otherRowNum, $otherRow, msg;
 
 		$rows = $('#able-vts table').find('tr');
 		$thisRow = $('#able-vts table').find('tr').eq(rowNum);
@@ -1012,7 +1004,7 @@
 			return myclass.substring(kindStart);
 		}
 		else {
-			// kind-* is one of multiple classes 
+			// kind-* is one of multiple classes
 			// the following will find it regardless of position of "kind-*" within the class string
 			return myclass.substring(kindStart,kindEnd);
 		}

@@ -1,6 +1,6 @@
 {
   "name": "ableplayer",
-  "version": "4.5.1",
+  "version": "4.6.0-beta",
   "description": "Accessible HTML5 media player",
   "homepage": "http://ableplayer.github.io/ableplayer",
   "bugs": "https://github.com/ableplayer/ableplayer/issues",
@@ -11,11 +11,11 @@
   },
   "main": "build/ableplayer.min.js",
   "scripts": {
-    "build": "grunt",
+    "build": "grunt && grunt build_separate_dompurify",
     "test": "jest"
   },
   "dependencies": {
-    "dompurify": "^3.2.4",
+    "dompurify": "^3.2.6",
     "dotenv": "^10.0.0",
     "jquery": "^3.5.0",
     "js-cookie": "^3.0.0",

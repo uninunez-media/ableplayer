@@ -2,11 +2,11 @@
 	// JavaScript for Able Player
 
 	// HTML5 Media API:
-	// http://www.w3.org/TR/html5/embedded-content-0.html#htmlmediaelement
-	// http://dev.w3.org/html5/spec-author-view/video.html
+	http://www.w3.org/TR/html5/embedded-content-0.html#htmlmediaelement
+	http://dev.w3.org/html5/spec-author-view/video.html
 
 	// W3C API Test Page:
-	// http://www.w3.org/2010/05/video/mediaevents.html
+	http://www.w3.org/2010/05/video/mediaevents.html
 
 	// YouTube Player API for iframe Embeds
 	https://developers.google.com/youtube/iframe_api_reference
@@ -27,8 +27,8 @@
 	https://developers.google.com/apis-explorer/#s/youtube/v3/
 
 	// Web Speech API (Speech Synthesis)
-	// https://w3c.github.io/speech-api/#tts-section
-	// https://developer.mozilla.org/en-US/docs/Web/API/Window/speechSynthesis
+	https://w3c.github.io/speech-api/#tts-section
+	https://developer.mozilla.org/en-US/docs/Web/API/Window/speechSynthesis
 */
 
 /*jslint node: true, browser: true, white: true, indent: 2, unparam: true, plusplus: true */
@@ -40,7 +40,6 @@ var AblePlayerInstances = [];
 
 (function ($) {
 	$(function () {
-
 		$('video, audio').each(function (index, element) {
 			if ($(element).data('able-player') !== undefined) {
 				AblePlayerInstances.push(new AblePlayer($(this),$(element)));
@@ -66,7 +65,6 @@ var AblePlayerInstances = [];
 	// media - jQuery selector or element identifying the media.
 	window.AblePlayer = function(media) {
 
-
 		var thisObj = this;
 
 		// Keep track of the last player created for use with global events.
@@ -88,14 +86,14 @@ var AblePlayerInstances = [];
 
 		// autoplay (Boolean; if present always resolves to true, regardless of value)
 		if ($(media).attr('autoplay') !== undefined) {
-			this.autoplay = true; // this value remains constant 
+			this.autoplay = true; // this value remains constant
 			this.okToPlay = true; // this value can change dynamically
 		}
 		else {
 			this.autoplay = false;
 			this.okToPlay = false;
 		}
-		
+
 		// loop (Boolean; if present always resolves to true, regardless of value)
 		if ($(media).attr('loop') !== undefined) {
 			this.loop = true;
@@ -120,18 +118,20 @@ var AblePlayerInstances = [];
 			this.hasPoster = false;
 		}
 
-		// get height and width attributes, if present 
-		// and add them to variables 
-		// Not currently used, but might be useful for resizing player  
-		if ($(media).attr('width')) { 
-			this.width = $(media).attr('width'); 
+		// get height and width attributes, if present
+		// and add them to variables
+		// Not currently used, but might be useful for resizing player
+		if ($(media).attr('width')) {
+			this.width = $(media).attr('width');
 		}
-		if ($(media).attr('height')) { 
+		if ($(media).attr('height')) {
 			this.height = $(media).attr('height');
 		}
 
 		// start-time
-		if ($(media).data('start-time') !== undefined && $.isNumeric($(media).data('start-time'))) {
+		var startTime = $(media).data('start-time');
+		var isNumeric = ( typeof startTime === 'number' || ( typeof startTime === 'string' && value.trim() !== '' && ! isNaN(value) && isFinite( Number(value) ) ) ) ? true : false;
+		if ( startTime !== undefined && isNumeric ) {
 			this.startTime = $(media).data('start-time');
 		}
 		else {
@@ -177,13 +177,13 @@ var AblePlayerInstances = [];
 		else {
 			this.useChaptersButton = true;
 		}
-		
-		// Control whether text descriptions are read aloud 
+
+		// Control whether text descriptions are read aloud
 		// set to "false" if the sole purpose of the WebVTT descriptions file
 		// is to integrate text description into the transcript
-		// set to "true" to write description text to a div 
-		// This variable does *not* control the method by which description is read. 
-		// For that, see below (this.descMethod) 
+		// set to "true" to write description text to a div
+		// This variable does *not* control the method by which description is read.
+		// For that, see below (this.descMethod)
 		if ($(media).data('descriptions-audible') !== undefined && $(media).data('descriptions-audible') === false) {
 			this.readDescriptionsAloud = false;
 		}
@@ -195,12 +195,16 @@ var AblePlayerInstances = [];
 			this.readDescriptionsAloud = true;
 		}
 
-		// Method by which text descriptions are read  
+		// setting initial this.descVoices to an empty array
+		// to be populated later by getBrowserVoices
+		this.descVoices = [];
+
+		// Method by which text descriptions are read
 		// valid values of data-desc-reader are:
-		// 'brower' (default) - text-based audio description is handled by the browser, if supported  
-		// 'screenreader' - text-based audio description is always handled by screen readers 
-		// The latter may be preferable by owners of websites in languages that are not well supported 
-		// by the Web Speech API  
+		// 'brower' (default) - text-based audio description is handled by the browser, if supported
+		// 'screenreader' - text-based audio description is always handled by screen readers
+		// The latter may be preferable by owners of websites in languages that are not well supported
+		// by the Web Speech API
 		if ($(media).data('desc-reader') == 'screenreader') {
 			this.descReader = 'screenreader';
 		}
@@ -208,11 +212,11 @@ var AblePlayerInstances = [];
 			this.descReader = 'browser';
 		}
 
-		// Default state of captions and descriptions 
-		// This setting is overridden by user preferences, if they exist 
-		// values for data-state-captions and data-state-descriptions are 'on' or 'off' 
+		// Default state of captions and descriptions
+		// This setting is overridden by user preferences, if they exist
+		// values for data-state-captions and data-state-descriptions are 'on' or 'off'
 		if ($(media).data('state-captions') == 'off') {
-			this.defaultStateCaptions = 0; // off 
+			this.defaultStateCaptions = 0; // off
 		}
 		else {
 			this.defaultStateCaptions = 1; // on by default
@@ -224,13 +228,13 @@ var AblePlayerInstances = [];
 			this.defaultStateDescriptions = 0; // off by default
 		}
 
-		// Default setting for prefDescPause  
-		// Extended description (i.e., pausing during description) is on by default 
-		// but this settings give website owners control over that 
-		// since they know the nature of their videos, and whether pausing is necessary 
-		// This setting is overridden by user preferences, if they exist 
+		// Default setting for prefDescPause
+		// Extended description (i.e., pausing during description) is on by default
+		// but this settings give website owners control over that
+		// since they know the nature of their videos, and whether pausing is necessary
+		// This setting is overridden by user preferences, if they exist
 		if ($(media).data('desc-pause-default') == 'off') {
-			this.defaultDescPause = 0; // off 
+			this.defaultDescPause = 0; // off
 		}
 		else {
 			this.defaultDescPause = 1; // on by default
@@ -256,7 +260,6 @@ var AblePlayerInstances = [];
 		// 2. "external" - Automatically generated, written to an external div (requires data-transcript-div)
 		// 3. "popup" - Automatically generated, written to a draggable, resizable popup window that can be toggled on/off with a button
 		// If data-include-transcript="false", there is no "popup" transcript
-
 		if ($(media).data('transcript-div') !== undefined && $(media).data('transcript-div') !== "") {
 			this.transcriptDivLocation = $(media).data('transcript-div');
 		}
@@ -276,7 +279,7 @@ var AblePlayerInstances = [];
 			if (this.transcriptSrcHasRequiredParts()) {
 				this.transcriptType = 'manual';
 			}
-			else { 
+			else {
 				console.log('ERROR: Able Player transcript is missing required parts');
 			}
 		}
@@ -381,31 +384,31 @@ var AblePlayerInstances = [];
 
 		// Skin
 		// valid values of data-skin are:
-		// 'legacy' (default), two rows of controls; seekbar positioned in available space within top row
-		// '2020', all buttons in one row beneath a full-width seekbar
-		if ($(media).data('skin') == '2020') {
-			this.skin = '2020';
-		}
-		else {
+		// '2020' (default as of 5.0), all buttons in one row beneath a full-width seekbar
+		// 'legacy', two rows of controls; seekbar positioned in available space within top row
+		if ($(media).data('skin') == 'legacy') {
 			this.skin = 'legacy';
 		}
+		else {
+			this.skin = '2020';
+		}
 
-		// Size 
-		// width of Able Player is determined using the following order of precedence: 
-		// 1. data-width attribute 
+		// Size
+		// width of Able Player is determined using the following order of precedence:
+		// 1. data-width attribute
 		// 2. width attribute (for video or audio, although it is not valid HTML for audio)
 		// 3. Intrinsic size from video (video only, determined later)
 		if ($(media).data('width') !== undefined) {
 			this.playerWidth = parseInt($(media).data('width'));
 		}
 		else if ($(media)[0].getAttribute('width')) {
-			// NOTE: jQuery attr() returns null for all invalid HTML attributes 
+			// NOTE: jQuery attr() returns null for all invalid HTML attributes
 			// (e.g., width on <audio>)
-			// but it can be acessed via JavaScript getAttribute() 
+			// but it can be acessed via JavaScript getAttribute()
 			this.playerWidth = parseInt($(media)[0].getAttribute('width'));
 		}
-		else { 
-			this.playerWidth = null; 
+		else {
+			this.playerWidth = null;
 		}
 
 		// Icon type
@@ -429,9 +432,9 @@ var AblePlayerInstances = [];
 		else {
 			this.allowFullscreen = true;
 		}
-		// Define other variables that are used in fullscreen program flow 
-		this.clickedFullscreenButton = false; 
-		this.restoringAfterFullscreen = false;			
+		// Define other variables that are used in fullscreen program flow
+		this.clickedFullscreenButton = false;
+		this.restoringAfterFullscreen = false;
 
 		// Seek interval
 		// Number of seconds to seek forward or back with Rewind & Forward buttons
@@ -470,15 +473,15 @@ var AblePlayerInstances = [];
 		// Fallback
 		// The data-test-fallback attribute can be used to test the fallback solution in any browser
 		if ($(media).data('test-fallback') !== undefined && $(media).data('test-fallback') !== false) {
-			if ($(media).data('test-fallback') == '2') { 
-				this.testFallback = 2; // emulate browser that doesn't support HTML5 media 
+			if ($(media).data('test-fallback') == '2') {
+				this.testFallback = 2; // emulate browser that doesn't support HTML5 media
 			}
-			else { 
-				this.testFallback = 1; // emulate failure to load Able Player 
+			else {
+				this.testFallback = 1; // emulate failure to load Able Player
 			}
 		}
-		else { 
-			this.testFallback = false; 
+		else {
+			this.testFallback = false;
 		}
 
 		// Language
@@ -605,8 +608,8 @@ var AblePlayerInstances = [];
 				}
 			}
 		).
-		fail(function() { 
-			thisObj.provideFallback(); 
+		fail(function() {
+			thisObj.provideFallback();
 		});
 	};
 
@@ -630,9 +633,9 @@ var AblePlayerInstances = [];
 						// for playlists, recreatePlayer() is called from within cuePlaylistItem()
 					}
 					else {
-						thisObj.recreatePlayer().then(function() { 
+						thisObj.recreatePlayer().then(function() {
 							thisObj.initializing = false;
-							thisObj.playerCreated = true; // remains true until browser is refreshed		
+							thisObj.playerCreated = true; // remains true until browser is refreshed
 						});
 					}
 				});

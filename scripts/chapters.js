@@ -2,8 +2,7 @@
 
 	AblePlayer.prototype.populateChaptersDiv = function() {
 
-		var headingLevel, headingType, headingId, $chaptersHeading,
-			$chaptersList;
+		var headingLevel, headingType, headingId, $chaptersHeading;
 
 		if ($('#' + this.chaptersDivLocation)) {
 
@@ -11,7 +10,7 @@
 			this.$chaptersDiv.addClass('able-chapters-div');
 
 			// empty content from previous build before starting fresh
-			this.$chaptersDiv.empty(); 
+			this.$chaptersDiv.empty();
 
 			// add optional header
 			if (this.chaptersTitle) {
@@ -42,12 +41,12 @@
 	AblePlayer.prototype.updateChaptersList = function() {
 
 		var thisObj, cues, $chaptersList, c, thisChapter,
-			$chapterItem, $chapterButton, buttonId, hasDefault,
+			$chapterItem, $chapterButton, hasDefault,
 			getClickFunction, $clickedItem, $chaptersList, thisChapterIndex;
 
 		thisObj = this;
 
-		// TODO: Update this so it can change the chapters popup menu 
+		// TODO: Update this so it can change the chapters popup menu
 		// currently it only works if chapters are in an external container
 		if (!this.$chaptersNav) {
 			return false;
@@ -155,7 +154,7 @@
 			return;
 		}
 
-		var chapters, i, thisChapterIndex, chapterLabel;
+		var chapters, i, thisChapterIndex;
 
 		chapters = this.selectedChapters.cues;
 		for (i = 0; i < chapters.length; i++) {
@@ -266,7 +265,7 @@
 			setTimeout(function() {
 				thisObj.hidingPopup = false;
 			}, 100);
-			thisObj.$chaptersButton.focus();
+			thisObj.$chaptersButton.trigger('focus');
 		}
 	};
 

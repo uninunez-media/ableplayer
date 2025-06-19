@@ -2,19 +2,18 @@
 
 	AblePlayer.prototype.addVolumeSlider = function($div) {
 
-		// Prior to v4.4.64, we were using a custom-build vertical volunme slider 
-		// Changed to input type="range" because it's standard and gaining more widespread support 
-		// including screen reader support  
-		// TODO: Improve presentation of vertical slider. That requires some CSS finesse.  
+		// Prior to v4.4.64, we were using a custom-build vertical volunme slider
+		// Changed to input type="range" because it's standard and gaining more widespread support
+		// including screen reader support
+		// TODO: Improve presentation of vertical slider. That requires some CSS finesse.
 
-		var thisObj, volumeSliderId, volumeHelpId, volumePct, tickLabelsId, $tickLabels, i, $tickOption, tickLabel;
+		var thisObj, volumeSliderId, volumeHelpId, volumePct, volumeLabel;
 
 		thisObj = this;
 
 		// define a few variables
 		volumeSliderId = this.mediaId + '-volume-slider';
 		volumeHelpId = this.mediaId + '-volume-help';
-		tickLabelsId = this.mediaId + '-volume-tick-labels';
 
 		this.$volumeSlider = $('<div>',{
 			'id': volumeSliderId,
@@ -25,15 +24,14 @@
 			'class': 'able-tooltip',
 			'role': 'tooltip'
 		}).hide();
-		this.$volumeRange = $('<input>',{ 
+		this.$volumeRange = $('<input>',{
 			'type': 'range',
 			'min': '0',
 			'max': '10',
 			'step': '1',
-			'orient': 'vertical', // non-standard, but required for Firefox 
+			'orient': 'vertical', // non-standard, but required for Firefox
 			'aria-label': this.tt.volumeUpDown,
 			'value': this.volume
-			// 'list': tickLabelsId // Uncomment this to use tickLabels (see note below)
 		});
 		volumePct = parseInt(thisObj.volume) / 10 * 100;
 		this.$volumeHelp = $('<div>',{
@@ -41,30 +39,9 @@
 			'class': 'able-volume-help',
 			'aria-live': 'polite'
 		}).text(volumePct + '%');
-		this.$volumeButton.attr({
-			'aria-describedby': volumeHelpId
-		});
-		$tickLabels = $('<datalist>',{
-			'id': tickLabelsId
-		}); 
-		for (i = 0; i <= 10; i++) { 
-			if (i === 0) { 
-				tickLabel = this.tt.mute; 
-			}
-			else { 
-				tickLabel = (i * 10) + '%'; 
-			}
-			$tickOption = $('<option>',{ 
-				'value': i, 
-				'label': tickLabel
-			})
-			$tickLabels.append($tickOption); 
-		}		
+		volumeLabel = this.$volumeButton.attr( 'aria-label' );
+		this.$volumeButton.attr( 'aria-label', volumeLabel + ' ' + volumePct + '%');
 		this.$volumeSlider.append(this.$volumeSliderTooltip,this.$volumeRange,this.$volumeHelp);
-		// To add $tickLabels, use the following line of code to replace the one above 
-		// and uncommnet the 'list' property in the definition of this.$volumeRange above 
-		// As of Nov 2022, this feature is not supported by any screen reader 
-		// this.$volumeSlider.append(this.$volumeSliderTooltip,this.$volumeRange,this.$volumeHelp,$tickLabels);
 
 		$div.append(this.$volumeSlider);
 
@@ -76,7 +53,7 @@
 		this.$volumeRange.on('input',function (e) {
 			thisObj.handleVolumeChange($(this).val());
 		});
-			
+
 		this.$volumeRange.on('keydown',function (e) {
 
 			// Escape key or Enter key or Tab key
@@ -104,15 +81,15 @@
 		var volumePct;
 		volumePct = (volume/10) * 100;
 
-		// Update help text 
-		if (this.$volumeHelp) { 
-			this.$volumeHelp.text(volumePct + '%'); 
+		// Update help text
+		if (this.$volumeHelp) {
+			this.$volumeHelp.text(volumePct + '%');
 		}
 
-		// Update the default value of the volume slider input field 
-		// This doesn't seem to be necessary; browsers remember the previous setting during a session 
-		// but this is a fallback in case they don't 
-		this.$volumeRange.attr('value',volume);   
+		// Update the default value of the volume slider input field
+		// This doesn't seem to be necessary; browsers remember the previous setting during a session
+		// but this is a fallback in case they don't
+		this.$volumeRange.attr('value',volume);
 	};
 
 	AblePlayer.prototype.refreshVolumeButton = function(volume) {
@@ -131,6 +108,7 @@
 		else if (this.iconType === 'image') {
 			volumeImg = this.imgPath + 'volume-' + volumeName + '.png';
 			this.$volumeButton.find('img').attr('src',volumeImg);
+			this.$volumeButton.find('img').attr('alt',volumeLabel);
 		}
 		else if (this.iconType === 'svg') {
 			if (volumeName !== 'mute') {
@@ -139,31 +117,32 @@
 			newSvgData = this.getSvgData(volumeName);
 			this.$volumeButton.find('svg').attr('viewBox',newSvgData[0]);
 			this.$volumeButton.find('path').attr('d',newSvgData[1]);
+			this.$volumeButton.attr( 'aria-label', volumeLabel );
 		}
 	};
 
 	AblePlayer.prototype.handleVolumeButtonClick = function() {
 
 		if (this.$volumeSlider.is(':visible')) {
-			this.hideVolumePopup();			
+			this.hideVolumePopup();
 		}
 		else {
 			this.showVolumePopup();
 		}
-	}; 
+	};
 
 	AblePlayer.prototype.handleVolumeKeystroke = function(keycode) {
 
-		// keycode is an ASCII key code 49-57 (numeric keys 1-9), 
-		// keyboard shortcuts for changing volume 
+		// keycode is an ASCII key code 49-57 (numeric keys 1-9),
+		// keyboard shortcuts for changing volume
 
-		var volume; 
+		var volume;
 
 		if (keycode >= 49 && keycode <= 57) {
 			volume = keycode - 48;
 		}
-		else { 
-			return false; 
+		else {
+			return false;
 		}
 
 		if (this.isMuted() && volume > 0) {
@@ -177,12 +156,12 @@
 			this.refreshVolumeHelp(volume);
 			this.refreshVolumeButton(volume);
 		}
-	}; 
+	};
 
 
 	AblePlayer.prototype.handleVolumeChange = function(volume) {
 
-		// handle volume change using the volume input slider  
+		// handle volume change using the volume input slider
 
 		if (this.isMuted() && volume > 0) {
 			this.setMute(false);
@@ -265,7 +244,7 @@
 				this.youTubePlayer.unMute();
 			}
 		}
-		this.setVolume(this.volume); 
+		this.setVolume(this.volume);
 		this.refreshVolumeHelp(this.volume);
 		this.refreshVolumeButton(this.volume);
 	};
@@ -275,29 +254,28 @@
 		// volume is 1 to 10
 		// convert as needed depending on player
 
-		var newVolume; 
+		var newVolume;
 
 		if (this.player === 'html5') {
 			// volume is 0 to 1
-			newVolume = volume / 10; 
+			newVolume = volume / 10;
 			this.media.volume = newVolume;
-			
+
 			if (this.hasSignLanguage && this.signVideo) {
 				this.signVideo.volume = 0; // always mute
 			}
 		}
 		else if (this.player === 'youtube') {
 			// volume is 0 to 100
-			newVolume = volume * 10; 
+			newVolume = volume * 10;
 			this.youTubePlayer.setVolume(newVolume);
 			this.volume = volume;
 		}
 		else if (this.player === 'vimeo') {
 			// volume is 0 to 1
-			newVolume = volume / 10; 
+			newVolume = volume / 10;
 			this.vimeoPlayer.setVolume(newVolume).then(function() {
 				// setVolume finished.
-				// could do something here
 				// successful completion also fires a 'volumechange' event (see event.js)
 			});
 		}
@@ -313,7 +291,7 @@
 		}
 		else if (this.player === 'youtube') {
 			// uses 0 to 100 scale
-			if (this.youTubePlayerReady) { 
+			if (this.youTubePlayerReady) {
 				return this.youTubePlayer.getVolume() / 10;
 			}
 		}

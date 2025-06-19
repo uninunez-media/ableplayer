@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Responsive video with clickable hotspots | Able Player Demos</title>
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
@@ -19,7 +20,6 @@
 <style>
 	div#video-and-meta-wrapper {
 		position: relative;
-		/* no width and height, this will be assigned dynamically */
 	}
 	div.meta {
 		position: absolute;
@@ -85,7 +85,7 @@
 	$(document).ready(function() {
 
 		// In order to absolute-position block overlays on video,
-		// a parent of both video & overlays (in this case, div#vide-and-meta-wrapper)
+		// a parent of both video & overlays (in this case, div#video-and-meta-wrapper)
 		// must be positioned with width and height
 		// However, with fixed width and height the video is not responsive using CSS alone
 		// So, we need to use JavaScript to calculate and assign the width and height
@@ -171,7 +171,7 @@
 		</p>
 
 		<div id="video-and-meta-wrapper">
-			<video id="video1" preload="auto" width="640" height="480" poster="../media/wwa.jpg" data-able-player data-skin="2020" data-meta-type="selector" playsinline>
+			<video id="video1" preload="auto" width="640" height="480" poster="../media/wwa.jpg" data-able-player data-meta-type="selector" playsinline>
 				<source type="video/mp4" src="../media/wwa.mp4" data-desc-src="../media/wwa_described.mp4"/>
 				<source type="video/webm" src="../media/wwa.webm" data-desc-src="../media/wwa_described.webm"/>
 				<!-- Able Player will display tracks alphabetically by label -->

@@ -7,13 +7,13 @@
 		// NOTE: "Drag and Drop" for Able Player is a metaphor only!!!
 		// HTML5 Drag & Drop API enables moving elements to new locations in the DOM
 		// Thats not our purpose; we're simply changing the visible position on-screen
-		// Therefore, the drag & drop interface was overhauled in v2.3.41 to simple
+		// Therefore, the drag & drop interface was overhauled in v2.3.41 to simply
 		// use mouse (and keyboard) events to change CSS positioning properties
 
 		// There are nevertheless lessons to be learned from Drag & Drop about accessibility:
 		// http://dev.opera.com/articles/accessible-drag-and-drop/
 
-		var thisObj, $window, $toolbar, windowName, $resizeHandle, $resizeSvg, 
+		var thisObj, $window, $toolbar, windowName, $resizeHandle, $resizeSvg,
 			i, x1, y1, x2, y2, $resizeLine, resizeZIndex;
 
 		thisObj = this;
@@ -37,42 +37,42 @@
 			'class': 'able-resizable'
 		});
 
-		// fill it with three parallel diagonal lines 
+		// fill it with three parallel diagonal lines
 		$resizeSvg = $('<svg>').attr({
 			'width': '100%',
 			'height': '100%',
 			'viewBox': '0 0 100 100',
 			'preserveAspectRatio': 'none'
 		});
-		for (i=1; i<=3; i++) { 
-			if (i === 1) { 
-				x1 = '100'; 
-				y1 = '0'; 
-				x2 = '0'; 
-				y2 = '100'; 
+		for (i=1; i<=3; i++) {
+			if (i === 1) {
+				x1 = '100';
+				y1 = '0';
+				x2 = '0';
+				y2 = '100';
 			}
-			else if (i === 2) { 
-				x1 = '33'; 
-				y1 = '100'; 
-				x2 = '100'; 
-				y2 = '33'; 
+			else if (i === 2) {
+				x1 = '33';
+				y1 = '100';
+				x2 = '100';
+				y2 = '33';
 			}
-			else if (i === 3) { 
-				x1 = '67'; 
-				y1 = '100'; 
-				x2 = '100'; 
-				y2 = '67'; 
+			else if (i === 3) {
+				x1 = '67';
+				y1 = '100';
+				x2 = '100';
+				y2 = '67';
 			}
-			$resizeLine = $('<line>').attr({ 
+			$resizeLine = $('<line>').attr({
 				'x1': x1,
 				'y1': y1,
 				'x2': x2,
 				'y2': y2,
-				'vector-effect': 'non-scaling-stroke'				
+				'vector-effect': 'non-scaling-stroke'
 			})
-			$resizeSvg.append($resizeLine); 
+			$resizeSvg.append($resizeLine);
 		}
-		$resizeHandle.html($resizeSvg); 
+		$resizeHandle.html($resizeSvg);
 
 		// assign z-index that's slightly higher than parent window
 		resizeZIndex = parseInt($window.css('z-index')) + 100;
@@ -137,9 +137,7 @@
 	AblePlayer.prototype.addWindowMenu = function(which, $window, windowName) {
 
 		var thisObj, $windowAlert, menuId, $newButton, $buttonIcon, buttonImgSrc, $buttonImg,
-			$buttonLabel, tooltipId, $tooltip, $popup,
-			label, position, buttonHeight, buttonWidth, tooltipY, tooltipX, tooltipStyle, tooltip,
-			$optionList, menuBaseId, options, i, $optionItem, option, menuId;
+			$buttonLabel, tooltipId, $tooltip, $popup, menuId;
 
 		thisObj = this;
 
@@ -264,11 +262,9 @@
 
 		var thisObj, $windowPopup, $windowButton,
 			widthId, heightId, startingWidth, startingHeight, aspectRatio,
-			$resizeForm, $resizeWrapper,
-			$resizeWidthDiv, $resizeWidthInput, $resizeWidthLabel,
+			$resizeForm, $resizeWrapper, $resizeWidthDiv, $resizeWidthInput, $resizeWidthLabel,
 			$resizeHeightDiv, $resizeHeightInput, $resizeHeightLabel,
-			tempWidth, tempHeight,
-			$saveButton, $cancelButton, newWidth, newHeight, resizeDialog;
+			tempWidth, tempHeight, $saveButton, $cancelButton, newWidth, newHeight, resizeDialog;
 
 		thisObj = this;
 
@@ -339,12 +335,12 @@
 			}
 			resizeDialog.hide();
 			$windowPopup.hide();
-			$windowButton.focus();
+			$windowButton.trigger('focus');
 		});
 		$cancelButton.on('click',function () {
 			resizeDialog.hide();
 			$windowPopup.hide();
-			$windowButton.focus();
+			$windowButton.trigger('focus');
 		});
 
 		// Now assemble all the parts
@@ -406,7 +402,7 @@
 						// also restore menu items to their original state
 						$windowPopup.find('li').removeClass('able-focus').attr('tabindex','-1');
 						// also return focus to window options button
-						$windowButton.focus();
+						$windowButton.trigger('focus');
 					});
 				}
 				else {
@@ -433,7 +429,7 @@
 				thisObj.windowMenuClickRegistered = false; // reset
 			});
 			$windowPopup.find('li').removeClass('able-focus');
-			$windowButton.attr('aria-expanded','false').focus();
+			$windowButton.attr('aria-expanded','false').trigger('focus');
 		}
 		else {
 			// first, be sure window is on top
@@ -442,7 +438,7 @@
 			$windowPopup.css('top', popupTop);
 			$windowPopup.show(200,'',function() {
 				$windowButton.attr('aria-expanded','true');
-				$(this).find('li').first().focus().addClass('able-focus');
+				$(this).find('li').first().trigger('focus').addClass('able-focus');
 				thisObj.windowMenuClickRegistered = false; // reset
 			});
 		}
@@ -450,7 +446,7 @@
 
 	AblePlayer.prototype.handleMenuChoice = function (which, choice, e) {
 
-		var thisObj, $window, $windowPopup, $windowButton, resizeDialog, width, height, $thisRadio;
+		var thisObj, $window, $windowPopup, $windowButton, resizeDialog;
 
 		thisObj = this;
 		if (which === 'transcript') {
@@ -477,7 +473,7 @@
 					$windowPopup.find('li').removeClass('able-focus').attr('tabindex','-1');
 					$windowButton.attr('aria-expanded','false');
 					// also return focus to window options button
-					$windowButton.focus();
+					$windowButton.trigger('focus');
 				});
 				return false;
 			}
@@ -499,7 +495,7 @@
 			$windowButton.attr('aria-expanded','false');
 		});
 		if (choice !== 'close') {
-			$windowButton.focus();
+			$windowButton.trigger('focus');
 		}
 		if (choice === 'move') {
 
@@ -523,7 +519,7 @@
 				this.dragDevice = 'mouse';
 			}
 			this.startDrag(which, $window);
-			$windowPopup.hide().parent().focus();
+			$windowPopup.hide().parent().trigger('focus');
 		}
 		else if (choice == 'resize') {
 			// resize through the menu uses a form, not drag
@@ -550,7 +546,7 @@
 
 	AblePlayer.prototype.startDrag = function(which, $element) {
 
-		var thisObj, $windowPopup, zIndex, startPos, newX, newY;
+		var thisObj, $windowPopup, startPos, newX, newY;
 
 		thisObj = this;
 
@@ -608,7 +604,7 @@
 			'position': 'absolute',
 			'top': this.dragStartY + 'px',
 			'left': this.dragStartX + 'px'
-		}).focus();
+		}).trigger('focus');
 
 		// add device-specific event listeners
 		if (this.dragDevice === 'mouse') { // might also be a touchpad
@@ -697,7 +693,7 @@
 
 		if (which === 'transcript') {
 			// $activeWindow is the outer $transcriptArea
-			// but the inner able-transcript also needs to be resized proporitionally
+			// but the inner able-transcript also needs to be resized proportionally
 			// (it's 50px less than its outer container)
 			innerHeight = height - 50;
 			this.$transcriptDiv.css('height', innerHeight + 'px');
@@ -706,7 +702,7 @@
 
 	AblePlayer.prototype.endDrag = function(which) {
 
-		var thisObj, $window, $windowPopup, $windowButton;
+		var thisObj, $windowPopup, $windowButton;
 		thisObj = this;
 
 		if (which === 'transcript') {
@@ -725,7 +721,7 @@
 		this.$activeWindow = null;
 
 		if (this.dragDevice === 'keyboard') {
-			$windowButton.focus();
+			$windowButton.trigger('focus');
 		}
 		this.dragging = false;
 
@@ -771,7 +767,7 @@
 
 	AblePlayer.prototype.startResize = function(which, $element) {
 
-		var thisObj, $windowPopup, zIndex, startPos, newWidth, newHeight;
+		var thisObj, $windowPopup, startPos, newWidth, newHeight;
 
 		thisObj = this;
 		this.$activeWindow = $element;
@@ -786,7 +782,7 @@
 
 		// if window's popup menu is open, close it & place focus on button (???)
 		if ($windowPopup.is(':visible')) {
-			$windowPopup.hide().parent().focus();
+			$windowPopup.hide().parent().trigger('focus');
 		}
 
 		// get starting width and height
@@ -810,7 +806,7 @@
 
 	AblePlayer.prototype.endResize = function(which) {
 
-		var $window, $windowPopup, $windowButton;
+		var $windowPopup, $windowButton;
 
 		if (which === 'transcript') {
 			$windowPopup = this.$transcriptPopup;
@@ -823,7 +819,7 @@
 
 		$(document).off('mousemove mouseup touchmove touchup');
 		this.$activeWindow.off('keydown');
-		$windowButton.show().focus();
+		$windowButton.show().trigger('focus');
 		this.resizing = false;
 		this.$activeWindow.removeClass('able-resize');
 
@@ -842,5 +838,4 @@
 			this.finishingDrag = false;
 		}, 100);
 	};
-
 })(jQuery);

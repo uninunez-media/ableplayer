@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>YouTube player (captions hosted on YouTube) | Able Player Demos</title>
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
@@ -14,23 +15,6 @@
 
 <!-- Able Player JavaScript -->
 <script src="../build/ableplayer.js"></script>
-
-<!-- styles for this example page -->
-<style>
-	div#intro { 
-		width: 80em;
-		max-width: 100%;
-	}
-	div#intro ul { 
-		margin-top: 0.5em;
-		margin-bottom: 2em;
-	}
-	.wrapper {
-		width: 500px;
-		max-width: 100%;
-	}
-</style>
-
 </head>
 
 <body>
@@ -65,7 +49,7 @@
 		</div>
 
 		<div class="wrapper">
-			<video id="video1" data-able-player data-skin="2020" preload="auto" data-youtube-id="dhwpLACAls8" data-youtube-desc-id="Ck2TdVMhWcU" playsinline>
+			<video id="video1" data-able-player preload="auto" data-youtube-id="dhwpLACAls8" data-youtube-desc-id="Ck2TdVMhWcU" playsinline>
 			</video>
 		</div>
 

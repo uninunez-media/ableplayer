@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Video player on a page with form fields | Able Player Demos</title>
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
@@ -17,6 +18,10 @@
 
 <!-- CSS and JavaScript for this demo page -->
 <style>
+	.form {
+		padding: 1rem;
+		background: #fff;
+	}
 	.form label, .form input {
 		display: block;
 		margin-bottom: 0.5em;
@@ -42,7 +47,7 @@
 	(function () {
 		var feedback, answer;
 		$(document).ready(function () {
-			$('#submit').click(function(event) {
+			$('#submit').on( 'click', function(event) {
 				event.preventDefault();
 				answer = $('#favplayer').val().toLowerCase();
 				if (answer.substring(0,4) == 'able') {
@@ -52,7 +57,7 @@
 					feedback = 'Wrong answer! Please try again.';
 				}
 				$('#feedback').text(feedback).show();
-				$('#favplayer').focus();
+				$('#favplayer').trigger('focus');
 			})
 		});
 	})();
@@ -74,7 +79,7 @@
 
 		<form action="#" method="post">
 
-			<video id="video1" preload="auto" width="480" height="360" poster="../media/wwa.jpg" data-able-player data-skin="2020" playsinline>
+			<video id="video1" preload="auto" width="480" height="360" poster="../media/wwa.jpg" data-able-player playsinline>
 				<source type="video/mp4" src="../media/wwa.mp4"/>
 				<source type="video/webm" src="../media/wwa.webm"/>
 				<track kind="captions" src="../media/wwa_captions_en.vtt" srclang="en" label="English captions"/>
