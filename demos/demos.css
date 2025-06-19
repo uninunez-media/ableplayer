@@ -26,12 +26,16 @@ header {
 }
 
 header .title,
-main,
+main > *,
 nav {
 	width: 100%;
 	max-width: 640px;
 	margin: 0 auto;
 	box-sizing: border-box;
+}
+
+main > * {
+	margin: 0 auto 1.5rem;
 }
 
 header .title { 
@@ -43,7 +47,7 @@ nav {
 	max-width: 680px;
 }
 
-nav ul { 
+body > nav ul { 
 	display: flex;
 	flex-wrap: wrap;
 	list-style-type: none; 

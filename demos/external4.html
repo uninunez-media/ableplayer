@@ -18,10 +18,16 @@
 
 <!-- CSS for this example -->
 <style>
-#control-panel {
-	float: left;
-	padding-left: 30px;
-}
+	#wrapper {
+		max-width: 960px;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px;
+		background: #fff;
+		margin-top: 2rem;
+		padding: 1rem;
+	}
+
 #control-panel button {
 	font-size: 1.1em;
 	font-weight: bold;
@@ -138,45 +144,45 @@ $(document).ready(function() {
 		<p>To control Able Player via external controls, assign a new AblePlayer instance to a variable
 			and omit the <strong>data-able-player</strong> attribute from the media element.
 			Then, all Able Player functions are exposed and can be accessed via your custom JavaScript.</p>
+		<div id="wrapper">
+			<video id="video1" preload="auto" width="480" height="360" poster="../media/wwa.jpg" playsinline>
+				<source type="video/mp4" src="../media/wwa.mp4" data-desc-src="../media/wwa_described.mp4"/>
+				<source type="video/webm" src="../media/wwa.webm" data-desc-src="../media/wwa_described.webm"/>
+				<track kind="captions" src="../media/wwa_captions_de.vtt" srclang="de" label="Deutsche"/>
+				<track kind="captions" src="../media/wwa_captions_en.vtt" srclang="en" label="English" default/>
+				<track kind="captions" src="../media/wwa_captions_es.vtt" srclang="es" label="Español"/>
+				<track kind="subtitles" src="../media/wwa_captions_fr.vtt" srclang="fr" label="Français"/>
+				<track kind="subtitles" src="../media/wwa_captions_ja.vtt" srclang="ja" lang="ja" label="日本語"/>
+				<track kind="descriptions" src="../media/wwa_description_de.vtt" srclang="de"/>
+				<track kind="descriptions" src="../media/wwa_description_en.vtt" srclang="en"/>
+				<track kind="descriptions" src="../media/wwa_description_es.vtt" srclang="es"/>
+				<track kind="descriptions" src="../media/wwa_description_fr.vtt" srclang="fr"/>
+				<track kind="descriptions" src="../media/wwa_description_ja.vtt" srclang="ja"/>
+				<track kind="chapters" src="../media/wwa_chapters_de.vtt" srclang="de"/>
+				<track kind="chapters" src="../media/wwa_chapters_en.vtt" srclang="en"/>
+				<track kind="chapters" src="../media/wwa_chapters_es.vtt" srclang="es"/>
+				<track kind="chapters" src="../media/wwa_chapters_fr.vtt" srclang="fr"/>
+			</video>
 
-		<video id="video1" preload="auto" width="480" height="360" poster="../media/wwa.jpg" playsinline>
-			<source type="video/mp4" src="../media/wwa.mp4" data-desc-src="../media/wwa_described.mp4"/>
-			<source type="video/webm" src="../media/wwa.webm" data-desc-src="../media/wwa_described.webm"/>
-			<track kind="captions" src="../media/wwa_captions_de.vtt" srclang="de" label="Deutsche"/>
-			<track kind="captions" src="../media/wwa_captions_en.vtt" srclang="en" label="English" default/>
-			<track kind="captions" src="../media/wwa_captions_es.vtt" srclang="es" label="Español"/>
-			<track kind="subtitles" src="../media/wwa_captions_fr.vtt" srclang="fr" label="Français"/>
-			<track kind="subtitles" src="../media/wwa_captions_ja.vtt" srclang="ja" lang="ja" label="日本語"/>
-			<track kind="descriptions" src="../media/wwa_description_de.vtt" srclang="de"/>
-			<track kind="descriptions" src="../media/wwa_description_en.vtt" srclang="en"/>
-			<track kind="descriptions" src="../media/wwa_description_es.vtt" srclang="es"/>
-			<track kind="descriptions" src="../media/wwa_description_fr.vtt" srclang="fr"/>
-			<track kind="descriptions" src="../media/wwa_description_ja.vtt" srclang="ja"/>
-			<track kind="chapters" src="../media/wwa_chapters_de.vtt" srclang="de"/>
-			<track kind="chapters" src="../media/wwa_chapters_en.vtt" srclang="en"/>
-			<track kind="chapters" src="../media/wwa_chapters_es.vtt" srclang="es"/>
-			<track kind="chapters" src="../media/wwa_chapters_fr.vtt" srclang="fr"/>
-		</video>
+			<div id="control-panel">
 
-		<div id="control-panel">
+				<h2>External Controls</h2>
 
-			<h2>External Controls</h2>
-
-			<button id="play">Play</button>
-			<button id="mute">Mute</button>
-			<div id="seek-field">
-				<label for="skipTo">Play at (seconds):</label>
-				<input type="text" id="skipTo" name="skipTo"/>
-				<button id="go">Go</button>
+				<button id="play">Play</button>
+				<button id="mute">Mute</button>
+				<div id="seek-field">
+					<label for="skipTo">Play at (seconds):</label>
+					<input type="text" id="skipTo" name="skipTo"/>
+					<button id="go">Go</button>
+				</div>
+				<div id="error" role="alert"></div>
+				<h3>Playback Status</h3>
+				<ul>
+					<li>User played video: <span id="status-play">false</span></li>
+					<li>User played to end: <span id="status-end">false</span></li>
+				</ul>
 			</div>
-			<div id="error" role="alert"></div>
-			<h3>Playback Status</h3>
-			<ul>
-				<li>User played video: <span id="status-play">false</span></li>
-				<li>User played to end: <span id="status-end">false</span></li>
-			</ul>
 		</div>
-
 	</main>
 </body>
 </html>

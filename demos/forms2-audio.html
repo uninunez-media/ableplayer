@@ -17,8 +17,9 @@
 <script src="../build/ableplayer.js"></script>
 
 <style>
-.form div {
-	margin: 1em;
+.form {
+	padding: 1rem;
+	background: #fff;
 }
 .form label, .form input {
 	display: block;
@@ -59,32 +60,32 @@
 	<main>
 		<h1>Audio player in "Steno Mode"</h1>
 
-		<audio id="audio1" width="480" preload="auto" data-able-player data-steno-mode>
-			<source type="audio/mpeg" src="../media/smallf.mp3"/>
-			<source type="audio/ogg" src="../media/smallf.ogg"/>
-		</audio>
+		<div id="wrapper">
+			<audio id="audio1" width="480" preload="auto" data-able-player data-steno-mode>
+				<source type="audio/mpeg" src="../media/smallf.mp3"/>
+				<source type="audio/ogg" src="../media/smallf.ogg"/>
+			</audio>
 
-		<h2>Audio Transcription Example</h2>
+			<h2>Audio Transcription Example</h2>
 
-		<p>Ordinarily,, when users are interacting with form fields, their keystrokes should not be handled by the player.
-			However, in some contexts (e.g., in a transcription application), users may want to control the player
-			from within a textarea field. To enable this functionality, add <strong>data-steno-mode</strong> to the &lt;audio&gt; or &lt;video&gt; element. Note: Modifier keys for keyboard shortcuts can be configured within <em>Preferences > Keyboard</em>.</p>
+			<p>
+				Ordinarily, when users are interacting with form fields, their keystrokes should not be handled by the player. However, in some contexts (e.g., in a transcription application), users may want to control the player from within a textarea field. To enable this functionality, add <strong>data-steno-mode</strong> to the &lt;audio&gt; or &lt;video&gt; element. Note: Modifier keys for keyboard shortcuts can be configured within <em>Preferences > Keyboard</em>.
+			</p>
 
-
-		<div class="form">
-			<div>
-				<label for="transcriber">Name of transcriber:</label>
-				<input type="text" id="transcriber">
-			</div>
-			<div>
-				<label for="transcript">Transcript:</label>
-				<textarea id="transcript" rows="20"></textarea>
-			</div>
-			<div>
-				<input type="reset">
+			<div class="form">
+				<div>
+					<label for="transcriber">Name of transcriber:</label>
+					<input type="text" id="transcriber">
+				</div>
+				<div>
+					<label for="transcript">Transcript:</label>
+					<textarea id="transcript" rows="20"></textarea>
+				</div>
+				<div>
+					<input type="reset">
+				</div>
 			</div>
 		</div>
-
 	</main>
 </body>
 </html>

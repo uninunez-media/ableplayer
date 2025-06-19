@@ -20,26 +20,21 @@
 <style>
 	div#alert { 
 		display: none; 
-		margin: 1em;		
 		background-color: #FFC; 
 		padding: 1em;
 		border: 2px solid #340449; 
 		font-weight: bold; 
-		width: 20em;
-		text-align: center;
 	}
 	section ul { 
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
 		list-style-type: none;
-		margin: 0; 
 		padding: 0;
-	}
-	section ul li { 
-		display: inline;
 	}
 	section ul li button { 
 		color: black;
 		background-color: #E9E9ED;
-		margin: 0.25em;
 		font-size: 1.1em;
 		font-weight: bold; 		
 		padding: 0.75em;
@@ -173,21 +168,22 @@
 		<p>This page has no &lt;audio&gt; or &lt;video&gt; elements, but they can be added dynamically 
 			by clicking the following buttons.</p>
 
-		<div id="alert" aria-live="assertive"></div>
+		<div id="wrapper">
+			<div id="alert" aria-live="assertive"></div>
 
-		<section aria-label="Action buttons">
-			<ul>
-				<li><button id="addAudio">Add audio player</button></li>
-				<li><button id="addVideo">Add video player</button></li>
-				<li><button id="reset">Remove all players</button></li>
-			</ul>
-		</section>
+			<section aria-label="Action buttons">
+				<ul>
+					<li><button id="addAudio">Add audio player</button></li>
+					<li><button id="addVideo">Add video player</button></li>
+					<li><button id="reset">Remove all players</button></li>
+				</ul>
+			</section>
 
-		<div class="player-wrapper" id="audio1"></div>
+			<div class="player-wrapper" id="audio1"></div>
 
-		<div class="player-wrapper" id="video1"></div>
+			<div class="player-wrapper" id="video1"></div>
 
-
+		</div>
 	</main>
 </body>
 </html>
