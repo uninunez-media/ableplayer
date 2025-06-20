@@ -163,6 +163,8 @@
 }
 .able-left-controls, .able-right-controls {
     overflow: visible;
+	display: flex;
+	align-items: center;
 }
 .able-left-controls div[role="button"], .able-right-controls div[role="button"] {
     vertical-align: middle;
