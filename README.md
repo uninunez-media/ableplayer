@@ -313,6 +313,8 @@ The following additional features are supported by *Able Player*:
 
 As with audio, we recommend including two versions of each video, one in H.264 (MP4) and another in WebM or OGG for browsers that don’t support MP4. Browsers will play the first media source that they support.
 
+As of June 2025, [96.54% of browsers support the H.264 standard](https://caniuse.com/?search=mp4).
+
 #### Closed Captions
 
 Captions are added using the `<track>` element with `kind="captions"`. Captions must be in Web Video Text Tracks format ([WebVTT][]). WebVTT tags within captions are currently ignored.
