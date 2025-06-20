@@ -400,7 +400,6 @@ A `<span>` element with **class="able-source"** for each `<source>` element
     For each attribute that will ultimately be on the media's `<source>` elements, 
     add the same attributes to each `<span>`, prefaced with **data-**. 
 
-
 Within the playlist, each list item must include the following HTML elements: 
 
 -   A `<span>` element with **class="able-source"** for each `<source>` element 
