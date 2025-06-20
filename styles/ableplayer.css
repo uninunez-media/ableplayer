@@ -1234,92 +1234,92 @@ div.able-skin-2020 div.able-seekbar-wrapper {
 }
 
 .icon-play:before {
-    content: "\f04b";
+    content: "\f04b" / "";
 }
 .icon-pause:before {
-    content: "\f04c";
+    content: "\f04c" / "";
 }
 .icon-stop:before {
-    content: "\f04d";
+    content: "\f04d" / "";
 }
 .icon-restart:before {
-    content: "\e900";
+    content: "\e900" / "";
 }
 .icon-rewind:before {
-    content: "\e603";
+    content: "\e603" / "";
 }
 .icon-forward:before {
-    content: "\e604";
+    content: "\e604" / "";
 }
 .icon-previous:before {
-    content: "\e901";
+    content: "\e901" / "";
 }
 .icon-next:before {
-    content: "\e902";
+    content: "\e902" / "";
 }
 .icon-slower:before {
-    content: "\f0dd";
+    content: "\f0dd" / "";
 }
 .icon-faster:before {
-    content: "\f0de";
+    content: "\f0de" / "";
 }
 .icon-turtle:before {
-    content: "\e904";
+    content: "\e904" / "";
 }
 .icon-rabbit:before {
-    content: "\e905";
+    content: "\e905" / "";
 }
 .icon-ellipsis:before {
-    content: "\e903";
+    content: "\e903" / "";
 }
 .icon-pipe:before {
-    content: "\e600";
+    content: "\e600" / "";
 }
 .icon-captions:before {
-    content: "\e601";
+    content: "\e601" / "";
 }
 .icon-descriptions:before {
-    content: "\e602";
+    content: "\e602" / "";
 }
 .icon-sign:before {
-    content: "\e60a";
+    content: "\e60a" / "";
 }
 .icon-volume-mute:before {
-    content: "\e606";
+    content: "\e606" / "";
 }
 .icon-volume-soft:before {
-    content: "\e60c";
+    content: "\e60c" / "";
 }
 .icon-volume-medium:before {
-    content: "\e605";
+    content: "\e605" / "";
 }
 .icon-volume-loud:before {
-    content: "\e60b";
+    content: "\e60b" / "";
 }
 .icon-volume-up:before {
-    content: "\e607";
+    content: "\e607" / "";
 }
 .icon-volume-down:before {
-    content: "\e608";
+    content: "\e608" / "";
 }
 .icon-chapters:before {
-    content: "\e609";
+    content: "\e609" / "";
 }
 .icon-transcript:before {
-    content: "\f15c";
+    content: "\f15c" / "";
 }
 .icon-preferences:before {
-    content: "\e60d";
+    content: "\e60d" / "";
 }
 .icon-close:before {
-    content: "\f00d";
+    content: "\f00d" / "";
 }
 .icon-fullscreen-expand:before {
-    content: "\f065";
+    content: "\f065" / "";
 }
 .icon-fullscreen-collapse:before {
-    content: "\f066";
+    content: "\f066" / "";
 }
 .icon-help:before {
-    content: "\f128";
+    content: "\f128" / "";
 }
