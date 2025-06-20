@@ -59,7 +59,6 @@
 }
 .able .able-vidcap-container {
   background-color: #000;
-  /* height: 360px; */
   left: 0;
   margin: 0;
   position: relative;
@@ -79,12 +78,15 @@
   padding-top: 1em;
 }
 .able-offscreen {
-  position: absolute;
-  left: -10000px;
-  top: auto;
-  width: 1px;
+  border: 0;
+  clip-path: inset(50%);
   height: 1px;
+  margin: -1px;
   overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  word-wrap: normal !important;
 }
 .able-media-container audio {
   display: none !important;
