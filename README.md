@@ -54,15 +54,6 @@ Able Player has been translated into the following languages. To add another lan
   <li><strong lang="tr">Türkçe</strong> (Turkish)</li>
 </ul>
 
-Contributing
--------------
-
-There are many ways to contribute to Able Player, and we welcome and appreciate your help! Here are some options:
-
-- If you spot bugs are have feature requests, please submit them to the [Issues][issues] queue.
-- If you have code to contribute, please note that all development occurs on the [develop branch][develop]. This is often many commits ahead of the main branch, so please do all development from *develop*, and submit pull requests there. We particularly appreciate help with any issues in the Issues queue that have been flagged with "help wanted".
-- If you are multilingual, please consider translating Able Player into another language! All labels, prompts, messages, and help text for each language are contained within a single file, contained within the */translations* directory.
-
 Compatibility
 -------------
 
@@ -119,17 +110,11 @@ For debugging and/or style customization purposes, human-readable source files a
 Fallback
 --------
 
-All modern browsers have supported HTML5 media elements for many years. However, there are still older browsers in use that don’t have this support (e.g., Internet Explorer 9 and earlier). For these, fallback content should be provided. 
- 
-Prior to version 4.0, *Able Player* used [JW Player][] as a fallback Flash player for older browsers. However, this solution was built specifically on **JW Player 6** which is now many versions old and difficult to find. 
+All modern browsers have supported HTML5 media elements for many years. For older browsers, alternative content can be provided. We recommend providing alternative content as a child of the `<video>` or `<audio>` element. 
 
-Also, prior to version 4.0, *Able Player* used [Modernizr][] to enable styling of HTML5 elements in Internet Explorer 6 through 8. This too is no longer supported, and Modernizr is no longer needed. 
+For example, the fallback content could be a link to the media file so users can download it and play it on their player of choice. Or it could be a link to a transcript. 
 
-Instead, we recommend providing alternative content as a child of the `<video>` or `<audio>` element. 
-
-For example, this could be a link to the media file so users can download it and play it on their player of choice. Or it could be a link to a transcript. 
-
-If Able Player fails to load, it will fall back to the HTML media element and if the browser supports HTML5 media, the browser will provide its own interface for playing the media. If the browser is unable to play the media file, it will display the alternative content. If no alternative content is provided, Able Player will inject a short error message for the browser to display. 
+If Able Player fails to load, it will fall back to the HTML media element. If the browser supports HTML5 media, the browser will provide its own interface for playing the media. If the browser is unable to play the media file, it will display the alternative content. If no alternative content is provided, Able Player will inject a short error message for the browser to display. 
 
 Fallback content can be tested by adding the **data-test-fallback** attribute to the  `<audio>` or `<video>` element, with a value of either "1" (emulate failure to build Able Player) or "2" (emulate a browser that doesn't support HTML5 media).
 
