@@ -40,7 +40,7 @@ Able Player
 
 ## Supported Languages
 
-Able Player has been translated into the following languages. To add another language, see instructions below under **Contributing**.
+Able Player has been translated into the following languages.
 
 <ul>
 	<li><strong lang="id">Bahasa Indonesia</strong> (Indonesian)</li>
