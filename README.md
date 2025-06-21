@@ -7,7 +7,7 @@ Able Player
 - To see the player, check out the [Able Player Demos][examples].
 - View the [changelog](https://ableplayer.github.io/ableplayer/changelog.html).
 
-- [Feature List](#feature-;ist)
+- [Feature List](#feature-list)
 - [Supported Languages](#supported-languages)
 - [Compatibility](#compatibility)
 - [Dependencies](#dependencies)
