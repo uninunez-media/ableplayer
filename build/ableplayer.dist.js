@@ -18249,23 +18249,22 @@ if (typeof module !== "undefined" && module.exports) {
 		// as a url parameter, not as an id parameter
 		this.vimeoUrlHasParams = false;
 
-		var idStartPos, id;
-
 		if (typeof url === 'number') {
 			// this is likely already a vimeo ID
 			return url;
+		} else {
+			urlObject = new URL(url);
 		}
-		else if (url.indexOf('vimeo.com') !== -1) {
+		if ( 'vimeo.com' === urlObject.hostname || 'player.vimeo.com' === urlObject.hostname ) {
 			// this is a full Vimeo URL
-			if (url.indexOf('?') !== -1) {
+			if ( '' !== urlObject.search ) {
 				// URL contains parameters
 				this.vimeoUrlHasParams = true;
+				
 				return url;
-			}
-			else {
-				url = url.trim();
-				idStartPos = url.lastIndexOf('/') + 1;
-				id = url.substring(idStartPos);
+			} else {
+				let id = urlObject.pathname.replace( '/video/', '' );
+				
 				return id;
 			}
 		}
