@@ -42,6 +42,10 @@
 - Fix translations references for full screen text strings.
 - Added Malay translation.
 
+### Release Assets
+
+- Removed build tools, unbuilt scripts, demos, and media assets from the release archives. You will need to check out the repository to have access to these resources.
+
 ### Contributors
 
 The following people contributed to this release:
