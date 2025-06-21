@@ -463,7 +463,7 @@
 				// if it does, inject a thumbnail from YouTube
 				var $youTubeVideos = $(this).find('li[data-youtube-id]');
 				$youTubeVideos.each(function() {
-					var youTubeId = $(this).attr('data-youtube-id');
+					var youTubeId = DOMPurify.sanitize( $(this).attr('data-youtube-id') );
 					var youTubePoster = thisObj.getYouTubePosterUrl(youTubeId,'120');
 					var $youTubeImg = $('<img>',{
 						'src': youTubePoster,
