@@ -1,5 +1,5 @@
-Able Player
-==========
+# Able Player
+
 ![AblePlayer in action, showing the video player with captions, synchronized sign language, and a navigable transcript](https://user-images.githubusercontent.com/55474996/227562765-7a17103c-4c93-4a17-82b4-fc1e401972b0.png)
 
 *Able Player* is a fully accessible cross-browser HTML5 media player. 
@@ -40,7 +40,7 @@ Able Player
 
 ## Supported Languages
 
-Able Player has been translated into the following languages. To add another language, see instructions below under **Contributing**.
+Able Player has been translated into the following languages.
 
 <ul>
 	<li><strong lang="id">Bahasa Indonesia</strong> (Indonesian)</li>
