@@ -5284,7 +5284,7 @@ var AblePlayerInstances = [];
 			});
 		}
 
-		itemTitle = $newItem.text();
+		itemTitle = DOMPurify.sanitize( $newItem.text() );
 		if (this.hasAttr($newItem,'lang')) {
 			itemLang = $newItem.attr('lang');
 		}
