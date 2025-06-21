@@ -5,7 +5,6 @@ show_downloads: true
 theme: jekyll-theme-slate
 gems:
   - jekyll-mentions
-
-
+  
 include:
   - contributing.md

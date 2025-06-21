@@ -58,7 +58,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, #project_title, #project_tagline {
   margin: 10px 0;
   font-weight: 700;
   color:#222222;
@@ -66,12 +66,12 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -1px;
 }
 
-h1 {
+h1, #project_title {
   font-size: 36px;
   font-weight: 700;
 }
 
-h2 {
+h2, #project_tagline {
   padding-bottom: 10px;
   font-size: 32px;
   background: url('../images/bg_hr.png') repeat-x bottom;
