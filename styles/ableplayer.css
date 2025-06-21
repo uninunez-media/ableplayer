@@ -59,7 +59,6 @@
 }
 .able .able-vidcap-container {
   background-color: #000;
-  /* height: 360px; */
   left: 0;
   margin: 0;
   position: relative;
@@ -79,12 +78,15 @@
   padding-top: 1em;
 }
 .able-offscreen {
-  position: absolute;
-  left: -10000px;
-  top: auto;
-  width: 1px;
+  border: 0;
+  clip-path: inset(50%);
   height: 1px;
+  margin: -1px;
   overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  word-wrap: normal !important;
 }
 .able-media-container audio {
   display: none !important;
@@ -161,6 +163,8 @@
 }
 .able-left-controls, .able-right-controls {
     overflow: visible;
+	display: flex;
+	align-items: center;
 }
 .able-left-controls div[role="button"], .able-right-controls div[role="button"] {
     vertical-align: middle;
@@ -757,58 +761,16 @@ div.able-chapters-div button::-moz-focus-inner {
   color: #fff !important;
 }
 
-/*
-  Fullscreen settings
-  In v2.2.4b commented out :-webkit-full-screen style
-  This was causing the toolbar in fullscreen mode to be positioned slightly offscreen in webkit browsers
-  Safari had an additional problem in window height was being calculated
-  Commenting out this style appears have no adverse effect in any browser
-  All other fullscreen styles were already commented out, and left here solely for reference
-*/
 div.able-wrapper.fullscreen {
   margin: 0 !important;
   position: fixed !important;
   top: 0 !important;
   background: none !important;
 }
-/*
-:-webkit-full-screen {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    background: none;
-}
-:-moz-full-screen {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  bottom: 20;
-  background: none;
-}
-
-:-ms-fullscreen {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  background: none;
-}
-
-:fullscreen {
-  position: fixed;
-  width: 100%;
-  height: 80%;
-  top: 0;
-  background: none;
-}
-*/
 
 /*
   Tooltips & Alerts
 */
-
 .able-tooltip, .able-alert {
   position: absolute;
   padding: 5px 10px;
@@ -816,8 +778,6 @@ div.able-wrapper.fullscreen {
   border-width: 1px;
   color: #000 !important;
   background-color: #ccc;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   border-radius: 5px;
   display: block;
 }
@@ -846,8 +806,6 @@ div.able-wrapper.fullscreen {
   border-width: 1px;
   background-color: #000;
   opacity: 0.85;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   border-radius: 5px;
   display: block;
   cursor: default;
@@ -1279,92 +1237,92 @@ div.able-skin-2020 div.able-seekbar-wrapper {
 }
 
 .icon-play:before {
-    content: "\f04b";
+    content: "\f04b" / "";
 }
 .icon-pause:before {
-    content: "\f04c";
+    content: "\f04c" / "";
 }
 .icon-stop:before {
-    content: "\f04d";
+    content: "\f04d" / "";
 }
 .icon-restart:before {
-    content: "\e900";
+    content: "\e900" / "";
 }
 .icon-rewind:before {
-    content: "\e603";
+    content: "\e603" / "";
 }
 .icon-forward:before {
-    content: "\e604";
+    content: "\e604" / "";
 }
 .icon-previous:before {
-    content: "\e901";
+    content: "\e901" / "";
 }
 .icon-next:before {
-    content: "\e902";
+    content: "\e902" / "";
 }
 .icon-slower:before {
-    content: "\f0dd";
+    content: "\f0dd" / "";
 }
 .icon-faster:before {
-    content: "\f0de";
+    content: "\f0de" / "";
 }
 .icon-turtle:before {
-    content: "\e904";
+    content: "\e904" / "";
 }
 .icon-rabbit:before {
-    content: "\e905";
+    content: "\e905" / "";
 }
 .icon-ellipsis:before {
-    content: "\e903";
+    content: "\e903" / "";
 }
 .icon-pipe:before {
-    content: "\e600";
+    content: "\e600" / "";
 }
 .icon-captions:before {
-    content: "\e601";
+    content: "\e601" / "";
 }
 .icon-descriptions:before {
-    content: "\e602";
+    content: "\e602" / "";
 }
 .icon-sign:before {
-    content: "\e60a";
+    content: "\e60a" / "";
 }
 .icon-volume-mute:before {
-    content: "\e606";
+    content: "\e606" / "";
 }
 .icon-volume-soft:before {
-    content: "\e60c";
+    content: "\e60c" / "";
 }
 .icon-volume-medium:before {
-    content: "\e605";
+    content: "\e605" / "";
 }
 .icon-volume-loud:before {
-    content: "\e60b";
+    content: "\e60b" / "";
 }
 .icon-volume-up:before {
-    content: "\e607";
+    content: "\e607" / "";
 }
 .icon-volume-down:before {
-    content: "\e608";
+    content: "\e608" / "";
 }
 .icon-chapters:before {
-    content: "\e609";
+    content: "\e609" / "";
 }
 .icon-transcript:before {
-    content: "\f15c";
+    content: "\f15c" / "";
 }
 .icon-preferences:before {
-    content: "\e60d";
+    content: "\e60d" / "";
 }
 .icon-close:before {
-    content: "\f00d";
+    content: "\f00d" / "";
 }
 .icon-fullscreen-expand:before {
-    content: "\f065";
+    content: "\f065" / "";
 }
 .icon-fullscreen-collapse:before {
-    content: "\f066";
+    content: "\f066" / "";
 }
 .icon-help:before {
-    content: "\f128";
+    content: "\f128" / "";
 }
