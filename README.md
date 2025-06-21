@@ -6,6 +6,7 @@
 
 - To see the player, check out the [Able Player Demos][examples].
 - View the [changelog](https://ableplayer.github.io/ableplayer/changelog.html).
+- [Learn how to contribute](https://ableplayer.github.io/ableplayer/contributing.html).
 
 - [Feature List](#feature-list)
 - [Supported Languages](#supported-languages)
@@ -89,8 +90,7 @@ During development, *Able Player* is routinely tested with the latest versions o
 
 With the release of version 4.4, we are no longer actively supporting Internet Explorer. 
 
-Dependencies
-------------
+## Dependencies
 
 *Able Player* has the following third party dependencies: 
 
