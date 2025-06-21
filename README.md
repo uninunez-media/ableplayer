@@ -7,8 +7,19 @@ Able Player
 - To see the player, check out the [Able Player Demos][examples].
 - View the [changelog](https://ableplayer.github.io/ableplayer/changelog.html).
 
-Features
---------
+- [Feature List](#feature-;ist)
+- [Supported Languages](#supported-languages)
+- [Compatibility](#compatibility)
+- [Dependencies](#dependencies)
+- [Fallback](#fallback)
+- [Setup](#setup)
+- [Feature Attributes](#features-attributes)
+- [Mime Types](#mime-types)
+- [Keyboard Shortcuts](#keyboard-shortcuts)
+- [User Preferences](#user-preferences)
+- [Acknowledgements](#acknowledgements)
+
+## Feature List
 
 - Supports both audio and video.
 - Supports either a single audio track or an entire playlist.
@@ -27,36 +38,34 @@ Features
 - Supports fallback content if the media cannot be played (see section on **Fallback** for details).
 - Includes extensive customization options. Many of the features described above are controlled by user preferences. This is based on the belief that every user has different needs and there are no one-size-fits-all solutions. This is the heart of universal design.
 
-Supported Languages
--------------------
+## Supported Languages
 
 Able Player has been translated into the following languages. To add another language, see instructions below under **Contributing**.
 
 <ul>
-  <li><strong lang="id">Bahasa Indonesia</strong> (Indonesian)</li>
-  <li><strong lang="ca">Català</strong> (Catalan)</li>
-  <li><strong lang="cs">čeština</strong> (Czech)</li>
-  <li><strong>Chinese, Traditional (Taiwan)</strong></li>  
+	<li><strong lang="id">Bahasa Indonesia</strong> (Indonesian)</li>
+	<li><strong lang="ca">Català</strong> (Catalan)</li>
+	<li><strong lang="cs">čeština</strong> (Czech)</li>
+	<li><strong>Chinese, Traditional (Taiwan)</strong></li>  
 	<li><strong lang="da">Dansk</strong> (Danish)</li>  
-  <li><strong lang="de">Deutsch</strong> (German)</li>
-  <li><strong>English</strong></li> 
-  <li><strong lang="en">Español</strong> (Spanish)</li> 
-  <li><strong lang="fr">Français</strong> (French)</li> 
-  <li><strong lang="he">עִברִית</strong> (Hebrew)</li>
-  <li><strong>Indonesian</strong></li>
-  <li><strong lang="it">Italiano</strong> (Italian)</li>
-  <li><strong lang="ja">日本語</strong> (Japanese)</li>  
-  <li><strong lang="ms">Melayu</strong> (Malay)</li>
-  <li><strong lang="pt">Português</strong> (Portuguese)</li>  
-  <li><strong lang="pt-br">Português - Brasil</strong> (Portuguese - Brazil)</li>  
-  <li><strong lang="nb">Norsk Bokmål</strong> (Norwegian)</li> 
-  <li><strong lang="nl">Nederlands, Vlaams</strong> (Dutch)</li> 
-  <li><strong lang="sv">Svenska</strong> (Swedish)</li> 
-  <li><strong lang="tr">Türkçe</strong> (Turkish)</li>
+	<li><strong lang="de">Deutsch</strong> (German)</li>
+	<li><strong>English</strong></li> 
+	<li><strong lang="en">Español</strong> (Spanish)</li> 
+	<li><strong lang="fr">Français</strong> (French)</li> 
+	<li><strong lang="he">עִברִית</strong> (Hebrew)</li>
+	<li><strong>Indonesian</strong></li>
+	<li><strong lang="it">Italiano</strong> (Italian)</li>
+	<li><strong lang="ja">日本語</strong> (Japanese)</li>  
+	<li><strong lang="ms">Melayu</strong> (Malay)</li>
+	<li><strong lang="pt">Português</strong> (Portuguese)</li>  
+	<li><strong lang="pt-br">Português - Brasil</strong> (Portuguese - Brazil)</li>  
+	<li><strong lang="nb">Norsk Bokmål</strong> (Norwegian)</li> 
+	<li><strong lang="nl">Nederlands, Vlaams</strong> (Dutch)</li> 
+	<li><strong lang="sv">Svenska</strong> (Swedish)</li> 
+	<li><strong lang="tr">Türkçe</strong> (Turkish)</li>
 </ul>
 
-Compatibility
--------------
+## Compatibility
 
 During development, *Able Player* is routinely tested with the latest versions of the following browsers.
 
@@ -108,8 +117,7 @@ For debugging and/or style customization purposes, human-readable source files a
 - `build/ableplayer.js`
 - `styles/ableplayer.css`
  
-Fallback
---------
+## Fallback
 
 All modern browsers have supported HTML5 media elements for many years. For older browsers, alternative content can be provided. We recommend providing alternative content as a child of the `<video>` or `<audio>` element. 
 
@@ -119,8 +127,9 @@ If Able Player fails to load, it will fall back to the HTML media element. If th
 
 Fallback content can be tested by adding the **data-test-fallback** attribute to the  `<audio>` or `<video>` element, with a value of either "1" (emulate failure to build Able Player) or "2" (emulate a browser that doesn't support HTML5 media).
 
-Setup Step 1: Use HTML5 Doctype
--------------------------------
+## Setup
+
+### Step 1: Use HTML5 Doctype
 
 *Able Player* is built on the HTML5 media elements, so at the top of your web page be sure you have the HTML5 doctype:
 
@@ -128,8 +137,7 @@ Setup Step 1: Use HTML5 Doctype
 <!DOCTYPE html>
 ```
 
-Setup Step 2: Add JavaScript and CSS
-------------------------------------
+### Step 2: Add JavaScript and CSS
 
 Copy and paste the following code into your web page. This code applies to all use cases, both audio and video.
 
@@ -145,12 +153,11 @@ Copy and paste the following code into your web page. This code applies to all u
 <script src="build/ableplayer.min.js"></script>
 ```
 
-Setup Step 3: Add HTML
-----------------------
+### Step 3: Add HTML
 
 Add an HTML5 `<audio>` or `<video>` element to your web page, as follows.
 
-### Audio
+#### Audio
 
 Copy and paste the following code into your web page, replacing the source files with the path to your own media files. Use both OGG and MP3 to ensure cross-browser compatibility, since some browsers don’t support MP3.
 
@@ -161,7 +168,7 @@ Copy and paste the following code into your web page, replacing the source files
 </audio>
 ```
 
-### Video
+#### Video
 
 Copy and paste the following code into your web page, replacing the source files with the path to your own media files. Use both WebM and MP4 to ensure cross-browser compatibility, since some browsers don’t support MP4.
 
@@ -174,17 +181,24 @@ Copy and paste the following code into your web page, replacing the source files
 </video>
 ```
 
+### Step 4: Review User-Defined Variables in *ableplayer.js*
 
-### Supported Attributes
+The JavaScript file *initialize.js* includes a block of user-defined variables that can be modified from their default settings, such as volume, color of controller buttons, seek interval for rewind and forward buttons, and others. 
+
+Explanations of each variable are provided in the comments.
+
+If you make changes to this or any other JavaScript script files, the player will need to be recompiled before your changes will take effect. To do so, run the npm command `npm run build`.
+
+## Feature Attributes
 
 The following attributes are supported on both the `<audio>` and `<video>` elements:
 
-#### Required Attributes
+### Required Attributes
 
 - **id** - required; any unique ID
 - **data-able-player** - required
 
-#### Optional; General-Purpose
+### Optional; General-Purpose
 
 - **data-debug** - optional; if present will write messages to the developer console
 - **autoplay** - optional; play media automatically when page loads. For accessibility reasons, this is *not* recommended unless user is sure to *expect* media to automatically start. For example, autoplay could reasonably be used in conjunction with data-start-time in a media search application.
@@ -211,16 +225,16 @@ The following attributes are supported on both the `<audio>` and `<video>` eleme
 - **data-seek-interval** - optional; interval (in seconds) of forward and rewind buttons. By default, seek interval is intelligently calculated based on  duration of the media.
 - **data-show-now-playing** - optional; "true" to include "Selected track" section within player; only applies when a playlist is present
 
-#### Language
+### Language
 
 - **data-lang** - optional; specify language of the player using 2-character language code. In order to work, the language specified must be one of Able Player's supported languages (see **Supported Languages** above). If **data-lang** is not included or specifies a language that is not supported, Able Player will default to the language of the web page if known and supported; otherwise it will default to English.   
 
-#### Captions
+### Captions
 
 - **data-captions-position** - optional; specify default position of captions relative to the video (either "below" or "overlay"; "below" is the default if not specified). Users can override this setting in Captions Preferences.
 - **data-state-captions** - optional; "on" or "off". Captions are on by default if they're available, but this allows website owners to override that setting. If users enable captions, their preference will be saved in a cookie, and that will override the default setting on future visits.
 
-#### Transcript
+### Transcript
 
 Able Player can automatically generate an accessible interactive transcript from the chapters, captions, and descriptions tracks. There are three types of interactive transcripts supported:
 -  "external" - Automatically generated, written to an external div (requires **data-transcript-div**)
@@ -250,7 +264,7 @@ To manually code the transcript, one simple strategy is to first allow Able Play
 - Wrap unspoken content such as names of speakers or descriptions of sound in a &lt;span&gt; element with class="able-unspoken".
 - Use any other markup desired to add structure and style to your transcript. Able Player will ignore it.
 
-#### Chapters
+### Chapters
 
 - **data-chapters-div** - optional; id of an external div in which to display a list of chapters.
     The list of chapters is generated automatically if a chapters track is available in a WebVTT file.
@@ -260,7 +274,7 @@ To manually code the transcript, one simple strategy is to first allow Able Play
 - **data-chapters-default** - optional; identify ID of default chapter (must correspond with the text or value immediately above the timestamp in your chapter's WebVTT file). If this attribute is present, the media will be advanced to this start time. Otherwise it will start at the beginning. (See also **data-start-time**).
 - **data-seekbar-scope** - optional; default is "video" (seekbar represents full duration of video); if set to "chapter" seekbar represents the duration of the current chapter only
 
-#### Metadata
+### Metadata
 
 Metadata is added using the `<track>` element with `kind="metadata"`. It must be in Web Video Text Tracks format ([WebVTT][]). Able Player supports two types of metadata:
 
@@ -281,14 +295,14 @@ The following attributes make all this possible:
 
 **NOTE:** If you're using metadata to expose content in sync with videos hosted on YouTube, please review [YouTube's Terms of Service] related to Overlays and Frames. As of August 11, 2016: "You must not display overlays, frames, or other visual elements in front of any part of a YouTube embedded player, including player controls. Similarly, you must not use overlays, frames or other visual elements to obscure any part of an embedded player, including player controls."
 
-#### Search
+### Search
 
 - **data-search-div** - required for search; id of external container in which to display search results
 - **data-search** - optional; search terms to search for within the caption tracks, separated by a space
 - **data-search-lang** - optional; specify 2-character language code of caption or subtitle track to search. If unspecified, searches the default language, which is the language of the web page if specified using the *lang* attribute on either the `<html>` or `<body>` tag. 
 - **data-search-ignore-caps** - optional; ignore capitalization in search terms. If omitted, search is case-sensitive.
 
-#### Fallback Player
+### Fallback Player
 
 - **data-test-fallback** - optional (for testing); force browsers to display fallback content. Set to either of the following values:
     -  "1" - emulate failure to build Able Player 
@@ -310,13 +324,13 @@ If width and height are omitted, the player will be sized to fit its container.
 
 The following additional features are supported by *Able Player*:
 
-#### Multiple source files
+### Multiple source files
 
 As with audio, we recommend including two versions of each video, one in H.264 (MP4) and another in WebM or OGG for browsers that don’t support MP4. Browsers will play the first media source that they support.
 
 As of June 2025, [96.54% of browsers support the H.264 standard](https://caniuse.com/?search=mp4).
 
-#### Closed Captions
+### Closed Captions
 
 Captions are added using the `<track>` element with `kind="captions"`. Captions must be in Web Video Text Tracks format ([WebVTT][]). WebVTT tags within captions are currently ignored.
 
@@ -324,7 +338,7 @@ Captions are added using the `<track>` element with `kind="captions"`. Captions 
 
 If captions are provided, a CC button will be added to the *Able Player* controller.
 
-#### Audio Description
+### Audio Description
 
 Supplemental description of key visual content for blind users can be added using one of two methods.
 
@@ -350,7 +364,7 @@ If description is available through either of the above methods, it is off by de
 
 Setting this to "off" is useful if all videos have plenty of audio space for description to be read, and pausing is therefore unnecessary. The default setting is "on". If users have changed this setting in the Description Preferences dialog, their preference will be saved in a cookie, and that will override the default setting on future visits. 
 
-#### Sign language
+### Sign language
 
 Sign language translation is supported in a separate video player, synchronized with the main player. Tips for filming a sign language interpreter are available from [Signing Books for the Deaf][]:
 
@@ -363,17 +377,7 @@ This button will toggle the display of a pop-up window in which the sign languag
 
 Unfortunately this feature is not currently supported on iOS. 
 
-Setup Step 4: Review User-Defined Variables in *ableplayer.js*
---------------------------------------------------------------
-
-The JavaScript file *initialize.js* includes a block of user-defined variables that can be modified from their default settings, such as volume, color of controller buttons, seek interval for rewind and forward buttons, and others. 
-
-Explanations of each variable are provided in the comments.
-
-If you make changes to this or any other JavaScript script files, the player will need to be recompiled before your changes will take effect. To do so, run the npm command `npm run build`.
-
-Playlists
----------
+### Playlists
 
 An *Able Player* playlist is an HTML list of tracks. A playlist can accompany either a video or audio player, but both audio and video cannot be combined within a single playlist. The list can be either ordered (`<ol>`) or unordered (`<ul>`). 
 
@@ -477,8 +481,7 @@ For additional examples of both audio and video playlists, see the [Able Player 
 
 When a playlist is included on a page, the `<source>` elements within the `<audio>` or `<video>` tags are optional. If they are provided, they should match the first item in the playlist.
 
-Interactive Transcript
-----------------------
+### Interactive Transcript
 
 *Able Player* interactive transcripts are generated automatically from WebVTT chapters, descriptions, and captions/subtitles files. If a transcript is available, a Transcript button will be added to the *Able Player* controller.
 
@@ -497,8 +500,7 @@ If the chapter starts a millisecond later than its first caption, the chapter na
 <div id="able-vts"></div>
 ```
 
-YouTube Support
----------------
+### YouTube Support
 
 To play a YouTube video in *Able Player*, simply include a **data-youtube-id** attribute on the `<video>` element. The value of this attribute can be the video's 11-character YouTube ID, or a YouTube URL in any of the following formats (where xxx is the 11-character ID): 
 
@@ -510,7 +512,7 @@ If a described version of the video is available on YouTube, include a **data-yo
 
 If users turn on the Description button on their player controller, the described version of the video will be loaded instead of the non-described version.
 
-### Important Changes to YouTube Support
+#### Important Changes to YouTube Support
 
 On November 10, 2021, Google eliminated the *timedtext* API, which for years had been a dependable, albeit undocumented, means of getting access to YouTube caption files. 
 
@@ -518,8 +520,7 @@ Able Player version 4.3.27 restores Able Player's ability to toggle captions on 
 
 See the section below on *Limitations of hosting captions and subtitles on YouTube or Vimeo*. 
 
-Vimeo Support
----------------
+### Vimeo Support
 
 To play a Vimeo video in *Able Player*, simply include a **data-vimeo-id** attribute on the `<video>` element. The value of this attribute can be the video's Vimeo ID (a string of numbers or characters), or it can be a full Vimeo URL, such as https://vimeo.com/xxx where xxx is the Vimeo ID.
 
@@ -532,8 +533,7 @@ Note that Vimeo currently has some limitations:
 
 In addition, if captions and subtitles are hosted on Vimeo, Able Player can control toggling them on/off and choosing languages via the CC button. However, Able Player's full functionality is not available. See the section below on *Limitations of hosting captions and subtitles on YouTube or Vimeo*. 
 
-Limitations of hosting captions and subtitles on YouTube or Vimeo
-----------
+### Limitations of hosting captions and subtitles on YouTube or Vimeo
 
 If captions and subtitles are hosted on YouTube or Vimeo, Able Player can control toggling them on/off and choosing languages via the CC button. However, Able Player's full functionality is not available. Specifically: 
 
@@ -547,8 +547,7 @@ If captions and subtitles are hosted locally, in addition to being hosted on You
 (i.e., to ensure accessibility of videos when viewed directly on these platforms), the local captions will take precedence in Able PLayer in order to provide full functionality. 
 
 
-MIME Types
-----------
+## MIME Types
 
 If your media doesn’t play, one possibility is that your web server is attempting to serve up the media with the incorrect MIME type. On Apache, this can be correct by adding the following commands to the .htaccess file:
 
@@ -574,8 +573,7 @@ If your site is running on a Windows server, consult the documentation from Micr
 - [Configuring MIME Types in IIS 7][]
 - [How to add MIME Types with IIS7 Web.config][]
 
-Keyboard Shortcuts
-------------------
+## Keyboard Shortcuts
 
 *Able Player* includes several keyboard shortcuts that enable users to control the player from anywhere on the web page, as follows:
 
@@ -595,8 +593,7 @@ Note that modifier keys (Alt, Control, and Shift) can be assigned by clicking th
 
 By default, keyboard shortcuts must be accompanied by Alt + Control.
 
-User Preferences
-----------------
+## User Preferences
 
 One of *Able Player’s* accessibility features is that the player is highly customizable by users. The controller includes a Preferences button that allows users to change default preferences and settings. Their changes are stored in a browser cookie and in most cases should therefore be preserved the next time they visit the site. Specifically, users can control the following:
 
@@ -611,39 +608,7 @@ One of *Able Player’s* accessibility features is that the player is highly cus
 - Highlight transcript as video plays
 - Keyboard-enable transcript
 
-Building the Able Player source
--------------------------------
-
-The source JavaScript files for Able Player are in the */scripts* directory, and the source CSS files are in the */styles* directory. These source files are ultimately combined into several different files (in the */build* directory) using [npm][] and [Grunt][]:
-
-```sh
-# Install Grunt globally 
-npm install -g grunt-cli
-
-# Install project dependencies
-npm install
-
-# Build CSS and JS
-npm run build
-```
-
-The npm and Grunt build process is defined by the *Gruntfile.js* and *package.json* files. (Note that the **version number** is specified in *package.json*, and must be updated when a new version is released).
-
-Files created by the build process are put into the */build* directory:
-
-- **build/ableplayer.js** -
-  the default build of *ableplayer.js*
-- **build/ableplayer.dist.js** -
-  a build of *ableplayer.js* without console logging
-- **build/ableplayer.min.js** -
-  a minified version of the *dist* file
-- **build/ableplayer.min.css** -
-  a minified combined version of all Able Player CSS files
-- **build/separate-dompurify/ directory** -
-   same files as above, except DOMPurify is provided as a separate file rather than bundled to give the option of loading the library separately or using a CDN-hosted version.
-
-Acknowledgments
----------------
+## Acknowledgments
 
 - Able Player development is supported in part by the [AccessComputing][] project at the University of Washington, with financial support from the National Science Foundation (grants #CNS-0540615, CNS-0837508, and CNS-1042260).
 - Additional support has been provided by the [Committee on Institutional Cooperation][] (CIC).
