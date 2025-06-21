@@ -4,10 +4,6 @@
 
 *Able Player* is a fully accessible cross-browser HTML5 media player. 
 
-- To see the player, check out the [Able Player Demos][examples].
-- View the [changelog](https://ableplayer.github.io/ableplayer/changelog.html).
-- [Learn how to contribute](https://ableplayer.github.io/ableplayer/contributing.html).
-
 - [Feature List](#feature-list)
 - [Supported Languages](#supported-languages)
 - [Compatibility](#compatibility)
