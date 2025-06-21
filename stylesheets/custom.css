@@ -1,0 +1,24 @@
+
+#header_wrap nav {
+	padding: 0 10px;
+	margin: 0 auto;
+	max-width: 640px;
+}
+
+#header_wrap nav ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+#header_wrap nav ul li {
+	margin: 0;
+	padding: 0;
+}
+
+#header_wrap nav a {
+	color: #fff;
+}
