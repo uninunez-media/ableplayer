@@ -4,27 +4,28 @@ Able Player
 
 *Able Player* is a fully accessible cross-browser HTML5 media player. 
 
-To see the player in action check out the [Able Player Examples][examples] page.
+- To see the player, check out the [Able Player Demos][examples].
+- View the [changelog](https://ableplayer.github.io/ableplayer/changelog.html).
 
 Features
 --------
 
--   Supports both audio and video.
--   Supports either a single audio track or an entire playlist.
--   Includes a full set of player controls that are keyboard-accessible, properly labeled for screen reader users, and controllable by speech recognition users.
--   Includes customizable keyboard shortcuts that enable the player to be operated from anywhere on the web page (unless there are multiple instances of the player on a given page; then the player must have focus for keyboard shortcuts to work).
--   Features high contrast, scalable controls that remain visible in Windows High Contrast mode, plus an easy-to-see focus indicator so keyboard users can easily tell which control currently has focus.
--   Supports closed captions and subtitles in Web Video Timed Text (WebVTT) format, the standard format recommended by the HTML5 specification.
--   Supports chapters, also using WebVTT. Chapters are specific landing points in the video, allowing video content to have structure and be more easily navigated.
--   Supports text-based audio description, also using WebVTT. At designated times, the description text is read aloud by browsers, or by screen readers for browsers that don't support the Web Speech API. Users can optionally set their player to pause when audio description starts in order to avoid conflicts between the description and program audio.
--   Supports audio description as a separate video. When two videos are available (one with description and one without), both can be delivered together using the same player and users can toggle between the versions.
--   Supports adjustable playback rate. Users who need to slow down the video in order to better process and understand its content can do so; and users who need to speed up the video in order to maintain better focus can do so.
--   Includes an interactive transcript feature, built from the WebVTT chapter, caption and description files as the page is loaded. Users can click anywhere in the transcript to start playing the video (or audio) at that point.  Keyboard users can also choose to keyboard-enable the transcript, so they can tab through its content one caption at a time and press enter to play the media at the desired point.
--   Features automatic text highlighting within the transcript as the media plays. This feature is enabled by default but can be turned off if users find it distracting.
--   Supports YouTube and Vimeo videos.
--   Provides users with the ability to customize the display of captions and subtitles. Users can control the font style, size, and color of caption text; plus background color and transparency; all from the Preferences dialog. They can also choose to position captions *below* the video instead of the default position (an semi-transparent overlay).
--   Supports fallback content if the media cannot be played (see section on **Fallback** for details).
--   Includes extensive customization options. Many of the features described above are controlled by user preferences. This is based on the belief that every user has different needs and there are no one-size-fits-all solutions. This is the heart of universal design.
+- Supports both audio and video.
+- Supports either a single audio track or an entire playlist.
+- Includes a full set of player controls that are keyboard-accessible, properly labeled for screen reader users, and controllable by speech recognition users.
+- Includes customizable keyboard shortcuts that enable the player to be operated from anywhere on the web page (unless there are multiple instances of the player on a given page; then the player must have focus for keyboard shortcuts to work).
+- Features high contrast, scalable controls that remain visible in Windows High Contrast mode, plus an easy-to-see focus indicator so keyboard users can easily tell which control currently has focus.
+- Supports closed captions and subtitles in Web Video Timed Text (WebVTT) format, the standard format recommended by the HTML5 specification.
+- Supports chapters, also using WebVTT. Chapters are specific landing points in the video, allowing video content to have structure and be more easily navigated.
+- Supports text-based audio description, also using WebVTT. At designated times, the description text is read aloud by browsers, or by screen readers for browsers that don't support the Web Speech API. Users can optionally set their player to pause when audio description starts in order to avoid conflicts between the description and program audio.
+- Supports audio description as a separate video. When two videos are available (one with description and one without), both can be delivered together using the same player and users can toggle between the versions.
+- Supports adjustable playback rate. Users who need to slow down the video in order to better process and understand its content can do so; and users who need to speed up the video in order to maintain better focus can do so.
+- Includes an interactive transcript feature, built from the WebVTT chapter, caption and description files as the page is loaded. Users can click anywhere in the transcript to start playing the video (or audio) at that point.  Keyboard users can also choose to keyboard-enable the transcript, so they can tab through its content one caption at a time and press enter to play the media at the desired point.
+- Features automatic text highlighting within the transcript as the media plays. This feature is enabled by default but can be turned off if users find it distracting.
+- Supports YouTube and Vimeo videos.
+- Provides users with the ability to customize the display of captions and subtitles. Users can control the font style, size, and color of caption text; plus background color and transparency; all from the Preferences dialog. They can also choose to position captions *below* the video instead of the default position (an semi-transparent overlay).
+- Supports fallback content if the media cannot be played (see section on **Fallback** for details).
+- Includes extensive customization options. Many of the features described above are controlled by user preferences. This is based on the belief that every user has different needs and there are no one-size-fits-all solutions. This is the heart of universal design.
 
 Supported Languages
 -------------------
@@ -60,22 +61,22 @@ Compatibility
 During development, *Able Player* is routinely tested with the latest versions of the following browsers.
 
 ### Windows 
--   Chrome
--   Firefox 
--   Edge
+- Chrome
+- Firefox 
+- Edge
 
 ### Mac OS 
--   Chrome 
--   Firefox 
--   Safari 
--   Opera 
+- Chrome 
+- Firefox 
+- Safari 
+- Opera 
 
 ### iOS (iPhone and iPad)
--   Safari 
+- Safari 
 
 ### Android (Google Pixel)
--   Chrome 
--   Firefox 
+- Chrome 
+- Firefox 
 
 With the release of version 4.4, we are no longer actively supporting Internet Explorer. 
 
@@ -180,44 +181,44 @@ The following attributes are supported on both the `<audio>` and `<video>` eleme
 
 #### Required Attributes
 
--   **id** - required; any unique ID
--   **data-able-player** - required
+- **id** - required; any unique ID
+- **data-able-player** - required
 
 #### Optional; General-Purpose
 
--   **data-debug** - optional; if present will write messages to the developer console
--   **autoplay** - optional; play media automatically when page loads. For accessibility reasons, this is *not* recommended unless user is sure to *expect* media to automatically start. For example, autoplay could reasonably be used in conjunction with data-start-time in a media search application.
--   **loop** - optional; loops and plays the media file repeatedly. If used in conjunction with a playlist, loops the entire playlist rather than individual tracks.
--   **playsinline** - optional but recommended; instructs supporting browsers to play the video "inline" within the web page. This is especially applicable on iPhones, which by default load the video in their own built-in video player, thereby removing it from its surrounding context, which includes Able Player buttons and controls, an interactive transcript, and any other companion features added via Able Player. If this attribute is present, it works for all supported videos, including YouTube and Vimeo videos.
--   **preload** - optional; tells the browser how much media to download
+- **data-debug** - optional; if present will write messages to the developer console
+- **autoplay** - optional; play media automatically when page loads. For accessibility reasons, this is *not* recommended unless user is sure to *expect* media to automatically start. For example, autoplay could reasonably be used in conjunction with data-start-time in a media search application.
+- **loop** - optional; loops and plays the media file repeatedly. If used in conjunction with a playlist, loops the entire playlist rather than individual tracks.
+- **playsinline** - optional but recommended; instructs supporting browsers to play the video "inline" within the web page. This is especially applicable on iPhones, which by default load the video in their own built-in video player, thereby removing it from its surrounding context, which includes Able Player buttons and controls, an interactive transcript, and any other companion features added via Able Player. If this attribute is present, it works for all supported videos, including YouTube and Vimeo videos.
+- **preload** - optional; tells the browser how much media to download
     when the page loads. If the media is the central focus of the web
     page, use **preload="auto"**, which instructs the browser to
     download as much of the media as possible. If the media is not a
     central focus, downloading the entire media resource can consume
     valuable bandwidth, so preload="metadata" would be a better option.
--   **width** - width of the video player in pixels. This value should reflect the target width of the media itself. If not provided the player will be sized to fit its container. This value is supported for audio as well, but this is not valid HTML so **data-width** should be used instead. 
--   **data-width** - width of the media player in pixels (can be used for either audio or video). If neither **width** nor **data-width** are provided, the player will be sized to fit its container.
--   **data-root-path** - define path to root directory of Able Player; generally not required but may be needed in rare instances where Able Player is unable to identify its current path on the web server
--   **data-heading-level** - optional; Able Player injects an off-screen HTML heading "Media Player" (or localized equivalent) at the top of the player so screen reader users can easily find the player. It automatically assigns a heading level that is one level deeper than the closest parent heading. This attribute can be used to manually set the heading level, rather than relying on Able Player to assign it automatically. Valid values are 1 through 6. A value of 0 is also supported, and instructs Able Player to not inject a heading at all. The latter should be used only if the web page already includes a heading immediately prior to the media player.
--   **data-hide-controls** - optional; set to "true" to hide controls during playback. Controls are visibly hidden but still accessible to assistive technologies. Controls reappear if user presses any key or moves the mouse over the video player region.
--   **data-icon-type** - optional; "svg", "font" or "image"; "svg" is the default with automatic fallback to "font" unless either (a) the browser doesn't support icon fonts or (b) the user has a custom style sheet that may impact the display of icon fonts; in either case falls back to images. Should generally leave as is unless testing the fallback.
--   **data-skin** - optional; "legacy (default) or "2020". The default skin has two rows of controls, with the seekbar positioned in available space within the top row. The "2020" skin, introduced in version 4.2, has all buttons in one row beneath a full-width seekbar. 
--   **data-speed-icons** - optional; "animals" (default) or "arrows". The default setting uses a turtle icon for *slower* and a rabbit icon for *faster*. Setting this to "arrows" uses the original Able Player icons (prior to version 3.5), arrows pointing up for *faster* and down for *slower*.
--   **data-start-time** - optional; time at which you want the audio to start playing (in seconds)
--   **data-steno-iframe-id** - optional; id of an iframe in which users will be typing with steno-mode enabled (see next item).
--   **data-steno-mode** - optional; "true" to allow keyboard shortcuts for controlling the player remotely within textarea form fields, e.g., for transcribing media content. 
--   **data-volume** - optional; set the default volume (0 to 10; default is 7 to avoid overpowering screen reader audio)
--   **data-seek-interval** - optional; interval (in seconds) of forward and rewind buttons. By default, seek interval is intelligently calculated based on  duration of the media.
--   **data-show-now-playing** - optional; "true" to include "Selected track" section within player; only applies when a playlist is present
+- **width** - width of the video player in pixels. This value should reflect the target width of the media itself. If not provided the player will be sized to fit its container. This value is supported for audio as well, but this is not valid HTML so **data-width** should be used instead. 
+- **data-width** - width of the media player in pixels (can be used for either audio or video). If neither **width** nor **data-width** are provided, the player will be sized to fit its container.
+- **data-root-path** - define path to root directory of Able Player; generally not required but may be needed in rare instances where Able Player is unable to identify its current path on the web server
+- **data-heading-level** - optional; Able Player injects an off-screen HTML heading "Media Player" (or localized equivalent) at the top of the player so screen reader users can easily find the player. It automatically assigns a heading level that is one level deeper than the closest parent heading. This attribute can be used to manually set the heading level, rather than relying on Able Player to assign it automatically. Valid values are 1 through 6. A value of 0 is also supported, and instructs Able Player to not inject a heading at all. The latter should be used only if the web page already includes a heading immediately prior to the media player.
+- **data-hide-controls** - optional; set to "true" to hide controls during playback. Controls are visibly hidden but still accessible to assistive technologies. Controls reappear if user presses any key or moves the mouse over the video player region.
+- **data-icon-type** - optional; "svg", "font" or "image"; "svg" is the default with automatic fallback to "font" unless either (a) the browser doesn't support icon fonts or (b) the user has a custom style sheet that may impact the display of icon fonts; in either case falls back to images. Should generally leave as is unless testing the fallback.
+- **data-skin** - optional; "legacy (default) or "2020". The default skin has two rows of controls, with the seekbar positioned in available space within the top row. The "2020" skin, introduced in version 4.2, has all buttons in one row beneath a full-width seekbar. 
+- **data-speed-icons** - optional; "animals" (default) or "arrows". The default setting uses a turtle icon for *slower* and a rabbit icon for *faster*. Setting this to "arrows" uses the original Able Player icons (prior to version 3.5), arrows pointing up for *faster* and down for *slower*.
+- **data-start-time** - optional; time at which you want the audio to start playing (in seconds)
+- **data-steno-iframe-id** - optional; id of an iframe in which users will be typing with steno-mode enabled (see next item).
+- **data-steno-mode** - optional; "true" to allow keyboard shortcuts for controlling the player remotely within textarea form fields, e.g., for transcribing media content. 
+- **data-volume** - optional; set the default volume (0 to 10; default is 7 to avoid overpowering screen reader audio)
+- **data-seek-interval** - optional; interval (in seconds) of forward and rewind buttons. By default, seek interval is intelligently calculated based on  duration of the media.
+- **data-show-now-playing** - optional; "true" to include "Selected track" section within player; only applies when a playlist is present
 
 #### Language
 
--   **data-lang** - optional; specify language of the player using 2-character language code. In order to work, the language specified must be one of Able Player's supported languages (see **Supported Languages** above). If **data-lang** is not included or specifies a language that is not supported, Able Player will default to the language of the web page if known and supported; otherwise it will default to English.   
+- **data-lang** - optional; specify language of the player using 2-character language code. In order to work, the language specified must be one of Able Player's supported languages (see **Supported Languages** above). If **data-lang** is not included or specifies a language that is not supported, Able Player will default to the language of the web page if known and supported; otherwise it will default to English.   
 
 #### Captions
 
--   **data-captions-position** - optional; specify default position of captions relative to the video (either "below" or "overlay"; "below" is the default if not specified). Users can override this setting in Captions Preferences.
--   **data-state-captions** - optional; "on" or "off". Captions are on by default if they're available, but this allows website owners to override that setting. If users enable captions, their preference will be saved in a cookie, and that will override the default setting on future visits.
+- **data-captions-position** - optional; specify default position of captions relative to the video (either "below" or "overlay"; "below" is the default if not specified). Users can override this setting in Captions Preferences.
+- **data-state-captions** - optional; "on" or "off". Captions are on by default if they're available, but this allows website owners to override that setting. If users enable captions, their preference will be saved in a cookie, and that will override the default setting on future visits.
 
 #### Transcript
 
@@ -227,15 +228,15 @@ Able Player can automatically generate an accessible interactive transcript from
 -  "manual" - A manually coded external transcript (requires **data-transcript-src**)
 
 The following attributes control which of the above types, if any, are generated:
--   **data-transcript-div** - optional; id of an external div in which to display an interactive transcript.
--   **data-transcript-src** - optional; id of an external div that contains a pre-existing manually coded transcript. Able Player will parse this transcript and interact with it during playback.
--   **data-include-transcript** - optional; set to "false" to exclude transcript button from controller.
+- **data-transcript-div** - optional; id of an external div in which to display an interactive transcript.
+- **data-transcript-src** - optional; id of an external div that contains a pre-existing manually coded transcript. Able Player will parse this transcript and interact with it during playback.
+- **data-include-transcript** - optional; set to "false" to exclude transcript button from controller.
 
 If none of the above attributes are present, the transcript will be displayed in a draggable, resizable popup that can be toggled on/off using a button on the controller. Note that a toggle button is added to the controller *only* if the transcript is a "popup" type; there is no toggle button for either the "external" or "manual" transcript types.
 
 Additional transcript-related attributes include:
--   **data-transcript-title** - optional; override default transcript title (default is "Transcript", or "Lyrics" if the data-lyrics-mode attribute is present)
--   **data-lyrics-mode** - optional; forces a line break between and within captions in the transcript
+- **data-transcript-title** - optional; override default transcript title (default is "Transcript", or "Lyrics" if the data-lyrics-mode attribute is present)
+- **data-lyrics-mode** - optional; forces a line break between and within captions in the transcript
 
 To manually code the transcript, one simple strategy is to first allow Able Player to *automatically* generate a transcript. Then copy and paste its content as a starting point. To manually code a transcript from scratch, use the following markup (see [Video Demo #7] for an example):
 
@@ -251,13 +252,13 @@ To manually code the transcript, one simple strategy is to first allow Able Play
 
 #### Chapters
 
--   **data-chapters-div** - optional; id of an external div in which to display a list of chapters.
+- **data-chapters-div** - optional; id of an external div in which to display a list of chapters.
     The list of chapters is generated automatically if a chapters track is available in a WebVTT file.
     If this attribute is not provided and chapter are available, chapters will be displayed in a popup menu triggered by the Chapters button.
--   **data-use-chapters-button** - optional; set to "false" to exclude chapters button from controller. If using the data-chapters-div attribute to write the chapters to an external container, you might not want users to be able to toggle the chapters off.
--   **data-chapters-title** - optional; override default chapters title (default is "Chapters"). A null value (data-chapters-title="") eliminates the title altogether.
--   **data-chapters-default** - optional; identify ID of default chapter (must correspond with the text or value immediately above the timestamp in your chapter's WebVTT file). If this attribute is present, the media will be advanced to this start time. Otherwise it will start at the beginning. (See also **data-start-time**).
--   **data-seekbar-scope** - optional; default is "video" (seekbar represents full duration of video); if set to "chapter" seekbar represents the duration of the current chapter only
+- **data-use-chapters-button** - optional; set to "false" to exclude chapters button from controller. If using the data-chapters-div attribute to write the chapters to an external container, you might not want users to be able to toggle the chapters off.
+- **data-chapters-title** - optional; override default chapters title (default is "Chapters"). A null value (data-chapters-title="") eliminates the title altogether.
+- **data-chapters-default** - optional; identify ID of default chapter (must correspond with the text or value immediately above the timestamp in your chapter's WebVTT file). If this attribute is present, the media will be advanced to this start time. Otherwise it will start at the beginning. (See also **data-start-time**).
+- **data-seekbar-scope** - optional; default is "video" (seekbar represents full duration of video); if set to "chapter" seekbar represents the duration of the current chapter only
 
 #### Metadata
 
@@ -274,35 +275,35 @@ This combination of exposing new content, pausing the video, and placing keyboar
 
 The following attributes make all this possible:
 
--   **data-meta-type** - required for metadata; indicates the type of metadata contained within a metadata track. Supported values as described above are "text" and "selector".
--   **data-meta-div** - required for "text" metadata; id of an external div in which to display the text.
--   **data-duration** - optional attribute on the element displayed via a metadata track; value is the number of milliseconds to display the element before it fades out. Elements displayed via metadata tracks automatically fade out at the end time designated within the WebVTT file. However, if the **data-duration** attribute is present, this enables an element to fade out *before* the designated time. This is useful if multiple elements appear simultaneously, but some need to fade out earlier than others.
+- **data-meta-type** - required for metadata; indicates the type of metadata contained within a metadata track. Supported values as described above are "text" and "selector".
+- **data-meta-div** - required for "text" metadata; id of an external div in which to display the text.
+- **data-duration** - optional attribute on the element displayed via a metadata track; value is the number of milliseconds to display the element before it fades out. Elements displayed via metadata tracks automatically fade out at the end time designated within the WebVTT file. However, if the **data-duration** attribute is present, this enables an element to fade out *before* the designated time. This is useful if multiple elements appear simultaneously, but some need to fade out earlier than others.
 
 **NOTE:** If you're using metadata to expose content in sync with videos hosted on YouTube, please review [YouTube's Terms of Service] related to Overlays and Frames. As of August 11, 2016: "You must not display overlays, frames, or other visual elements in front of any part of a YouTube embedded player, including player controls. Similarly, you must not use overlays, frames or other visual elements to obscure any part of an embedded player, including player controls."
 
 #### Search
 
--   **data-search-div** - required for search; id of external container in which to display search results
--   **data-search** - optional; search terms to search for within the caption tracks, separated by a space
--   **data-search-lang** - optional; specify 2-character language code of caption or subtitle track to search. If unspecified, searches the default language, which is the language of the web page if specified using the *lang* attribute on either the `<html>` or `<body>` tag. 
--   **data-search-ignore-caps** - optional; ignore capitalization in search terms. If omitted, search is case-sensitive.
+- **data-search-div** - required for search; id of external container in which to display search results
+- **data-search** - optional; search terms to search for within the caption tracks, separated by a space
+- **data-search-lang** - optional; specify 2-character language code of caption or subtitle track to search. If unspecified, searches the default language, which is the language of the web page if specified using the *lang* attribute on either the `<html>` or `<body>` tag. 
+- **data-search-ignore-caps** - optional; ignore capitalization in search terms. If omitted, search is case-sensitive.
 
 #### Fallback Player
 
--   **data-test-fallback** - optional (for testing); force browsers to display fallback content. Set to either of the following values:
+- **data-test-fallback** - optional (for testing); force browsers to display fallback content. Set to either of the following values:
     -  "1" - emulate failure to build Able Player 
 		-  "2" - emulate browser that doesn't support HTML5 media  
 
 The following attributes are supported on the `<video>` element only:
 
--   **data-allow-fullscreen** - optional; if set to "false" the player will not include a fullscreen button
--   **data-youtube-id** - optional; 11-character YouTube ID, to play the YouTube video using *Able Player*.
--   **data-youtube-desc-id** - optional; 11-character YouTube ID of the described version of a video. See the section below on *YouTube Support* for additional information.
--   **data-youtube-nocookie** - optional; if set to "true" the YouTube video will be embedded using the "youtube-nocookie.com" host.
--   **data-vimeo-id** - optional; ID of a video on Vimeo, to play the Vimeo video using *Able Player*.
--   **data-vimeo-desc-id** - optional; ID of the described version of a video on Vimeo. See the section below on *Vimeo Support* for additional information.
--   **height** - height of the video in pixels. 
--   **poster** - path to an image file. Will be displayed in the player
+- **data-allow-fullscreen** - optional; if set to "false" the player will not include a fullscreen button
+- **data-youtube-id** - optional; 11-character YouTube ID, to play the YouTube video using *Able Player*.
+- **data-youtube-desc-id** - optional; 11-character YouTube ID of the described version of a video. See the section below on *YouTube Support* for additional information.
+- **data-youtube-nocookie** - optional; if set to "true" the YouTube video will be embedded using the "youtube-nocookie.com" host.
+- **data-vimeo-id** - optional; ID of a video on Vimeo, to play the Vimeo video using *Able Player*.
+- **data-vimeo-desc-id** - optional; ID of the described version of a video on Vimeo. See the section below on *Vimeo Support* for additional information.
+- **height** - height of the video in pixels. 
+- **poster** - path to an image file. Will be displayed in the player
     until the video is played.
     
 If width and height are omitted, the player will be sized to fit its container. 
@@ -380,17 +381,17 @@ The size of the media player is controlled via the media player itself (e.g., wi
 
 The following attributes are supported on the list element:
 
--   **class** - required; must be **able-playlist**
--   **data-player** - required; must reference the ID of the media
+- **class** - required; must be **able-playlist**
+- **data-player** - required; must reference the ID of the media
     player in which the playlist should be played.
--   **data-embedded** - optional; add this attribute if you want your
+- **data-embedded** - optional; add this attribute if you want your
     playlist to be embedded into the media player. If this attribute is
     omitted, the playlist will be external to the player and will appear
     wherever you place it on the web page.
 
 Within the playlist, each list item can include the following HTML attributes: 
 
--   **data-poster** - path to an image file. 
+- **data-poster** - path to an image file. 
 
 The following HTML elements must be nested inside each list item: 
 
@@ -402,17 +403,17 @@ A `<span>` element with **class="able-source"** for each `<source>` element
 
 Within the playlist, each list item must include the following HTML elements: 
 
--   A `<span>` element with **class="able-source"** for each `<source>` element 
+- A `<span>` element with **class="able-source"** for each `<source>` element 
     that is to accompany the media. When the user selects an item from the playlist, 
     its able-source `<span>` elements will be copied to `<source>` elements and loaded for playback. 
     For each attribute that will ultimately be on the media's `<source>` elements, 
     add the same attributes to each `<span>`, prefaced with **data-**. 
--   A `<span>` element with **class="able-track"** for each `<track>` element 
+- A `<span>` element with **class="able-track"** for each `<track>` element 
     that is to accompany the media. When the user selects an item from the playlist, 
     its able-track `<span>` elements will be copied to `<track>` elements and loaded for playback. 
     For each attribute that will ultimately be on the media's `<track>` elements, 
     add the same attributes to each `<span>`, prefaced with **data-**. 
--   A `<button>` element with **type="button"**. Inside the button, include either text, 
+- A `<button>` element with **type="button"**. Inside the button, include either text, 
     an image, or both. This content would typically be the title of the item. If using an image 
     alone, be sure to add a meaningful **alt** attribute. If the image is purely decorative and 
     is accompanied by text, using **alt=""**. 
@@ -464,15 +465,15 @@ For additional examples of both audio and video playlists, see the [Able Player 
 
 **Supported data-\* audio types:**
 
--   mp3
--   ogg or oga
--   wav
+- mp3
+- ogg or oga
+- wav
 
 **Supported data-\* video types:**
 
--   mp4
--   webm or webmv
--   ogg or ogv
+- mp4
+- webm or webmv
+- ogg or ogv
 
 When a playlist is included on a page, the `<source>` elements within the `<audio>` or `<video>` tags are optional. If they are provided, they should match the first item in the playlist.
 
@@ -483,10 +484,10 @@ Interactive Transcript
 
 Features of the interactive transcript include the following:
 
--   Clicking anywhere in the transcript starts playing the media at that point.
--   This same functionality is accessible to keyboard users, who can tab through the transcript and press Enter at any point to start playing the media at that point. Since this creates a lot of extra tab stops on the page, this might be undesirable functionality for some keyboard users so it’s disabled by default. It can be toggled on/off in the Preferences dialog.
--   Text in the transcript is highlighted as the media plays. This can be toggled on/off in the Preferences dialog.
--   If subtitles are available, the transcript can be displayed in any supported language. Available languages can be selected from a dropdown select field.
+- Clicking anywhere in the transcript starts playing the media at that point.
+- This same functionality is accessible to keyboard users, who can tab through the transcript and press Enter at any point to start playing the media at that point. Since this creates a lot of extra tab stops on the page, this might be undesirable functionality for some keyboard users so it’s disabled by default. It can be toggled on/off in the Preferences dialog.
+- Text in the transcript is highlighted as the media plays. This can be toggled on/off in the Preferences dialog.
+- If subtitles are available, the transcript can be displayed in any supported language. Available languages can be selected from a dropdown select field.
     
 If the transcript is assembled from multiple sources, any timing imperfections between sources come sometimes lead to problems in the read order within the transcript. For example, a new chapter should start *before* any captions or descriptions within that chapter. 
 
@@ -526,8 +527,8 @@ If a described version of the video is available on Vimeo, include a **data-vime
 
 Note that Vimeo currently has some limitations:  
 
--   A Plus, Pro or Business account is required in order to hide Vimeo's default controller. If videos are hosted on a free account, the Vimeo controller and Able Player controller are both shown. The Vimeo controller disappears temporarily after playback begins, but until then having both players present is cluttered and confusing. 
--   A Pro or Business account is required in order to change playback rate (with faster and slower buttons). This functionality is *not* supported with a Plus account. Even with a Pro or Business account, this feature is off by default and "Speed controls" need to be enabled within the settings for each video.
+- A Plus, Pro or Business account is required in order to hide Vimeo's default controller. If videos are hosted on a free account, the Vimeo controller and Able Player controller are both shown. The Vimeo controller disappears temporarily after playback begins, but until then having both players present is cluttered and confusing. 
+- A Pro or Business account is required in order to change playback rate (with faster and slower buttons). This functionality is *not* supported with a Plus account. Even with a Pro or Business account, this feature is off by default and "Speed controls" need to be enabled within the settings for each video.
 
 In addition, if captions and subtitles are hosted on Vimeo, Able Player can control toggling them on/off and choosing languages via the CC button. However, Able Player's full functionality is not available. See the section below on *Limitations of hosting captions and subtitles on YouTube or Vimeo*. 
 
@@ -570,25 +571,25 @@ If you don’t have access to your server’s .htaccess file, you should be able
 
 If your site is running on a Windows server, consult the documentation from Microsoft. For example:
 
--   [Configuring MIME Types in IIS 7][]
--   [How to add MIME Types with IIS7 Web.config][]
+- [Configuring MIME Types in IIS 7][]
+- [How to add MIME Types with IIS7 Web.config][]
 
 Keyboard Shortcuts
 ------------------
 
 *Able Player* includes several keyboard shortcuts that enable users to control the player from anywhere on the web page, as follows:
 
--   **p or spacebar** = Play/Pause
--   **s** = Stop
--   **r** = Rewind
--   **f** = Forward
--   **b** = Back (previous track in playlist)
--   **n** = Next (next track in playlist) 
--   **c** = Captions
--   **d** = Description
--   **m** = Mute on/off
--   **v or 1-9** = Volume
--   **e** = Preferences
+- **p or spacebar** = Play/Pause
+- **s** = Stop
+- **r** = Rewind
+- **f** = Forward
+- **b** = Back (previous track in playlist)
+- **n** = Next (next track in playlist) 
+- **c** = Captions
+- **d** = Description
+- **m** = Mute on/off
+- **v or 1-9** = Volume
+- **e** = Preferences
 
 Note that modifier keys (Alt, Control, and Shift) can be assigned by clicking the Preferences button on the player. If users find that shortcut keys aren’t working as advertised, they might have better success by selecting different combinations of modifier keys to accompany the default shortcut keys.
 
@@ -599,16 +600,16 @@ User Preferences
 
 One of *Able Player’s* accessibility features is that the player is highly customizable by users. The controller includes a Preferences button that allows users to change default preferences and settings. Their changes are stored in a browser cookie and in most cases should therefore be preserved the next time they visit the site. Specifically, users can control the following:
 
--   Modifier keys: Add *Alt*, *Ctrl*, or *Shift* to the Able Player keyboard
+- Modifier keys: Add *Alt*, *Ctrl*, or *Shift* to the Able Player keyboard
     shortcuts to avoid conflicts with other applications.
--   Closed captions on by default
--   Description on by default
--   Use text-based description if available.
--   Automatically pause video when text-based description starts
--   If using text-based description, make it visible
--   Transcript on by default
--   Highlight transcript as video plays
--   Keyboard-enable transcript
+- Closed captions on by default
+- Description on by default
+- Use text-based description if available.
+- Automatically pause video when text-based description starts
+- If using text-based description, make it visible
+- Transcript on by default
+- Highlight transcript as video plays
+- Keyboard-enable transcript
 
 Building the Able Player source
 -------------------------------
