@@ -6865,8 +6865,8 @@ var preProcessing = {
     return vttContent.replace(
       /<(v|c|b|i|u|lang|ruby)\.([\w\.]+)([^>]*)>/g,
       function (_, tag, cssClasses, otherAttrs) {
-        var classAttr = cssClasses.split(".").join(" ");
-        return "<" + tag + ' class="' + classAttr + '"' + otherAttrs + ">";
+        var classAttr = cssClasses.replace(/\./g, " ");
+        return `<${tag} class="${classAttr}"${otherAttrs}>`;
       }
     );
   },
@@ -6953,7 +6953,7 @@ var postProcessing = {
     return vttContent.replace(
       /<c class="([\w\s]+)">/g,
       function (_, classNames) {
-        var classes = classNames.split(" ").join(".");
+        var classes = classNames.replace(/\./g, " ");
         return "<c." + classes + ">";
       }
     );
