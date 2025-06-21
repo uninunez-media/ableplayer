@@ -8091,7 +8091,7 @@ if (typeof module !== "undefined" && module.exports) {
 				// the described version is currently playing. Swap to non-described
 				for (i=0; i < this.$sources.length; i++) {
 					// for all <source> elements, replace src with data-orig-src
-					origSrc = this.$sources[i].getAttribute('data-orig-src');
+					origSrc = DOMPurify.sanitize( this.$sources[i].getAttribute('data-orig-src') );
 					srcType = this.$sources[i].getAttribute('type');
 					if (origSrc) {
 						this.$sources[i].setAttribute('src',origSrc);
@@ -8103,8 +8103,8 @@ if (typeof module !== "undefined" && module.exports) {
 				for (i=0; i < this.$sources.length; i++) {
 					// for all <source> elements, replace src with data-desc-src (if one exists)
 					// then store original source in a new data-orig-src attribute
-					origSrc = this.$sources[i].getAttribute('src');
-					descSrc = this.$sources[i].getAttribute('data-desc-src');
+					origSrc = DOMPurify.sanitize( this.$sources[i].getAttribute('src') );
+					descSrc = DOMPurify.sanitize( this.$sources[i].getAttribute('data-desc-src') );
 					srcType = this.$sources[i].getAttribute('type');
 					if (descSrc) {
 						this.$sources[i].setAttribute('src',descSrc);
@@ -14344,7 +14344,7 @@ if (typeof module !== "undefined" && module.exports) {
 		else {
 			// for each original <source>, add a <source> to the sign <video>
 			for (i=0; i < this.$sources.length; i++) {
-				signSrc = this.$sources[i].getAttribute('data-sign-src');
+				signSrc = DOMPurify.sanitize( this.$sources[i].getAttribute('data-sign-src') );
 				srcType = this.$sources[i].getAttribute('type');
 				if (signSrc) {
 					$signSource = $('<source>',{
@@ -16919,12 +16919,9 @@ if (typeof module !== "undefined" && module.exports) {
 			if ( '' !== urlObject.search ) {
 				// URL contains parameters
 				this.vimeoUrlHasParams = true;
-				console.log( url );
 				return url;
 			} else {
-				let id = urlObject.pathname.replace( '/video/', '' );
-				console.log( id );
-				return id;
+				return urlObject.pathname.replace( '/video/', '' );;
 			}
 		}
 		else {

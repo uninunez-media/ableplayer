@@ -66,7 +66,7 @@
 		else {
 			// for each original <source>, add a <source> to the sign <video>
 			for (i=0; i < this.$sources.length; i++) {
-				signSrc = this.$sources[i].getAttribute('data-sign-src');
+				signSrc = DOMPurify.sanitize( this.$sources[i].getAttribute('data-sign-src') );
 				srcType = this.$sources[i].getAttribute('type');
 				if (signSrc) {
 					$signSource = $('<source>',{
