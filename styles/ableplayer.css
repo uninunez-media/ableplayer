@@ -1042,14 +1042,13 @@ button.able-search-results-time:active {
   Video Transcript Sorter (VTS)
 */
 #able-vts-instructions {
-  margin-bottom: 1.5em;
   padding: 1em;
   border: 1px solid #999;
-  width: 720px;
-  max-width: 90%;
+  width: 100%;
+  margin: 0 auto 1.5rem;
 }
 #able-vts fieldset {
-  margin: 1em;
+  margin: 0 auto 1.5rem;
   border: none;
 }
 #able-vts fieldset legend {
@@ -1057,31 +1056,37 @@ button.able-search-results-time:active {
   font-weight: bold;
 }
 #able-vts fieldset div {
-  float: left;
+  display: inline-block;
   padding-right: 1em;
-}
-#able-vts table {
-  clear: left;
 }
 
 #able-vts table,
 #able-vts table th,
 #able-vts table td {
-  border: 1px solid black;
+  border: 1px solid #323232;
   border-collapse: collapse;
-  padding: 0.5em 0.75em;
+  padding: 8px;
+  color: #323232;
 }
-#able-vts table th.actions {
-  min-width: 140px;
+#able-vts table td:hover {
+	background: #fff;
+	color: #333;
+}
+#able-vts table td:focus-within {
+	background: #fff;
+	color: #000;
 }
 #able-vts table td button {
   width: auto;
-  padding: 0;
-  margin: 2px;
+  padding: 2px;
+  margin: 1px;
+  display: flex;
+  align-items: center;
+  float: left;
 }
 #able-vts table td button svg {
-  width: 16px;
-  height: 16px;
+  width: 22px;
+  height: 22px;
 }
 #able-vts table button:hover svg {
   fill: #c00;
@@ -1115,8 +1120,8 @@ div#able-vts-alert {
 }
 button#able-vts-save {
   font-size: 1em;
-  padding: 0.25em;
-  border-radius: 5px;
+  padding: 6px 12px;
+  border-radius: 4px;
   margin-bottom: 1em;
   font-weight: bold;
 }
