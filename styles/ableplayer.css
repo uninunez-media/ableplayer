@@ -1069,11 +1069,11 @@ button.able-search-results-time:active {
   padding: 8px;
   color: #323232;
 }
-#able-vts table td:hover {
+#able-vts table td[contenteditable="true"]:hover {
 	background: #fff;
 	color: #333;
 }
-#able-vts table td:focus-within {
+#able-vts table td[contenteditable="true"]:focus-within {
 	background: #fff;
 	color: #000;
 }
