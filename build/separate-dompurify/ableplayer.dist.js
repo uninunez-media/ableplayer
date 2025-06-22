@@ -15566,12 +15566,12 @@ if (typeof module !== "undefined" && module.exports) {
 				$instructions = $('<div>',{
 					'id': 'able-vts-instructions'
 				});
-				$p1 = $('<p>').text('Use the Video Transcript Sorter to perform any of the following tasks:');
+				$p1 = $('<p>').text('Use the Video Transcript Sorter to modify text tracks:');
 				$ul = $('<ul>');
 				$li1 = $('<li>').text('Reorder chapters, descriptions, captions, and/or subtitles so they appear in the proper sequence in Able Player\'s auto-generated transcript.');
 				$li2 = $('<li>').text('Modify content or start/end times (all are directly editable within the table).');
-				$li3 = $('<li>').text('Insert new content, such as chapters or descriptions.');
-				$p2 = $('<p>').text('When finished editing, click the "Save Changes" button. This will auto-generate new content for all relevant timed text files (chapters, descriptions, captions, and/or subtitles), which can be copied and pasted into separate WebVTT files for use by Able Player.');
+				$li3 = $('<li>').text('Add new content, such as chapters or descriptions.');
+				$p2 = $('<p>').text('After editing, click the "Save Changes" button to generate new content for all relevant timed text files. The new text can be copied and pasted into new WebVTT files.');
 				$ul.append($li1,$li2,$li3);
 				$instructions.append($p1,$ul,$p2);
 				$('#able-vts').append($instructions);
