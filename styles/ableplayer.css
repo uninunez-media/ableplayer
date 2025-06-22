@@ -144,6 +144,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	border-radius: 5px;
 }
 
 .able-big-play-button:hover, .able-big-play-button:focus {
@@ -156,8 +157,9 @@
   padding: 1rem;
   width: 40%;
   height: 40%;
-  min-width: 160px;
-  min-height: 160px;
+  min-width: 140px;
+  min-height: 140px;
+  border-radius: 5px;
 }
 .able-big-play-button:hover .icon-play,
 .able-big-play-button:hover svg {
