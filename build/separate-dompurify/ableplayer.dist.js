@@ -15832,7 +15832,7 @@ if (typeof module !== "undefined" && module.exports) {
 
 		// action is either 'add' (for a new table) or 'update' (if user has selected a new lang)
 
-		var $table, headers, i, $tr, $th, $td, rows, rowNum, rowId;
+		var $table, $thead, headers, i, $tr, $th, $td, rows, rowNum, rowId;
 
 		if (action === 'update') {
 			// remove existing table
@@ -15843,10 +15843,11 @@ if (typeof module !== "undefined" && module.exports) {
 		$table = $('<table>',{
 			'lang': lang
 		});
+		$thead = $('<thead>');
 		$tr = $('<tr>',{
 			'lang': 'en' // TEMP, until header row is localized
 		});
-		headers = ['Row #','Kind','Start','End','Content','Actions']; // TODO: Localize this
+		headers = ['Row','Kind','Start','End','Content','Actions']; // TODO: Localize this
 		for (i=0; i < headers.length; i++) {
 			$th = $('<th>', {
 				'scope': 'col'
@@ -15856,7 +15857,8 @@ if (typeof module !== "undefined" && module.exports) {
 			}
 			$tr.append($th);
 		}
-		$table.append($tr);
+		$thead.append($tr);
+		$table.append($thead);
 
 		// Get all rows (sorted by start time), and inject them into table
 		rows = this.getAllRows(lang);

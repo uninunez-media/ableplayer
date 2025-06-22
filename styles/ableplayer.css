@@ -42,6 +42,7 @@
   box-sizing: content-box !important;
   text-align: left;
 }
+
 .able {
   position: relative;
   margin: 0;
@@ -1032,11 +1033,10 @@ button.able-search-results-time:active {
   background-color: #ffc;
   font-weight: bold;
 }
-  #search-term {
-    font-weight: bold;
-    font-style: italic;
-  }
-
+#search-term {
+  font-weight: bold;
+  font-style: italic;
+}
 
 /*
   Video Transcript Sorter (VTS)
@@ -1046,6 +1046,7 @@ button.able-search-results-time:active {
   border: 1px solid #999;
   width: 100%;
   margin: 0 auto 1.5rem;
+  box-sizing: border-box;
 }
 #able-vts fieldset {
   margin: 0 auto 1.5rem;
