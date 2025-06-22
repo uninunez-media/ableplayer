@@ -4962,6 +4962,7 @@ var AblePlayerInstances = [];
 			'class': 'able-big-play-button',
 			'aria-hidden': false,
 			'aria-label': this.tt.play,
+			'type': 'button',
 			'tabindex': 0
 		});
 
@@ -4988,8 +4989,7 @@ var AblePlayerInstances = [];
 			this.$bigPlayButton.append(this.$bigPlayIcon);
 		}
 
-		this.$bigPlayButton.on( 'click', function (event) {
-			event.preventDefault();
+		this.$bigPlayButton.on( 'click', function () {
 			thisObj.handlePlay();
 		});
 
