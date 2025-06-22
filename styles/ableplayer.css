@@ -1059,8 +1059,11 @@ button.able-search-results-time:active {
   font-weight: bold;
 }
 #able-vts fieldset div {
-  display: inline-block;
-  padding-right: 1em;
+	float: left;
+	display: flex;
+	gap: .5rem;
+	align-items: center;
+	padding-right: 1em;
 }
 
 #able-vts table,
@@ -1086,6 +1089,9 @@ button.able-search-results-time:active {
   display: flex;
   align-items: center;
   float: left;
+  color: #323232;
+  background: #f6f6f6;
+  border-radius: 2px;
 }
 #able-vts table td button svg {
   width: 22px;
