@@ -1066,6 +1066,10 @@ button.able-search-results-time:active {
 	padding-right: 1em;
 }
 
+#able-vts thead tr {
+	background: #f0f0f0;
+}
+
 #able-vts table,
 #able-vts table th,
 #able-vts table td {
