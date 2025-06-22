@@ -43,6 +43,12 @@
   text-align: left;
 }
 
+.able-player-transcript .able-window-toolbar input,
+.able-wrapper .able input {
+	margin: 0;
+	padding: 2px 4px;
+}
+
 .able {
   position: relative;
   margin: 0;
