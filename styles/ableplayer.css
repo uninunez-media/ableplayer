@@ -78,7 +78,9 @@
 .able-audio {
   padding-top: 1em;
 }
-.able-offscreen {
+/* Screen reader hidden text classes */
+.able-transcript .able-hidden,
+.able-clipped, .able-screenreader-alert, .able-offscreen {
   border: 0;
   clip-path: inset(50%);
   height: 1px;
@@ -878,10 +880,6 @@ ul.able-popup {
 .able-transcript .able-unspoken {
   font-weight: bold;
 }
-.able-transcript .able-hidden {
-  position: absolute !important;
-  clip: rect(1px, 1px, 1px, 1px);
-}
 .able-highlight,
 .able-highlight span:hover,
 .able-highlight span:focus,
@@ -1003,10 +1001,7 @@ ul.able-popup {
   color: #000;
 }
 
-/*
-  Search
-*/
-
+/* Search Styling */
 #able-search-term-echo {
   font-weight: bold;
   font-style: italic;
@@ -1038,9 +1033,7 @@ button.able-search-results-time:active {
   font-style: italic;
 }
 
-/*
-  Video Transcript Sorter (VTS)
-*/
+/* Video Transcript Sorter (VTS) */
 #able-vts-instructions {
   padding: 1em;
   border: 1px solid #999;
@@ -1141,19 +1134,7 @@ button#able-vts-save:focus {
   max-width: 90%;
 }
 
-/*
-  Misc
-*/
-
-.able-clipped, .able-screenreader-alert {
-  /* hide from sighted users, but not screen reader users */
-  position: absolute !important;
-  clip: rect(1px, 1px, 1px, 1px);
-  /* additional rules are needed to ensure clipped buttons are truly invisible in Safari on Mac OS X */
-  width: 1px !important;
-  height: 1px !important;
-  overflow: hidden !important;
-}
+/* Misc */
 .able-error {
   display: block;
   background: #ffc;
