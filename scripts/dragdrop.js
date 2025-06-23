@@ -136,7 +136,7 @@
 
 	AblePlayer.prototype.addWindowMenu = function(which, $window, windowName) {
 
-		var thisObj, $windowAlert, menuId, $newButton, $buttonIcon, buttonImgSrc, $buttonImg,
+		var thisObj, $windowAlert, menuId, $newButton, $buttonIcon, buttonImgSrc,
 			$buttonLabel, tooltipId, $tooltip, $popup, menuId;
 
 		thisObj = this;
@@ -178,15 +178,16 @@
 			});
 			$newButton.append($buttonIcon);
 		}
+		// Inexplicably, SVG images aren't working in the dragdrop UI.
 		else {
 			// use image
 			buttonImgSrc = this.rootPath + 'button-icons/' + this.toolbarIconColor + '/preferences.png';
-			$buttonImg = $('<img>',{
+			$buttonIcon = $('<img>',{
 				'src': buttonImgSrc,
 				'alt': '',
 				'role': 'presentation'
 			});
-			$newButton.append($buttonImg);
+			$newButton.append($buttonIcon);
 		}
 
 		// add the visibly-hidden label for screen readers that don't support aria-label on the button
@@ -519,7 +520,7 @@
 				this.dragDevice = 'mouse';
 			}
 			this.startDrag(which, $window);
-			$windowPopup.hide().parent().trigger('focus');
+			$windowPopup.hide().parent().attr( 'tabindex', '-1' ).trigger('focus');
 		}
 		else if (choice == 'resize') {
 			// resize through the menu uses a form, not drag
@@ -560,16 +561,6 @@
 		}
 		else if (which === 'sign') {
 			$windowPopup = this.$signPopup;
-		}
-
-		if (!this.showedAlert(which)) {
-			this.showAlert(this.tt.windowMoveAlert,which);
-			if (which === 'transcript') {
-				this.showedTranscriptAlert = true;
-			}
-			else if (which === 'sign') {
-				this.showedSignAlert = true;
-			}
 		}
 
 		// if window's popup menu is open, close it
