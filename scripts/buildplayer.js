@@ -214,22 +214,21 @@
 	};
 
 	AblePlayer.prototype.getDefaultWidth = function(which) {
-
+		let viewportMaxwidth = window.innerWidth;
 		// return default width of resizable elements
 		// these values are somewhat arbitrary, but seem to result in good usability
 		// if users disagree, they can resize (and resposition) them
 		if (which === 'transcript') {
-			return 450;
+			return ( viewportMaxwidth <= 450 ) ? viewportMaxwidth : 450;
 		}
 		else if (which === 'sign') {
-			return 400;
+			return ( viewportMaxwidth <= 400 ) ? viewportMaxwidth : 400;
 		}
 	};
 
 	AblePlayer.prototype.positionDraggableWindow = function (which, width) {
 
 		// which is either 'transcript' or 'sign'
-
 		var cookie, cookiePos, $window, windowPos;
 
 		cookie = this.getCookie();
