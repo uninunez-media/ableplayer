@@ -12939,10 +12939,14 @@ if (typeof module !== "undefined" && module.exports) {
     $autoScrollLabel = $("<label>", {
       for: "autoscroll-transcript-checkbox-" + this.mediaId,
     }).text(this.tt.autoScroll);
-    this.$transcriptToolbar.append(
-      $autoScrollLabel,
-      this.$autoScrollTranscriptCheckbox
-    );
+	$autoScrollContainer = $( '<div>', {
+		'class': 'autoscroll-transcript'
+	});
+	$autoScrollContainer.append(
+		$autoScrollLabel,
+		this.$autoScrollTranscriptCheckbox
+	);
+    this.$transcriptToolbar.append( $autoScrollContainer );
 
     // Add field for selecting a transcript language
     // Only necessary if there is more than one language
@@ -15225,7 +15229,7 @@ if (typeof module !== "undefined" && module.exports) {
 		else {
 			// first, be sure window is on top
 			this.updateZIndex(which);
-			popupTop = $windowButton.position().top + $windowButton.outerHeight();
+			popupTop = $toolbar.outerHeight() - 1;
 			$windowPopup.css('top', popupTop);
 			$windowPopup.show(200,'',function() {
 				$windowButton.attr('aria-expanded','true');

@@ -435,7 +435,7 @@
 		else {
 			// first, be sure window is on top
 			this.updateZIndex(which);
-			popupTop = $windowButton.position().top + $windowButton.outerHeight();
+			popupTop = $toolbar.outerHeight() - 1;
 			$windowPopup.css('top', popupTop);
 			$windowPopup.show(200,'',function() {
 				$windowButton.attr('aria-expanded','true');

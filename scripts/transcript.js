@@ -70,10 +70,14 @@
     $autoScrollLabel = $("<label>", {
       for: "autoscroll-transcript-checkbox-" + this.mediaId,
     }).text(this.tt.autoScroll);
-    this.$transcriptToolbar.append(
-      $autoScrollLabel,
-      this.$autoScrollTranscriptCheckbox
-    );
+	$autoScrollContainer = $( '<div>', {
+		'class': 'autoscroll-transcript'
+	});
+	$autoScrollContainer.append(
+		$autoScrollLabel,
+		this.$autoScrollTranscriptCheckbox
+	);
+    this.$transcriptToolbar.append( $autoScrollContainer );
 
     // Add field for selecting a transcript language
     // Only necessary if there is more than one language
