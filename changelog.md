@@ -12,6 +12,7 @@
 - Set `video` element to `display: block;` to prevent extra space after element.
 - Style updates to Video Transcript Sorter tool.
 - Force `iframe` to 100% max-width 100% to prevent overflowing container.
+- Updated transcript & sign language container settings, settings tooltip, and settings popup.
 
 ### HTML
 - Add wrapper around the left and right control containers.
@@ -26,6 +27,7 @@
 - Fix loading of preferences across players.
 - Replace deprecated jQuery methods: `.click`, `.focus`, `.change`, `.keydown`, `$.trim()`, and `.isNumeric`.
 - Extensive removals of unused variables and unused code.
+- Limit default maxwidth on transcript and sign containers to no larger than viewport.
 
 ### Accessibility
 - Use `inert` to represent interactivity state of content outside of modals.
@@ -34,6 +36,8 @@
 - Render volume percentage in the initial volume button state & updates.
 - Fix translation rendering so Full Screen buttons are properly labeled.
 - Add `aria-atomic="true"` on the speed notification container.
+- `tabindex` missing from draggable toolbar, preventing focus from being sent and breaking keyboard support.
+- Update visible order of draggable toolbar controls, so focus order matches visible order.
 
 ### Features
 - Add support for secondary sign language locally when sourcing main video from YouTube.
