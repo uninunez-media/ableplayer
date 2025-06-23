@@ -66,6 +66,8 @@
 
 ### Contributors
 
-The following people contributed to this release:
+The following people contributed to this release (if I missed you, please let me know!)
 
-TBD
+@terrill, @candideu, @xerc, @jbylsma, @amartincua, @zwiastunsw, @conorom, @jeanem, @joedolson, @Justryuz, @dependabot
+
+**Full Changelog**: https://github.com/ableplayer/ableplayer/compare/v4.5.1...v4.6.0
