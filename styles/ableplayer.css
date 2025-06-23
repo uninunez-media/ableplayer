@@ -63,6 +63,7 @@
 	justify-content: space-between;
 	flex-wrap: wrap;
 	align-items: center;
+	margin: 5px 0;
 }
 .able .able-vidcap-container {
   background-color: #000;
@@ -188,6 +189,7 @@
     vertical-align: middle;
 }
 .able-black-controls,
+.able-black-controls button,
 .able-black-controls div[role="button"],
 .able-black-controls label  {
   color: #000 !important;
@@ -196,6 +198,7 @@
   border: 1px solid #000;
 }
 .able-white-controls,
+.able-white-controls button,
 .able-white-controls div[role="button"],
 .able-black-controls label {
   color: #fff !important;
@@ -212,9 +215,12 @@
   padding: 0;
   font-size: 20px;
   min-width: 24px;
-/*  outline: 2px solid #464646; */ /* same color as .able-controller background-color */
+  min-height: 24px;
   border: none;
   overflow: visible !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 6600;
 }
 .able-controller div[role="button"] > span,
@@ -1205,7 +1211,7 @@ button#able-vts-save:focus {
 .able-modal-dialog div[role="button"] svg,
 .able-wrapper button svg,
 .able-modal-dialog button svg {
-  display: inline-block;
+  display: block;
   width: 1em;
   height: 1em;
   fill: currentColor;
