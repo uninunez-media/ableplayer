@@ -696,6 +696,9 @@ span.able-modkey {
 .able-window-toolbar .able-button-handler-preferences:focus {
   outline-color: #ffbb37 !important; /* yellow */
 }
+.able-window-toolbar .able-button-handler-preferences img {
+	display: block;
+}
 .able-window-toolbar .able-popup {
   position: absolute;
   cursor: default;
@@ -1009,6 +1012,7 @@ ul.able-popup {
  width: 100px;
  float: left;
  margin-right: 10px;
+ display: block;
 }
 .able-playlist li.able-current { /* currently selected playlist item */
   background-color: #340449;
