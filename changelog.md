@@ -9,10 +9,15 @@
 - Remove inline CSS forcing center alignment on dialog headings.
 - Improvements to dialog layout.
 - Increase size of volume slider.
+- Set `video` element to `display: block;` to prevent extra space after element.
+- Style updates to Video Transcript Sorter tool.
+- Force `iframe` to 100% max-width 100% to prevent overflowing container.
 
 ### HTML
 - Add wrapper around the left and right control containers.
 - Change dialog close button from 'X' to '×', to improve alignment.
+- Wrap VTS header in `thead` element.
+- Add `type="button"` to big play button.
 
 ### Bug Fixes
 - Fix `data-vimeo-id` loading.
@@ -35,7 +40,9 @@
 
 ### Security
 - Update DOMPurify to version 3.2.6; improve validations.
-- Add URL validation to src and track URLs.
+- Add URL validation to src, audio description src, sign src, and track URLs.
+- Add sanitization to YouTube IDs, track titles.
+- Update Vimeo URL parsing.
 
 ### Internationalization
 - Fixed issues in Polish, Canadian, and Indonesian translations.
@@ -43,8 +50,15 @@
 - Added Malay translation.
 
 ### Release Assets
-
 - Removed build tools, unbuilt scripts, demos, and media assets from the release archives. You will need to check out the repository to have access to these resources. Reduces the zip download from over 160 MB to under 1 MB.
+
+### Demos & Docs
+- Made demo pages responsive.
+- Updated demo pages to have more similar styles to docs.
+- Broke Contributing into a separate doc.
+- Updated Jekyll template to add navigation to docs header.
+- Updated main readme to add in-page navigation.
+- Reorganized main readme.
 
 ### Contributors
 
