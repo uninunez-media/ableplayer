@@ -5081,22 +5081,21 @@ var AblePlayerInstances = [];
 	};
 
 	AblePlayer.prototype.getDefaultWidth = function(which) {
-
+		let viewportMaxwidth = window.innerWidth;
 		// return default width of resizable elements
 		// these values are somewhat arbitrary, but seem to result in good usability
 		// if users disagree, they can resize (and resposition) them
 		if (which === 'transcript') {
-			return 450;
+			return ( viewportMaxwidth <= 450 ) ? viewportMaxwidth : 450;
 		}
 		else if (which === 'sign') {
-			return 400;
+			return ( viewportMaxwidth <= 400 ) ? viewportMaxwidth : 400;
 		}
 	};
 
 	AblePlayer.prototype.positionDraggableWindow = function (which, width) {
 
 		// which is either 'transcript' or 'sign'
-
 		var cookie, cookiePos, $window, windowPos;
 
 		cookie = this.getCookie();
@@ -14927,7 +14926,7 @@ if (typeof module !== "undefined" && module.exports) {
 
 	AblePlayer.prototype.addWindowMenu = function(which, $window, windowName) {
 
-		var thisObj, $windowAlert, menuId, $newButton, $buttonIcon, buttonImgSrc, $buttonImg,
+		var thisObj, $windowAlert, menuId, $newButton, $buttonIcon, buttonImgSrc,
 			$buttonLabel, tooltipId, $tooltip, $popup, menuId;
 
 		thisObj = this;
@@ -14969,15 +14968,16 @@ if (typeof module !== "undefined" && module.exports) {
 			});
 			$newButton.append($buttonIcon);
 		}
+		// Inexplicably, SVG images aren't working in the dragdrop UI.
 		else {
 			// use image
 			buttonImgSrc = this.rootPath + 'button-icons/' + this.toolbarIconColor + '/preferences.png';
-			$buttonImg = $('<img>',{
+			$buttonIcon = $('<img>',{
 				'src': buttonImgSrc,
 				'alt': '',
 				'role': 'presentation'
 			});
-			$newButton.append($buttonImg);
+			$newButton.append($buttonIcon);
 		}
 
 		// add the visibly-hidden label for screen readers that don't support aria-label on the button
@@ -15310,7 +15310,7 @@ if (typeof module !== "undefined" && module.exports) {
 				this.dragDevice = 'mouse';
 			}
 			this.startDrag(which, $window);
-			$windowPopup.hide().parent().trigger('focus');
+			$windowPopup.hide().parent().attr( 'tabindex', '-1' ).trigger('focus');
 		}
 		else if (choice == 'resize') {
 			// resize through the menu uses a form, not drag
@@ -15351,16 +15351,6 @@ if (typeof module !== "undefined" && module.exports) {
 		}
 		else if (which === 'sign') {
 			$windowPopup = this.$signPopup;
-		}
-
-		if (!this.showedAlert(which)) {
-			this.showAlert(this.tt.windowMoveAlert,which);
-			if (which === 'transcript') {
-				this.showedTranscriptAlert = true;
-			}
-			else if (which === 'sign') {
-				this.showedSignAlert = true;
-			}
 		}
 
 		// if window's popup menu is open, close it
