@@ -15005,8 +15005,8 @@ if (typeof module !== "undefined" && module.exports) {
 			var tooltipY = position.top - buttonHeight - 5;
 			var tooltipX = 0;
 			var tooltipStyle = {
-				left: '',
-				right: tooltipX + 'px',
+				right: '',
+				left: tooltipX + 'px',
 				top: tooltipY + 'px'
 			};
 			var tooltip = AblePlayer.localGetElementById($newButton[0], tooltipId).text(label).css(tooltipStyle);
