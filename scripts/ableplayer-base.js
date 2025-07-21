@@ -384,7 +384,7 @@ var AblePlayerInstances = [];
 
 		// Skin
 		// valid values of data-skin are:
-		// '2020' (default as of 5.0), all buttons in one row beneath a full-width seekbar
+		// '2020' (default as of 4.6), all buttons in one row beneath a full-width seekbar
 		// 'legacy', two rows of controls; seekbar positioned in available space within top row
 		if ($(media).data('skin') == 'legacy') {
 			this.skin = 'legacy';
