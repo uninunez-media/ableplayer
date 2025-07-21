@@ -84,7 +84,6 @@
 
 .able-player {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-	background-color: #262626; /* background color of player (appears on top & bottom) */
 }
 
 /* Screen reader hidden text classes */
@@ -794,10 +793,12 @@ div.able-wrapper.fullscreen {
 /*
 	Popup Menus
 */
-.able-popup {
+.able ul.able-popup {
 	position: absolute;
 	margin: 0;
 	padding: 0;
+	padding-inline-start: 0;
+	list-style-type: none;
 	border-color: #000;
 	border-width: 1px;
 	background-color: #000;
@@ -806,28 +807,25 @@ div.able-wrapper.fullscreen {
 	display: grid;
 	cursor: default;
 	outline: 1px solid #656565;
+	width: auto;
 }
 
-ul.able-popup {
-	list-style-type: none;
-}
-
-.able-popup li {
+.able ul.able-popup li {
 	padding: 4px 16px;
 	margin: 0;
 	width: auto;
 	color: #fff;
 }
 
-.able-popup li:first-of-type {
+.able ul.able-popup li:first-of-type {
 	border-radius: 5px 5px 0 0;
 }
 
-.able-popup li:last-of-type {
+.able ul.able-popup li:last-of-type {
 	border-radius: 0 0 5px 5px;
 }
 
-.able-popup li.able-focus {
+.able ul.able-popup li.able-focus {
 	background-color: #ccc;
 	color: #000;
 }
