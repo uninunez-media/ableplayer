@@ -69,6 +69,13 @@
 	padding: 4px 8px;
 }
 
+.able-pipe {
+	position: relative;
+	top: -2px;
+	color: #a8a8a8;
+	margin: 0 6px;
+}
+
 .able .able-vidcap-container {
 	left: 0;
 	margin: 0;
