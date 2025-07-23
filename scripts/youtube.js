@@ -305,22 +305,6 @@
 		return promise;
 	};
 
-	AblePlayer.prototype.getYouTubeTimedTextUrl = function (youTubeId, trackName, trackLang) {
-
-		// return URL for retrieving WebVTT source via YouTube's timedtext API
-		// Note: This API seems to be undocumented, and could break anytime
-		// UPDATE: Google removed this API on November 10, 2021
-		// This function is no longer called, but is preserved here for reference
-		var url = 'https://www.youtube.com/api/timedtext?fmt=vtt';
-		url += '&v=' + youTubeId;
-		url += '&lang=' + trackLang;
-		// if track has a value in the name field, it's *required* in the URL
-		if (trackName !== '') {
-			url += '&name=' + trackName;
-		}
-		return url;
-	};
-
 	AblePlayer.prototype.getYouTubePosterUrl = function (youTubeId, width) {
 
 			 // return a URL for retrieving a YouTube poster image
