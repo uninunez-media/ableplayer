@@ -257,10 +257,12 @@ var AblePlayerInstances = [];
 		// There are three types of interactive transcripts.
 		// In descending of order of precedence (in case there are conflicting tags), they are:
 		// 1. "manual" - A manually coded external transcript (requires data-transcript-src)
-		// 2. "external" - Automatically generated, written to an external div (requires data-transcript-div)
+		// 2. "external" - Automatically generated, written to an external div (requires data-transcript-div & a valid target element)
 		// 3. "popup" - Automatically generated, written to a draggable, resizable popup window that can be toggled on/off with a button
 		// If data-include-transcript="false", there is no "popup" transcript
-		if ($(media).data('transcript-div') !== undefined && $(media).data('transcript-div') !== "") {
+		if ($(media).data('transcript-div') !== undefined 
+			&& $(media).data('transcript-div') !== "" 
+			&& null !== document.getElementById( $(media).data('transcript-div') ) ) {
 			this.transcriptDivLocation = $(media).data('transcript-div');
 		}
 		else {
@@ -272,6 +274,8 @@ var AblePlayerInstances = [];
 		else {
 			this.hideTranscriptButton = null;
 		}
+
+		console.log( this );
 
 		this.transcriptType = null;
 		if ($(media).data('transcript-src') !== undefined) {
