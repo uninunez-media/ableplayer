@@ -14,11 +14,11 @@
 			this.signFile = this.$sources.first().attr('data-sign-src');
 			if (this.signFile) {
 				if (this.isIOS()) {
-					// IOS does not allow multiple videos to play simultaneously
+					// iOS does not allow multiple videos to play simultaneously
 					// Therefore, sign language as rendered by Able Player unfortunately won't work
 					this.hasSignLanguage = false;
 					if (this.debug) {
-						console.log('Sign language has been disabled due to IOS restrictions');
+						console.log('Sign language has been disabled due to iOS restrictions');
 					}
 				}
 				else {

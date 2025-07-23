@@ -2,7 +2,7 @@
 
 	AblePlayer.prototype.isIOS = function(version) {
 
-		// return true if this is IOS
+		// return true if this is iOS
 		// if version is provided check for a particular version
 
 		var userAgent, iOS;
@@ -25,7 +25,7 @@
 			}
 		}
 		else {
-			// this is not IOS
+			// this is not iOS
 			return false;
 		}
 	};

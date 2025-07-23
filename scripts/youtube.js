@@ -223,7 +223,7 @@
 
 		thisObj = this;
 
-		if (!this.youTubePlayer.getOption('captions','tracklist')) {
+		if (!this.youTubePlayer.getOption('captions','tracklist') ) {
 
 			// no tracks were found, probably because the captions module hasn't loaded
 			// play video briefly (required in order to load the captions module)
