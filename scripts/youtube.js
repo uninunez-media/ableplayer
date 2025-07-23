@@ -308,7 +308,7 @@
 	AblePlayer.prototype.getYouTubePosterUrl = function (youTubeId, width) {
 
 			 // return a URL for retrieving a YouTube poster image
-			 // supported values of width: 120, 320, 480, 640
+			 // supported values of width: 120, 320, 480, 640, 1280, 1920.
 
 			 var url = 'https://img.youtube.com/vi/' + youTubeId;
 			 if (width == '120') {
@@ -317,7 +317,7 @@
 			 }
 			 else if (width == '320') {
 				 // medium quality thumbnail, 320 x 180
-				 return url + '/hqdefault.jpg';
+				 return url + '/mqdefault.jpg';
 			 }
 			 else if (width == '480') {
 				 // high quality thumbnail, 480 x 360
@@ -326,6 +326,14 @@
 			 else if (width == '640') {
 				 // standard definition poster image, 640 x 480
 				 return url + '/sddefault.jpg';
+			 }
+			 else if (width == '1280') {
+				 // standard definition poster image, 640 x 480
+				 return url + '/hq720.jpg';
+			 }
+			 else if ( width == '1920' ) {
+				 // standard definition poster image, 640 x 480
+				 return url + '/maxresdefault.jpg';
 			 }
 			 return false;
 	};
