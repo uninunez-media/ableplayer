@@ -275,8 +275,6 @@ var AblePlayerInstances = [];
 			this.hideTranscriptButton = null;
 		}
 
-		console.log( this );
-
 		this.transcriptType = null;
 		if ($(media).data('transcript-src') !== undefined) {
 			this.transcriptSrc = $(media).data('transcript-src');
