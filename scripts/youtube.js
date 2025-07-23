@@ -168,6 +168,10 @@
 						}
 					}
 				},
+				onApiChange: function() {
+					// getDuration() can be fetched during API change event.
+					thisObj.duration = thisObj.youTubePlayer.getDuration();
+				},
 				onPlaybackQualityChange: function () {
 					// do something
 				},
