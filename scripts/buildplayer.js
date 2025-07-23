@@ -9,11 +9,6 @@
 		//   - everything plays in its own player
 		//   Therefore, AblePlayer is not loaded & all functionality is disabled
 		//   (this all determined. If this is iOS && video, this function is never called)
-		//  If audio:
-		//   HTML cannot be injected as a *parent* of the <audio> element
-		//   It is therefore injected *after* the <audio> element
-		//   This is only a problem in iOS 6 and earlier,
-		//   & is a known bug, fixed in iOS 7
 
 		var thisObj, captionsContainer, i;
 		thisObj = this;
