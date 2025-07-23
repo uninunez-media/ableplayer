@@ -223,7 +223,7 @@
 
 			// no tracks were found, probably because the captions module hasn't loaded
 			// play video briefly (required in order to load the captions module)
-			// and after the apiChange event is triggered, try again to retreive tracks
+			// and after the apiChange event is triggered, try again to retrieve tracks
 			this.youTubePlayer.addEventListener('onApiChange',function(x) {
 
 				// getDuration() also requires video to play briefly
