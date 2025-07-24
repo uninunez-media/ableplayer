@@ -727,7 +727,9 @@
 		}
 		var timestamp = cut(state, nextSpace);
 
-		var results = /((\d\d):)?((\d\d):)(\d\d).(\d\d\d)|(\d+).(\d\d\d)/.exec(timestamp);
+		// The spec requires exactly 2 characters for minutes and seconds, and 2+ for hours,
+		// but some VTT generation creates 1 digit hour times (e.g. "1:02:24.000 --> 1:04:48.000") and it seems harmless to allow that here
+		var results = /((\d+):)?((\d\d):)(\d\d).(\d\d\d)|(\d+).(\d\d\d)/.exec(timestamp);
 
 		if (!results) {
 			state.error = 'Unable to parse timestamp';
