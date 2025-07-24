@@ -298,7 +298,11 @@
 				this.vimeoUrlHasParams = true;
 				return url;
 			} else {
-				return urlObject.pathname.replace( '/video/', '' );;
+				if ( 'player.vimeo.com' === urlObject.hostname ) {
+					return urlObject.pathname.replace( '/video/', '' );
+				} else {
+					return urlObject.pathname.replace( '/', '' );
+				}
 			}
 		}
 		else {
