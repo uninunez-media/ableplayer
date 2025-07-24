@@ -602,17 +602,13 @@
 				// Update seekbar width.
 				// To do this, we need to calculate the width of all buttons surrounding it.
 				if (this.seekBar) {
-					widthUsed = 0;
+					let controlWrapper = this.seekBar.wrapperDiv.parent().parent();
 					leftControls = this.seekBar.wrapperDiv.parent().prev('div.able-left-controls');
 					rightControls = leftControls.next('div.able-right-controls');
-					leftControls.children().each(function () {
-						if ($(this).attr('role')=='button') {
-							widthUsed += $(this).outerWidth(true); // true = include margin
-						}
-					});
+					widthUsed = leftControls.outerWidth(true);
 					rightControls.children().each(function () {
 						if ($(this).attr('role')=='button') {
-							widthUsed += $(this).outerWidth(true);
+							widthUsed += $(this).outerWidth(true) + 5;
 						}
 					});
 					if (this.fullscreen) {
@@ -620,8 +616,8 @@
 					}
 					else {
 						// seekbar is wide enough to fill the remaining space
-						// include a 5px buffer to account for minor browser differences
-						seekbarWidth = this.$ableWrapper.width() - widthUsed - 5;
+						// include a 10px buffer to account for minor browser differences or custom styles.
+						seekbarWidth = controlWrapper.width() - widthUsed - 10;
 					}
 					// Sometimes some minor fluctuations based on browser weirdness, so set a threshold.
 					if (Math.abs(seekbarWidth - this.seekBar.getWidth()) > 5) {

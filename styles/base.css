@@ -189,6 +189,11 @@
 	flex-wrap: wrap;
 }
 
+.able-skin-legacy .able-left-controls,
+.able-skin-legacy .able-right-controls {
+	width: fit-content;
+}
+
 .able-black-controls,
 .able-black-controls button,
 .able-black-controls div[role="button"],
@@ -247,6 +252,10 @@
 	display: block;
 	width: 100%;
 	padding: 12px;
+}
+
+.able-skin-legacy .able-seekbar-wrapper {
+	padding: 0;
 }
 
 .able-seekbar {
