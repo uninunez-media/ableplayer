@@ -248,26 +248,7 @@
 			this.trackHeadAtPosition(this.keyTrackPosition);
 		}
 	};
-/*
-	AccessibleSlider.prototype.pageUp = function (multiplier) {
-		if (this.tracking && this.trackDevice === 'keyboard') {
-			this.keyTrackPosition = this.boundPos(this.keyTrackPosition + (this.nextStep * multiplier));
-			this.inertiaCount += 1;
-			if (this.inertiaCount === 20) {
-				this.inertiaCount = 0;
-				this.nextStep *= 2;
-			}
-			this.trackHeadAtPosition(this.keyTrackPosition);
-		}
-		else {
-			this.nextStep = 1;
-			this.inertiaCount = 0;
-			this.keyTrackPosition = this.boundPos(this.position + (this.nextStep * multiplier));
-			this.startTracking('keyboard', this.keyTrackPosition);
-			this.trackHeadAtPosition(this.keyTrackPosition);
-		}
-	};
-*/
+
 	AccessibleSlider.prototype.pageXToPosition = function (pageX) {
 		var offset = pageX - this.bodyDiv.offset().left;
 		var position = this.duration * (offset / this.bodyDiv.width());
