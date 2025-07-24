@@ -12,9 +12,11 @@
 		var thisObj = this;
 		var modal = modalDiv;
 		this.modal = modal;
-		modal.css({
-			'width': width || '50%'
-		});
+		if ( width ) {
+			modal.css({
+				'width': width
+			});
+		}
 		modal.addClass('able-modal-dialog');
 
 		if (!fullscreen) {
