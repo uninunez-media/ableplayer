@@ -1260,3 +1260,13 @@ button#able-vts-save:focus {
 	display: block;
 	fill: currentColor;
 }
+
+@media ( width < 480px ) {
+	.able-control-row {
+		gap: 8px;
+	}
+	.able-control-row div[role="button"] {
+		min-width: 32px;
+		height: 32px;
+	}
+}
