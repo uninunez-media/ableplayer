@@ -637,6 +637,7 @@ span.able-modkey {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	gap: 10px;
 }
 
 .able-draggable:hover {
