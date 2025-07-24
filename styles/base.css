@@ -186,6 +186,7 @@
 	display: flex;
 	gap: 3px;
 	align-items: center;
+	flex-wrap: wrap;
 }
 
 .able-black-controls,
@@ -1270,5 +1271,13 @@ button#able-vts-save:focus {
 	.able-control-row div[role="button"] {
 		min-width: 32px;
 		height: 32px;
+	}
+	.able-sign-window,
+	.able-transcript-area {
+		position: static !important;
+		width: 100% !important;
+	}
+	div.able-captions-wrapper {
+		min-height: 5em;
 	}
 }
