@@ -443,10 +443,12 @@ div.able-modal-dialog {
 	top: 50%;
 	left: 50%;
 	width: 50rem;
-	max-width: 100%;
+	max-width: 95%;
 	margin-left: 0;
 	margin-right: 0;
 	transform: translate(-50%,-50%) !important;
+	padding: 1rem;
+	box-sizing: border-box;
 }
 
 div.able-modal-overlay {
