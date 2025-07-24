@@ -1041,12 +1041,7 @@
 						'aria-hidden': 'true',
 						'class': 'able-pipe',
 					});
-					if (this.iconType === 'font') {
-						$pipe.addClass('icon-pipe');
-					}
-					else {
-						$pipe.append('|');
-					}
+					$pipe.append('|');
 					$controllerSpan.append($pipe);
 				}
 				else {
