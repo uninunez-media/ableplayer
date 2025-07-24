@@ -161,7 +161,8 @@
 	border-radius: 5px;
 }
 
-.able-big-play-button:hover, .able-big-play-button:focus {
+.able-wrapper .able button.able-big-play-button:hover,
+.able-wrapper .able button.able-big-play-button:focus {
 	opacity: 100;
 }
 
@@ -175,14 +176,9 @@
 	border-radius: 5px;
 }
 
-.able-big-play-button:hover .icon-play,
-.able-big-play-button:hover svg {
-	outline: 3px solid #fff;
-}
-
-.able-big-play-button:focus .icon-play,
+.able-big-play-button:hover svg,
 .able-big-play-button:focus svg {
-	outline: 3px solid #fff;
+	outline: 3px solid;
 }
 
 .able-left-controls, .able-right-controls {
@@ -941,6 +937,8 @@ div.able-wrapper.fullscreen {
 	background-color: #fdfdfd;
 }
 
+.able-wrapper .able button.able-big-play-button:focus .icon-play,
+.able-wrapper .able button.able-big-play-button:focus svg,
 .able-controller div[role="button"]:focus,
 div.able-modal-dialog input:focus,
 div.able-modal-dialog button:focus,
@@ -954,6 +952,8 @@ div.able-modal-dialog button:focus,
 }
 
 /* Control hover colors. */
+.able-wrapper .able button.able-big-play-button:hover .icon-play,
+.able-wrapper .able button.able-big-play-button:hover svg,
 .able-popup li:hover,
 .able-controller div[role="button"]:hover,
 div.able-modal-dialog input:hover,
