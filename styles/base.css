@@ -232,6 +232,10 @@
 	z-index: 6600;
 }
 
+.able-controller div.able-button-handler-play[role="button"] {
+	padding: 3px;
+}
+
 .able-controller .buttonOff {
 	opacity: 0.5;
 	z-index: 6800;
