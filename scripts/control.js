@@ -1691,7 +1691,7 @@
 		// 'main' (default)
 		// 'screenreader (visibly hidden)
 		// 'sign' (sign language window)
-		// 'transcript' (trasncript window)
+		// 'transcript' (transcript window)
 		var thisObj, $alertBox, $parentWindow, alertLeft, alertTop;
 
 		thisObj = this;
@@ -1712,13 +1712,6 @@
 		}
 		$alertBox.text(msg).show();
 		if (location == 'transcript' || location === 'sign') {
-			if ($parentWindow.width() > $alertBox.width()) {
-				alertLeft = $parentWindow.width() / 2 - $alertBox.width() / 2;
-			}
-			else {
-				// alert box is wider than its container. Position it far left and let it wrap
-				alertLeft = 10;
-			}
 			if (location === 'sign') {
 				// position alert in the lower third of the sign window (to avoid covering the signer)
 				alertTop = ($parentWindow.height() / 3) * 2;
@@ -1729,7 +1722,7 @@
 			}
 			$alertBox.css({
 				top: alertTop + 'px',
-				left: alertLeft + 'px'
+				left: 0
 			});
 		}
 		else if (location !== 'screenreader') {
@@ -1738,9 +1731,9 @@
 			});
 		}
 		if (location !== 'screenreader') {
-			setTimeout(function () {
+			setTimeout( function () {
 				$alertBox.fadeOut(300);
-			}, 3000);
+			}, 20000 );
 		}
 	};
 
