@@ -934,6 +934,10 @@ div.able-wrapper.fullscreen {
 .able-seekbar-head:hover {
 	outline-style: solid;
 	outline-width: 2px;
+}
+
+.able-seekbar-head:focus,
+.able-seekbar-head:hover {
 	background-color: #fdfdfd;
 }
 
