@@ -115,6 +115,10 @@
 .able-controller {
 	position: relative;
 	background-color: #464646; /* background color of controller bar */
+	padding: 4px;
+}
+
+.able-skin-legacy .able-controller {
 	padding: 0;
 }
 
