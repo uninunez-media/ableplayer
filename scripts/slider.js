@@ -439,7 +439,7 @@
 	AccessibleSlider.prototype.setTooltipPosition = function (x) {
 		this.timeTooltip.css({
 			left: x - (this.timeTooltip.width() / 2) - 10,
-			bottom: this.seekHead.height() + 10
+			bottom: this.seekHead.height()
 		});
 	};
 
