@@ -304,6 +304,16 @@
 
 "windowMove": "Move",
 
+"windowMoveLeft": "Window moved left",
+
+"windowMoveRight": "Window moved right",
+
+"windowMoveUp": "Window moved up",
+
+"windowMoveDown": "Window moved down",
+
+"windowMoveStopped": "Window move stopped",
+
 "windowMoveAlert": "Drag or use arrow keys to move the window; Enter to stop",
 
 "windowResize": "Resize",

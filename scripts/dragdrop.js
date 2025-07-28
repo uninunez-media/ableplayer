@@ -636,21 +636,26 @@
 			case 37:	// left
 			case 63234:
 				 this.dragKeyX -= keySpeed;
+				 this.$srAlertBox.text( this.tt.windowMoveLeft );
 				break;
 			case 38:	// up
 			case 63232:
 				this.dragKeyY -= keySpeed;
+				this.$srAlertBox.text( this.tt.windowMoveUp );
 				break;
 			case 39:	// right
 			case 63235:
 				this.dragKeyX += keySpeed;
+				this.$srAlertBox.text( this.tt.windowMoveRight );
 				break;
 			case 40:	// down
 			case 63233:
 				this.dragKeyY += keySpeed;
+				this.$srAlertBox.text( this.tt.windowMoveDown );
 				break;
 			case 13: 	// enter
 			case 27: 	// escape
+				this.$srAlertBox.text( this.tt.windowMoveStopped );
 				this.endDrag(which);
 				return false;
 			default:
@@ -725,7 +730,7 @@
 		// Boolean to stop stray events from firing
 		this.windowMenuClickRegistered = false;
 		this.finishingDrag = true; // will be reset after window click event
-		// finishingDrag should e reset after window click event,
+		// finishingDrag should be reset after window click event,
 		// which is triggered automatically after mouseup
 		// However, in case that's not reliable in some browsers
 		// need to ensure this gets cancelled
