@@ -66,7 +66,8 @@
 	justify-content: space-between;
 	flex-wrap: wrap;
 	align-items: center;
-	padding: 4px 12px 8px;
+	padding: 8px 12px 8px;
+	gap: 4px;
 }
 
 .able-pipe {
@@ -295,7 +296,7 @@
 	display: inline-block;
 	position: relative;
 	left: 0;
-	background-color: #fdfdfddd;
+	background-color: #fdfdfd;
 	width: 24px;
 	height: 24px;
 	border-radius: 24px;
