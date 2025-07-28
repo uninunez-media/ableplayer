@@ -1692,7 +1692,7 @@
 		// 'screenreader (visibly hidden)
 		// 'sign' (sign language window)
 		// 'transcript' (transcript window)
-		var thisObj, $alertBox, $parentWindow, alertLeft, alertTop;
+		var thisObj, $alertBox, $parentWindow, alertTop;
 
 		thisObj = this;
 

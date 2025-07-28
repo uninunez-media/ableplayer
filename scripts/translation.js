@@ -90,7 +90,7 @@
 		if (!this.searchLang) {
 			this.searchLang = this.lang;
 		}
-		translationFile = this.rootPath + 'translations/' + this.lang + '.js';
+		translationFile = this.rootPath + 'translations/' + this.lang + '.json';
 		$.getJSON(translationFile, function(data) {
 			// success!
 			thisObj.tt = data;
@@ -117,7 +117,7 @@
 
 		this.sampleText = [];
 		for (i=0; i < supportedLangs.length; i++) {
-			translationFile = this.rootPath + 'translations/' + supportedLangs[i] + '.js';
+			translationFile = this.rootPath + 'translations/' + supportedLangs[i] + '.json';
 			$.getJSON(translationFile, thisLang, (function(thisLang) {
 					return function(data) {
 						thisText = data.sampleDescriptionText;
