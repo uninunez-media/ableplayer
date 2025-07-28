@@ -7,7 +7,7 @@
 		// including screen reader support
 		// TODO: Improve presentation of vertical slider. That requires some CSS finesse.
 
-		var thisObj, volumeSliderId, volumeHelpId, volumePct, volumeLabel;
+		var thisObj, volumeSliderId, volumeHelpId, volumePct, volumeLabel, volumeHeight;
 
 		thisObj = this;
 
@@ -42,6 +42,8 @@
 		volumeLabel = this.$volumeButton.attr( 'aria-label' );
 		this.$volumeButton.attr( 'aria-label', volumeLabel + ' ' + volumePct + '%');
 		this.$volumeSlider.append(this.$volumeSliderTooltip,this.$volumeRange,this.$volumeHelp);
+		volumeHeight = this.$volumeButton.parents( '.able-control-row' )[0];
+		this.$volumeSlider.css( 'bottom', volumeHeight.offsetHeight );
 
 		$div.append(this.$volumeSlider);
 
