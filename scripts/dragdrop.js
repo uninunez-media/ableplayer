@@ -22,15 +22,18 @@
 			$window = this.$transcriptArea;
 			windowName = 'transcript-window';
 			$toolbar = this.$transcriptToolbar;
+			$toolbar.attr( 'aria-label', this.tt.transcriptControls );
 		}
 		else if (which === 'sign') {
 			$window = this.$signWindow;
 			windowName = 'sign-window';
 			$toolbar = this.$signToolbar;
+			$toolbar.attr( 'aria-label', this.tt.signControls );
 		}
 
 		// add class to trigger change in cursor on hover
 		$toolbar.addClass('able-draggable');
+		$toolbar.attr( 'role', 'application' );
 
 		// add resize handle selector to bottom right corner
 		$resizeHandle = $('<div>',{
@@ -669,6 +672,9 @@
 	};
 
 	AblePlayer.prototype.resetDraggedObject = function ( x, y) {
+		setTimeout( () => {
+			this.$srAlertBox.text( '' );
+		}, 2000 );
 
 		this.$activeWindow.css({
 			'left': x + 'px',

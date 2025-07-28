@@ -316,6 +316,10 @@
 
 "windowMoveAlert": "Drag or use arrow keys to move the window; Enter to stop",
 
+"transcriptControls": "Transcript Window Controls",
+
+"signControls": "Sign Language Window Controls",
+
 "windowResize": "Resize",
 
 "windowResizeHeading": "Resize Window",
