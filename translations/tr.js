@@ -304,6 +304,20 @@
 
 "windowMove": "Hareket",
 
+"windowMoveLeft": "Window moved left",
+
+"windowMoveRight": "Window moved right",
+
+"windowMoveUp": "Window moved up",
+
+"windowMoveDown": "Window moved down",
+
+"windowMoveStopped": "Window move stopped",
+
+"transcriptControls": "Transcript Window Controls",
+
+"signControls": "Sign Language Window Controls",
+
 "windowMoveAlert": "Pencereyi hareket ettirmek için mouse'unu sürü veya ok tuşlarını kullan; Durdurmak için Enter'a bas",
 
 "windowResize": "Yeniden Boyutlandır",

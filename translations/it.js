@@ -302,6 +302,20 @@
 
 "windowMove": "Sposta",
 
+"windowMoveLeft": "Window moved left",
+
+"windowMoveRight": "Window moved right",
+
+"windowMoveUp": "Window moved up",
+
+"windowMoveDown": "Window moved down",
+
+"windowMoveStopped": "Window move stopped",
+
+"transcriptControls": "Transcript Window Controls",
+
+"signControls": "Sign Language Window Controls",
+
 "windowMoveAlert": "Trascina o usa le frecce per spostare la finestra. Invio per fermare.",
 
 "windowResize": "Ridimensiona",

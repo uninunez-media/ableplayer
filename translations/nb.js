@@ -304,6 +304,20 @@
 
 "windowMove": "Flytt",
 
+"windowMoveLeft": "Window moved left",
+
+"windowMoveRight": "Window moved right",
+
+"windowMoveUp": "Window moved up",
+
+"windowMoveDown": "Window moved down",
+
+"windowMoveStopped": "Window move stopped",
+
+"transcriptControls": "Transcript Window Controls",
+
+"signControls": "Sign Language Window Controls",
+
 "windowMoveAlert": "Dra eller bruk piltaster for å flytte vinduet; Enter-tast for å stoppe",
 
 "windowResize": "Endre størrelse",

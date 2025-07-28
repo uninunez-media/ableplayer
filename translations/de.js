@@ -304,6 +304,20 @@
 
 "windowMove": "Verschieben",
 
+"windowMoveLeft": "Window moved left",
+
+"windowMoveRight": "Window moved right",
+
+"windowMoveUp": "Window moved up",
+
+"windowMoveDown": "Window moved down",
+
+"windowMoveStopped": "Window move stopped",
+
+"transcriptControls": "Transcript Window Controls",
+
+"signControls": "Sign Language Window Controls",
+
 "windowMoveAlert": "Fenster mit Pfeiltasten oder Maus verschieben; beenden mit Eingabetaste",
 
 "windowResize": "Größe verändern",

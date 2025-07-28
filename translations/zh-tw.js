@@ -304,6 +304,20 @@
 
 "windowMove": "移動",
 
+"windowMoveLeft": "Window moved left",
+
+"windowMoveRight": "Window moved right",
+
+"windowMoveUp": "Window moved up",
+
+"windowMoveDown": "Window moved down",
+
+"windowMoveStopped": "Window move stopped",
+
+"transcriptControls": "Transcript Window Controls",
+
+"signControls": "Sign Language Window Controls",
+
 "windowMoveAlert": "拖曳視窗或以方向鍵移動視窗；確定後按 Enter",
 
 "windowResize": "變更大小",

@@ -304,6 +304,20 @@
 
 "windowMove": "Flytta",
 
+"windowMoveLeft": "Window moved left",
+
+"windowMoveRight": "Window moved right",
+
+"windowMoveUp": "Window moved up",
+
+"windowMoveDown": "Window moved down",
+
+"windowMoveStopped": "Window move stopped",
+
+"transcriptControls": "Transcript Window Controls",
+
+"signControls": "Sign Language Window Controls",
+
 "windowMoveAlert": "Drag eller använd piltangenter för att flytta fönstret; Enter för att sluta",
 
 "windowResize": "Ändra storlek",

@@ -453,6 +453,20 @@
 // "windowMove": "Move",
 "windowMove": "Geser",
 
+"windowMoveLeft": "Window moved left",
+
+"windowMoveRight": "Window moved right",
+
+"windowMoveUp": "Window moved up",
+
+"windowMoveDown": "Window moved down",
+
+"windowMoveStopped": "Window move stopped",
+
+"transcriptControls": "Transcript Window Controls",
+
+"signControls": "Sign Language Window Controls",
+
 // "windowMoveAlert": "Drag or use arrow keys to move the window; Enter to stop",
 "windowMoveAlert": "Seret atau gunakan tombol panah untuk menggeser jendela; Tekan Enter untuk berhenti",
 

@@ -304,6 +304,20 @@
 
     "windowMove": "Přesunout",
 
+	"windowMoveLeft": "Window moved left",
+
+	"windowMoveRight": "Window moved right",
+
+	"windowMoveUp": "Window moved up",
+
+	"windowMoveDown": "Window moved down",
+
+	"windowMoveStopped": "Window move stopped",
+
+	"transcriptControls": "Transcript Window Controls",
+
+	"signControls": "Sign Language Window Controls",
+
     "windowMoveAlert": "Přetažením nebo použitím kláves se šipkami přesuňte okno; klávesou Enter zastavíte",
 
     "windowResize": "Změnit velikost",

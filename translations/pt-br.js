@@ -304,6 +304,20 @@
 
 "windowMove": "Mover",
 
+"windowMoveLeft": "Window moved left",
+
+"windowMoveRight": "Window moved right",
+
+"windowMoveUp": "Window moved up",
+
+"windowMoveDown": "Window moved down",
+
+"windowMoveStopped": "Window move stopped",
+
+"transcriptControls": "Transcript Window Controls",
+
+"signControls": "Sign Language Window Controls",
+
 "windowMoveAlert": "Arraste ou use as setas do seu teclado para mover; Enter para parar",
 
 "windowResize": "Redimensionar",

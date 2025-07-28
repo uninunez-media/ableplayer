@@ -304,6 +304,20 @@
 
 "windowMove": "移動",
 
+"windowMoveLeft": "Window moved left",
+
+"windowMoveRight": "Window moved right",
+
+"windowMoveUp": "Window moved up",
+
+"windowMoveDown": "Window moved down",
+
+"windowMoveStopped": "Window move stopped",
+
+"transcriptControls": "Transcript Window Controls",
+
+"signControls": "Sign Language Window Controls",
+
 "windowMoveAlert": "マウスをドラッグするか矢印キーでウィンドウを移動できます; Enterで終了",
 
 "windowResize": "サイズを変える",

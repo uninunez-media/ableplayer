@@ -1,5 +1,4 @@
 {
-
 "audio": "audio",
 
 "video": "vídeo",
@@ -303,6 +302,20 @@
 "windowButtonLabel": "Opcions de la finestra",
 
 "windowMove": "Moure",
+
+"windowMoveLeft": "Window moved left",
+
+"windowMoveRight": "Window moved right",
+
+"windowMoveUp": "Window moved up",
+
+"windowMoveDown": "Window moved down",
+
+"windowMoveStopped": "Window move stopped",
+
+"transcriptControls": "Transcript Window Controls",
+
+"signControls": "Sign Language Window Controls",
 
 "windowMoveAlert": "Arrossegueu o feu servir les tecles de direcció per moure la finestra, polseu retorn per aturar.",
 

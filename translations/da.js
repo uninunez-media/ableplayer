@@ -304,6 +304,20 @@
 
 "windowMove": "Flyt",
 
+"windowMoveLeft": "Window moved left",
+
+"windowMoveRight": "Window moved right",
+
+"windowMoveUp": "Window moved up",
+
+"windowMoveDown": "Window moved down",
+
+"windowMoveStopped": "Window move stopped",
+
+"transcriptControls": "Transcript Window Controls",
+
+"signControls": "Sign Language Window Controls",
+
 "windowMoveAlert": "Flyt med mus eller anvende piletasterne for at flytte vinduer; Enter for at slutte",
 
 "windowResize": "Ændre størrelse",
