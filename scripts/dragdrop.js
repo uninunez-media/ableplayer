@@ -745,27 +745,6 @@
 		}, 100);
 	};
 
-	AblePlayer.prototype.isCloseToCorner = function($window, mouseX, mouseY) {
-
-		// return true if mouse is close to bottom right corner (resize target)
-		var tolerance, position, top, left, width, height, bottom, right;
-
-		tolerance = 10; // number of pixels in both directions considered "close enough"
-
-		// first, get position of element
-		position = $window.offset();
-		top = position.top;
-		left = position.left;
-		width = $window.width();
-		height = $window.height();
-		bottom = top + height;
-		right = left + width;
-		if ((Math.abs(bottom-mouseY) <= tolerance) && (Math.abs(right-mouseX) <= tolerance)) {
-			return true;
-		}
-		return false;
-	};
-
 	AblePlayer.prototype.startResize = function(which, $element) {
 
 		var thisObj, $windowPopup, startPos, newWidth, newHeight;
