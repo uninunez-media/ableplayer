@@ -1727,7 +1727,8 @@
 		}
 		else if (location !== 'screenreader') {
 			$alertBox.css({
-				left: (this.$playerDiv.width() / 2) - ($alertBox.width() / 2)
+				top: 'auto',
+				bottom: 0,
 			});
 		}
 		if (location !== 'screenreader') {

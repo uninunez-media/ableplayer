@@ -14,7 +14,7 @@
 	.able-popup = 9200
 	.able-volume-head = 9175
 	.able-volume-slider = 9150
-	.able-tooltip = 9000
+	.able-tooltip = 9500
 
 	* Pop-ups with critical content:	(7000 - 8000):
 	.able-sign-window = 8000
@@ -796,6 +796,10 @@ div.able-wrapper.fullscreen {
 	display: block;
 }
 
+.able .able-alert {
+	border: none;
+}
+
 .able-alert {
 	background-color: #ffc;
 	z-index: 9400;
@@ -812,7 +816,7 @@ div.able-wrapper.fullscreen {
 }
 
 .able-tooltip {
-	z-index: 9000;
+	z-index: 9500;
 }
 
 /*
