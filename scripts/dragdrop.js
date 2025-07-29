@@ -770,7 +770,7 @@
 		this.dragKeyX = this.dragStartX;
 		this.dragKeyY = this.dragStartY;
 		this.dragStartWidth = this.$activeWindow.width();
-		this.dragStartHeight = this.$activeWindow.height();
+		this.dragStartHeight = this.$activeWindow.outerHeight();
 
 		// add event listeners
 		$(document).on('mousemove touchmove',function(e) {
@@ -781,6 +781,7 @@
 				thisObj.resizeObject( which, newWidth, newHeight );
 			}
 		});
+
 		return false;
 	};
 
