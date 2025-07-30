@@ -1598,12 +1598,12 @@
 		}
 		else {
 			var $buttonImg = $('<img>',{
-				'src': this[ iconData[3] ],
+				'src': iconData[3],
 				'alt': '',
 				'role': 'presentation'
 			});
 			$button.append($buttonImg);
-			$button.find('img').attr('src',this[ iconData[3] ]);
+			$button.find('img').attr('src',iconData[3]);
 		}
 	};
 
