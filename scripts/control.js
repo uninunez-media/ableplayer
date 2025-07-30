@@ -16,10 +16,7 @@
 			this.synth.cancel();
 		}
 
-		if (this.hasSignLanguage && this.signVideo) {
-			// keep sign languge video in sync
-			this.signVideo.currentTime = this.startTime;
-		}
+		this.syncSignVideo( {'time' : this.startTime } );
 
 		if (this.player === 'html5') {
 			var seekable;
@@ -33,10 +30,7 @@
 				// this.seeking will be set to false at that point
 				this.media.currentTime = this.startTime;
 				this.seekStatus = 'complete';
-				if (this.hasSignLanguage && this.signVideo) {
-					// keep sign languge video in sync
-					this.signVideo.currentTime = this.startTime;
-				}
+				this.syncSignVideo( { 'time' : this.startTime } );
 			}
 		}
 		else if (this.player === 'youtube') {
@@ -46,10 +40,7 @@
 					this.$posterImg.hide();
 				}
 			}
-			if (this.hasSignLanguage && this.signVideo) {
-				// keep sign languge video in sync
-				this.signVideo.currentTime = newTime;
-			}
+			this.syncSignVideo( {'time' : newTime } );
 		}
 		else if (this.player === 'vimeo') {
 			this.vimeoPlayer.setCurrentTime(newTime).then(function() {
@@ -312,9 +303,7 @@
 			this.syncSpeechToPlaybackRate(rate);
 		}
 
-		if (this.hasSignLanguage && this.signVideo) {
-			this.signVideo.playbackRate = rate;
-		}
+		this.syncSignVideo( {'rate' : rate } );
 
 		if (this.player === 'html5') {
 			this.media.playbackRate = rate;
@@ -325,9 +314,7 @@
 		else if (this.player === 'vimeo') {
 			this.vimeoPlayer.setPlaybackRate(rate);
 		}
-		if (this.hasSignLanguage && this.signVideo) {
-			this.signVideo.playbackRate = rate;
-		}
+		this.syncSignVideo( { 'rate' : rate } );
 		this.playbackRate = rate;
 		this.$speed.text(this.tt.speed + ': ' + rate.toFixed(2).toString() + 'x');
 	};
@@ -369,19 +356,34 @@
 		}
 	};
 
+	AblePlayer.prototype.syncSignVideo = function(options) {
+	if (this.hasSignLanguage && this.signVideo) {
+		if (options && typeof options.time !== 'undefined') {
+			this.signVideo.currentTime = options.time;
+		}
+		if (options && typeof options.rate !== 'undefined') {
+			this.signVideo.playbackRate = options.rate;
+		}
+		if (options && typeof options.pause !== 'undefined') {
+			this.signVideo.pause(true);
+		}
+		if (options && typeof options.play !== 'undefined') {
+			this.signVideo.play(true);
+		}
+		if (options && typeof options.volume !== 'undefined') {
+			this.signVideo.volume = 0;
+		}
+	}
+	};
+
 	AblePlayer.prototype.pauseMedia = function () {
 
 		var thisObj = this;
 
-		if (this.hasSignLanguage && this.signVideo) {
-			this.signVideo.pause(true);
-		}
+		this.syncSignVideo( { 'pause' : true } );
 
 		if (this.player === 'html5') {
 			this.media.pause(true);
-			if (this.hasSignLanguage && this.signVideo) {
-				this.signVideo.pause(true);
-			}
 		}
 		else if (this.player === 'youtube') {
 			this.youTubePlayer.pauseVideo();
@@ -395,15 +397,10 @@
 
 		var thisObj = this;
 
-		if (this.hasSignLanguage && this.signVideo) {
-			this.signVideo.play(true);
-		}
+		this.syncSignVideo( { 'play' : true } );
 
 		if (this.player === 'html5') {
 			this.media.play(true);
-			if (this.hasSignLanguage && this.signVideo) {
-				this.signVideo.play(true);
-			}
 		}
 		else if (this.player === 'youtube') {
 
@@ -662,16 +659,13 @@
 		} // end if context == 'timeline' or 'init'
 
 		if (context === 'descriptions' || context == 'init'){
-
 			if (this.$descButton) {
-				if (this.descOn) {
-					this.$descButton.removeClass('buttonOff').attr('aria-label',this.tt.turnOffDescriptions);
-					this.$descButton.find('span.able-clipped').text(this.tt.turnOffDescriptions);
-				}
-				else {
-					this.$descButton.addClass('buttonOff').attr('aria-label',this.tt.turnOnDescriptions);
-					this.$descButton.find('span.able-clipped').text(this.tt.turnOnDescriptions);
-				}
+				this.toggleButtonState(
+					this.$descButton,
+					this.descOn,
+					this.tt.turnOffDescriptions,
+					this.tt.turnOnDescriptions,
+				);
 			}
 		}
 
@@ -681,34 +675,23 @@
 
 				captionsCount = this.captions.length;
 
-				// Button has a different title depending on the number of captions.
-				// If only one caption track, this is "Show captions" and "Hide captions"
-				// Otherwise, it is just always "Captions"
-				if (!this.captionsOn) {
-					this.$ccButton.addClass('buttonOff');
-					this.$ccButton.attr('aria-pressed', 'false')
-					if (captionsCount === 1) {
-						this.$ccButton.attr('aria-label',this.tt.showCaptions);
-						this.$ccButton.find('span.able-clipped').text(this.tt.showCaptions);
-					}
-				}
-				else {
-					this.$ccButton.removeClass('buttonOff');
-					this.$ccButton.attr('aria-pressed', 'true')
-					if (captionsCount === 1) {
-						this.$ccButton.attr('aria-label',this.tt.hideCaptions);
-						this.$ccButton.find('span.able-clipped').text(this.tt.hideCaptions);
-					}
-				}
-
 				if (captionsCount > 1) {
 					this.$ccButton.attr({
-						'aria-label': this.tt.captions,
 						'aria-haspopup': 'true',
 						'aria-controls': this.mediaId + '-captions-menu'
 					});
-					this.$ccButton.find('span.able-clipped').text(this.tt.captions);
 				}
+				var ariaLabelOn = ( captionsCount > 1 ) ? this.tt.captions : this.tt.showCaptions;
+				var ariaLabelOff = ( captionsCount > 1 ) ? this.tt.captions : this.tt.hideCaptions;
+				var ariaPressed = ( captionsCount > 1 ) ? true : false;
+
+				this.toggleButtonState(
+					this.$ccButton,
+					this.captionsOn,
+					ariaLabelOff,
+					ariaLabelOn,
+					ariaPressed
+				);
 			}
 		}
 
@@ -799,8 +782,8 @@
 						// only scroll once after moving a highlight
 						if (this.movingHighlight) {
 							this.$transcriptDiv.scrollTop(newTop);
-											this.movingHighlight = false;
-									}
+							this.movingHighlight = false;
+						}
 					}
 				}
 			}
@@ -1383,11 +1366,10 @@
 	AblePlayer.prototype.handleTranscriptToggle = function () {
 
 		var thisObj = this;
-
-		if (this.$transcriptDiv.is(':visible')) {
+		var visible = this.$transcriptDiv.is(':visible');
+		if ( visible ) {
 			this.$transcriptArea.hide();
-			this.$transcriptButton.addClass('buttonOff').attr('aria-label',this.tt.showTranscript);
-			this.$transcriptButton.find('span.able-clipped').text(this.tt.showTranscript);
+			this.toggleButtonState( this.$transcriptButton, visible, this.tt.hideTranscript, this.tt.showTranscript );
 			this.prefTranscript = 0;
 			this.$transcriptButton.trigger('focus').addClass('able-focus');
 			// wait briefly before resetting stopgap var
@@ -1404,8 +1386,7 @@
 			// showing transcriptArea has a cascading effect of showing all content *within* transcriptArea
 			// need to re-hide the popup menu
 			this.$transcriptPopup.hide();
-			this.$transcriptButton.removeClass('buttonOff').attr('aria-label',this.tt.hideTranscript);
-			this.$transcriptButton.find('span.able-clipped').text(this.tt.hideTranscript);
+			this.toggleButtonState( this.$transcriptButton, visible, this.tt.hideTranscript, this.tt.showTranscript );
 			this.prefTranscript = 1;
 			// move focus to first focusable element (window options button)
 			this.focusNotClick = true;
@@ -1421,11 +1402,10 @@
 	AblePlayer.prototype.handleSignToggle = function () {
 
 		var thisObj = this;
-
-		if (this.$signWindow.is(':visible')) {
+		var visible = this.$signWindow.is(':visible');
+		if ( visible ) {
 			this.$signWindow.hide();
-			this.$signButton.addClass('buttonOff').attr('aria-label',this.tt.showSign);
-			this.$signButton.find('span.able-clipped').text(this.tt.showSign);
+			this.toggleButtonState( this.$signButton, visible, this.tt.hideSign, this.tt.showSign );
 			this.prefSign = 0;
 			this.$signButton.trigger('focus').addClass('able-focus');
 			// wait briefly before resetting stopgap var
@@ -1440,8 +1420,7 @@
 			// showing signWindow has a cascading effect of showing all content *within* signWindow
 			// need to re-hide the popup menu
 			this.$signPopup.hide();
-			this.$signButton.removeClass('buttonOff').attr('aria-label',this.tt.hideSign);
-			this.$signButton.find('span.able-clipped').text(this.tt.hideSign);
+			this.toggleButtonState( this.$signButton, visible, this.tt.hideSign, this.tt.showSign );
 			this.prefSign = 1;
 			this.focusNotClick = true;
 			this.$signWindow.find('button').first().trigger('focus');
@@ -1657,6 +1636,27 @@
 		this.refreshControls('transcript');
 	};
 
+	AblePlayer.prototype.toggleButtonState = function($button, isOn, onLabel, offLabel, offClass = 'buttonOff', ariaPressed = false, ariaExpanded = false) {
+		if (isOn) {
+			$button.removeClass(offClass).attr('aria-label', onLabel);
+			$button.find('span.able-clipped').text(onLabel);
+			if ( ariaPressed ) {
+				$button.attr('aria-pressed', 'true');
+			}
+			if ( ariaExpanded ) {
+				$button.attr( 'aria-expanded', 'true' );
+			}
+		} else {
+			$button.addClass(offClass).attr('aria-label', offLabel);
+			$button.find('span.able-clipped').text(offLabel);
+			if ( ariaPressed ) {
+				$button.attr('aria-pressed', 'false');
+			}
+			if ( ariaExpanded ) {
+				$button.attr( 'aria-expanded', 'false' );
+			}
+		}
+	};
 
 	AblePlayer.prototype.showTooltip = function($tooltip) {
 

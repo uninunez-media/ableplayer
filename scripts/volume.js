@@ -257,15 +257,11 @@
 		// convert as needed depending on player
 
 		var newVolume;
-
+		this.syncSignVideo( {'volume' : 0 } );
 		if (this.player === 'html5') {
 			// volume is 0 to 1
 			newVolume = volume / 10;
 			this.media.volume = newVolume;
-
-			if (this.hasSignLanguage && this.signVideo) {
-				this.signVideo.volume = 0; // always mute
-			}
 		}
 		else if (this.player === 'youtube') {
 			// volume is 0 to 100
