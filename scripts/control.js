@@ -699,35 +699,13 @@
 			if (this.$fullscreenButton) {
 				if (!this.fullscreen) {
 					this.$fullscreenButton.attr('aria-label', this.tt.enterFullScreen);
-					if (this.iconType === 'font') {
-						this.$fullscreenButton.find('span').first().removeClass('icon-fullscreen-collapse').addClass('icon-fullscreen-expand');
-						this.$fullscreenButton.find('span.able-clipped').text(this.tt.enterFullScreen);
-					}
-					else if (this.iconType === 'svg') {
-						newSvgData = this.getSvgData('fullscreen-expand');
-						this.$fullscreenButton.find('svg').attr('viewBox',newSvgData[0]);
-						this.$fullscreenButton.find('path').attr('d',newSvgData[1]);
-						this.$fullscreenButton.find('span.able-clipped').text(this.tt.enterFullScreen);
-					}
-					else {
-						this.$fullscreenButton.find('img').attr('src',this.fullscreenExpandButtonImg);
-					}
+					this.getIcon( this.$fullscreenButton, 'fullscreen-expand' );
+					this.$fullscreenButton.find('span.able-clipped').text(this.tt.enterFullScreen);
 				}
 				else {
 					this.$fullscreenButton.attr('aria-label',this.tt.exitFullscreen);
-					if (this.iconType === 'font') {
-						this.$fullscreenButton.find('span').first().removeClass('icon-fullscreen-expand').addClass('icon-fullscreen-collapse');
-						this.$fullscreenButton.find('span.able-clipped').text(this.tt.exitFullscreen);
-					}
-					else if (this.iconType === 'svg') {
-						newSvgData = this.getSvgData('fullscreen-collapse');
-						this.$fullscreenButton.find('svg').attr('viewBox',newSvgData[0]);
-						this.$fullscreenButton.find('path').attr('d',newSvgData[1]);
-						this.$fullscreenButton.find('span.able-clipped').text(this.tt.exitFullscreen);
-					}
-					else {
-						this.$fullscreenButton.find('img').attr('src',this.fullscreenCollapseButtonImg);
-					}
+					this.getIcon( this.$fullscreenButton, 'fullscreen-collapse' );
+					this.$fullscreenButton.find('span.able-clipped').text(this.tt.exitFullscreen);
 				}
 			}
 		}
@@ -818,21 +796,8 @@
 				if (this.$status.text() !== this.tt.statusStopped) {
 					this.$status.text(this.tt.statusStopped);
 				}
-				if (this.$playpauseButton.find('span').first().hasClass('icon-pause')) {
-					if (this.iconType === 'font') {
-						this.$playpauseButton.find('span').first().removeClass('icon-pause').addClass('icon-play');
-						this.$playpauseButton.find('span.able-clipped').text(this.tt.play);
-					}
-					else if (this.iconType === 'svg') {
-						newSvgData = this.getSvgData('play');
-						this.$playpauseButton.find('svg').attr('viewBox',newSvgData[0]);
-						this.$playpauseButton.find('path').attr('d',newSvgData[1]);
-						this.$playpauseButton.find('span.able-clipped').text(this.tt.play);
-					}
-					else {
-						this.$playpauseButton.find('img').attr('src',this.playButtonImg);
-					}
-				}
+				this.getIcon( this.$playpauseButton, 'play' );
+				this.$playpauseButton.find('span.able-clipped').text(this.tt.play);
 			}
 			else {
 				if (typeof this.$status !== 'undefined' && typeof this.seekBar !== 'undefined') {
@@ -883,37 +848,13 @@
 						if (!thisObj.seekBar.tracking && !thisObj.stoppingYouTube) {
 							if (currentState === 'paused' || currentState === 'stopped' || currentState === 'ended') {
 								thisObj.$playpauseButton.attr('aria-label',thisObj.tt.play);
-
-								if (thisObj.iconType === 'font') {
-									thisObj.$playpauseButton.find('span').first().removeClass('icon-pause').addClass('icon-play');
-									thisObj.$playpauseButton.find('span.able-clipped').text(thisObj.tt.play);
-								}
-								else if (thisObj.iconType === 'svg') {
-									newSvgData = thisObj.getSvgData('play');
-									thisObj.$playpauseButton.find('svg').attr('viewBox',newSvgData[0]);
-									thisObj.$playpauseButton.find('path').attr('d',newSvgData[1]);
-									thisObj.$playpauseButton.find('span.able-clipped').text(thisObj.tt.play);
-								}
-								else {
-									thisObj.$playpauseButton.find('img').attr('src',thisObj.playButtonImg);
-								}
+								thisObj.getIcon( thisObj.$playpauseButton, 'play' );
+								thisObj.$playpauseButton.find('span.able-clipped').text(thisObj.tt.play);
 							}
 							else {
 								thisObj.$playpauseButton.attr('aria-label',thisObj.tt.pause);
-
-								if (thisObj.iconType === 'font') {
-									thisObj.$playpauseButton.find('span').first().removeClass('icon-play').addClass('icon-pause');
-									thisObj.$playpauseButton.find('span.able-clipped').text(thisObj.tt.pause);
-								}
-								else if (thisObj.iconType === 'svg') {
-									newSvgData = thisObj.getSvgData('pause');
-									thisObj.$playpauseButton.find('svg').attr('viewBox',newSvgData[0]);
-									thisObj.$playpauseButton.find('path').attr('d',newSvgData[1]);
-									thisObj.$playpauseButton.find('span.able-clipped').text(thisObj.tt.pause);
-								}
-								else {
-									thisObj.$playpauseButton.find('img').attr('src',thisObj.pauseButtonImg);
-								}
+								thisObj.getIcon( thisObj.$playpauseButton, 'pause' );
+								thisObj.$playpauseButton.find('span.able-clipped').text(thisObj.tt.pause);
 							}
 						}
 					});
@@ -1621,6 +1562,49 @@
 		this.prefAutoScrollTranscript = +val; // convert boolean to numeric 1 or 0 for cookie
 		this.updateCookie('prefAutoScrollTranscript');
 		this.refreshControls('transcript');
+	};
+
+	AblePlayer.prototype.getIcon = function( $button, id, forceImg ) {
+		// Remove existing HTML before generating.
+		$button.find('svg, img, span:not(.able-clipped)').remove();
+		// iconData: [0 = svg viewbox, 1 = svg path, 2 = icon font class, 3 = image file]
+		var iconData = this.getIconData( id );
+		var iconType = this.iconType;
+		if ( null === iconData[3] ) {
+			iconType = 'svg';
+		}
+		if ( forceImg ) {
+			iconType = 'image';
+		}
+		if (iconType === 'font') {
+			var $buttonIcon = $('<span>', {
+				'class': iconData[2],
+			});
+			$button.append(this.$buttonIcon);
+		}
+		else if (iconType === 'svg') {
+			var $buttonIcon = $('<svg>',{
+				'focusable': 'false',
+				'aria-hidden': 'true',
+				'viewBox': iconData[0]
+			});
+			var $svgPath = $('<path>',{
+				'd': iconData[1]
+			});
+			$buttonIcon.append( $svgPath );
+			$button.append( $buttonIcon );
+			// Refresh the DOM.
+			$button.html($button.html());
+		}
+		else {
+			var $buttonImg = $('<img>',{
+				'src': this[ iconData[3] ],
+				'alt': '',
+				'role': 'presentation'
+			});
+			$button.append($buttonImg);
+			$button.find('img').attr('src',this[ iconData[3] ]);
+		}
 	};
 
 	AblePlayer.prototype.toggleButtonState = function($button, isOn, onLabel, offLabel, offClass = 'buttonOff', ariaPressed = false, ariaExpanded = false) {

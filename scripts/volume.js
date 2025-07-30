@@ -96,31 +96,15 @@
 
 	AblePlayer.prototype.refreshVolumeButton = function(volume) {
 
-		var volumeName, volumePct, volumeLabel, volumeIconClass, volumeImg, newSvgData;
+		var volumeName, volumePct, volumeLabel;
 
 		volumeName = this.getVolumeName(volume);
 		volumePct = (volume/10) * 100;
 		volumeLabel = this.tt.volume + ' ' + volumePct + '%';
 
-		if (this.iconType === 'font') {
-			volumeIconClass = 'icon-volume-' + volumeName;
-			this.$volumeButton.find('span').first().removeClass().addClass(volumeIconClass);
-			this.$volumeButton.find('span.able-clipped').text(volumeLabel);
-		}
-		else if (this.iconType === 'image') {
-			volumeImg = this.imgPath + 'volume-' + volumeName + '.png';
-			this.$volumeButton.find('img').attr('src',volumeImg);
-			this.$volumeButton.find('img').attr('alt',volumeLabel);
-		}
-		else if (this.iconType === 'svg') {
-			if (volumeName !== 'mute') {
-				volumeName = 'volume-' + volumeName;
-			}
-			newSvgData = this.getSvgData(volumeName);
-			this.$volumeButton.find('svg').attr('viewBox',newSvgData[0]);
-			this.$volumeButton.find('path').attr('d',newSvgData[1]);
-			this.$volumeButton.attr( 'aria-label', volumeLabel );
-		}
+		this.getIcon( this.$volumeButton, 'volume-' + volumeName );
+		this.$volumeButton.attr( 'aria-label', volumeLabel );
+		this.$volumeButton.find('span.able-clipped').text(volumeLabel);
 	};
 
 	AblePlayer.prototype.handleVolumeButtonClick = function() {

@@ -94,28 +94,7 @@
 			'tabindex': 0
 		});
 
-		if (this.iconType == 'svg') {
-			svgData = this.getSvgData('play');
-			buttonIcon = $('<svg>',{
-				'focusable': 'false',
-				'aria-hidden': 'true',
-				'viewBox': svgData[0]
-			});
-			svgPath = $('<path>',{
-				'd': svgData[1]
-			});
-			buttonIcon.append(svgPath);
-			this.$bigPlayButton.html(buttonIcon);
-
-			// Final step: Need to refresh the DOM in order for browser to process & display the SVG
-			this.$bigPlayButton.html(this.$bigPlayButton.html());
-		}
-		else { // use icon font
-			this.$bigPlayIcon = $('<span>', {
-				'class': 'icon-play',
-			});
-			this.$bigPlayButton.append(this.$bigPlayIcon);
-		}
+		this.getIcon( this.$bigPlayButton, 'play' );
 
 		this.$bigPlayButton.on( 'click', function () {
 			thisObj.handlePlay();
@@ -1127,86 +1106,19 @@
 							}
 						}
 					}
-					if (this.iconType === 'font') {
-						if (control === 'volume') {
-							iconClass = 'icon-' + this.volumeButton;
-						}
-						else if (control === 'slower') {
-							if (this.speedIcons === 'animals') {
-								iconClass = 'icon-turtle';
-							}
-							else {
-								iconClass = 'icon-slower';
-							}
-						}
-						else if (control === 'faster') {
-							if (this.speedIcons === 'animals') {
-								iconClass = 'icon-rabbit';
-							}
-							else {
-								iconClass = 'icon-faster';
-							}
-						}
-						else {
-							iconClass = 'icon-' + control;
-						}
-						buttonIcon = $('<span>',{
-							'class': iconClass,
-							'aria-hidden': 'true'
-						});
-						$newButton.append(buttonIcon);
+					var getControl = control;
+					if ( control === 'faster' && this.speedIcons === 'animals' ) {
+						getControl = 'rabbit';
 					}
-					else if (this.iconType === 'svg') {
+					if ( control === 'slower' && this.speedIcons === 'animals' ) {
+						getControl = 'turtle';
+					}
+					if ( control === 'volume' ) {
+						this.getIcon( $newButton, this.volumeButton );
+					} else {
+						this.getIcon( $newButton, getControl );
+					}
 
-						svgData;
-						if (control === 'volume') {
-							svgData = this.getSvgData(this.volumeButton);
-						}
-						else if (control === 'fullscreen') {
-							svgData = this.getSvgData('fullscreen-expand');
-						}
-						else if (control === 'slower') {
-							if (this.speedIcons === 'animals') {
-								svgData = this.getSvgData('turtle');
-							}
-							else {
-								svgData = this.getSvgData('slower');
-							}
-						}
-						else if (control === 'faster') {
-							if (this.speedIcons === 'animals') {
-								svgData = this.getSvgData('rabbit');
-							}
-							else {
-								svgData = this.getSvgData('faster');
-							}
-						}
-						else {
-							svgData = this.getSvgData(control);
-						}
-						buttonIcon = $('<svg>',{
-							'focusable': 'false',
-							'aria-hidden': 'true',
-							'viewBox': svgData[0]
-						});
-						svgPath = $('<path>',{
-							'd': svgData[1]
-						});
-						buttonIcon.append(svgPath);
-						$newButton.html(buttonIcon);
-
-						// Final step: Need to refresh the DOM in order for browser to process & display the SVG
-						$newButton.html($newButton.html());
-					}
-					else {
-						// use images
-						$buttonImg = $('<img>',{
-							'src': buttonImgSrc,
-							'alt': '',
-							'role': 'presentation'
-						});
-						$newButton.append($buttonImg);
-					}
 					// add the visibly-hidden label for screen readers that don't support aria-label on the button
 					$buttonLabel = $('<span>',{
 						'class': 'able-clipped'

@@ -174,25 +174,8 @@
 			'aria-expanded': 'false',
 			'class': 'able-button-handler-preferences'
 		});
-		if (this.iconType === 'font') {
-			$buttonIcon = $('<span>',{
-				'class': 'icon-preferences',
-				'aria-hidden': 'true'
-			});
-			$newButton.append($buttonIcon);
-		}
-		// Inexplicably, SVG images aren't working in the dragdrop UI.
-		else {
-			// use image
-			buttonImgSrc = this.rootPath + 'button-icons/' + this.toolbarIconColor + '/preferences.png';
-			$buttonIcon = $('<img>',{
-				'src': buttonImgSrc,
-				'alt': '',
-				'role': 'presentation'
-			});
-			$newButton.append($buttonIcon);
-		}
-
+		this.getIcon( $newButton, 'preferences', true );
+		
 		// add the visibly-hidden label for screen readers that don't support aria-label on the button
 		$buttonLabel = $('<span>',{
 			'class': 'able-clipped'
