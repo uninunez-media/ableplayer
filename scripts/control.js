@@ -924,10 +924,8 @@
 		// Show/hide status bar content conditionally
 		if (!this.fullscreen) {
 			statusBarWidthBreakpoint = 300;
-			statusBarHeight = this.$statusBarDiv.height();
-			speedHeight = this.$statusBarDiv.find('span.able-speed').height();
-			if (speedHeight > (statusBarHeight + 5)) {
-				// speed bar is wrapping (happens often in German player)
+			if (this.$statusBarDiv.width() < statusBarWidthBreakpoint) {
+				// Player is too small for a speed span
 				this.$statusBarDiv.find('span.able-speed').hide();
 				this.hidingSpeed = true;
 			}
@@ -935,17 +933,6 @@
 				if (this.hidingSpeed) {
 					this.$statusBarDiv.find('span.able-speed').show();
 					this.hidingSpeed = false;
-				}
-				if (this.$statusBarDiv.width() < statusBarWidthBreakpoint) {
-					// Player is too small for a speed span
-					this.$statusBarDiv.find('span.able-speed').hide();
-					this.hidingSpeed = true;
-				}
-				else {
-					if (this.hidingSpeed) {
-						this.$statusBarDiv.find('span.able-speed').show();
-						this.hidingSpeed = false;
-					}
 				}
 			}
 		}
