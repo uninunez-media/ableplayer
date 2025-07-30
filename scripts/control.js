@@ -1564,7 +1564,7 @@
 		this.refreshControls('transcript');
 	};
 
-	AblePlayer.prototype.getIcon = function( $button, id, forceImg ) {
+	AblePlayer.prototype.getIcon = function( $button, id, forceImg = false ) {
 		// Remove existing HTML before generating.
 		$button.find('svg, img, span:not(.able-clipped)').remove();
 		// iconData: [0 = svg viewbox, 1 = svg path, 2 = icon font class, 3 = image file]
@@ -1573,7 +1573,7 @@
 		if ( null === iconData[3] ) {
 			iconType = 'svg';
 		}
-		if ( forceImg ) {
+		if ( forceImg === true ) {
 			iconType = 'image';
 		}
 		if (iconType === 'font') {
