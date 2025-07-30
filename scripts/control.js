@@ -969,23 +969,6 @@
 
 	};
 
-	AblePlayer.prototype.getHiddenWidth = function($el) {
-
-		// jQuery returns for width() if element is hidden
-		// this function is a workaround
-
-		// save a reference to a cloned element that can be measured
-		var $hiddenElement = $el.clone().appendTo('body');
-
-		// calculate the width of the clone
-		var width = $hiddenElement.outerWidth();
-
-		// remove the clone from the DOM
-		$hiddenElement.remove();
-
-		return width;
-	};
-
 	AblePlayer.prototype.handlePlay = function(e) {
 
 		if (this.paused) {
