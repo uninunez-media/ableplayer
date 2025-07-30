@@ -206,14 +206,13 @@
 		var cookie, cookiePos, $window, windowPos;
 
 		cookie = this.getCookie();
+		$window = ( which === 'transcript' ) ? this.$transcriptArea : this.$signWindow;
 		if (which === 'transcript') {
-			$window = this.$transcriptArea;
 			if (typeof cookie.transcript !== 'undefined') {
 				cookiePos = cookie.transcript;
 			}
 		}
 		else if (which === 'sign') {
-			$window = this.$signWindow;
 			if (typeof cookie.transcript !== 'undefined') {
 				cookiePos = cookie.sign;
 			}
@@ -290,6 +289,7 @@
 		otherWindowWidth = 0; // width of other visiable draggable windows will be added to this
 
 		if (targetWindow === 'transcript') {
+			// If placing the transcript window, check position of sign window first.
 			if (typeof this.$signWindow !== 'undefined') {
 				if (this.$signWindow.is(':visible')) {
 					otherWindowWidth = this.$signWindow.width() + gap;
@@ -297,6 +297,7 @@
 			}
 		}
 		else if (targetWindow === 'sign') {
+			// If placing the sign window, check position of transcript window first.
 			if (typeof this.$transcriptArea !== 'undefined') {
 				if (this.$transcriptArea.is(':visible')) {
 					otherWindowWidth = this.$transcriptArea.width() + gap;
@@ -324,26 +325,17 @@
 	};
 
 	AblePlayer.prototype.injectAlert = function () {
-
 		// inject two alerts, one visible for all users and one for screen reader users only
-
-		var top;
-
 		this.$alertBox = $('<div role="alert"></div>');
 		this.$alertBox.addClass('able-alert');
 		this.$alertBox.hide();
 		this.$alertBox.appendTo(this.$ableDiv);
-		if (this.mediaType == 'audio') {
-			top = '-10';
-		}
-		else {
-			// position just below top of video by default
-			// but this will change after video player is fully sized
-			// see control.js > resizePlayer()
-			top = '10';
-		}
+
+		// position at top of video by default
+		// but this will change after video player is fully sized
+		// see control.js > resizePlayer()
 		this.$alertBox.css({
-			top: top + 'px'
+			top: '0px'
 		});
 
 		this.$srAlertBox = $('<div role="alert"></div>');
