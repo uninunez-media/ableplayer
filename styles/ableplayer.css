@@ -1268,9 +1268,6 @@ div.able-skin-2020 div.able-seekbar-wrapper {
 .icon-pause:before {
     content: "\f04c" / "";
 }
-.icon-stop:before {
-    content: "\f04d" / "";
-}
 .icon-restart:before {
     content: "\e900" / "";
 }
@@ -1324,12 +1321,6 @@ div.able-skin-2020 div.able-seekbar-wrapper {
 }
 .icon-volume-loud:before {
     content: "\e60b" / "";
-}
-.icon-volume-up:before {
-    content: "\e607" / "";
-}
-.icon-volume-down:before {
-    content: "\e608" / "";
 }
 .icon-chapters:before {
     content: "\e609" / "";
