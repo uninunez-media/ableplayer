@@ -146,7 +146,7 @@
 		// handle bodyDiv events
 		this.bodyDiv.on(
 			'mouseenter mouseleave mousemove mousedown mouseup keydown keyup touchstart touchmove touchend', function (e) {
-		
+
 			// Don't trigger move on right click.
 			if ( e.which == 3 && e.type == 'mousedown' ) {
 				return;

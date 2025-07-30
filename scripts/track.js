@@ -105,7 +105,7 @@
     // cues - array with startTime, endTime, and payload
     // desc - Boolean, true if track includes a data-desc attribute
 
-    var thisObj, deferred, promise, trackLang, trackLabel, isDefault, forDesc, 
+    var thisObj, deferred, promise, trackLang, trackLabel, isDefault, forDesc,
 	hasDefault, hasTrackInDefLang, trackFound, i, j;
 
     thisObj = this;

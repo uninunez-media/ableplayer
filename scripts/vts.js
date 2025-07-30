@@ -10,7 +10,7 @@
 		// Add <div id="able-vts"></div> to the web page
 
 		// Define all variables
-		var thisObj, $heading, $instructions, $p1, $p2, $ul, $li1, $li2, $li3, 
+		var thisObj, $heading, $instructions, $p1, $p2, $ul, $li1, $li2, $li3,
 		$fieldset, $legend, i, $radioDiv, radioId, $label, $radio, $saveButton, $savedTable;
 
 		thisObj = this;
@@ -649,7 +649,7 @@
 	AblePlayer.prototype.insertRow = function(rowNum) {
 
 		// Insert empty row below rowNum
-		var $table, $rows, numRows, newRowNum, newRowId, $tr, $td, $select, 
+		var $table, $rows, numRows, newRowNum, newRowId, $tr, $td, $select,
 		options, i, $option, newKind, newClass, $parentRow, nextRowNum, $buttons;
 
 		$table = $('#able-vts table');

@@ -767,7 +767,7 @@
 	$main.find(".able-block-temp")
 		.removeClass("able-block-temp")
 		.wrapAll('<div class="able-transcript-block"></div>');
-	
+
 	return $main;
   }
 })(jQuery);

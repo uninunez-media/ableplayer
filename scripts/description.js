@@ -688,11 +688,11 @@
 				}
 			}
 		}
-		else { 
-			voice = null; 
+		else {
+			voice = null;
 		}
 		utterance = new SpeechSynthesisUtterance();
-		if (voice) { 
+		if (voice) {
 			utterance.voice = voice;
 		}
 		utterance.voiceURI = 'native';

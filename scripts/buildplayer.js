@@ -236,9 +236,9 @@
 					$window.css({
 						'top': cookiePos['top'] - topPosition,
 						'left': cookiePos['left']
-					});					
+					});
 				}
-			}			
+			}
 			// since cookie is not page-specific, z-index needs may vary across different pages
 			this.updateZIndex(which);
 		}
@@ -368,7 +368,7 @@
 		// 'which' parameter is either 'captions', 'chapters', 'prefs', 'transcript-window' or 'sign-window'
 		// 'tracks', if provided, is a list of tracks to be used as menu items
 
-		var thisObj, $menu, includeMenuItem, i, $menuItem, prefCat, whichPref, hasDefault, track, 
+		var thisObj, $menu, includeMenuItem, i, $menuItem, prefCat, whichPref, hasDefault, track,
 		windowOptions, $thisItem, $prevItem, $nextItem;
 
 		thisObj = this;
@@ -1426,7 +1426,7 @@
 		if ($sourceSpans.length) {
 			$sourceSpans.each(function() {
 				const $this = $(this);
- 
+
 				// Check if the required data-src attribute exists
 				if (thisObj.hasAttr($this, "data-src")) {
 					const sanitizedSrc = DOMPurify.sanitize($this.attr("data-src"));
@@ -1435,20 +1435,20 @@
 					if (validate.isProtocolSafe(sanitizedSrc)) {
 						// Create a new <source> element with the sanitized src
 						const $newSource = $("<source>", { src: sanitizedSrc });
-			
+
 						// List of optional attributes to sanitize and add
 						const optionalAttributes = [
 							"data-type",
 							"data-desc-src",
 							"data-sign-src",
 						];
-	
+
 						// Process optional attributes
 						optionalAttributes.forEach((attr) => {
 							if (thisObj.hasAttr($this, attr)) {
 								const attrValue = $this.attr(attr); // Get the attribute value
 								const sanitizedValue = DOMPurify.sanitize(attrValue); // Sanitize the value
-				
+
 								// If the attribute ends with "-src", validate the protocol
 								if (attr.endsWith("-src") && validate.isProtocolSafe(sanitizedValue)) {
 									$newSource.attr(attr, sanitizedValue); // Add the sanitized and validated attribute
@@ -1457,7 +1457,7 @@
 								}
 							}
              			});
- 
+
 						// Append the new <source> element to the media object
 						thisObj.$media.append($newSource);
 					}

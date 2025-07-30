@@ -1,5 +1,4 @@
 (function ($) {
-
 	AblePlayer.prototype.initDragDrop = function ( which ) {
 
 		// supported values of which: 'sign', 'transcript'
@@ -175,7 +174,7 @@
 			'class': 'able-button-handler-preferences'
 		});
 		this.getIcon( $newButton, 'preferences', true );
-		
+
 		// add the visibly-hidden label for screen readers that don't support aria-label on the button
 		$buttonLabel = $('<span>',{
 			'class': 'able-clipped'
