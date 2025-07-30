@@ -60,9 +60,11 @@ var AblePlayerInstances = [];
 		}
 	});
 
-	// Construct an AblePlayer object
-	// Parameters are:
-	// media - jQuery selector or element identifying the media.
+	/**
+	 * Construct the AblePlayer object.
+	 *
+	 * @param object media jQuery selector or element identifying the media.
+	 */
 	window.AblePlayer = function(media) {
 
 		var thisObj = this;
@@ -76,12 +78,7 @@ var AblePlayerInstances = [];
 			return;
 		}
 
-		///////////////////////////////
-		//
 		// Default variables assignment
-		//
-		///////////////////////////////
-
 		// The following variables CAN be overridden with HTML attributes
 
 		// autoplay (Boolean; if present always resolves to true, regardless of value)
