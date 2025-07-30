@@ -763,11 +763,11 @@
     return $main;
   };
 
-  function wrapTranscriptBlocks() {
-	$this.find(".able-block-temp")
+  var wrapTranscriptBlocks = function( $main ) {
+	$main.find(".able-block-temp")
 		.removeClass("able-block-temp")
 		.wrapAll('<div class="able-transcript-block"></div>');
 	
-	return $this;
+	return $main;
   }
 })(jQuery);
