@@ -357,23 +357,23 @@
 	};
 
 	AblePlayer.prototype.syncSignVideo = function(options) {
-	if (this.hasSignLanguage && this.signVideo) {
-		if (options && typeof options.time !== 'undefined') {
-			this.signVideo.currentTime = options.time;
+		if (this.hasSignLanguage && this.signVideo) {
+			if (options && typeof options.time !== 'undefined') {
+				this.signVideo.currentTime = options.time;
+			}
+			if (options && typeof options.rate !== 'undefined') {
+				this.signVideo.playbackRate = options.rate;
+			}
+			if (options && typeof options.pause !== 'undefined') {
+				this.signVideo.pause(true);
+			}
+			if (options && typeof options.play !== 'undefined') {
+				this.signVideo.play(true);
+			}
+			if (options && typeof options.volume !== 'undefined') {
+				this.signVideo.volume = 0;
+			}
 		}
-		if (options && typeof options.rate !== 'undefined') {
-			this.signVideo.playbackRate = options.rate;
-		}
-		if (options && typeof options.pause !== 'undefined') {
-			this.signVideo.pause(true);
-		}
-		if (options && typeof options.play !== 'undefined') {
-			this.signVideo.play(true);
-		}
-		if (options && typeof options.volume !== 'undefined') {
-			this.signVideo.volume = 0;
-		}
-	}
 	};
 
 	AblePlayer.prototype.pauseMedia = function () {
