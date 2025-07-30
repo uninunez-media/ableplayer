@@ -436,7 +436,7 @@
 		// Code is preserved below and commented out
 
 		var thisObj, mediaHeight, playerHeight, newMediaHeight;
-		var thisObj = this;
+		thisObj = this;
 
 		if (direction == 'out') {
 			// get the original height of two key components:
