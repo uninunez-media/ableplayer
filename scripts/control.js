@@ -1667,12 +1667,12 @@
 		$alertBox.text(msg).show();
 		if (location == 'transcript' || location === 'sign') {
 			if (location === 'sign') {
-				// position alert in the lower third of the sign window (to avoid covering the signer)
-				alertTop = ($parentWindow.height() / 3) * 2;
+				// position alert at the bottom of the sign window, where the drag handle is.
+				alertTop = ( $parentWindow.height() - $alertBox.outerHeight() );
 			}
 			else if (location === 'transcript') {
 				// position alert just beneath the toolbar to avoid getting lost among transcript text
-				alertTop = this.$transcriptToolbar.height() + 30;
+				alertTop = this.$transcriptToolbar.outerHeight();
 			}
 			$alertBox.css({
 				top: alertTop + 'px',
@@ -1864,7 +1864,7 @@
 		// Reposition alert message (video player only) below the vertical center of the mediaContainer
 		// hopefully above captions, but not too far from the controller bar
 		if (this.mediaType === 'video') {
-			alertTop = Math.round(this.$mediaContainer.height() / 3) * 2;
+			alertTop = this.$mediaContainer.height() - this.$alertBox.outerHeight();
 			this.$alertBox.css({
 				top: alertTop + 'px'
 			});
