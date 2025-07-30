@@ -230,7 +230,15 @@
 					'top': cookiePos['top'],
 					'left': cookiePos['left']
 				});
-			}
+				// Check whether the window is above the top of the viewport.
+				topPosition = $window.offset().top;
+				if ( topPosition < 0 ) {
+					$window.css({
+						'top': cookiePos['top'] - topPosition,
+						'left': cookiePos['left']
+					});					
+				}
+			}			
 			// since cookie is not page-specific, z-index needs may vary across different pages
 			this.updateZIndex(which);
 		}
