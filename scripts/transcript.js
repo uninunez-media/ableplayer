@@ -743,10 +743,7 @@
           // this caption includes a bracket or parenth. Start a new block
           // close the previous block first
           if (spanCount > 0) {
-            $main
-              .find(".able-block-temp")
-              .removeClass("able-block-temp")
-              .wrapAll('<div class="able-transcript-block"></div>');
+            $main = wrapTranscriptBlocks( $main );
             spanCount = 0;
           }
         }
@@ -755,14 +752,22 @@
       } else {
         // this is not a caption. Close the caption block
         if (spanCount > 0) {
-          $main
-            .find(".able-block-temp")
-            .removeClass("able-block-temp")
-            .wrapAll('<div class="able-transcript-block"></div>');
+          $main = wrapTranscriptBlocks( $main );
           spanCount = 0;
         }
       }
     });
+	// Close out remaining temp blocks.
+	$main = wrapTranscriptBlocks( $main );
+
     return $main;
   };
+
+  function wrapTranscriptBlocks() {
+	$this.find(".able-block-temp")
+		.removeClass("able-block-temp")
+		.wrapAll('<div class="able-transcript-block"></div>');
+	
+	return $this;
+  }
 })(jQuery);
