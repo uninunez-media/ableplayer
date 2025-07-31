@@ -951,12 +951,10 @@
 		// some controls are aligned on the left, and others on the right
 
 		var thisObj, baseSliderWidth, controlLayout, numSections,
-		i, j, k, controls, $controllerSpan, $sliderDiv, sliderLabel, $pipe, $pipeImg,
-		svgData, svgPath, control,
-		$buttonLabel, $buttonImg, buttonImgSrc, buttonTitle, $newButton, iconClass, buttonIcon,
-		buttonText, position, buttonHeight, buttonWidth, buttonSide, controllerWidth,
-		tooltipId, tooltipY, tooltipX, tooltipWidth, tooltipStyle, tooltip, tooltipTimerId,
-		captionLabel, popupMenuId;
+		i, j, controls, $controllerSpan, $sliderDiv, sliderLabel, $pipe, control,
+		$buttonLabel, buttonTitle, $newButton, buttonText, position, buttonHeight,
+		buttonWidth, buttonSide, controllerWidth, tooltipId, tooltipY, tooltipX,
+		tooltipWidth, tooltipStyle, tooltip, tooltipTimerId, captionLabel, popupMenuId;
 
 		thisObj = this;
 
@@ -1025,31 +1023,6 @@
 				}
 				else {
 					// this control is a button
-					if (control === 'volume') {
-						buttonImgSrc = this.rootPath + 'button-icons/' + this.iconColor + '/' + this.volumeButton + '.png';
-					}
-					else if (control === 'fullscreen') {
-						buttonImgSrc = this.rootPath + 'button-icons/' + this.iconColor + '/fullscreen-expand.png';
-					}
-					else if (control === 'slower') {
-						if (this.speedIcons === 'animals') {
-							buttonImgSrc = this.rootPath + 'button-icons/' + this.iconColor + '/turtle.png';
-						}
-						else {
-							buttonImgSrc = this.rootPath + 'button-icons/' + this.iconColor + '/slower.png';
-						}
-					}
-					else if (control === 'faster') {
-						if (this.speedIcons === 'animals') {
-							buttonImgSrc = this.rootPath + 'button-icons/' + this.iconColor + '/rabbit.png';
-						}
-						else {
-							buttonImgSrc = this.rootPath + 'button-icons/' + this.iconColor + '/faster.png';
-						}
-					}
-					else {
-						buttonImgSrc = this.rootPath + 'button-icons/' + this.iconColor + '/' + control + '.png';
-					}
 					buttonTitle = this.getButtonTitle(control);
 
 					// icomoon documentation recommends the following markup for screen readers:
