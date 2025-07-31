@@ -19,10 +19,7 @@
         }
       }
       if (this.transcriptType) {
-        if (
-          this.transcriptType === "popup" ||
-          this.transcriptType === "external"
-        ) {
+        if ( this.transcriptType === "popup" || this.transcriptType === "external" ) {
           this.injectTranscriptArea();
           deferred.resolve();
         } else if (this.transcriptType === "manual") {
