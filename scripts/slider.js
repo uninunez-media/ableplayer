@@ -148,10 +148,11 @@
 			'mouseenter mouseleave mousemove mousedown mouseup keydown keyup touchstart touchmove touchend', function (e) {
 
 			// Don't trigger move on right click.
-			if ( e.which == 3 && e.type == 'mousedown' ) {
+			if ( e.button == 2 && e.type == 'mousedown' ) {
 				return;
 			}
 			coords = thisObj.pointerEventToXY(e);
+			let keyPressed = e.key;
 
 			if (e.type === 'mouseenter') {
 				thisObj.overBody = true;
@@ -190,28 +191,22 @@
 				}
 			}
 			else if (e.type === 'keydown') {
-				// Home
-				if (e.which === 36) {
+				if (e.key === 'Home') {
 					thisObj.trackImmediatelyTo(0);
 				}
-				// End
-				else if (e.which === 35) {
+				else if (e.key === 'End') {
 					thisObj.trackImmediatelyTo(thisObj.duration);
 				}
-				// Left arrow or down arrow
-				else if (e.which === 37 || e.which === 40) {
+				else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
 					thisObj.arrowKeyDown(-1);
 				}
-				// Right arrow or up arrow
-				else if (e.which === 39 || e.which === 38) {
+				else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
 					thisObj.arrowKeyDown(1);
 				}
-				// Page up
-				else if (e.which === 33 && bigInterval > 0) {
+				else if (e.key === 'PageUp' && bigInterval > 0) {
 					thisObj.arrowKeyDown(bigInterval);
 				}
-				// Page down
-				else if (e.which === 34 && bigInterval > 0) {
+				else if (e.key === 'PageDown' && bigInterval > 0) {
 					thisObj.arrowKeyDown(-bigInterval);
 				}
 				else {
@@ -220,7 +215,7 @@
 				e.preventDefault();
 			}
 			else if (e.type === 'keyup') {
-				if (e.which >= 33 && e.which <= 40) {
+				if ( keyPressed === e.key ) {
 					if (thisObj.tracking && thisObj.trackDevice === 'keyboard') {
 						thisObj.stopTracking(thisObj.keyTrackPosition);
 					}

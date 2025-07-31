@@ -58,8 +58,7 @@
 
 		this.$volumeRange.on('keydown',function (e) {
 
-			// Escape key or Enter key or Tab key
-			if (e.which === 27 || e.which === 13 || e.which === 9) {
+			if (e.key === 'Escape' || e.key === 'Tab' || e.key === 'Enter') {
 				// close popup
 				if (thisObj.$volumeSlider.is(':visible')) {
 					thisObj.closingVolume = true; // stopgap

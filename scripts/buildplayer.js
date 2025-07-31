@@ -553,7 +553,7 @@
 				$prevItem = $thisItem.prev();
 				$nextItem = $thisItem.next();
 			}
-			if (e.which === 9) { // Tab
+			if (e.key === 'Tab') {
 				if (e.shiftKey) {
 					$thisItem.removeClass('able-focus');
 					$prevItem.trigger('focus').addClass('able-focus');
@@ -563,18 +563,18 @@
 					$nextItem.trigger('focus').addClass('able-focus');
 				}
 			}
-			else if (e.which === 40 || e.which === 39) { // down or right arrow
+			else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
 				$thisItem.removeClass('able-focus');
 				$nextItem.trigger('focus').addClass('able-focus');
 			}
-			else if (e.which == 38 || e.which === 37) { // up or left arrow
+			else if (e.key == 'ArrowUp' || e.key === 'ArrowLeft') {
 				$thisItem.removeClass('able-focus');
 				$prevItem.trigger('focus').addClass('able-focus');
 			}
-			else if (e.which === 32 || e.which === 13) { // space or enter
+			else if (e.key === ' ' || e.key === 'Enter') {
 				$thisItem.trigger( 'click' );
 			}
-			else if (e.which === 27) {	// Escape
+			else if (e.key === 'Escape') {
 				$thisItem.removeClass('able-focus');
 				thisObj.closePopups();
 				e.stopPropagation;

@@ -463,12 +463,12 @@
 			(e.target.tagName === 'TEXTAREA' && !this.stenoMode) ||
 			e.target.tagName === 'SELECT'
 		)){
-			if (key === ' ') { // escape
+			if (key === 'Escape') {
 				this.closePopups();
 				this.$tooltipDiv.hide();
 				this.seekBar.hideSliderTooltips();
 			}
-			else if (key === ' ') { // spacebar = play/pause
+			else if (key === ' ') {
 				// disable spacebar support for play/pause toggle as of 4.2.10
 				// spacebar should not be handled everywhere on the page, since users use that to scroll the page
 				// when the player has focus, most controls are buttons so spacebar should be used to trigger the buttons

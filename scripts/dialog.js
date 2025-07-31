@@ -26,8 +26,7 @@
 				 'aria-label': thisObj.closeButtonLabel
 			}).text('×');
 			closeButton.on( 'keydown', function (e) {
-				// Space key down
-				if (e.which === 32) {
+				if (e.key === ' ') {
 					thisObj.hide();
 				}
 			}).on( 'click', function () {
@@ -55,8 +54,7 @@
 		}
 
 		modal.on( 'keydown', function (e) {
-			// Escape
-			if (e.which === 27) {
+			if (e.key === 'Escape') {
 				if (thisObj.escapeHook) {
 					thisObj.escapeHook(e, this);
 				}
@@ -65,8 +63,7 @@
 					e.preventDefault();
 				}
 			}
-			// Tab
-			else if (e.which === 9) {
+			else if (e.key === 'Tab') {
 				// Manually loop tab navigation inside the modal.
 				var parts = modal.find('*');
 				var focusable = parts.filter(focusableElementsSelector).filter(':visible');
