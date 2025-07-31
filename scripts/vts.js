@@ -1069,7 +1069,7 @@
 
 		var $heading, filename, $p, pText, $textarea;
 
-		$heading = $('<h3>').text(kind.charAt(0).toUpperCase() + kind.slice(1));
+		$heading = $('<h3>').text( this.capitalizeFirstLetter( kind ) );
 		filename = this.getFilenameFromTracks(kind,lang);
 		pText = 'If you made changes, copy/paste the following content ';
 		if (filename) {

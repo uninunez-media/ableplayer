@@ -1666,7 +1666,7 @@
 			if (this.debug) {
 				console.log('Found an untranslated label: ' + control);
 			}
-			return control.charAt(0).toUpperCase() + control.slice(1);
+			return this.capitalizeFirstLetter( control );
 		}
 	};
 })(jQuery);
