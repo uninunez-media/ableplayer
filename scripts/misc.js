@@ -104,7 +104,7 @@
 
   AblePlayer.prototype.getSecondsFromColonTime = function (timeStr) {
     // Converts string of form hh:mm:ss to seconds
-    var timeParts, hours, minutes, seconds, newTime;
+    var timeParts, hours, minutes, seconds;
 
     timeParts = timeStr.split(":");
     if (timeParts.length === 3) {
@@ -149,15 +149,4 @@
     }
   };
 
-  Number.isInteger =
-    Number.isInteger ||
-    function (value) {
-      // polyfill for IE11, which doesn't otherwise support Number.isInteger
-      // https://stackoverflow.com/a/31720368/744281
-      return (
-        typeof value === "number" &&
-        isFinite(value) &&
-        Math.floor(value) === value
-      );
-    };
 })(jQuery);
