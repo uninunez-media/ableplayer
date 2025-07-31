@@ -6,22 +6,16 @@
 (function ($) {
 	AblePlayer.prototype.injectVTS = function() {
 
-		// To add a transcript sorter to a web page:
-		// Add <div id="able-vts"></div> to the web page
+		// To add a transcript sorter to a web page: <div id="able-vts"></div>
 
-		// Define all variables
 		var thisObj, $heading, $instructions, $p1, $p2, $ul, $li1, $li2, $li3,
 		$fieldset, $legend, i, $radioDiv, radioId, $label, $radio, $saveButton, $savedTable;
 
 		thisObj = this;
 
-		if ($('#able-vts').length) {
-			// Page includes a container for a VTS instance
-
+		if ( null !== document.getElementById( 'able-vts' ) ) {
 			// Are they qualifying tracks?
 			if (this.vtsTracks.length) {
-				// Yes - there are!
-
 				// Build an array of unique languages
 				this.langs = [];
 				this.getAllLangs(this.vtsTracks);
