@@ -592,9 +592,7 @@
 									thisObj.setupPopups();
 									thisObj.updateCaption();
 									thisObj.injectVTS();
-									if (thisObj.chaptersDivLocation) {
-										thisObj.populateChaptersDiv();
-									}
+									thisObj.populateChaptersDiv();
 									thisObj.showSearchResults();
 
 									// Go ahead and load media, without user requesting it
@@ -841,30 +839,15 @@
 		// return 'html5', 'youtube', 'vimeo', or null
 		if (this.testFallback) {
 			return null;
-		}
-		else if (this.youTubeId) {
-			if (this.mediaType !== 'video') {
-				// attempting to play a YouTube video using an element other than <video>
-				return null;
-			}
-			else {
-				return 'youtube';
-			}
-		}
-		else if (this.vimeoId) {
-			if (this.mediaType !== 'video') {
-				// attempting to play a Vimeo video using an element other than <video>
-				return null;
-			}
-			else {
-				return 'vimeo';
-			}
-
-		}
-		else if (this.media.canPlayType) {
+		} else if (this.youTubeId) {
+			// null if attempting to play a YouTube video using an element other than <video>
+			return  (this.mediaType !== 'video') ? null : 'youtube';
+		} else if (this.vimeoId) {
+			// null if attempting to play a Vimeo video using an element other than <video>
+			return (this.mediaType !== 'video') ? null : 'vimeo';
+		} else if (this.media.canPlayType) {
 			return 'html5';
-		}
-		else {
+		} else {
 			// Browser does not support the available media file
 			return null;
 		}
