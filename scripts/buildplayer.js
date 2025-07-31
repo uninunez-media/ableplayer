@@ -1292,7 +1292,7 @@
 		}
 
 		// Update state-based display of controls.
-		this.refreshControls('init');
+		this.refreshControls();
 	};
 
 	AblePlayer.prototype.cuePlaylistItem = function(sourceIndex) {

@@ -479,7 +479,7 @@
 		this.hideControlsTimeoutStatus = 'active';
 	};
 
-	AblePlayer.prototype.refreshControls = function(context, duration, elapsed) {
+	AblePlayer.prototype.refreshControls = function(context = 'init', duration, elapsed) {
 
 		// context is one of the following:
 		// 'init' - initial build (or subsequent change that requires full rebuild)

@@ -609,7 +609,7 @@
 									// refreshControls is called twice building/initializing the player
 									// this is the second. Best to pause a bit before executing, to be sure all prior steps are complete
 									setTimeout(function() {
-										thisObj.refreshControls('init');
+										thisObj.refreshControls();
 										deferred.resolve();
 									},100);
 								});

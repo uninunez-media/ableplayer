@@ -59,7 +59,7 @@
 				this.cuePlaylistItem(this.playlistIndex)
 			}
 		}
-		this.refreshControls('init');
+		this.refreshControls();
 	};
 
 	AblePlayer.prototype.onMediaNewSourceLoad = function () {
@@ -210,7 +210,7 @@
 			this.userClickedPlaylist = false;
 			this.okToPlay = false;
 		}
-		this.refreshControls('init');
+		this.refreshControls();
 		if (this.$focusedElement) {
 			this.restoreFocus();
 			this.$focusedElement = null;
@@ -275,7 +275,7 @@
 			thisObj.showDescription(position);
 			thisObj.updateChapter(thisObj.convertChapterTimeToVideoTime(position));
 			thisObj.updateMeta(position);
-			thisObj.refreshControls('init');
+			thisObj.refreshControls();
 		}).on('stopTracking', function (e, position) {
 			if (thisObj.useChapterTimes) {
 				thisObj.seekTo(thisObj.convertChapterTimeToVideoTime(position));
@@ -798,7 +798,7 @@
 					if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
 						// the player's style attribute has changed. Check to see if it's visible
 						if (thisObj.$ableDiv.is(':visible')) {
-							thisObj.refreshControls('init');
+							thisObj.refreshControls();
 						}
 					}
 				});
