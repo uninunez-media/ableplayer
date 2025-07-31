@@ -833,8 +833,7 @@
 			if (this.skin === 'legacy') {
 				controlLayout[0].push('previous');
 				controlLayout[0].push('next');
-			}
-			else if (this.skin == '2020') {
+			} else {
 				controlLayout[0].push('previous');
 				controlLayout[0].push('next');
 			}
@@ -856,8 +855,7 @@
 			numA11yButtons++;
 			if (this.skin === 'legacy') {
 				controlLayout[2].push('captions');
-			}
-			else if (this.skin == '2020') {
+			} else {
 				controlLayout[1].push('captions');
 			}
 		}
@@ -865,8 +863,7 @@
 			numA11yButtons++;
 			if (this.skin === 'legacy') {
 				controlLayout[2].push('sign');
-			}
-			else if (this.skin == '2020') {
+			} else {
 				controlLayout[1].push('sign');
 			}
 		}
@@ -875,8 +872,7 @@
 				numA11yButtons++;
 				if (this.skin === 'legacy') {
 					controlLayout[2].push('descriptions');
-				}
-				else if (this.skin == '2020') {
+				} else {
 					controlLayout[1].push('descriptions');
 				}
 			}
@@ -885,8 +881,7 @@
 			numA11yButtons++;
 			if (this.skin === 'legacy') {
 				controlLayout[2].push('transcript');
-			}
-			else if (this.skin == '2020') {
+			} else {
 				controlLayout[1].push('transcript');
 			}
 		}
@@ -894,8 +889,7 @@
 			numA11yButtons++;
 			if (this.skin === 'legacy') {
 				controlLayout[2].push('chapters');
-			}
-			else if (this.skin == '2020') {
+			} else {
 				controlLayout[1].push('chapters');
 			}
 		}
@@ -912,16 +906,14 @@
 
 		if (this.skin === 'legacy') {
 			controlLayout[3].push('preferences');
-		}
-		else if (this.skin == '2020') {
+		} else {
 			controlLayout[1].push('preferences');
 		}
 
 		if (this.mediaType === 'video' && this.allowFullscreen) {
 			if (this.skin === 'legacy') {
 				controlLayout[3].push('fullscreen');
-			}
-			else {
+			} else {
 				controlLayout[1].push('fullscreen');
 			}
 		}
@@ -930,8 +922,7 @@
 			this.volumeButton = 'volume-' + this.getVolumeName(this.volume);
 			if (this.skin === 'legacy') {
 				controlLayout[1].push('volume');
-			}
-			else if (this.skin == '2020') {
+			} else {
 				controlLayout[1].push('volume');
 			}
 		}
