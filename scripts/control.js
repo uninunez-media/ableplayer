@@ -500,28 +500,30 @@
 		// duration is expressed as sss.xxx
 		// elapsed is expressed as sss.xxx
 
-		var thisObj, duration, lastChapterIndex, displayElapsed, updateLive, textByState, timestamp, widthUsed,
-			leftControls, rightControls, seekbarWidth, captionsCount, buffered, newTop,	statusBarWidthBreakpoint;
+		var thisObj, duration,  textByState, timestamp,  captionsCount, newTop,	statusBarWidthBreakpoint;
 
 		thisObj = this;
 		// wait until new source has loaded before refreshing controls
-		//  some critical events won't fire until playback of new media starts
+		// some critical events won't fire until playback of new media starts
 		if ( this.swappingSrc && this.playing ) {
 			return;
 		}
 
-		if (context === 'timeline' || context === 'init') {
-			// all timeline-related functionality requires both duration and elapsed
+		if ( context === 'timeline' || context === 'init' ) {
+			// Update timeline controls.
+			var lastChapterIndex, displayElapsed, updateLive, widthUsed,
+				leftControls, rightControls, seekbarWidth, buffered;
+			// all timeline-related functionality requires duration
 			if (typeof this.duration === 'undefined') {
-			 	// wait until duration is known before proceeding with refresh
-			 	return;
+				// wait until duration is known before proceeding with refresh
+				return;
 			}
 			if (this.useChapterTimes) {
 				this.chapterDuration = this.getChapterDuration();
 				this.chapterElapsed = this.getChapterElapsed();
 			}
 
-			if (this.useFixedSeekInterval === false && this.seekIntervalCalculated === false && this.duration > 0) {
+			if ( !this.useFixedSeekInterval && !this.seekIntervalCalculated && this.duration > 0) {
 				// couldn't calculate seekInterval previously; try again.
 				this.setSeekInterval();
 			}
@@ -535,20 +537,15 @@
 							// chapter ends before or after video ends
 							// need to adjust seekbar duration to match video end
 							this.seekBar.setDuration(this.duration - this.currentChapter.start);
-						}
-						else {
+						} else {
 							this.seekBar.setDuration(this.chapterDuration);
 						}
-					}
-					else {
+					} else {
 						// this is not the last chapter
 						this.seekBar.setDuration(this.chapterDuration);
 					}
-				}
-				else {
-					if (!(this.duration === undefined || isNaN(this.duration) || this.duration === -1)) {
-						this.seekBar.setDuration(this.duration);
-					}
+				} else if ( !(this.duration === undefined || isNaN(this.duration) || this.duration === -1) ) {
+					this.seekBar.setDuration(this.duration);
 				}
 				if (!(this.seekBar.tracking)) {
 					// Only update the aria live region if we have an update pending
@@ -559,8 +556,7 @@
 					this.liveUpdatePending = false;
 					if (this.useChapterTimes) {
 						this.seekBar.setPosition(this.chapterElapsed, updateLive);
-					}
-					else {
+					} else {
 						this.seekBar.setPosition(this.elapsed, updateLive);
 					}
 				}
@@ -568,22 +564,15 @@
 				// When seeking, display the seek bar time instead of the actual elapsed time.
 				if (this.seekBar.tracking) {
 					displayElapsed = this.seekBar.lastTrackPosition;
-				}
-				else {
-					if (this.useChapterTimes) {
-						displayElapsed = this.chapterElapsed;
-					}
-					else {
-						displayElapsed = this.elapsed;
-					}
+				} else {
+					displayElapsed = ( this.useChapterTimes ) ? this.chapterElapsed : this.elapsed;
 				}
 			}
 			// update elapsed & duration
 			if (typeof this.$durationContainer !== 'undefined') {
 				if (this.useChapterTimes) {
 					this.$durationContainer.text(' / ' + this.formatSecondsAsColonTime(this.chapterDuration));
-				}
-				else {
+				} else {
 					this.$durationContainer.text(' / ' + this.formatSecondsAsColonTime(this.duration));
 				}
 			}
@@ -606,8 +595,7 @@
 					});
 					if (this.fullscreen) {
 						seekbarWidth = $(window).width() - widthUsed;
-					}
-					else {
+					} else {
 						// seekbar is wide enough to fill the remaining space
 						// include a 10px buffer to account for minor browser differences or custom styles.
 						seekbarWidth = controlWrapper.width() - widthUsed - 10;
@@ -622,37 +610,24 @@
 			// Update buffering progress.
 			// TODO: Currently only using the first HTML5 buffered interval,
 			// but this fails sometimes when buffering is split into two or more intervals.
-			if (this.player === 'html5') {
-				if (this.media.buffered.length > 0) {
-					buffered = this.media.buffered.end(0);
-					if (this.useChapterTimes) {
-						if (buffered > this.chapterDuration) {
-							buffered = this.chapterDuration;
-						}
-						if (this.seekBar) {
-							this.seekBar.setBuffered(buffered / this.chapterDuration);
-						}
+			if (this.player === 'html5' && this.media.buffered.length > 0) {
+				buffered = this.media.buffered.end(0);
+				if (this.useChapterTimes) {
+					if (buffered > this.chapterDuration) {
+						buffered = this.chapterDuration;
 					}
-					else {
-						if (this.seekBar) {
-							if (!isNaN(buffered)) {
-								this.seekBar.setBuffered(buffered / duration);
-							}
-						}
+					if (this.seekBar) {
+						this.seekBar.setBuffered(buffered / this.chapterDuration);
 					}
+				} else if ( this.seekBar && !isNaN(buffered) ) {
+					this.seekBar.setBuffered(buffered / duration);
 				}
-			}
-			else if (this.player === 'youtube') {
-				if (this.seekBar) {
-					if (this.youTubePlayerReady) {
-						this.seekBar.setBuffered(this.youTubePlayer.getVideoLoadedFraction());
-					}
-				}
-			}
-			else if (this.player === 'vimeo') {
+			} else if (this.player === 'youtube' && this.seekBar && this.youTubePlayerReady ) {
+				this.seekBar.setBuffered(this.youTubePlayer.getVideoLoadedFraction());
+			} else if (this.player === 'vimeo') {
 				// TODO: Add support for Vimeo buffering update
 			}
-		} // end if context == 'timeline' or 'init'
+		}
 
 		if (context === 'descriptions' || context == 'init'){
 			if (this.$descButton) {
@@ -665,12 +640,11 @@
 			}
 		}
 
-		if (context === 'captions' || context == 'init'){
+		if (context === 'captions' || context == 'init') {
 
 			if (this.$ccButton) {
 
 				captionsCount = this.captions.length;
-
 				if (captionsCount > 1) {
 					this.$ccButton.attr({
 						'aria-haspopup': 'true',
@@ -697,8 +671,7 @@
 					this.$fullscreenButton.attr('aria-label', this.tt.enterFullScreen);
 					this.getIcon( this.$fullscreenButton, 'fullscreen-expand' );
 					this.$fullscreenButton.find('span.able-clipped').text(this.tt.enterFullScreen);
-				}
-				else {
+				} else {
 					this.$fullscreenButton.attr('aria-label',this.tt.exitFullscreen);
 					this.getIcon( this.$fullscreenButton, 'fullscreen-collapse' );
 					this.$fullscreenButton.find('span.able-clipped').text(this.tt.exitFullscreen);
@@ -717,13 +690,11 @@
 					if (this.fullscreen) {
 						this.$bigPlayButton.width($(window).width());
 						this.$bigPlayButton.height($(window).height());
-					}
-					else {
+					} else {
 						this.$bigPlayButton.width(this.$mediaContainer.width());
 						this.$bigPlayButton.height(this.$mediaContainer.height());
 					}
-				}
-				else {
+				} else {
 					this.$bigPlayButton.hide();
 					this.$bigPlayButton.attr('aria-hidden', 'true');
 				}
@@ -737,8 +708,7 @@
 				if (this.prefAutoScrollTranscript === 1) {
 					this.autoScrollTranscript = true;
 					this.$autoScrollTranscriptCheckbox.prop('checked',true);
-				}
-				else {
+				} else {
 					this.autoScrollTranscript = false;
 					this.$autoScrollTranscriptCheckbox.prop('checked',false);
 				}
@@ -794,67 +764,58 @@
 				}
 				this.getIcon( this.$playpauseButton, 'play' );
 				this.$playpauseButton.find('span.able-clipped').text(this.tt.play);
-			}
-			else {
-				if (typeof this.$status !== 'undefined' && typeof this.seekBar !== 'undefined') {
-					// Update the text only if it's changed since it has role="alert";
-					// also don't update while tracking, since this may Pause/Play the player but we don't want to send a Pause/Play update.
-					this.getPlayerState().then(function(currentState) {
-						if (thisObj.$status.text() !== textByState[currentState] && !thisObj.seekBar.tracking) {
-							// Debounce updates; only update after status has stayed steadily different for a while
-							// "A while" is defined differently depending on context
-							if (thisObj.swappingSrc) {
-								// this is where most of the chatter occurs (e.g., playing, paused, buffering, playing),
-								// so set a longer wait time before writing a status message
-								if (!thisObj.debouncingStatus) {
-									thisObj.statusMessageThreshold = 2000; // in ms (2 seconds)
-								}
+			} else if (typeof this.$status !== 'undefined' && typeof this.seekBar !== 'undefined') {
+				// Update the text only if it's changed since it has role="alert";
+				// also don't update while tracking, since this may Pause/Play the player but we don't want to send a Pause/Play update.
+				this.getPlayerState().then(function(currentState) {
+					if (thisObj.$status.text() !== textByState[currentState] && !thisObj.seekBar.tracking) {
+						// Debounce updates; only update after status has stayed steadily different for a while
+						// "A while" is defined differently depending on context
+						if (thisObj.swappingSrc) {
+							// this is where most of the chatter occurs (e.g., playing, paused, buffering, playing),
+							// so set a longer wait time before writing a status message
+							if (!thisObj.debouncingStatus) {
+								thisObj.statusMessageThreshold = 2000; // in ms (2 seconds)
 							}
-							else {
-								// for all other contexts (e.g., users clicks Play/Pause)
-								// user should receive more rapid feedback
-								if (!thisObj.debouncingStatus) {
-									thisObj.statusMessageThreshold = 250; // in ms
-								}
-							}
-							timestamp = (new Date()).getTime();
-							if (!thisObj.statusDebounceStart) {
-								thisObj.statusDebounceStart = timestamp;
-								// Call refreshControls() again after allotted time has passed
-								thisObj.debouncingStatus = true;
-								thisObj.statusTimeout = setTimeout(function () {
-									thisObj.debouncingStatus = false;
-									thisObj.refreshControls(context);
-								}, thisObj.statusMessageThreshold);
-							}
-							else if ((timestamp - thisObj.statusDebounceStart) > thisObj.statusMessageThreshold) {
-								thisObj.$status.text(textByState[currentState]);
-								thisObj.statusDebounceStart = null;
-								clearTimeout(thisObj.statusTimeout);
-								thisObj.statusTimeout = null;
-							}
+						} else if (!thisObj.debouncingStatus) {
+							// for all other contexts (e.g., users clicks Play/Pause)
+							// user should receive more rapid feedback
+							thisObj.statusMessageThreshold = 250; // in ms
 						}
-						else {
+						timestamp = (new Date()).getTime();
+						if (!thisObj.statusDebounceStart) {
+							thisObj.statusDebounceStart = timestamp;
+							// Call refreshControls() again after allotted time has passed
+							thisObj.debouncingStatus = true;
+							thisObj.statusTimeout = setTimeout(function () {
+								thisObj.debouncingStatus = false;
+								thisObj.refreshControls(context);
+							}, thisObj.statusMessageThreshold);
+						} else if ((timestamp - thisObj.statusDebounceStart) > thisObj.statusMessageThreshold) {
+							thisObj.$status.text(textByState[currentState]);
 							thisObj.statusDebounceStart = null;
-							thisObj.debouncingStatus = false;
 							clearTimeout(thisObj.statusTimeout);
 							thisObj.statusTimeout = null;
 						}
-						// Don't change play/pause button display while using the seek bar (or if YouTube stopped)
-						if (!thisObj.seekBar.tracking && !thisObj.stoppingYouTube) {
-							if (currentState === 'paused' || currentState === 'stopped' || currentState === 'ended') {
-								thisObj.$playpauseButton.attr('aria-label',thisObj.tt.play);
-								thisObj.getIcon( thisObj.$playpauseButton, 'play' );
-								thisObj.$playpauseButton.find('span.able-clipped').text(thisObj.tt.play);
-							}
-							else {
-								thisObj.$playpauseButton.attr('aria-label',thisObj.tt.pause);
-								thisObj.getIcon( thisObj.$playpauseButton, 'pause' );
-								thisObj.$playpauseButton.find('span.able-clipped').text(thisObj.tt.pause);
-							}
+					} else {
+						thisObj.statusDebounceStart = null;
+						thisObj.debouncingStatus = false;
+						clearTimeout(thisObj.statusTimeout);
+						thisObj.statusTimeout = null;
+					}
+					// Don't change play/pause button display while using the seek bar (or if YouTube stopped)
+					if (!thisObj.seekBar.tracking && !thisObj.stoppingYouTube) {
+						if (currentState === 'paused' || currentState === 'stopped' || currentState === 'ended') {
+							thisObj.$playpauseButton.attr('aria-label',thisObj.tt.play);
+							thisObj.getIcon( thisObj.$playpauseButton, 'play' );
+							thisObj.$playpauseButton.find('span.able-clipped').text(thisObj.tt.play);
+						} else {
+							thisObj.$playpauseButton.attr('aria-label',thisObj.tt.pause);
+							thisObj.getIcon( thisObj.$playpauseButton, 'pause' );
+							thisObj.$playpauseButton.find('span.able-clipped').text(thisObj.tt.pause);
 						}
-					});
-				}
+					}
+				});
 			}
 		}
 
@@ -1721,7 +1682,6 @@
 		if (this.mediaType === 'audio') {
 			return;
 		}
-
 		if (typeof width !== 'undefined' && typeof height !== 'undefined') {
 			// this is being called the first time a player is initialized
 			// width and height were collected from the HTML, YouTube, or Vimeo media API
@@ -1856,7 +1816,6 @@
 				'font-size': captionSize
 			});
 		}
-
 		// Reposition alert message (video player only) below the vertical center of the mediaContainer
 		// hopefully above captions, but not too far from the controller bar
 		if (this.mediaType === 'video') {
