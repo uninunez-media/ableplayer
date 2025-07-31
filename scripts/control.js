@@ -501,8 +501,7 @@
 		// elapsed is expressed as sss.xxx
 
 		var thisObj, duration, lastChapterIndex, displayElapsed, updateLive, textByState, timestamp, widthUsed,
-			leftControls, rightControls, seekbarWidth, captionsCount, buffered, newTop, statusBarHeight,
-			speedHeight, statusBarWidthBreakpoint, newSvgData;
+			leftControls, rightControls, seekbarWidth, captionsCount, buffered, newTop,	statusBarWidthBreakpoint;
 
 		thisObj = this;
 		if (this.swappingSrc) {
