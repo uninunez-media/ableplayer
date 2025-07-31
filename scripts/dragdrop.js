@@ -374,11 +374,10 @@
 
 		if (e.type === 'keydown') {
 			// user pressed a key
-			if (e.which === 32 || e.which === 13) {
-				// this was Enter or space
+			if (e.key === ' ' || e.key === 'Enter') {
 				this.windowMenuClickRegistered = true;
 			}
-			else if (e.which === 27) { // escape
+			else if (e.key === 'Escape') {
 				if ($windowPopup.is(':visible')) {
 					// close the popup menu
 					$windowPopup.hide('fast', function() {
@@ -449,7 +448,7 @@
 		this.$activeWindow = $window;
 
 		if (e.type === 'keydown') {
-			if (e.which === 27) { // escape
+			if (e.key === 'Escape') { // escape
 				// hide the popup menu
 				$windowPopup.hide('fast', function() {
 					// also reset the Boolean
@@ -614,32 +613,28 @@
 			this.startingDrag = false;
 			return false;
 		}
-		key = e.which;
+		key = e.key;
 		keySpeed = 10; // pixels per keypress event
 
 		switch (key) {
-			case 37:	// left
-			case 63234:
+			case 'ArrowLeft':	// left
 				 this.dragKeyX -= keySpeed;
 				 this.$srAlertBox.text( this.tt.windowMoveLeft );
 				break;
-			case 38:	// up
-			case 63232:
+			case 'ArrowUp':	// up
 				this.dragKeyY -= keySpeed;
 				this.$srAlertBox.text( this.tt.windowMoveUp );
 				break;
-			case 39:	// right
-			case 63235:
+			case 'ArrowRight':	// right
 				this.dragKeyX += keySpeed;
 				this.$srAlertBox.text( this.tt.windowMoveRight );
 				break;
-			case 40:	// down
-			case 63233:
+			case 'ArrowDown':	// down
 				this.dragKeyY += keySpeed;
 				this.$srAlertBox.text( this.tt.windowMoveDown );
 				break;
-			case 13: 	// enter
-			case 27: 	// escape
+			case 'Enter': 	// enter
+			case 'Escape': 	// escape
 				this.$srAlertBox.text( this.tt.windowMoveStopped );
 				this.endDrag(which);
 				return false;
