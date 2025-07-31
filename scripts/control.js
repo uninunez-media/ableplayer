@@ -1256,30 +1256,36 @@
 			this.$transcriptArea.hide();
 			this.toggleButtonState( this.$transcriptButton, visible, this.tt.hideTranscript, this.tt.showTranscript );
 			this.prefTranscript = 0;
-			this.$transcriptButton.trigger('focus').addClass('able-focus');
-			// wait briefly before resetting stopgap var
-			// otherwise the keypress used to select 'Close' will trigger the transcript button
-			// Benchmark tests: If this is gonna happen, it typically happens in around 3ms; max 12ms
-			// Setting timeout to 100ms is a virtual guarantee of proper functionality
-			setTimeout(function() {
-				thisObj.closingTranscript = false;
-			}, 100);
-		}
-		else {
-			this.positionDraggableWindow('transcript');
-			this.$transcriptArea.show();
-			// showing transcriptArea has a cascading effect of showing all content *within* transcriptArea
-			// need to re-hide the popup menu
-			this.$transcriptPopup.hide();
-			this.toggleButtonState( this.$transcriptButton, visible, this.tt.hideTranscript, this.tt.showTranscript );
-			this.prefTranscript = 1;
-			// move focus to first focusable element (window options button)
-			this.focusNotClick = true;
-			this.$transcriptArea.find('button').first().trigger('focus');
-			// wait briefly before resetting stopgap var
-			setTimeout(function() {
-				thisObj.focusNotClick = false;
-			}, 100);
+			if ( this.transcriptType === 'popup' ) {
+				this.$transcriptButton.trigger('focus').addClass('able-focus');
+				// wait briefly before resetting stopgap var
+				// otherwise the keypress used to select 'Close' will trigger the transcript button
+				// Benchmark tests: If this is gonna happen, it typically happens in around 3ms; max 12ms
+				// Setting timeout to 100ms is a virtual guarantee of proper functionality
+				setTimeout(function() {
+					thisObj.closingTranscript = false;
+				}, 100);
+			}
+		} else {
+			if ( this.transcriptType === 'popup' ) {
+				this.positionDraggableWindow('transcript');
+				this.$transcriptArea.show();
+				// showing transcriptArea has a cascading effect of showing all content *within* transcriptArea
+				// need to re-hide the popup menu
+				this.$transcriptPopup.hide();
+				this.toggleButtonState( this.$transcriptButton, visible, this.tt.hideTranscript, this.tt.showTranscript );
+				this.prefTranscript = 1;
+				// move focus to first focusable element (window options button)
+				this.focusNotClick = true;
+				this.$transcriptArea.find('button').first().trigger('focus');
+				// wait briefly before resetting stopgap var
+				setTimeout(function() {
+					thisObj.focusNotClick = false;
+				}, 100);
+			} else {
+				this.toggleButtonState( this.$transcriptButton, visible, this.tt.hideTranscript, this.tt.showTranscript );
+				this.$transcriptArea.show();
+			}
 		}
 		this.updateCookie('prefTranscript');
 	};

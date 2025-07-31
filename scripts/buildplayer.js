@@ -877,7 +877,7 @@
 				}
 			}
 		}
-		if (this.transcriptType === 'popup' && !(this.hideTranscriptButton)) {
+		if (this.transcriptType !== null && !(this.hideTranscriptButton)) {
 			numA11yButtons++;
 			if (this.skin === 'legacy') {
 				controlLayout[2].push('transcript');
