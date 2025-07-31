@@ -668,7 +668,7 @@
 
 	AblePlayer.prototype.initStenoFrame = function() {
 
-		var thisObj, deferred, promise, $iframe;
+		var thisObj, deferred, promise;
 		thisObj = this;
 
 		deferred = new $.Deferred();
@@ -822,6 +822,7 @@
 		// Keep native player from displaying captions/subtitles by setting textTrack.mode='disabled'
 		// https://dev.w3.org/html5/spec-author-view/video.html#text-track-mode
 		// This *should* work but historically hasn't been supported in all browsers
+		// As of July 2025, 96% supported per https://caniuse.com/?search=text-track-mode.
 		// Workaround for non-supporting browsers is to remove default attribute
 		// We're doing that too in track.js > setupCaptions()
 		var textTracks = this.$media.get(0).textTracks;
@@ -838,8 +839,6 @@
 
 		// Determine which player to use, if any
 		// return 'html5', 'youtube', 'vimeo', or null
-
-		var i, sourceType, $newItem;
 		if (this.testFallback) {
 			return null;
 		}
