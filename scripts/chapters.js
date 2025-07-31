@@ -29,8 +29,7 @@
 			this.$chaptersNav = $('<nav>');
 			if (this.chaptersTitle) {
 				this.$chaptersNav.attr('aria-labelledby',headingId);
-			}
-			else {
+			} else {
 				this.$chaptersNav.attr('aria-label',this.tt.chapters);
 			}
 			this.$chaptersDiv.append(this.$chaptersNav);
@@ -44,7 +43,7 @@
 
 		var thisObj, cues, $chaptersList, c, thisChapter,
 			$chapterItem, $chapterButton, hasDefault,
-			getClickFunction, $clickedItem, $chaptersList, thisChapterIndex;
+			getClickFunction, $clickedItem, $chaptersList;
 
 		thisObj = this;
 
@@ -87,7 +86,6 @@
 						thisObj.seekTrigger = 'chapter';
 						$clickedItem = $(this).closest('li');
 						$chaptersList = $(this).closest('ul').find('li');
-						thisChapterIndex = $chaptersList.index($clickedItem);
 						$chaptersList.removeClass('able-current-chapter')
 							.children('button').removeAttr('aria-current');
 						$clickedItem.addClass('able-current-chapter')
