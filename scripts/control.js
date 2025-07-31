@@ -504,13 +504,10 @@
 			leftControls, rightControls, seekbarWidth, captionsCount, buffered, newTop,	statusBarWidthBreakpoint;
 
 		thisObj = this;
-		if (this.swappingSrc) {
-			if (this.playing) {
-				// wait until new source has loaded before refreshing controls
-				// can't wait if player is NOT playing because some critical events
-				// won't fire until playback of new media starts
-				return;
-			}
+		// wait until new source has loaded before refreshing controls
+		//  some critical events won't fire until playback of new media starts
+		if ( this.swappingSrc && this.playing ) {
+			return;
 		}
 
 		if (context === 'timeline' || context === 'init') {
