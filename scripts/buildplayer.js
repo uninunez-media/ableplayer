@@ -1595,31 +1595,15 @@
 		else if (control === 'captions') {
 			if (this.captions.length > 1) {
 				return this.tt.captions;
-			}
-			else {
-				if (this.captionsOn) {
-					return this.tt.hideCaptions;
-				}
-				else {
-					return this.tt.showCaptions;
-				}
+			} else {
+				return (this.captionsOn) ? this.tt.hideCaptions : this.tt.showCaptions;
 			}
 		}
 		else if (control === 'descriptions') {
-			if (this.descOn) {
-				return this.tt.turnOffDescriptions;
-			}
-			else {
-				return this.tt.turnOnDescriptions;
-			}
+			return (this.descOn) ? this.tt.turnOffDescriptions : this.tt.turnOnDescriptions;
 		}
 		else if (control === 'transcript') {
-			if (this.$transcriptDiv.is(':visible')) {
-				return this.tt.hideTranscript;
-			}
-			else {
-				return this.tt.showTranscript;
-			}
+			return (this.$transcriptDiv.is(':visible')) ? this.tt.hideTranscript : this.tt.showTranscript;
 		}
 		else if (control === 'chapters') {
 			return this.tt.chapters;
@@ -1643,12 +1627,7 @@
 			// return this.tt.help;
 		}
 		else if (control === 'fullscreen') {
-			if (!this.fullscreen) {
-				return this.tt.enterFullScreen;
-			}
-			else {
-				return this.tt.exitFullScreen;
-			}
+			return (!this.fullscreen) ? this.tt.enterFullScreen : this.tt.exitFullScreen;
 		}
 		else {
 			// there should be no other controls, but just in case:
