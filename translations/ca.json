@@ -149,6 +149,7 @@
   "ok": "D'acord",
   "done": "Fet",
   "closeButtonLabel": "Tanca el quadre de diàleg",
+  "dismissButton": "Dismiss",
   "windowButtonLabel": "Opcions de la finestra",
   "windowMove": "Moure",
   "windowMoveLeft": "Window moved left",

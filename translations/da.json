@@ -149,6 +149,7 @@
   "ok": "Ok",
   "done": "Afslut",
   "closeButtonLabel": "Luk",
+  "dismissButton": "Dismiss",
   "windowButtonLabel": "Vindueindstillinger",
   "windowMove": "Flyt",
   "windowMoveLeft": "Window moved left",

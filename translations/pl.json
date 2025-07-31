@@ -149,6 +149,7 @@
   "ok": "Ok",
   "done": "Zrobione",
   "closeButtonLabel": "Zamknij okno",
+  "dismissButton": "Dismiss",
   "windowButtonLabel": "Opcje okna",
   "windowMove": "Przenieś",
   "windowMoveLeft": "Window moved left",

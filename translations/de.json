@@ -149,6 +149,7 @@
   "ok": "Ok",
   "done": "Fertig",
   "closeButtonLabel": "Schließen",
+  "dismissButton": "Dismiss",
   "windowButtonLabel": "Fenstereinstellungen",
   "windowMove": "Verschieben",
   "windowMoveLeft": "Window moved left",

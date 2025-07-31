@@ -219,6 +219,10 @@
 	color: #fff !important;
 }
 
+.able-white-controls .able-alert button {
+	color: #000 !important;
+}
+
 .able-white-controls .able-seekbar {
 	border: 1px solid #aaa;
 }
@@ -485,6 +489,7 @@ div.able-modal-overlay {
 	z-index: 9500;
 }
 
+.able-alert button,
 .able-modal-dialog button {
 	all: unset;
 	padding: 4px 12px;
@@ -811,6 +816,9 @@ div.able-wrapper.fullscreen {
 	border-radius: 0;
 	border-left-width: 0;
 	border-right-width: 0;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
 }
 
 .able-popup {
@@ -951,6 +959,8 @@ ul.able-popup li.able-focus,
 	color: #fff;
 }
 
+.able-alert button:hover,
+.able-modal-dialog button:hover,
 .able-popup li:hover,
 .able-window-toolbar input:focus,
 .able-window-toolbar input:hover,
@@ -971,6 +981,8 @@ ul.able-popup li.able-focus,
 	background-color: #fdfdfd;
 }
 
+.able-alert button:focus,
+.able-modal-dialog button:focus,
 .able-wrapper .able button.able-big-play-button:focus .icon-play,
 .able-wrapper .able button.able-big-play-button:focus svg,
 .able-controller div[role="button"]:focus,
@@ -986,6 +998,8 @@ div.able-modal-dialog button:focus,
 }
 
 /* Control hover colors. */
+.able-alert button:hover,
+.able-modal-dialog button:hover,
 .able-wrapper .able button.able-big-play-button:hover .icon-play,
 .able-wrapper .able button.able-big-play-button:hover svg,
 .able-popup li:hover,

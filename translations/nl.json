@@ -149,6 +149,7 @@
   "ok": "ok",
   "done": "Klaar",
   "closeButtonLabel": "Sluit venster",
+  "dismissButton": "Dismiss",
   "windowButtonLabel": "Venster instellingen",
   "windowMove": "Verplaats",
   "windowMoveLeft": "Window moved left",

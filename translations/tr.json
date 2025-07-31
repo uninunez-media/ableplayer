@@ -149,6 +149,7 @@
   "ok": "Tamam",
   "done": "Bitti",
   "closeButtonLabel": "Diyalogu Kapat",
+  "dismissButton": "Dismiss",
   "windowButtonLabel": "Pencere Seçenekleri",
   "windowMove": "Hareket",
   "windowMoveLeft": "Window moved left",

@@ -149,6 +149,7 @@
   "ok": "ok",
   "done": "Hotovo",
   "closeButtonLabel": "Zavřít dialog",
+  "dismissButton": "Dismiss",
   "windowButtonLabel": "Možnosti okna",
   "windowMove": "Přesunout",
   "windowMoveLeft": "Window moved left",

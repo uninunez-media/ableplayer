@@ -153,10 +153,8 @@
 		this.finishingDrag = false;
 
 		// create an alert div and add it to window
-		$windowAlert = $('<div role="alert"></div>');
-		$windowAlert.addClass('able-alert');
-		$windowAlert.hide();
-		$windowAlert.appendTo(this.$activeWindow);
+		this.injectAlert(this.$activeWindow);
+		$windowAlert = this.$alertBox;
 		$windowAlert.css({
 			top: $window.offset().top
 		});
@@ -214,8 +212,7 @@
 			this.$transcriptPopupButton = $newButton;
 			this.$transcriptPopup = $popup;
 			this.$transcriptToolbar.prepend($windowAlert,$newButton,$tooltip,$popup);
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			this.$signAlert = $windowAlert;
 			this.$signPopupButton = $newButton;
 			this.$signPopup = $popup;

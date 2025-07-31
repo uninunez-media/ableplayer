@@ -1616,18 +1616,16 @@
 		if (location === 'transcript') {
 			$alertBox = this.$transcriptAlert;
 			$parentWindow = this.$transcriptArea;
-		}
-		else if (location === 'sign') {
+		} else if (location === 'sign') {
 			$alertBox = this.$signAlert;
 			$parentWindow = this.$signWindow;
-		}
-		else if (location === 'screenreader') {
+		} else if (location === 'screenreader') {
 			$alertBox = this.$srAlertBox;
-		}
-		else {
+		} else {
 			$alertBox = this.$alertBox;
 		}
-		$alertBox.text(msg).show();
+		$alertBox.find('span').text(msg);
+		$alertBox.css( {'display': 'flex'} );
 		if (location == 'transcript' || location === 'sign') {
 			if (location === 'sign') {
 				// position alert at the bottom of the sign window, where the drag handle is.
@@ -1651,7 +1649,7 @@
 		if (location !== 'screenreader') {
 			setTimeout( function () {
 				$alertBox.fadeOut(300);
-			}, 20000 );
+			}, 30000 );
 		}
 	};
 

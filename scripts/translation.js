@@ -124,7 +124,7 @@
 						translation = {'lang':thisLang, 'text': thisText};
 						thisObj.sampleText.push(translation);
 					};
-			}(supportedLangs[i])) // pass lang to callback function
+				}(supportedLangs[i])) // pass lang to callback function
 			);
 		}
 	};

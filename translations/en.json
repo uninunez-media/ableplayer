@@ -149,6 +149,7 @@
   "ok": "ok",
   "done": "Done",
   "closeButtonLabel": "Close dialog",
+  "dismissButton": "Dismiss",
   "windowButtonLabel": "Window options",
   "windowMove": "Move",
   "windowMoveLeft": "Window moved left",

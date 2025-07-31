@@ -149,6 +149,7 @@
   "ok": "ok",
   "done": "終了",
   "closeButtonLabel": "ダイアログを閉じる",
+  "dismissButton": "Dismiss",
   "windowButtonLabel": "ウィンドウの設定",
   "windowMove": "移動",
   "windowMoveLeft": "Window moved left",

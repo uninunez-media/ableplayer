@@ -149,6 +149,7 @@
   "ok": "好",
   "done": "完成",
   "closeButtonLabel": "關閉對話窗",
+  "dismissButton": "Dismiss",
   "windowButtonLabel": "視窗選項",
   "windowMove": "移動",
   "windowMoveLeft": "Window moved left",

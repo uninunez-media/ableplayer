@@ -149,6 +149,7 @@
   "ok": "ok",
   "done": "Selesai",
   "closeButtonLabel": "Tutup dialog",
+  "dismissButton": "Dismiss",
   "windowButtonLabel": "Pilihan tetingkap",
   "windowMove": "Alih",
   "windowMoveLeft": "Window moved left",

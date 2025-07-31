@@ -50,7 +50,7 @@
 
 		this.injectPlayerControlArea(); // this may need to be injected after captions???
 		this.$captionsContainer = this.$mediaContainer.wrap(captionsContainer).parent();
-		this.injectAlert();
+		this.injectAlert(this.$ableDiv);
 		this.injectPlaylist();
 
 		// Do this last, as it should be prepended to the top of this.$ableDiv
@@ -324,12 +324,25 @@
 		return position;
 	};
 
-	AblePlayer.prototype.injectAlert = function () {
+	AblePlayer.prototype.injectAlert = function ($container) {
 		// inject two alerts, one visible for all users and one for screen reader users only
 		this.$alertBox = $('<div role="alert"></div>');
 		this.$alertBox.addClass('able-alert');
 		this.$alertBox.hide();
-		this.$alertBox.appendTo(this.$ableDiv);
+
+		var $alertText = $( '<span></span>' );
+		$alertText.appendTo(this.$alertBox);
+
+		var $alertDismiss = $('<button type="button"></button>' );
+		$alertDismiss.attr( 'aria-label', this.tt.dismissButton );
+		$alertDismiss.text( '×' );
+		$alertDismiss.appendTo(this.$alertBox);
+
+		$alertDismiss.on( 'click', function(e) {
+			$(this).parent('div').hide();
+		});
+
+		this.$alertBox.appendTo($container);
 
 		// position at top of video by default
 		// but this will change after video player is fully sized
@@ -340,7 +353,7 @@
 
 		this.$srAlertBox = $('<div role="alert"></div>');
 		this.$srAlertBox.addClass('able-screenreader-alert');
-		this.$srAlertBox.appendTo(this.$ableDiv);
+		this.$srAlertBox.appendTo($container);
 	};
 
 	AblePlayer.prototype.injectPlaylist = function () {

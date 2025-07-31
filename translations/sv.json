@@ -149,6 +149,7 @@
   "ok": "Ok",
   "done": "Klart",
   "closeButtonLabel": "Stäng",
+  "dismissButton": "Dismiss",
   "windowButtonLabel": "Fönsteralternativ",
   "windowMove": "Flytta",
   "windowMoveLeft": "Window moved left",
