@@ -95,12 +95,9 @@
 		this.imgPath = this.rootPath + 'button-icons/' + this.iconColor + '/';
 		this.playButtonImg = this.imgPath + 'play.png';
 		this.pauseButtonImg = this.imgPath + 'pause.png';
-
 		this.restartButtonImg = this.imgPath + 'restart.png';
-
 		this.rewindButtonImg = this.imgPath + 'rewind.png';
 		this.forwardButtonImg = this.imgPath + 'forward.png';
-
 		this.previousButtonImg = this.imgPath + 'previous.png';
 		this.nextButtonImg = this.imgPath + 'next.png';
 
@@ -118,10 +115,8 @@
 		this.signButtonImg = this.imgPath + 'sign.png';
 		this.transcriptButtonImg = this.imgPath + 'transcript.png';
 		this.descriptionsButtonImg = this.imgPath + 'descriptions.png';
-
 		this.fullscreenExpandButtonImg = this.imgPath + 'fullscreen-expand.png';
 		this.fullscreenCollapseButtonImg = this.imgPath + 'fullscreen-collapse.png';
-
 		this.prefsButtonImg = this.imgPath + 'preferences.png';
 		this.helpButtonImg = this.imgPath + 'help.png';
 	};
@@ -334,17 +329,11 @@
 	// Can call again after updating this.media so long as new media element has the same ID.
 	AblePlayer.prototype.reinitialize = function () {
 
-		var deferred, promise, thisObj, errorMsg, srcFile;
+		var deferred, promise, thisObj;
 
 		deferred = new $.Deferred();
 		promise = deferred.promise();
 		thisObj = this;
-
-		// if F12 Developer Tools aren't open in IE (through 9, no longer a problen in IE10)
-		// console.log causes an error - can't use debug without a console to log messages to
-		if (! window.console) {
-			this.debug = false;
-		}
 
 		this.startedPlaying = false;
 		// TODO: Move this setting to cookie.
