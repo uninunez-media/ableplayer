@@ -3,7 +3,9 @@
 	AblePlayer.prototype.populateChaptersDiv = function() {
 
 		var headingLevel, headingType, headingId, $chaptersHeading;
-
+		if ( ! this.chaptersDivLocation ) {
+			return;
+		}
 		if ($('#' + this.chaptersDivLocation)) {
 
 			this.$chaptersDiv = $('#' + this.chaptersDivLocation);
