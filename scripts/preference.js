@@ -335,19 +335,12 @@
 		// Creates a preferences form and injects it.
 		// form is one of the supported forms (groups) defined in getPreferencesGroups()
 
-		var thisObj, available, descLangs,
-			$prefsDiv, formTitle, introText,
-			$prefsIntro,$prefsIntroP2,p3Text,$prefsIntroP3,i, j,
-			$fieldset, fieldsetClass, fieldsetId,
-			$descFieldset, $descLegend, $legend, legendId,
-			thisPref, $thisDiv, thisClass, thisId, $thisLabel, $thisField,
-			$div1,id1,$radio1,$label1,
-			$div2,id2,$radio2,$label2,
-			options,$thisOption,optionValue,optionLang,optionText,sampleCapsDiv,
-			changedPref,changedSpan,changedText,
-			currentDescState, prefDescVoice,
-			$kbHeading,$kbList,kbLabels,keys,kbListText,$kbListItem,
-			dialog,saveButton,cancelButton;
+		var thisObj, available,
+			$prefsDiv, formTitle, introText, $prefsIntro,$prefsIntroP2,p3Text,$prefsIntroP3,i, j,
+			$fieldset, fieldsetClass, fieldsetId, $legend, legendId, thisPref, $thisDiv, thisClass,
+			thisId, $thisLabel, $thisField, options,$thisOption,optionValue,optionLang,optionText,
+			changedPref,changedSpan,changedText, currentDescState, prefDescVoice, $kbHeading,$kbList,
+			kbLabels,keys,kbListText,$kbListItem, dialog,saveButton,cancelButton;
 
 		thisObj = this;
 		available = this.getAvailablePreferences();
@@ -635,7 +628,6 @@
 				}
 				if (thisPref === 'prefDescVoice' && !this.descVoices.length) {
 					// No voices are available (e.g., in Safari 15.4 on Mac OS)
-					// Do not add a Voice select field
 				}
 				else {
 					$fieldset.append($thisDiv);
