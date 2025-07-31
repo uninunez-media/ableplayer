@@ -117,20 +117,8 @@
 		}
 	};
 
-	AblePlayer.prototype.handleVolumeKeystroke = function(keycode) {
-
-		// keycode is an ASCII key code 49-57 (numeric keys 1-9),
+	AblePlayer.prototype.handleVolumeKeystroke = function(volume) {
 		// keyboard shortcuts for changing volume
-
-		var volume;
-
-		if (keycode >= 49 && keycode <= 57) {
-			volume = keycode - 48;
-		}
-		else {
-			return false;
-		}
-
 		if (this.isMuted() && volume > 0) {
 			this.setMute(false);
 		}

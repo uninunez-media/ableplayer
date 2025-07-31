@@ -434,16 +434,13 @@
 		// including removal of the "media player" design pattern. There's an issue about that:
 		// https://github.com/w3c/aria-practices/issues/27
 
-		var which, $thisElement;
+		var key, $thisElement;
 
 		// Convert to lower case.
-		which = e.which;
-		if (which >= 65 && which <= 90) {
-			which += 32;
-		}
+		key = e.key;
 		$thisElement = $(document.activeElement);
 
-		if (which === 27) { // escape
+		if (key === 'Escape') {
 			if (this.$transcriptArea && $.contains(this.$transcriptArea[0],$thisElement[0]) && !this.hidingPopup) {
 				// This element is part of transcript area.
 				this.handleTranscriptToggle();
@@ -466,12 +463,12 @@
 			(e.target.tagName === 'TEXTAREA' && !this.stenoMode) ||
 			e.target.tagName === 'SELECT'
 		)){
-			if (which === 27) { // escape
+			if (key === ' ') { // escape
 				this.closePopups();
 				this.$tooltipDiv.hide();
 				this.seekBar.hideSliderTooltips();
 			}
-			else if (which === 32) { // spacebar = play/pause
+			else if (key === ' ') { // spacebar = play/pause
 				// disable spacebar support for play/pause toggle as of 4.2.10
 				// spacebar should not be handled everywhere on the page, since users use that to scroll the page
 				// when the player has focus, most controls are buttons so spacebar should be used to trigger the buttons
@@ -481,79 +478,79 @@
 					$thisElement.trigger( 'click' );
 				}
 			}
-			else if (which === 112) { // p = play/pause
+			else if ( key === 'p' ) {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handlePlay();
 				}
 			}
-			else if (which === 115) { // s = stop (now restart)
+			else if (key === 's') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleRestart();
 				}
 			}
-			else if (which === 109) { // m = mute
+			else if (key === 'm') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleMute();
 				}
 			}
-			else if (which === 118) { // v = volume
+			else if (key === 'v') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleVolumeButtonClick();
 				}
 			}
-			else if (which >= 49 && which <= 57) { // set volume 1-9
+			else if (key >= 0 && key <= 9) {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
-					this.handleVolumeKeystroke(which);
+					this.handleVolumeKeystroke(key);
 				}
 			}
-			else if (which === 99) { // c = caption toggle
+			else if (key === 'c') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleCaptionToggle();
 				}
 			}
-			else if (which === 100) { // d = description
+			else if (key === 'd') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleDescriptionToggle();
 				}
 			}
-			else if (which === 102) { // f = forward
+			else if (key === 'f') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleFastForward();
 				}
 			}
-			else if (which === 114) { // r = rewind
+			else if (key === 'r') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleRewind();
 				}
 			}
-			else if (which === 98) { // b = back (previous track)
+			else if (key === 'b') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handlePrevTrack();
 				}
 			}
-			else if (which === 110) { // n = next track
+			else if (key === 'n') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleNextTrack();
 				}
 			}
-			else if (which === 101) { // e = preferences
+			else if (key === 'e') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handlePrefsClick();
 				}
 			}
-			else if (which === 13) { // Enter
+			else if (key === 'Enter') {
 				if ($thisElement.attr('role') === 'button' || $thisElement.prop('tagName') === 'SPAN') {
 					// register a click on this element
 					// if it's a transcript span the transcript span click handler will take over
