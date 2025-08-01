@@ -57,13 +57,11 @@
 			if (e.key === 'Escape') {
 				if (thisObj.escapeHook) {
 					thisObj.escapeHook(e, this);
-				}
-				else {
+				} else {
 					thisObj.hide();
 					e.preventDefault();
 				}
-			}
-			else if (e.key === 'Tab') {
+			} else if (e.key === 'Tab') {
 				// Manually loop tab navigation inside the modal.
 				var parts = modal.find('*');
 				var focusable = parts.filter(focusableElementsSelector).filter(':visible');
@@ -91,7 +89,10 @@
 			e.stopPropagation();
 		});
 
-		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').removeAttr('inert');
+		if ( $( 'body' ).hasClass( 'able-modal-active' ) ) {
+			$( 'body > *') .not('.able-modal-overlay').not('.able-modal-dialog').removeAttr('inert');
+			$( 'body' ).removeClass( 'able-modal-active' );
+		}
 	};
 
 	AccessibleDialog.prototype.show = function () {
@@ -111,6 +112,7 @@
 		}
 
 		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').attr('inert', true);
+		$( 'body' ).addClass( 'able-modal-active' );
 
 		this.overlay.css('display', 'block');
 		this.modal.css('display', 'block');
@@ -137,6 +139,7 @@
 		this.modal.css('display', 'none');
 		this.modal.attr('aria-hidden', 'true');
 		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').removeAttr('inert');
+		$( 'body' ).removeClass( 'able-modal-active' );
 
 		this.focusedElementBeforeModal.trigger('focus');
 	};

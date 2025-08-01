@@ -469,6 +469,10 @@ div.able-modal-dialog {
 	box-sizing: border-box;
 }
 
+body.able-modal-active {
+	overflow: hidden;
+}
+
 div.able-modal-overlay {
 	position: fixed;
 	width: 100%;
