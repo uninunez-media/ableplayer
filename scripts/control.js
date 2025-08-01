@@ -1457,8 +1457,7 @@
 			if (!thisObj.fullscreen) {
 				// user has just exited full screen
 				thisObj.restoringAfterFullscreen = true;
-			}
-			else if (!thisObj.clickedFullscreenButton) {
+			} else if (!thisObj.clickedFullscreenButton) {
 				// user triggered fullscreenchange without clicking fullscreen button
 				thisObj.fullscreen = false;
 				thisObj.restoringAfterFullscreen = true;

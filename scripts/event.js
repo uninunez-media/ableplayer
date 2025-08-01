@@ -777,10 +777,8 @@
 
 	AblePlayer.prototype.addEventListeners = function () {
 
-		var thisObj, whichButton, thisElement;
-
 		// Save the current object context in thisObj for use with inner functions.
-		thisObj = this;
+		var thisObj = this;
 
 		// Appropriately resize media player for full screen.
 		$(window).on('resize',function () {
@@ -808,8 +806,7 @@
 		}
 		if (typeof this.seekBar !== 'undefined') {
 			this.addSeekbarListeners();
-		}
-		else {
+		} else {
 			// wait a bit and try again
 			// TODO: Should set this up to keep trying repeatedly.
 			// Seekbar listeners are critical.
@@ -827,7 +824,7 @@
 		});
 
 		// handle clicks (left only) anywhere on the page. If any popups are open, close them.
-		$(document).on('click',function(e) {
+		$('body').on('click', function(e) {
 
 			if (e.button !== 0) { // not a left click
 				return false;
