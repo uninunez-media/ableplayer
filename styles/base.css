@@ -1,38 +1,35 @@
-/*
-	Able Player core styles
+/**
+ * Able Player core styles
+ *
+ * Default z-index map:
+ *
+ * Modal dialog
+ * 	div.able-modal-dialog = 10000
+ * 	div.able-modal-overlay = 9500
+ *
+ * Items that should always be on top (9000):
+ * 	#able-vts = 9400
+ * 	.able-alert = 9400
+ * 	.able-window-toolbar .able-button-handler-preferences = 9300
+ * 	.able-popup = 9200
+ * 	.able-volume-head = 9175
+ * 	.able-volume-slider = 9150
+ * 	.able-tooltip = 9500
+ *
+ * Pop-ups with critical content: (7000 - 8000):
+ * 	.able-sign-window = 8000
+ * 	.able-transcript-area = 7000
+ *
+ * Player controls: (5000 - 6000)
+ * 	.able-controller div[role="button"] = 6600
+ * 	.able-big-play-button = 6500
+ * 	div.able-captions-wrapper = 6000
+ * 	.able-seekbar-head = 5500
+ * 	.able-seekbar-played = 5200
+ * 	.able-seekbar-loaded = 5100
+ * 	.able = 5000
+**/
 
-	Default z-index map:
-
-	* Modal dialog
-	div.able-modal-dialog = 10000
-	div.able-modal-overlay = 9500
-
-	* Items that should always be on top (9000):
-	#able-vts = 9400
-	.able-alert = 9400
-	.able-window-toolbar .able-button-handler-preferences = 9300
-	.able-popup = 9200
-	.able-volume-head = 9175
-	.able-volume-slider = 9150
-	.able-tooltip = 9500
-
-	* Pop-ups with critical content:	(7000 - 8000):
-	.able-sign-window = 8000
-	.able-transcript-area = 7000
-
-	* Player controls: (5000 - 6000)
-	.able-controller .able-seekbar = 6900
-	.able-controller .buttonOff = 6800
-	.able-controller div[role="button"] > img = 6700
-	.able-controller div[role="button"] > span = 6700
-	.able-controller div[role="button"] = 6600
-	.able-big-play-button = 6500
-	div.able-captions-wrapper = 6000
-	.able-seekbar-head = 5500
-	.able-seekbar-played = 5200
-	.able-seekbar-loaded = 5100
-	.able = 5000
-*/
 .able-wrapper, .able-wrapper * {
 	box-sizing: border-box;
 }
@@ -249,11 +246,6 @@
 
 .able-controller .buttonOff {
 	opacity: 0.5;
-	z-index: 6800;
-}
-
-.able-controller .able-seekbar {
-	z-index: 6900;
 }
 
 .able-controller div[role="button"]:hover,
@@ -1151,22 +1143,24 @@ button.able-search-results-time:active {
 }
 
 #able-vts fieldset div {
-	float: left;
 	display: flex;
+	flex-wrap: wrap;
 	gap: .5rem;
 	align-items: center;
-	padding-right: 1em;
 }
 
 #able-vts thead tr {
 	background: #f0f0f0;
 }
 
+#able-vts table {
+	border-collapse: collapse;
+}
+
 #able-vts table,
 #able-vts table th,
 #able-vts table td {
 	border: 1px solid #323232;
-	border-collapse: collapse;
 	padding: 8px;
 	color: #323232;
 }
@@ -1202,7 +1196,6 @@ button.able-search-results-time:active {
 	fill: #c00;
 }
 
-tr.kind-chapters,
 tr.kind-subtitles {
 	background-color: #fff;
 }
