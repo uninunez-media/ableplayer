@@ -30,6 +30,12 @@
  * 	.able = 5000
 **/
 
+.able-modal-dialog,
+.able-transcript-area,
+.able-wrapper {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
 .able-wrapper, .able-wrapper * {
 	box-sizing: border-box;
 }
@@ -86,10 +92,6 @@
 	margin: 0;
 	padding: .5rem;
 	min-height: 3.2rem;
-}
-
-.able-player {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
 /* Screen reader hidden text classes */
