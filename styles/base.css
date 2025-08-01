@@ -85,6 +85,7 @@
 	position: relative;
 	margin: 0;
 	padding: .5rem;
+	min-height: 3.2rem;
 }
 
 .able-player {
@@ -227,8 +228,6 @@
 .able-controller div[role="button"] {
 	background: none;
 	position: relative;
-	display: inline-block;
-	border-style: none;
 	padding: 2px;
 	min-width: 24px;
 	height: 24px;
@@ -238,10 +237,12 @@
 	justify-content: center;
 	align-items: center;
 	z-index: 6600;
+	border-radius: 3px;
 }
 
 .able-controller div.able-button-handler-play[role="button"] {
-	padding: 3px;
+	/* The icon appears too large if this button doesn't have padding. */
+	padding: 4px;
 }
 
 .able-controller .buttonOff {
@@ -416,7 +417,7 @@ div.able-descriptions {
 	position: relative;
 	color: #ff6; /* yellow, to differentiate it from captions */
 	background-color: #262626;
-	min-height: 2.8em;
+	min-height: 3.2em;
 	border-top: 1px solid #666;
 	margin: 0;
 	padding: 12px;
