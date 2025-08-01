@@ -1550,9 +1550,11 @@
 			function getNode(n, v) {
 				n = document.createElementNS("http://www.w3.org/2000/svg", n);
 				for (var p in v) {
-					n.setAttributeNS(null, p.replace(/[A-Z]/g, function(m, p, o, s) { return "-" + m.toLowerCase(); }), v[p]);
+					n.setAttributeNS(null, p.replace(/[A-Z]/g, function(m) {
+						return "-" + m.toLowerCase();
+					}), v[p]);
 				}
-				return n
+				return n;
 			}
 			var icon = document.createElementNS( 'http://www.w3.org/2000/svg', 'svg' );
 			icon.setAttribute( 'focusable', 'false' );
