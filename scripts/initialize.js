@@ -539,8 +539,7 @@
 
 					thisObj.setupTracks().then(function() {
 						if (thisObj.hasClosedDesc) {
-							if (!thisObj.$descDiv ||
-								(thisObj.$descDiv && !($.contains(thisObj.$ableDiv[0], thisObj.$descDiv[0])))) {
+							if (!thisObj.$descDiv || (thisObj.$descDiv && !($.contains(thisObj.$ableDiv[0], thisObj.$descDiv[0])))) {
 								// descDiv either doesn't exist, or exists in an orphaned state
 								// Either way, it needs to be rebuilt...
 								thisObj.injectTextDescriptionArea();

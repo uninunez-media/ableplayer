@@ -36,72 +36,47 @@
 		this.descFile = this.$sources.first().attr('data-desc-src');
 		if (typeof this.descFile !== 'undefined') {
 			this.hasOpenDesc = true;
-		}
-		else {
+		} else {
 			// there's no open-described version via data-desc-src,
 			// but what about data-youtube-desc-src or data-vimeo-desc-src?
 			// if these exist, they would have been defined earlier
-			if (this.youTubeDescId || this.vimeoDescId) {
-				this.hasOpenDesc = true;
-			}
-			else { // there are no open-described versions from any source
-				this.hasOpenDesc = false;
-			}
+			this.hasOpenDesc = (this.youTubeDescId || this.vimeoDescId) ? true : false;
 		}
 
 		// Set this.descMethod based on media availability & user preferences
+		// no description is available for this video
+		this.descMethod = null;
 		if (this.hasOpenDesc && this.hasClosedDesc) {
 			// both formats are available. User gets their preference.
-			if (this.prefDescMethod) {
-				this.descMethod = this.prefDescMethod;
-			}
-			else {
-				// user has no preference. Video is default.
-				this.descMethod = 'video';
-			}
-		}
-		else if (this.hasOpenDesc) {
+			this.descMethod = (this.prefDescMethod) ? this.prefDescMethod : 'video';
+		} else if (this.hasOpenDesc) {
 			this.descMethod = 'video';
-		}
-		else if (this.hasClosedDesc) {
+		} else if (this.hasClosedDesc) {
 			this.descMethod = 'text';
-		}
-		else {
-			// no description is available for this video
-			this.descMethod = null;
 		}
 
 		// Set the default state of descriptions
+		this.descOn = false;
 		if (this.descMethod) {
 			if (this.prefDesc === 1) {
 				this.descOn = true;
-			}
-			else if (this.prefDesc === 0) {
+			} else if (this.prefDesc === 0) {
 				this.descOn = false;
-			}
-			else {
+			} else {
 				// user has no prefs. Use default state.
-				if (this.defaultStateDescriptions === 1)	{
-					this.descOn = true;
-				}
-				else {
-					this.descOn = false;
-				}
+				this.descOn = (this.defaultStateDescriptions === 1) ? true : false;
 			}
 		}
-		else {
-			this.descOn = false;
-		}
-		if (typeof this.$descDiv === 'undefined' && this.hasClosedDesc && this.descMethod === 'text') {
+
+		// If a video has text audio descriptions, inject the description area.
+		if (typeof this.$descDiv === 'undefined' && this.hasClosedDesc ) {
 			this.injectTextDescriptionArea();
 		}
 
 		if (this.descOn) {
-			if (this.descMethod === 'video') {
-				if (!this.usingDescribedVersion()) {
-					// switched from non-described to described version
-					this.swapDescription();
-				}
+			if (this.descMethod === 'video' && !this.usingDescribedVersion() ) {
+				// switched from non-described to described version
+				this.swapDescription();
 			}
 			if (this.hasClosedDesc) {
 				if (this.prefDescVisible) {
@@ -110,23 +85,20 @@
 						this.$descDiv.show();
 						this.$descDiv.removeClass('able-clipped');
 					}
-				}
-				else {
+				} else {
 					// keep it visible to screen readers, but hide it visibly
 					if (typeof this.$descDiv !== 'undefined') {
 						this.$descDiv.addClass('able-clipped');
 					}
 				}
 			}
-		}
-		else { // description is off.
+		} else { // description is off.
 			if (this.descMethod === 'video') { // user has turned off described version of video
 				if (this.usingDescribedVersion()) {
 					// user was using the described verion. Swap for non-described version
 					this.swapDescription();
 				}
-			}
-			else if (this.descMethod === 'text') { // user has turned off text description
+			} else if (this.descMethod === 'text') { // user has turned off text description
 				// hide description div from everyone, including screen reader users
 				if (typeof this.$descDiv !== 'undefined') {
 					this.$descDiv.hide();
@@ -503,35 +475,34 @@
 	};
 
 	AblePlayer.prototype.showDescription = function(now) {
-
-		if (!this.hasClosedDesc || this.swappingSrc || !this.descOn || this.descMethod === 'video') {
+		if (!this.hasClosedDesc || this.swappingSrc || !this.descOn || ( this.descMethod === 'video' && !this.prefDescVisible ) ) {
 			return;
 		}
 
-		var thisObj, i, cues, d, thisDescription, descText;
+		var thisObj, i, cues, d, thisDescription, descText, noSpeaking;
 		thisObj = this;
+
+		noSpeaking = false;
+		if ( this.descMethod === 'video' && !this.prefDescVisible ) {
+			noSpeaking = true;
+		}
 
 		var flattenComponentForDescription = function (component) {
 			var result = [];
 			if (component.type === 'string') {
 				result.push(component.value);
-			}
-			else {
+			} else {
 				for (var i = 0; i < component.children.length; i++) {
 					result.push(flattenComponentForDescription(component.children[i]));
 				}
 			}
 			return result.join('');
 		};
-
+		cues = [];
 		if (this.selectedDescriptions) {
 			cues = this.selectedDescriptions.cues;
-		}
-		else if (this.descriptions.length >= 1) {
+		} else if (this.descriptions.length >= 1) {
 			cues = this.descriptions[0].cues;
-		}
-		else {
-			cues = [];
 		}
 		for (d = 0; d < cues.length; d++) {
 			if ((cues[d].start <= now) && (cues[d].end > now)) {
@@ -547,21 +518,22 @@
 				if (this.descReader === 'screenreader') {
 					// load the new description into the container div for screen readers to read
 					this.$descDiv.html(descText);
-				}
-				else if (this.speechEnabled) {
-					// use browser's built-in speech synthesis
-					this.announceDescriptionText('description',descText);
+				} else if (this.speechEnabled) {
+					if ( 'video' !== this.descMethod ) {
+						// use browser's built-in speech synthesis
+						this.announceDescriptionText('description',descText);
+					}
 					if (this.prefDescVisible) {
 						// write description to the screen for sighted users
 						// but remove ARIA attributes since it isn't intended to be read by screen readers
 						this.$descDiv.html(descText).removeAttr('aria-live aria-atomic');
 					}
-				}
-				else {
+				} else {
 					// browser does not support speech synthesis
 					// load the new description into the container div for screen readers to read
 					this.$descDiv.html(descText);
 				}
+				// Only pause video if not using a described video.
 				if (this.prefDescPause && this.descMethod === 'text') {
 					this.pauseMedia();
 					this.pausedForDescription = true;

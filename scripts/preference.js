@@ -279,12 +279,15 @@
 				'group': 'descriptions',
 				'default': 1 // 0 to 1
 			});
-			prefs.push({
-				'name': 'prefDescPause', // automatically pause when closed description starts
-				'label': this.tt.prefDescPause,
-				'group': 'descriptions',
-				'default': this.defaultDescPause
-			});
+			// Don't enable pause option if video described files in use.
+			if ( this.descMethod !== 'video' ) {
+				prefs.push({
+					'name': 'prefDescPause', // automatically pause when closed description starts
+					'label': this.tt.prefDescPause,
+					'group': 'descriptions',
+					'default': this.defaultDescPause
+				});
+			}
 			prefs.push({
 				'name': 'prefDescVisible', // visibly show closed description (if avilable and used)
 				'label': this.tt.prefDescVisible,
