@@ -52,7 +52,8 @@
 				// Inject a fieldset with radio buttons for each language
 				$fieldset = $('<fieldset>');
 				$legend = $('<legend>').text('Select a language'); // TODO: Localize this
-				$fieldset.append($legend)
+				$fieldset.append($legend);
+				$fieldWrapper = $( '<div class="vts-lang-selector"></div>' );
 				for (i in this.langs) {
 					radioId = 'vts-lang-radio-' + this.langs[i];
 					$radioDiv = $('<div>',{
@@ -80,8 +81,9 @@
 						// TODO: if using this be sure to add lang attr to <div> (see above)
 					}).text(this.getLanguageName(this.langs[i]));
 					$radioDiv.append($radio,$label);
-					$fieldset.append($radioDiv);
+					$fieldWrapper.append($radioDiv);
 				}
+				$fieldset.append( $fieldWrapper );
 				$('#able-vts').append($fieldset);
 
 				// Inject a 'Save Changes' button
