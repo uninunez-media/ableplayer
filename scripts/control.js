@@ -1543,23 +1543,28 @@
 			var $buttonIcon = $('<span>', {
 				'class': iconData[2],
 			});
-			$button.append(this.$buttonIcon);
+			$button.append( $buttonIcon );
 		}
 		else if (iconType === 'svg') {
-			var $buttonIcon = $('<svg>',{
-				'focusable': 'false',
-				'aria-hidden': 'true',
-				'viewBox': iconData[0]
-			});
-			var $svgPath = $('<path>',{
-				'd': iconData[1]
-			});
-			$buttonIcon.append( $svgPath );
-			$button.append( $buttonIcon );
+			// Function to create SVG nodes.
+			function getNode(n, v) {
+				n = document.createElementNS("http://www.w3.org/2000/svg", n);
+				for (var p in v) {
+					n.setAttributeNS(null, p.replace(/[A-Z]/g, function(m, p, o, s) { return "-" + m.toLowerCase(); }), v[p]);
+				}
+				return n
+			}
+			var icon = document.createElementNS( 'http://www.w3.org/2000/svg', 'svg' );
+			icon.setAttribute( 'focusable', 'false' );
+			icon.setAttribute( 'aria-hidden', 'true');
+			icon.setAttribute( 'viewBox', iconData[0] );
+			let path = getNode( 'path', { d: iconData[1] } );
+			icon.appendChild( path );
+
+			$button.append( icon );
 			// Refresh the DOM.
 			$button.html($button.html());
-		}
-		else {
+		} else {
 			var $buttonImg = $('<img>',{
 				'src': iconData[3],
 				'alt': '',

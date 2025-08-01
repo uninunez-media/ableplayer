@@ -171,7 +171,7 @@
 			'aria-expanded': 'false',
 			'class': 'able-button-handler-preferences'
 		});
-		this.getIcon( $newButton, 'preferences', true );
+		this.getIcon( $newButton, 'preferences' );
 
 		// add the visibly-hidden label for screen readers that don't support aria-label on the button
 		$buttonLabel = $('<span>',{

@@ -664,6 +664,11 @@ span.able-modkey {
 	gap: 10px;
 }
 
+.able-window-toolbar .able-button-handler-preferences svg {
+	width: 24px;
+	height: 24px;
+}
+
 .able-draggable:hover {
 	cursor: move;
 }
