@@ -479,13 +479,8 @@
 			return;
 		}
 
-		var thisObj, i, cues, d, thisDescription, descText, noSpeaking;
+		var thisObj, i, cues, d, thisDescription, descText;
 		thisObj = this;
-
-		noSpeaking = false;
-		if ( this.descMethod === 'video' && !this.prefDescVisible ) {
-			noSpeaking = true;
-		}
 
 		var flattenComponentForDescription = function (component) {
 			var result = [];
