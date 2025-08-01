@@ -362,7 +362,7 @@ input[type=range]::-moz-range-thumb {
 }
 
 .able-status-bar span.able-timer {
-	text-align: left;
+	text-align: start;
 }
 
 .able-status-bar span.able-speed {
@@ -371,7 +371,7 @@ input[type=range]::-moz-range-thumb {
 
 .able-status {
 	font-style: italic;
-	text-align :right;
+	text-align: end;
 }
 
 /*
@@ -557,7 +557,7 @@ div.able-modal-dialog h1 {
 
 .able-prefs-descriptions label,
 .able-prefs-captions label {
-	text-align: right;
+	text-align: end;
 	width: 10rem;
 }
 
@@ -1045,7 +1045,7 @@ div.able-modal-dialog button:hover,
 	font-size: .875rem;
 	width: 100%;
 	padding: 8px;
-	text-align: left;
+	text-align: start;
 	display: flex;
 	align-items: center;
 	gap: 12px;
@@ -1280,7 +1280,7 @@ button#able-vts-save:focus {
 .able-fallback div,
 .able-fallback ul,
 .able-fallback p {
-	text-align: left;
+	text-align: start;
 }
 
 .able-fallback li	{
