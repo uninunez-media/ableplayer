@@ -1093,6 +1093,9 @@
 					if ( control === 'volume' ) {
 						this.getIcon( $newButton, this.volumeButton );
 					} else {
+						if ( 'fullscreen' === getControl ) {
+							getControl = ( this.fullscreen ) ? 'fullscreen-collapse' : 'fullscreen-expand';
+						}
 						this.getIcon( $newButton, getControl );
 					}
 
