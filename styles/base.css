@@ -1092,6 +1092,11 @@ div.able-modal-dialog button:hover,
 	outline-offset: -6px;
 }
 
+.able-search-results li button {
+	outline-offset: -3px;
+	border-radius: 4px;
+}
+
 .able-search-results li > span {
 	font-size: .875rem;
 	padding: 8px;
