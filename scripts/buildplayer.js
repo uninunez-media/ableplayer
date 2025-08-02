@@ -343,13 +343,6 @@
 
 		this.$alertBox.appendTo($container);
 
-		// position at bottom left of video by default
-		this.$alertBox.css({
-			bottom: '0px',
-			left: '0px',
-			height: 'fit-content',
-		});
-
 		if ( ! this.$srAlertBox ) {
 			this.$srAlertBox = $('<div role="alert"></div>');
 			this.$srAlertBox.addClass('able-screenreader-alert');
