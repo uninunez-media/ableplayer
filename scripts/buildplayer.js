@@ -326,7 +326,7 @@
 	AblePlayer.prototype.injectAlert = function ($container) {
 		// inject two alerts, one visible for all users and one for screen reader users only
 		this.$alertBox = $('<div role="alert"></div>');
-		this.$alertBox.removeClass().addClass('able-alert');
+		this.$alertBox.addClass('able-alert');
 		this.$alertBox.hide();
 
 		var $alertText = $( '<span></span>' );
@@ -343,16 +343,18 @@
 
 		this.$alertBox.appendTo($container);
 
-		// position at top of video by default
-		// but this will change after video player is fully sized
-		// see control.js > resizePlayer()
+		// position at bottom left of video by default
 		this.$alertBox.css({
-			top: '0px'
+			bottom: '0px',
+			left: '0px',
+			height: 'fit-content',
 		});
 
-		this.$srAlertBox = $('<div role="alert"></div>');
-		this.$srAlertBox.addClass('able-screenreader-alert');
-		this.$srAlertBox.appendTo($container);
+		if ( ! this.$srAlertBox ) {
+			this.$srAlertBox = $('<div role="alert"></div>');
+			this.$srAlertBox.addClass('able-screenreader-alert');
+			this.$srAlertBox.appendTo($container);
+		}
 	};
 
 	AblePlayer.prototype.injectPlaylist = function () {

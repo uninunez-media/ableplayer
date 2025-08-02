@@ -311,7 +311,7 @@
 		// 2. User is toggling description
 		// (playerCreated == true)
 
-		var thisObj, i, origSrc, descSrc, srcType, newSource;
+		var thisObj, i, origSrc, descSrc, srcType;
 
 		thisObj = this;
 

@@ -1624,35 +1624,22 @@
 		// 'screenreader (visibly hidden)
 		// 'sign' (sign language window)
 		// 'transcript' (transcript window)
-		var thisObj, $alertBox, $parentWindow, alertTop;
+		var thisObj, $alertBox, $parentWindow;
 
 		thisObj = this;
+		$alertBox = thisObj.$alertBox;
+		$parentWindow = thisObj.$ableDiv;
 		if (location === 'transcript') {
-			$alertBox = thisObj.$transcriptAlert;
 			$parentWindow = thisObj.$transcriptArea;
 		} else if (location === 'sign') {
-			$alertBox = thisObj.$signAlert;
 			$parentWindow = thisObj.$signWindow;
 		} else if (location === 'screenreader') {
 			$alertBox = thisObj.$srAlertBox;
-		} else {
-			$alertBox = thisObj.$alertBox;
 		}
 		$alertBox.find('span').text(msg);
+		$alertBox.appendTo($parentWindow)
 		$alertBox.css( {'display': 'flex'} );
-		if (location == 'transcript' || location === 'sign') {
-			// position alert at the bottom of the sign window, where the drag handle is.
-			alertTop = (location === 'sign') ? ( $parentWindow.height() - $alertBox.outerHeight() ) : this.$transcriptToolbar.outerHeight();;
-			$alertBox.css({
-				top: alertTop + 'px',
-				left: 0
-			});
-		} else if (location !== 'screenreader') {
-			$alertBox.css({
-				top: 'auto',
-				bottom: 0,
-			});
-		}
+
 		if (location !== 'screenreader') {
 			setTimeout( function () {
 				$alertBox.fadeOut(300);
@@ -1665,22 +1652,10 @@
 		// returns true if the target alert has already been shown
 		// useful for throttling alerts that only need to be shown once
 		// e.g., move alerts with instructions for dragging a window
-
 		if (which === 'transcript') {
-			if (this.showedTranscriptAlert) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-		else if (which === 'sign') {
-			if (this.showedSignAlert) {
-				return true;
-			}
-			else {
-				return false;
-			}
+			return this.showedTranscriptAlert ?? false;
+		} else if (which === 'sign') {
+			return this.showedSignAlert ?? false;
 		}
 		return false;
 	}
@@ -1688,7 +1663,7 @@
 	// Resizes all relevant player attributes.
 	AblePlayer.prototype.resizePlayer = function (width, height) {
 
-		var captionSize, newWidth, newHeight, $iframe, alertTop;
+		var captionSize, newWidth, newHeight, $iframe;
 
 		if (this.mediaType === 'audio') {
 			return;
@@ -1825,14 +1800,6 @@
 			}
 			this.$captionsDiv.css({
 				'font-size': captionSize
-			});
-		}
-		// Reposition alert message (video player only) below the vertical center of the mediaContainer
-		// hopefully above captions, but not too far from the controller bar
-		if (this.mediaType === 'video') {
-			alertTop = this.$mediaContainer.height() - this.$alertBox.outerHeight();
-			this.$alertBox.css({
-				top: alertTop + 'px'
 			});
 		}
 

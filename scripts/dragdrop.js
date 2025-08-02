@@ -138,8 +138,7 @@
 
 	AblePlayer.prototype.addWindowMenu = function(which, $window, windowName) {
 
-		var thisObj, $windowAlert, menuId, $newButton,
-			$buttonLabel, tooltipId, $tooltip, $popup, menuId;
+		var thisObj, $windowAlert, menuId, $newButton, tooltipId, $tooltip, $popup, menuId;
 
 		thisObj = this;
 
@@ -151,13 +150,6 @@
 		// Add another Boolean that will be set to true temporarily when mouseup fires at the end of a drag
 		// this will prevent the click event from being triggered
 		this.finishingDrag = false;
-
-		// create an alert div and add it to window
-		this.injectAlert(this.$activeWindow);
-		$windowAlert = this.$alertBox;
-		$windowAlert.css({
-			top: $window.offset().top
-		});
 
 		// add button to draggable window which triggers a popup menu
 		menuId = this.mediaId + '-' + windowName + '-menu';
@@ -202,14 +194,10 @@
 		$popup = this.setupPopups(windowName); // 'transcript-window' or 'sign-window'
 		// define vars and assemble all the parts
 		if (which === 'transcript') {
-			this.$transcriptAlert = $windowAlert;
-			this.$transcriptAlert.addClass( 'transcript-alert' );
 			this.$transcriptPopupButton = $newButton;
 			this.$transcriptPopup = $popup;
 			this.$transcriptToolbar.prepend($windowAlert,$newButton,$tooltip,$popup);
 		} else if (which === 'sign') {
-			this.$signAlert = $windowAlert;
-			this.$signAlert.addClass( 'sign-alert' );
 			this.$signPopupButton = $newButton;
 			this.$signPopup = $popup;
 			this.$signToolbar.append($windowAlert,$newButton,$tooltip,$popup);
