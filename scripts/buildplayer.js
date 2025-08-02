@@ -213,7 +213,7 @@
 			}
 		}
 		else if (which === 'sign') {
-			if (typeof cookie.transcript !== 'undefined') {
+			if (typeof cookie.sign !== 'undefined') {
 				cookiePos = cookie.sign;
 			}
 		}
