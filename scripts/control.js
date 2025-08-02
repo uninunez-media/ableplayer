@@ -1576,6 +1576,15 @@
 		}
 	};
 
+	AblePlayer.prototype.setText = function( $button, text ) {
+		$button.attr( 'aria-label', text );
+		// add the visibly-hidden label for screen readers that don't support aria-label on the button
+		$buttonLabel = $('<span>',{
+			'class': 'able-clipped'
+		}).text( text );
+		$button.append($buttonLabel);
+	};
+
 	AblePlayer.prototype.toggleButtonState = function($button, isOn, onLabel, offLabel, offClass = 'buttonOff', ariaPressed = false, ariaExpanded = false) {
 		if (isOn) {
 			$button.removeClass(offClass).attr('aria-label', onLabel);
@@ -1608,7 +1617,7 @@
 		}
 	};
 
-	AblePlayer.prototype.showAlert = function( msg, location ) {
+	AblePlayer.prototype.showAlert = function( msg, location = 'main' ) {
 
 		// location is either of the following:
 		// 'main' (default)
@@ -1618,35 +1627,27 @@
 		var thisObj, $alertBox, $parentWindow, alertTop;
 
 		thisObj = this;
-
 		if (location === 'transcript') {
-			$alertBox = this.$transcriptAlert;
-			$parentWindow = this.$transcriptArea;
+			$alertBox = thisObj.$transcriptAlert;
+			$parentWindow = thisObj.$transcriptArea;
 		} else if (location === 'sign') {
-			$alertBox = this.$signAlert;
-			$parentWindow = this.$signWindow;
+			$alertBox = thisObj.$signAlert;
+			$parentWindow = thisObj.$signWindow;
 		} else if (location === 'screenreader') {
-			$alertBox = this.$srAlertBox;
+			$alertBox = thisObj.$srAlertBox;
 		} else {
-			$alertBox = this.$alertBox;
+			$alertBox = thisObj.$alertBox;
 		}
 		$alertBox.find('span').text(msg);
 		$alertBox.css( {'display': 'flex'} );
 		if (location == 'transcript' || location === 'sign') {
-			if (location === 'sign') {
-				// position alert at the bottom of the sign window, where the drag handle is.
-				alertTop = ( $parentWindow.height() - $alertBox.outerHeight() );
-			}
-			else if (location === 'transcript') {
-				// position alert just beneath the toolbar to avoid getting lost among transcript text
-				alertTop = this.$transcriptToolbar.outerHeight();
-			}
+			// position alert at the bottom of the sign window, where the drag handle is.
+			alertTop = (location === 'sign') ? ( $parentWindow.height() - $alertBox.outerHeight() ) : this.$transcriptToolbar.outerHeight();;
 			$alertBox.css({
 				top: alertTop + 'px',
 				left: 0
 			});
-		}
-		else if (location !== 'screenreader') {
+		} else if (location !== 'screenreader') {
 			$alertBox.css({
 				top: 'auto',
 				bottom: 0,

@@ -160,24 +160,17 @@
 		});
 
 		// add button to draggable window which triggers a popup menu
-		// for now, re-use preferences icon for this purpose
 		menuId = this.mediaId + '-' + windowName + '-menu';
 		$newButton = $('<button>',{
 			'type': 'button',
 			'tabindex': '0',
-			'aria-label': this.tt.windowButtonLabel,
 			'aria-haspopup': 'true',
 			'aria-controls': menuId,
 			'aria-expanded': 'false',
 			'class': 'able-button-handler-preferences'
 		});
 		this.getIcon( $newButton, 'preferences' );
-
-		// add the visibly-hidden label for screen readers that don't support aria-label on the button
-		$buttonLabel = $('<span>',{
-			'class': 'able-clipped'
-		}).text(this.tt.windowButtonLabel);
-		$newButton.append($buttonLabel);
+		this.setText( $newButton, this.tt.windowButtonLabel );
 
 		// add a tooltip that displays aria-label on mouseenter or focus
 		tooltipId = this.mediaId + '-' + windowName + '-tooltip';
@@ -185,6 +178,7 @@
 			'class' : 'able-tooltip',
 			'id' : tooltipId
 		}).hide();
+
 		$newButton.on('mouseenter focus',function(e) {
 			var label = $(this).attr('aria-label');
 			var tooltip = AblePlayer.localGetElementById($newButton[0], tooltipId).text(label);
@@ -208,12 +202,14 @@
 		$popup = this.setupPopups(windowName); // 'transcript-window' or 'sign-window'
 		// define vars and assemble all the parts
 		if (which === 'transcript') {
-			this.$transcriptAlert = $windowAlert.addClass( 'transcript-alert' );
+			this.$transcriptAlert = $windowAlert;
+			this.$transcriptAlert.addClass( 'transcript-alert' );
 			this.$transcriptPopupButton = $newButton;
 			this.$transcriptPopup = $popup;
 			this.$transcriptToolbar.prepend($windowAlert,$newButton,$tooltip,$popup);
 		} else if (which === 'sign') {
-			this.$signAlert = $windowAlert.addClass( 'sign-alert' );
+			this.$signAlert = $windowAlert;
+			this.$signAlert.addClass( 'sign-alert' );
 			this.$signPopupButton = $newButton;
 			this.$signPopup = $popup;
 			this.$signToolbar.append($windowAlert,$newButton,$tooltip,$popup);
@@ -598,6 +594,12 @@
 		return false;
 	};
 
+	/**
+	 * Handle moving the transcript or sign window from the keyboard.
+	 *
+	 * @param {string} which 'transcript' or 'sign' window.
+	 * @param {Event} e Triggered event.
+	 */
 	AblePlayer.prototype.dragKeys = function(which, e) {
 
 		var key, keySpeed;
