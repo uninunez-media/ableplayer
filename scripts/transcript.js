@@ -3,8 +3,8 @@
     var deferred = new $.Deferred();
     var promise = deferred.promise();
 
-    if (this.usingYouTubeCaptions || this.usingVimeoCaptions) {
-      // a transcript is not possible
+    if (this.usingYouTubeCaptions || this.usingVimeoCaptions || this.hideTranscriptButton ) {
+      // a transcript is not possible or is disabled.
       this.transcriptType = null;
       deferred.resolve();
     } else {
