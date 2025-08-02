@@ -138,7 +138,7 @@
 
 	AblePlayer.prototype.addWindowMenu = function(which, $window, windowName) {
 
-		var thisObj, $windowAlert, menuId, $newButton, $buttonIcon, buttonImgSrc,
+		var thisObj, $windowAlert, menuId, $newButton,
 			$buttonLabel, tooltipId, $tooltip, $popup, menuId;
 
 		thisObj = this;
@@ -208,12 +208,12 @@
 		$popup = this.setupPopups(windowName); // 'transcript-window' or 'sign-window'
 		// define vars and assemble all the parts
 		if (which === 'transcript') {
-			this.$transcriptAlert = $windowAlert;
+			this.$transcriptAlert = $windowAlert.addClass( 'transcript-alert' );
 			this.$transcriptPopupButton = $newButton;
 			this.$transcriptPopup = $popup;
 			this.$transcriptToolbar.prepend($windowAlert,$newButton,$tooltip,$popup);
 		} else if (which === 'sign') {
-			this.$signAlert = $windowAlert;
+			this.$signAlert = $windowAlert.addClass( 'sign-alert' );
 			this.$signPopupButton = $newButton;
 			this.$signPopup = $popup;
 			this.$signToolbar.append($windowAlert,$newButton,$tooltip,$popup);
