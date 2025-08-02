@@ -1679,43 +1679,26 @@
 				newWidth = this.playerWidth;
 				if (this.playerHeight) {
 					newHeight = this.playerHeight;
-				}
-				else {
+				} else {
 					newHeight = Math.round(newWidth * this.aspectRatio);
 					this.playerHeight = newHeight;
 				}
-			}
-			else {
+			} else {
 				// playerWidth was not defined via HTML attributes
-				if (this.player === 'html5') {
-					newWidth = $(window).width();
-				}
-				else {
-					newWidth = this.$ableWrapper.width();
-				}
+				newWidth = (this.player === 'html5') ? $(window).width() : this.$ableWrapper.width();
 				newHeight = Math.round(newWidth * this.aspectRatio);
 			}
-		}
-		else if (this.fullscreen) {
+		} else if (this.fullscreen) {
 			this.$ableWrapper.addClass('fullscreen');
 			newWidth = $(window).width();
 			// the 5 pixel buffer is arbitrary, but results in a better fit for all browsers
 			newHeight = $(window).height() - this.$playerDiv.outerHeight() - 5;
 			this.positionCaptions('overlay');
-		}
-		else { // not fullscreen, and not first time initializing player
+		} else { // not fullscreen, and not first time initializing player
 			this.$ableWrapper.removeClass('fullscreen');
 			if (this.player === 'html5') {
-				if (this.playerWidth) {
-					newWidth = this.playerWidth;
-				}
-				else {
-					// use full size of window
-					// player will be downsized to fit container if CSS requires it
-					newWidth = $(window).width();
-				}
-			}
-			else {
+				newWidth = (this.playerWidth) ? this.playerWidth : $(window).width();
+			} else {
 				newWidth = this.$ableWrapper.width();
 			}
 			newHeight = Math.round(newWidth * this.aspectRatio);
@@ -1732,8 +1715,7 @@
 				// this adds width and height attributes to the iframe
 				// but might have other effects, so best to do it this way
 				this.youTubePlayer.setSize(newWidth,newHeight);
-			}
-			else {
+			} else {
 				// Vimeo API does not have a method for changing size of player
 				// Therefore, need to change iframe attributes directly
 				$iframe.attr({
@@ -1748,8 +1730,7 @@
 						'max-width': '',
 						'max-height': ''
 					});
-				}
-				else {
+				} else {
 					// use CSS on iframe to enforce explicitly defined size constraints
 					$iframe.css({
 						'max-width': this.playerWidth + 'px',
@@ -1757,8 +1738,7 @@
 					});
 				}
 			}
-		}
-		else if (this.player === 'html5') {
+		} else if (this.player === 'html5') {
 			if (this.fullscreen) {
 				this.$media.attr({
 					'width': newWidth,
@@ -1768,8 +1748,7 @@
 					'width': newWidth,
 					'height': newHeight
 				});
-			}
-			else {
+			} else {
 				// No constraints. Let CSS handle the positioning.
 				this.$media.removeAttr('width height');
 				this.$ableWrapper.css({
