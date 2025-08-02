@@ -22,8 +22,7 @@
 			windowName = 'transcript-window';
 			$toolbar = this.$transcriptToolbar;
 			$toolbar.attr( 'aria-label', this.tt.transcriptControls );
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			$window = this.$signWindow;
 			windowName = 'sign-window';
 			$toolbar = this.$signToolbar;
@@ -52,14 +51,12 @@
 				y1 = '0';
 				x2 = '0';
 				y2 = '100';
-			}
-			else if (i === 2) {
+			} else if (i === 2) {
 				x1 = '33';
 				y1 = '100';
 				x2 = '100';
 				y2 = '33';
-			}
-			else if (i === 3) {
+			} else if (i === 3) {
 				x1 = '67';
 				y1 = '100';
 				x2 = '100';
@@ -88,7 +85,7 @@
 		// other event listeners will be added when drag starts
 		$toolbar.on('mousedown mouseup touchstart touchend', function(e) {
 			e.stopPropagation();
-			if (e.type === 'mousedown' || e.type === 'touchstart') {
+			if (e.type === 'mousedown' || e.type === 'touchstart' ) {
 				if (!thisObj.windowMenuClickRegistered) {
 					thisObj.windowMenuClickRegistered = true;
 					thisObj.startMouseX = e.pageX;
@@ -96,8 +93,7 @@
 					thisObj.dragDevice = 'mouse'; // ok to use this even if device is a touchpad
 					thisObj.startDrag(which, $window);
 				}
-			}
-			else if (e.type === 'mouseup' || e.type === 'touchend') {
+			} else if (e.type === 'mouseup' || e.type === 'touchend') {
 				if (thisObj.dragging && thisObj.dragDevice === 'mouse') {
 					thisObj.endDrag(which);
 				}
@@ -477,12 +473,7 @@
 					this.showedSignAlert = true;
 				}
 			}
-			if (e.type === 'keydown') {
-				this.dragDevice = 'keyboard';
-			}
-			else {
-				this.dragDevice = 'mouse';
-			}
+			this.dragDevice = (e.type === 'keydown') ? 'keyboard' : 'mouse';
 			this.startDrag(which, $window);
 			$windowPopup.hide().parent().attr( 'tabindex', '-1' ).trigger('focus');
 		}
@@ -546,8 +537,7 @@
 			this.dragKeyY = this.dragStartY;
 			// add stopgap to prevent the Enter that triggered startDrag() from also triggering dragEnd()
 			this.startingDrag = true;
-		}
-		else {
+		} else {
 			this.dragDevice = 'mouse';
 			// get offset between mouse position and top left corner of draggable element
 			this.dragOffsetX = this.startMouseX - this.dragStartX;
@@ -561,6 +551,7 @@
 			'left': this.dragStartX + 'px'
 		}).trigger('focus');
 
+		var dragDevice = this.dragDevice;
 		// add device-specific event listeners
 		if (this.dragDevice === 'mouse') { // might also be a touchpad
 			$(document).on('mousemove touchmove',function(e) {
@@ -571,8 +562,7 @@
 					thisObj.resetDraggedObject( newX, newY );
 				}
 			});
-		}
-		else if (this.dragDevice === 'keyboard') {
+		} else if (this.dragDevice === 'keyboard') {
 			this.$activeWindow.on('keydown',function(e) {
 				if (thisObj.dragging) {
 					thisObj.dragKeys(which, e);
