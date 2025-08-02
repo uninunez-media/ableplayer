@@ -211,8 +211,7 @@
 			if (typeof cookie.transcript !== 'undefined') {
 				cookiePos = cookie.transcript;
 			}
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			if (typeof cookie.sign !== 'undefined') {
 				cookiePos = cookie.sign;
 			}
@@ -327,7 +326,7 @@
 	AblePlayer.prototype.injectAlert = function ($container) {
 		// inject two alerts, one visible for all users and one for screen reader users only
 		this.$alertBox = $('<div role="alert"></div>');
-		this.$alertBox.addClass('able-alert');
+		this.$alertBox.removeClass().addClass('able-alert');
 		this.$alertBox.hide();
 
 		var $alertText = $( '<span></span>' );
@@ -1044,7 +1043,6 @@
 					$newButton = $('<div>',{
 						'role': 'button',
 						'tabindex': '0',
-						'aria-label': buttonTitle,
 						'class': 'able-button-handler-' + control
 					});
 
@@ -1099,11 +1097,7 @@
 						this.getIcon( $newButton, getControl );
 					}
 
-					// add the visibly-hidden label for screen readers that don't support aria-label on the button
-					$buttonLabel = $('<span>',{
-						'class': 'able-clipped'
-					}).text(buttonTitle);
-					$newButton.append($buttonLabel);
+					this.setText($newButton,buttonTitle);
 					// add an event listener that displays a tooltip on mouseenter or focus
 					$newButton.on('mouseenter focus',function(e) {
 
