@@ -104,6 +104,12 @@ a:hover, a:focus, a:active {
 	text-decoration: none !important;
 	border: none !important;
 }
+
+code {
+	background: #fff;
+	padding: 2px;
+}
+
 /*
  * Class example from WebVTT caption file
  */

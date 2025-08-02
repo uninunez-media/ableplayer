@@ -169,7 +169,7 @@ Copy and paste the following code into your web page, replacing the source files
 Copy and paste the following code into your web page, replacing the source files with the path to your own media files. Use both WebM and MP4 to ensure cross-browser compatibility, since some browsers don’t support MP4.
 
 ```HTML
-<video id="video1" data-able-player preload="auto" width="480" height="360" poster="path_to_image.jpg">
+<video id="video1" data-able-player preload="auto" poster="path_to_image.jpg">
   <source type="video/webm" src="path_to_video.webm" data-desc-src="path_to_described_video.webm"/>
   <source type="video/mp4" src="path_to_video.mp4" data-desc-src="path_to_described_video.mp4"/>
   <track kind="captions" src="path_to_captions.vtt"/>
@@ -251,13 +251,13 @@ Additional transcript-related attributes include:
 To manually code the transcript, one simple strategy is to first allow Able Player to *automatically* generate a transcript. Then copy and paste its content as a starting point. To manually code a transcript from scratch, use the following markup (see [Video Demo #7] for an example):
 
 - Wrap the entire transcript in a container with class="able-transcript", and wrap that in another container with class="able-transcript-area".
-- Add an empty &lt;div&gt; just inside the outer container with class="able-window-toolbar".
-- Wrap all audio description in a &lt;div&gt; element with class="able-transcript-desc".
-- Add a &lt;span&gt; element to the start of each audio description block, with class="able-hidden" and text "Description:". This helps screen reader users to distinguish between caption and description text.
-- Wrap each block of caption text in a &lt;div&gt; element with class="able-transcript-block".
-- Wrap each clickable segment of content in a &lt;span&gt; element, with class="able-transcript-seekpoint", plus **data-start** and **data-end** attributes. The values of these two data attributes are the video start and end times expressed in seconds (decimals points are allowed).
+- Add an empty <code>&lt;div&gt;</code> just inside the outer container with class="able-window-toolbar".
+- Wrap all audio description in a <code>&lt;div&gt;</code> element with class="able-transcript-desc".
+- Add a <code>&lt;span&gt;</code> element to the start of each audio description block, with class="able-hidden" and text "Description:". This helps screen reader users to distinguish between caption and description text.
+- Wrap each block of caption text in a <code>&lt;div&gt;</code> element with class="able-transcript-block".
+- Wrap each clickable segment of content in a <code>&lt;span&gt;</code> element, with class="able-transcript-seekpoint", plus **data-start** and **data-end** attributes. The values of these two data attributes are the video start and end times expressed in seconds (decimals points are allowed).
 - If the clickable span is caption text, also add the "able-transcript-caption" class.
-- Wrap unspoken content such as names of speakers or descriptions of sound in a &lt;span&gt; element with class="able-unspoken".
+- Wrap unspoken content such as names of speakers or descriptions of sound in a <code>&lt;span&gt;</code> element with class="able-unspoken".
 - Use any other markup desired to add structure and style to your transcript. Able Player will ignore it.
 
 ### Chapters
