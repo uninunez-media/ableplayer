@@ -677,30 +677,24 @@
 				var popup = popups[i];
 				if (popup == 'prefs') {
 					this.prefsPopup = this.createPopup('prefs');
-				}
-				else if (popup == 'captions') {
+				} else if (popup == 'captions') {
 					if (typeof this.captionsPopup === 'undefined' || !this.captionsPopup) {
 						this.captionsPopup = this.createPopup('captions',this.captions);
 					}
-				}
-				else if (popup == 'chapters') {
+				} else if (popup == 'chapters') {
 					if (this.selectedChapters) {
 						tracks = this.selectedChapters.cues;
-					}
-					else if (this.chapters.length >= 1) {
+					} else if (this.chapters.length >= 1) {
 						tracks = this.chapters[0].cues;
-					}
-					else {
+					} else {
 						tracks = [];
 					}
 					if (typeof this.chaptersPopup === 'undefined' || !this.chaptersPopup) {
 						this.chaptersPopup = this.createPopup('chapters',tracks);
 					}
-				}
-				else if (popup == 'transcript-window') {
+				} else if (popup == 'transcript-window') {
 					return this.createPopup('transcript-window');
-				}
-				else if (popup == 'sign-window') {
+				} else if (popup == 'sign-window') {
 					return this.createPopup('sign-window');
 				}
 			}
