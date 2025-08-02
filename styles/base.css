@@ -46,7 +46,7 @@
 	--able-seekbar-loaded: #666;
 	--able-seekbar-played: #dadada;
 	--able-seekbar-head: #fdfdfd;
-	--able-control-label-color: #000;
+	--able-control-label-color: #fff;
 	--able-controller-background: #464646;
 	--able-separator-color: #a8a8a8;
 	--able-volume-background: #000;
@@ -74,7 +74,7 @@
 	--able-focus-outline: #ffbb37;
 	--able-hover-outline: #8ab839;
 	--able-tooltip-border: #262626;
-	--able-tooltip-color: #fff;
+	--able-tooltip-color: #333;
 	--able-tooltip-background: #eee;
 	--able-alert-background: #ffc;
 	--able-menu-border: #262626;
@@ -1089,6 +1089,7 @@ div.able-modal-dialog button:hover,
 	display: flex;
 	align-items: center;
 	gap: 12px;
+	outline-offset: -6px;
 }
 
 .able-search-results li > span {
