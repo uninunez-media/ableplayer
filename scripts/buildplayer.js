@@ -1003,8 +1003,7 @@
 						this.elapsed = 0;
 					}
 					this.seekBar = new AccessibleSlider($sliderDiv, 'horizontal', baseSliderWidth, 0, this.duration, this.seekInterval, sliderLabel, 'seekbar', true, 'visible');
-				}
-				else if (control === 'pipe') {
+				} else if (control === 'pipe') {
 					$pipe = $('<span>', {
 						'tabindex': '-1',
 						'aria-hidden': 'true',
@@ -1012,8 +1011,7 @@
 					});
 					$pipe.append('|');
 					$controllerSpan.append($pipe);
-				}
-				else {
+				} else {
 					// this control is a button
 					buttonTitle = this.getButtonTitle(control);
 
@@ -1569,66 +1567,47 @@
 
 		if (control === 'playpause') {
 			return this.tt.play;
-		}
-		else if (control === 'play') {
+		} else if (control === 'play') {
 			return this.tt.play;
-		}
-		else if (control === 'pause') {
+		} else if (control === 'pause') {
 			return this.tt.pause;
-		}
-		else if (control === 'restart') {
+		} else if (control === 'restart') {
 			return this.tt.restart;
-		}
-		else if (control === 'previous') {
+		} else if (control === 'previous') {
 			return this.tt.prevTrack;
-		}
-		else if (control === 'next') {
+		} else if (control === 'next') {
 			return this.tt.nextTrack;
-		}
-		else if (control === 'rewind') {
+		} else if (control === 'rewind') {
 			return this.tt.rewind;
-		}
-		else if (control === 'forward') {
+		} else if (control === 'forward') {
 			return this.tt.forward;
-		}
-		else if (control === 'captions') {
+		} else if (control === 'captions') {
 			if (this.captions.length > 1) {
 				return this.tt.captions;
 			} else {
 				return (this.captionsOn) ? this.tt.hideCaptions : this.tt.showCaptions;
 			}
-		}
-		else if (control === 'descriptions') {
+		} else if (control === 'descriptions') {
 			return (this.descOn) ? this.tt.turnOffDescriptions : this.tt.turnOnDescriptions;
-		}
-		else if (control === 'transcript') {
+		} else if (control === 'transcript') {
 			return (this.$transcriptDiv.is(':visible')) ? this.tt.hideTranscript : this.tt.showTranscript;
-		}
-		else if (control === 'chapters') {
+		} else if (control === 'chapters') {
 			return this.tt.chapters;
-		}
-		else if (control === 'sign') {
+		} else if (control === 'sign') {
 			return this.tt.sign;
-		}
-		else if (control === 'volume') {
+		} else if (control === 'volume') {
 			return this.tt.volume;
-		}
-		else if (control === 'faster') {
+		} else if (control === 'faster') {
 			return this.tt.faster;
-		}
-		else if (control === 'slower') {
+		} else if (control === 'slower') {
 			return this.tt.slower;
-		}
-		else if (control === 'preferences') {
+		} else if (control === 'preferences') {
 			return this.tt.preferences;
-		}
-		else if (control === 'help') {
+		} else if (control === 'help') {
 			// return this.tt.help;
-		}
-		else if (control === 'fullscreen') {
+		} else if (control === 'fullscreen') {
 			return (!this.fullscreen) ? this.tt.enterFullScreen : this.tt.exitFullScreen;
-		}
-		else {
+		} else {
 			// there should be no other controls, but just in case:
 			// return the name of the control with first letter in upper case
 			// ultimately will need to get a translated label from this.tt
