@@ -1457,7 +1457,7 @@
 			setTimeout(function() {
 				thisObj.clickedFullscreenButton = false;
 				thisObj.restoringAfterFullscreen = false;
-			},1000);
+			},100);
 		});
 	};
 
