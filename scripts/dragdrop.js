@@ -251,6 +251,7 @@
 
 		// inner container for all content, will be assigned to modal div's aria-describedby
 		$resizeWrapper = $('<div></div>');
+		$resizeControls = $( '<div class="able-prefs-buttons"></div>' );
 
 		// width field
 		$resizeWidthDiv = $('<div></div>');
@@ -309,7 +310,8 @@
 		$resizeWidthDiv.append($resizeWidthLabel,$resizeWidthInput);
 		$resizeHeightDiv.append($resizeHeightLabel,$resizeHeightInput);
 		$resizeWrapper.append($resizeWidthDiv,$resizeHeightDiv);
-		$resizeForm.append($resizeWrapper,'<hr>',$saveButton,$cancelButton);
+		$resizeControls.append($saveButton,$cancelButton);
+		$resizeForm.append($resizeWrapper,$resizeControls);
 
 		// must be appended to the BODY!
 		// otherwise when aria-hidden="true" is applied to all background content

@@ -343,7 +343,7 @@
 			$fieldset, fieldsetClass, fieldsetId, $legend, legendId, thisPref, $thisDiv, thisClass,
 			thisId, $thisLabel, $thisField, options,$thisOption,optionValue,optionLang,optionText,
 			changedPref,changedSpan,changedText, currentDescState, prefDescVoice, $kbHeading,$kbList,
-			kbLabels,keys,kbListText,$kbListItem, dialog,saveButton,cancelButton;
+			kbLabels,keys,kbListText,$kbListItem, dialog,$saveButton,$cancelButton,$buttonContainer;
 
 		thisObj = this;
 		available = this.getAvailablePreferences();
@@ -359,8 +359,7 @@
 		if (form == 'captions') {
 			formTitle = this.tt.prefTitleCaptions;
 			// Intro text removed in 4.4.32 to cut down on unnecessary verbiage
-		}
-		else if (form == 'descriptions') {
+		} else if (form == 'descriptions') {
 			formTitle = this.tt.prefTitleDescriptions;
 			var $prefsIntro = $('<p>',{
 				text: this.tt.prefIntroDescription1
@@ -774,28 +773,23 @@
 		}
 
 		// $prefsDiv (dialog) must be appended to the BODY!
-		// otherwise when aria-hidden="true" is applied to all background content
-		// that will include an ancestor of the dialog,
-		// which will render the dialog unreadable by screen readers
 		$('body').append($prefsDiv);
 		dialog = new AccessibleDialog($prefsDiv, this.$prefsButton, 'dialog', true, formTitle, $prefsIntro, thisObj.tt.closeButtonLabel, false);
 
 		// Add save and cancel buttons.
-		$prefsDiv.append('<hr>');
-		saveButton = $('<button class="modal-button">' + this.tt.save + '</button>');
-		cancelButton = $('<button class="modal-button">' + this.tt.cancel + '</button>');
-		saveButton.on( 'click', function () {
+		$buttonContainer = $( '<div class="able-prefs-buttons"></div>' );
+		$saveButton = $('<button class="modal-button">' + this.tt.save + '</button>');
+		$cancelButton = $('<button class="modal-button">' + this.tt.cancel + '</button>');
+		$saveButton.on( 'click', function () {
 			dialog.hide();
 			thisObj.savePrefsFromForm();
 		});
-		cancelButton.on( 'click', function () {
+		$cancelButton.on( 'click', function () {
 			dialog.hide();
 			thisObj.resetPrefsForm();
 		});
-
-		$prefsDiv.append(saveButton);
-		$prefsDiv.append(cancelButton);
-
+		$buttonContainer.append( $saveButton,$cancelButton );
+		$prefsDiv.append($buttonContainer);
 		// Associate the dialog's H1 as aria-labelledby for groups of fields
 		// (alternative to fieldset and legend)
 		if (form === 'captions' || form === 'transcript') {
