@@ -4,7 +4,6 @@
 
 		var thisObj, deferred, promise, youTubeId;
 		thisObj = this;
-
 		deferred = new $.Deferred();
 		promise = deferred.promise();
 
@@ -12,20 +11,15 @@
 
 		// if a described version is available && user prefers desription
 		// init player using the described version
-		if (this.youTubeDescId && this.prefDesc) {
-			youTubeId = this.youTubeDescId;
-		}
-		else {
-			youTubeId = this.youTubeId;
-		}
+		youTubeId = (this.youTubeDescId && this.prefDesc) ? this.youTubeDescId : this.youTubeId;
+
 		this.activeYouTubeId = youTubeId;
 		if (AblePlayer.youTubeIframeAPIReady) {
 			// Script already loaded and ready.
 			thisObj.finalizeYoutubeInit().then(function() {
 				deferred.resolve();
 			});
-		}
-		else {
+		} else {
 			// Has another player already started loading the script? If so, abort...
 			if (!AblePlayer.loadingYouTubeIframeAPI) {
 				$.getScript('https://www.youtube.com/iframe_api').fail(function () {
@@ -46,14 +40,11 @@
 	AblePlayer.prototype.finalizeYoutubeInit = function () {
 
 		// This is called once we're sure the Youtube iFrame API is loaded -- see above
-
 		var deferred, promise, thisObj, containerId, ccLoadPolicy, autoplay;
 
 		deferred = new $.Deferred();
 		promise = deferred.promise();
-
 		thisObj = this;
-
 		containerId = this.mediaId + '_youtube';
 
 		this.$mediaContainer.prepend($('<div>').attr('id', containerId));
@@ -62,15 +53,9 @@
 		// 0 - show captions depending on user's preference on YouTube
 		// 1 - show captions by default, even if the user has turned them off
 		// IMPORTANT: This *must* be set to 1 or some browsers
-		// fail to load any texttracks (observed in Chrome, not in Firefox)
+		// fail to load any text tracks (observed in Chrome, not in Firefox)
 		ccLoadPolicy = 1;
-
-		if (this.okToPlay) {
-			autoplay = 1;
-		}
-		else {
-			autoplay = 0;
-		}
+		autoplay = (this.okToPlay) ? 1 : 0;
 
 		// Documentation https://developers.google.com/youtube/player_parameters
 
@@ -138,11 +123,9 @@
 							thisObj.playing = true;
 							thisObj.startedPlaying = true;
 							thisObj.paused = false;
-						}
-						else if (playerState == 'ended') {
+						} else if (playerState == 'ended') {
 							thisObj.onMediaComplete();
-						}
-						else {
+						} else {
 							thisObj.playing = false;
 							thisObj.paused = true;
 						}
@@ -189,7 +172,6 @@
 
 		// The YouTube iframe API does not have a getSize() of equivalent method
 		// so, need to get dimensions from YouTube's iframe
-
 		var $iframe, width, height;
 
 		$iframe = this.$ableWrapper.find('iframe');
@@ -218,7 +200,6 @@
 
 		var deferred = new $.Deferred();
 		var promise = deferred.promise();
-
 		var thisObj, ytTracks, i, trackLang, trackLabel, isDefaultTrack;
 
 		thisObj = this;
@@ -252,12 +233,9 @@
 							trackLang = ytTracks[i].languageCode;
 							trackLabel = ytTracks[i].languageName; // displayName and languageName seem to always have the same value
 							isDefaultTrack = false;
-							if (typeof thisObj.captionLang !== 'undefined') {
-								if (trackLang === thisObj.captionLang) {
-									isDefaultTrack = true;
-								}
-							}
-							else if (typeof thisObj.lang !== 'undefined') {
+							if (typeof thisObj.captionLang !== 'undefined' && (trackLang === thisObj.captionLang) ) {
+								isDefaultTrack = true;
+							} else if (typeof thisObj.lang !== 'undefined') {
 								if (trackLang === thisObj.lang) {
 									isDefaultTrack = true;
 								}
@@ -278,8 +256,7 @@
 						thisObj.hasCaptions = true;
 						// setupPopups again with new captions array, replacing original
 						thisObj.setupPopups('captions');
-					}
-					else {
+					} else {
 						// there are no YouTube captions
 						thisObj.usingYouTubeCaptions = false;
 						thisObj.hasCaptions = false;
@@ -311,35 +288,29 @@
 
 	AblePlayer.prototype.getYouTubePosterUrl = function (youTubeId, width) {
 
-			 // return a URL for retrieving a YouTube poster image
-			 // supported values of width: 120, 320, 480, 640, 1280, 1920.
-
-			 var url = 'https://img.youtube.com/vi/' + youTubeId;
-			 if (width == '120') {
-				 // default (small) thumbnail, 120 x 90
-				 return url + '/default.jpg';
-			 }
-			 else if (width == '320') {
-				 // medium quality thumbnail, 320 x 180
-				 return url + '/mqdefault.jpg';
-			 }
-			 else if (width == '480') {
-				 // high quality thumbnail, 480 x 360
-				 return url + '/hqdefault.jpg';
-			 }
-			 else if (width == '640') {
-				 // standard definition poster image, 640 x 480
-				 return url + '/sddefault.jpg';
-			 }
-			 else if (width == '1280') {
-				 // standard definition poster image, 640 x 480
-				 return url + '/hq720.jpg';
-			 }
-			 else if ( width == '1920' ) {
-				 // standard definition poster image, 640 x 480
-				 return url + '/maxresdefault.jpg';
-			 }
-			 return false;
+		// return a URL for retrieving a YouTube poster image
+		// supported values of width: 120, 320, 480, 640, 1280, 1920.
+		var url = 'https://img.youtube.com/vi/' + youTubeId;
+		if (width == '120') {
+			// default (small) thumbnail, 120 x 90
+			return url + '/default.jpg';
+		} else if (width == '320') {
+			// medium quality thumbnail, 320 x 180
+			return url + '/mqdefault.jpg';
+		} else if (width == '480') {
+			// high quality thumbnail, 480 x 360
+			return url + '/hqdefault.jpg';
+		} else if (width == '640') {
+			// standard definition poster image, 640 x 480
+			return url + '/sddefault.jpg';
+		} else if (width == '1280') {
+			// standard definition poster image, 640 x 480
+			return url + '/hq720.jpg';
+		} else if ( width == '1920' ) {
+			// standard definition poster image, 640 x 480
+			return url + '/maxresdefault.jpg';
+		}
+		return false;
 	};
 
 	AblePlayer.prototype.getYouTubeId = function (url) {
@@ -359,8 +330,7 @@
 			idStartPos = url.length - 11;
 			id = url.substring(idStartPos);
 			return id;
-		}
-		else {
+		} else {
 			return url;
 		}
 };

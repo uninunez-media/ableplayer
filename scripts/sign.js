@@ -20,20 +20,17 @@
 					if (this.debug) {
 						console.log('Sign language has been disabled due to iOS restrictions');
 					}
-				}
-				else {
+				} else {
 					if (this.debug) {
 						console.log('This video has an accompanying sign language video: ' + this.signFile);
 					}
 					this.hasSignLanguage = true;
 					this.injectSignPlayerCode();
 				}
-			}
-			else {
+			} else {
 				this.hasSignLanguage = false;
 			}
-		}
-		else {
+		} else {
 			this.hasSignLanguage = false;
 		}
 	};
@@ -41,14 +38,13 @@
 	AblePlayer.prototype.injectSignPlayerCode = function() {
 
 		// create and inject surrounding HTML structure
-
 		var thisObj, signVideoId, signVideoWidth, i, signSrc, srcType, $signSource;
 
 		thisObj = this;
 
 		signVideoWidth = this.getDefaultWidth('sign');
-
 		signVideoId = this.mediaId + '-sign';
+
 		this.$signVideo = $('<video>',{
 			'id' : signVideoId,
 			'tabindex' : '-1',
@@ -56,14 +52,13 @@
 		});
 		this.signVideo = this.$signVideo[0];
 
-		if(this.$media.data('sign-src')) {
+		if ( this.$media.data('sign-src') ) {
 			$signSource = $('<source>',{
 				'src' : this.$media.data('sign-src'),
 				'type' : 'video/' + this.$media.data('sign-src').substr(-3)
 			});
 			this.$signVideo.append($signSource);
-		}
-		else {
+		} else {
 			// for each original <source>, add a <source> to the sign <video>
 			for (i=0; i < this.$sources.length; i++) {
 				signSrc = DOMPurify.sanitize( this.$sources[i].getAttribute('data-sign-src') );
@@ -74,8 +69,7 @@
 						'type' : srcType
 					});
 					this.$signVideo.append($signSource);
-				}
-				else {
+				} else {
 					// source is missing a sign language version
 					// can't include sign language
 					this.hasSignLanguage = false;
@@ -94,17 +88,14 @@
 		});
 
 		this.$signWindow.append(this.$signToolbar, this.$signVideo);
-
 		this.$ableWrapper.append(this.$signWindow);
-
 		// make it draggable
 		this.initDragDrop('sign');
 
 		if (this.prefSign === 1) {
 			// sign window is on. Go ahead and position it and show it
 			this.positionDraggableWindow('sign',this.getDefaultWidth('sign'));
-		}
-		else {
+		} else {
 			this.$signWindow.hide();
 		}
 	};
