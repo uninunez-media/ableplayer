@@ -642,15 +642,12 @@
 		playerPromise.done(
 			function () { // done/resolved
 				if (thisObj.useFixedSeekInterval) {
+					// if fixed seekInterval was not already assigned (using value of data-seek-interval)
 					if (!thisObj.seekInterval) {
 						thisObj.seekInterval = thisObj.defaultSeekInterval;
 					}
-					else {
-						// fixed seekInterval was already assigned, using value of data-seek-interval attribute
-					}
 					thisObj.seekIntervalCalculated = true;
-				}
-				else {
+				} else {
 					thisObj.setSeekInterval();
 				}
 				deferred.resolve();
@@ -667,7 +664,6 @@
 
 		var thisObj, deferred, promise;
 		thisObj = this;
-
 		deferred = new $.Deferred();
 		promise = deferred.promise();
 
@@ -676,15 +672,13 @@
 			if (this.$stenoFrame[0].contentWindow,document.readyState == 'complete') {
 				// iframe has already loaded
 				deferred.resolve();
-			}
-			else {
+			} else {
 				// iframe has not loaded. Wait for it.
 				this.$stenoFrame.on('load',function() {
 					deferred.resolve();
 				});
 			}
-		}
-		else {
+		} else {
 			// there is no stenoFrame to initialize
 			deferred.resolve();
 		}
@@ -699,33 +693,24 @@
 		var thisObj, duration;
 		thisObj = this;
 		this.seekInterval = this.defaultSeekInterval;
-		if (this.useChapterTimes) {
-			duration = this.chapterDuration;
-		}
-		else {
-			duration = this.duration;
-		}
+		duration = (this.useChapterTimes) ? this.chapterDuration : this.duration;
+
 		if (typeof duration === 'undefined' || duration < 1) {
 			// no duration; just use default for now but keep trying until duration is available
 			this.seekIntervalCalculated = false;
 			return;
-		}
-		else {
+		} else {
 			if (duration <= 20) {
 				this.seekInterval = 5;	 // 4 steps max
-			}
-			else if (duration <= 30) {
+			} else if (duration <= 30) {
 				this.seekInterval = 6; // 5 steps max
-			}
-			else if (duration <= 40) {
+			} else if (duration <= 40) {
 				this.seekInterval = 8; // 5 steps max
-			}
-			else if (duration <= 100) {
+			} else if (duration <= 100) {
 				this.seekInterval = 10; // 10 steps max
-			}
-			else {
+			} else {
 				// never more than 10 steps from start to end
-				this.seekInterval = (duration / 10);
+				this.seekInterval = Math.round(duration / 10, 0);
 			}
 			this.seekIntervalCalculated = true;
 		}
@@ -774,32 +759,32 @@
 							// track.language = the iso code for the language
 							// track.kind = 'captions' or 'subtitles'
 							// track.label = the human-readable label
-						}).catch(function(error) {
-							switch (error.name) {
-								case 'InvalidTrackLanguageError':
-									// no track was available with the specified language
-									console.log('No ' + track.kind + ' track is available in the specified language (' + track.label + ')');
-									break;
-								case 'InvalidTrackError':
-									// no track was available with the specified language and kind
-									console.log('No ' + track.kind + ' track is available in the specified language (' + track.label + ')');
-									break;
-								default:
-									// some other error occurred
-									console.log('Error loading ' + track.label + ' ' + track.kind + ' track');
-									break;
-							}
-						});
-					}
-					else {
-						// disable Vimeo captions.
-						this.vimeoPlayer.disableTextTrack().then(function() {
-							// Vimeo captions disabled
-						}).catch(function(error) {
-							console.log('Error disabling Vimeo text track: ',error);
-						});
-					}
+						}
+					).catch(function(error) {
+						switch (error.name) {
+							case 'InvalidTrackLanguageError':
+								// no track was available with the specified language
+								console.log('No ' + track.kind + ' track is available in the specified language (' + track.label + ')');
+								break;
+							case 'InvalidTrackError':
+								// no track was available with the specified language and kind
+								console.log('No ' + track.kind + ' track is available in the specified language (' + track.label + ')');
+								break;
+							default:
+								// some other error occurred
+								console.log('Error loading ' + track.label + ' ' + track.kind + ' track');
+								break;
+						}
+					});
+				} else {
+					// disable Vimeo captions.
+					this.vimeoPlayer.disableTextTrack().then(function() {
+						// Vimeo captions disabled
+					}).catch(function(error) {
+						console.log('Error disabling Vimeo text track: ',error);
+					});
 				}
+			}
 		}
 	};
 
@@ -851,5 +836,4 @@
 			return null;
 		}
 	};
-
 })(jQuery);
