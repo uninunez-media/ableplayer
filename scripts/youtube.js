@@ -76,7 +76,6 @@
 				cc_load_policy: ccLoadPolicy,
 				cc_lang_pref: this.captionLang, // set the caption language
 				hl: this.lang, // set the UI language to match Able Player
-				modestbranding: 1, // no YouTube logo in controller
 				rel: 0, // when video ends, show only related videos from same channel (1 shows any)
 				iv_load_policy: 3 // do not show video annotations
 			},
