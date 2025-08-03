@@ -37,7 +37,6 @@
 .able-modal-dialog,
 .able-transcript-area,
 .able-wrapper {
-	--able-background: #000;
 	--able-color: #fff;
 	--able-control-background: #000;
 	--able-control-color: #fff;
@@ -53,6 +52,7 @@
 	--able-volume-background: #000;
 	--able-volume-outline: #666;
 	--able-statusbar-color: #dadada;
+	--able-statusbar-background: #000;
 	--able-default-caption-color: #fff;
 	--able-default-caption-background: #000;
 	--able-default-description-color: #ff6;
@@ -137,8 +137,8 @@
 	margin: 0;
 	padding: 0;
 	width: 100%; /* will be changed dynamically as player is constructed */
-	background-color: var(--able-background);
 	z-index: 5000;
+	display: grid;
 }
 
 .able-player-transcript .able-window-toolbar input,
@@ -414,8 +414,8 @@
 }
 
 input[type=range]::-moz-range-thumb {
-	background-color: var(--able-control-color);;
-	outline: 1px solid var(--able-background);
+	background-color: var(--able-control-color);
+	outline: 1px solid var(--able-volume-outline);
 	outline-offset: -2px;
 	height: 24px;
 	width: 24px;
@@ -431,6 +431,7 @@ input[type=range]::-moz-range-thumb {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	background: var(--able-statusbar-background);
 }
 
 .able-status-bar span.able-timer {
