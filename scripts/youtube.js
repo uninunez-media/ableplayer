@@ -68,17 +68,17 @@
 			host: this.youTubeNoCookie ? 'https://www.youtube-nocookie.com' : 'https://www.youtube.com',
 			playerVars: {
 				autoplay: autoplay,
-				enablejsapi: 1,
-				origin: window.location.origin,
-				disableKb: 1, // disable keyboard shortcuts, using our own
-				playsinline: this.playsInline,
-				start: this.startTime,
-				controls: 0, // no controls, using our own
-				cc_load_policy: ccLoadPolicy,
 				cc_lang_pref: this.captionLang, // set the caption language
+				cc_load_policy: ccLoadPolicy,
+				controls: 0, // no controls, using our own
+				disableKb: 1, // disable keyboard shortcuts, using our own
+				enablejsapi: 1,
 				hl: this.lang, // set the UI language to match Able Player
-				rel: 0, // when video ends, show only related videos from same channel (1 shows any)
 				iv_load_policy: 3 // do not show video annotations
+				origin: window.location.origin,
+				playsinline: this.playsInline,
+				rel: 0, // when video ends, show only related videos from same channel (1 shows any)
+				start: this.startTime,
 			},
 			events: {
 				onReady: function () {
