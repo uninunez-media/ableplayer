@@ -196,10 +196,7 @@
     if (typeof thisCaption !== "undefined") {
       if (this.currentCaption !== thisCaption) {
         // it's time to load the new caption into the container div
-        captionText = this.flattenCueForCaption(cues[thisCaption]).replace(
-          /\n/g,
-          "<br>"
-        );
+        captionText = this.flattenCueForCaption(cues[thisCaption]).replace( /\n/g, "<br>" );
 
         this.$captionsDiv.html(captionText);
         this.currentCaption = thisCaption;

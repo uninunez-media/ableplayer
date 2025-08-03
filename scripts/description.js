@@ -330,8 +330,7 @@
 		// see onMediaNewSourceLoad()
 		if (this.elapsed > 0) {
 			this.swapTime = this.elapsed;
-		}
-		else {
+		} else {
 			this.swapTime = 0;
 		}
 		if (this.duration > 0) {
@@ -346,8 +345,7 @@
 		if (this.descOn) {
 			// user has requested the described version
 			this.showAlert(this.tt.alertDescribedVersion);
-		}
-		else {
+		} else {
 			// user has requested the non-described version
 			this.showAlert(this.tt.alertNonDescribedVersion);
 		}
@@ -396,8 +394,7 @@
 						thisObj.loadingMedia = true;
 					}
 				});
-			}
-			else {
+			} else {
 				// player is in the process of being created
 				// no need to recreate it
 			}
