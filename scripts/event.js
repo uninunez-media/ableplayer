@@ -301,91 +301,70 @@
 		if (whichButton === 'play') {
 			this.clickedPlay = true;
 			this.handlePlay();
-		}
-		else if (whichButton === 'restart') {
+		} else if (whichButton === 'restart') {
 			this.seekTrigger = 'restart';
 			this.handleRestart();
-		}
-		else if (whichButton === 'previous') {
+		} else if (whichButton === 'previous') {
 			this.userClickedPlaylist = true;
 			this.okToPlay = true;
 			this.seekTrigger = 'previous';
 			this.buttonWithFocus = 'previous';
 			this.handlePrevTrack();
-		}
-		else if (whichButton === 'next') {
+		} else if (whichButton === 'next') {
 			this.userClickedPlaylist = true;
 			this.okToPlay = true;
 			this.seekTrigger = 'next';
 			this.buttonWithFocus = 'next';
 			this.handleNextTrack();
-		}
-		else if (whichButton === 'rewind') {
+		} else if (whichButton === 'rewind') {
 			this.seekTrigger = 'rewind';
 			this.handleRewind();
-		}
-		else if (whichButton === 'forward') {
+		} else if (whichButton === 'forward') {
 			this.seekTrigger = 'forward';
 			this.handleFastForward();
-		}
-		else if (whichButton === 'mute') {
+		} else if (whichButton === 'mute') {
 			this.handleMute();
-		}
-		else if (whichButton === 'volume') {
+		} else if (whichButton === 'volume') {
 			this.handleVolumeButtonClick();
-		}
-		else if (whichButton === 'faster') {
+		} else if (whichButton === 'faster') {
 			this.handleRateIncrease();
-		}
-		else if (whichButton === 'slower') {
+		} else if (whichButton === 'slower') {
 			this.handleRateDecrease();
-		}
-		else if (whichButton === 'captions') {
+		} else if (whichButton === 'captions') {
 			this.handleCaptionToggle();
-		}
-		else if (whichButton === 'chapters') {
+		} else if (whichButton === 'chapters') {
 			this.handleChapters();
-		}
-		else if (whichButton === 'descriptions') {
+		} else if (whichButton === 'descriptions') {
 			this.handleDescriptionToggle();
-		}
-		else if (whichButton === 'sign') {
+		} else if (whichButton === 'sign') {
 			if (!this.closingSign) {
 				this.handleSignToggle();
 			}
-		}
-		else if (whichButton === 'preferences') {
+		} else if (whichButton === 'preferences') {
 			if ($(el).attr('data-prefs-popup') === 'menu') {
 				this.handlePrefsClick();
-			}
-			else {
+			} else {
 				this.showingPrefsDialog = true; // stopgap
 				this.closePopups();
 				prefsPopup = $(el).attr('data-prefs-popup');
 				if (prefsPopup === 'keyboard') {
 					this.keyboardPrefsDialog.show();
-				}
-				else if (prefsPopup === 'captions') {
+				} else if (prefsPopup === 'captions') {
 					this.captionPrefsDialog.show();
-				}
-				else if (prefsPopup === 'descriptions') {
+				} else if (prefsPopup === 'descriptions') {
 					this.descPrefsDialog.show();
-				}
-				else if (prefsPopup === 'transcript') {
+				} else if (prefsPopup === 'transcript') {
 					this.transcriptPrefsDialog.show();
 				}
 				this.showingPrefsDialog = false;
 			}
-		}
-		else if (whichButton === 'help') {
+		} else if (whichButton === 'help') {
 			this.handleHelpClick();
-		}
-		else if (whichButton === 'transcript') {
+		} else if (whichButton === 'transcript') {
 			if (!this.closingTranscript) {
 				this.handleTranscriptToggle();
 			}
-		}
-		else if (whichButton === 'fullscreen') {
+		} else if (whichButton === 'fullscreen') {
 			this.clickedFullscreenButton = true;
 			this.handleFullscreenToggle();
 		}

@@ -1467,8 +1467,7 @@
 				this.fadeControls('out');
 				this.controlsHidden = true;
 			}
-		}
-		else {
+		} else {
 			// exit fullscreen mode
 			this.hideControls = this.hideControlsOriginal;
 			if (!this.hideControls) { // do not hide controls
@@ -1484,7 +1483,6 @@
 			}
 		}
 		// don't resizePlayer yet; that will be called in response to the window resize event
-		// this.resizePlayer();
 	};
 
 	AblePlayer.prototype.handleTranscriptLockToggle = function (val) {
@@ -1501,19 +1499,15 @@
 		// iconData: [0 = svg viewbox, 1 = svg path, 2 = icon font class, 3 = image file]
 		var iconData = this.getIconData( id );
 		var iconType = this.iconType;
-		if ( null === iconData[3] ) {
-			iconType = 'svg';
-		}
-		if ( forceImg === true ) {
-			iconType = 'image';
-		}
+		iconType = ( null === iconData[3] ) ? 'svg' : iconType;
+		iconType =  ( forceImg === true ) ? 'image' : iconType;
+
 		if (iconType === 'font') {
 			var $buttonIcon = $('<span>', {
 				'class': iconData[2],
 			});
 			$button.append( $buttonIcon );
-		}
-		else if (iconType === 'svg') {
+		} else if (iconType === 'svg') {
 			// Function to create SVG nodes.
 			function getNode(n, v) {
 				n = document.createElementNS("http://www.w3.org/2000/svg", n);
@@ -1548,9 +1542,7 @@
 	AblePlayer.prototype.setText = function( $button, text ) {
 		$button.attr( 'aria-label', text );
 		// add the visibly-hidden label for screen readers that don't support aria-label on the button
-		$buttonLabel = $('<span>',{
-			'class': 'able-clipped'
-		}).text( text );
+		$buttonLabel = $('<span>',{ 'class': 'able-clipped' }).text( text );
 		$button.append($buttonLabel);
 	};
 
