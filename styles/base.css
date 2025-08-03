@@ -31,6 +31,7 @@
  * 	.able = 5000
 **/
 
+.able-modal-overlay,
 .able-playlist,
 .able-search-results,
 .able-chapters-div,
@@ -259,11 +260,11 @@
 .able-big-play-button svg {
 	background-color: var(--able-control-background);
 	padding: 1rem;
-	width: 40%;
-	height: 40%;
-	min-width: 140px;
-	min-height: 140px;
-	border-radius: 5px;
+	width: 8rem;
+	height: 8rem;
+	max-width: 140px;
+	max-height: 140px;
+	border-radius: 8px;
 }
 
 .able-big-play-button:hover svg,
@@ -563,7 +564,12 @@ div.able-modal-overlay {
 	padding: 4px 12px;
 	font-size: 1.125rem;
 	border: 2px solid;
-	margin-right: 5px;
+}
+
+.able-prefs-buttons {
+	display: flex;
+	gap: 8px;
+	margin-top: 1rem;
 }
 
 .able-modal-dialog .modalCloseButton {
