@@ -14,17 +14,14 @@
 				if (userAgent.indexOf('os ' + version) !== -1) {
 					// this is the target version of iOS
 					return true;
-				}
-				else {
+				} else {
 					return false;
 				}
-			}
-			else {
+			} else {
 				// no version was specified
 				return true;
 			}
-		}
-		else {
+		} else {
 			// this is not iOS
 			return false;
 		}

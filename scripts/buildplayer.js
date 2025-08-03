@@ -438,8 +438,7 @@
 				track = tracks[i];
 				if (which === 'captions' && this.player === 'html5' && typeof track.cues === 'undefined') {
 					includeMenuItem = false;
-				}
-				else {
+				} else {
 					includeMenuItem = true;
 				}
 				if (includeMenuItem) {
@@ -451,8 +450,7 @@
 					if (track.def && this.prefCaptions == 1) {
 						$menuItem.attr('aria-checked','true');
 						hasDefault = true;
-					}
-					else {
+					} else {
 						$menuItem.attr('aria-checked','false');
 					}
 					// Get a label using track data
@@ -476,15 +474,13 @@
 				if (this.prefCaptions === 0) {
 					$menuItem.attr('aria-checked','true');
 					hasDefault = true;
-				}
-				else {
+				} else {
 					$menuItem.attr('aria-checked','false');
 				}
 				$menuItem.on('click',this.getCaptionOffFunction());
 				$menu.append($menuItem);
 			}
-		}
-		else if (which === 'transcript-window' || which === 'sign-window') {
+		} else if (which === 'transcript-window' || which === 'sign-window') {
 			windowOptions = [];
 			windowOptions.push({
 				'name': 'move',
@@ -564,24 +560,19 @@
 				if (e.shiftKey) {
 					$thisItem.removeClass('able-focus');
 					$prevItem.trigger('focus').addClass('able-focus');
-				}
-				else {
+				} else {
 					$thisItem.removeClass('able-focus');
 					$nextItem.trigger('focus').addClass('able-focus');
 				}
-			}
-			else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+			} else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
 				$thisItem.removeClass('able-focus');
 				$nextItem.trigger('focus').addClass('able-focus');
-			}
-			else if (e.key == 'ArrowUp' || e.key === 'ArrowLeft') {
+			} else if (e.key == 'ArrowUp' || e.key === 'ArrowLeft') {
 				$thisItem.removeClass('able-focus');
 				$prevItem.trigger('focus').addClass('able-focus');
-			}
-			else if (e.key === ' ' || e.key === 'Enter') {
+			} else if (e.key === ' ' || e.key === 'Enter') {
 				$thisItem.trigger( 'click' );
-			}
-			else if (e.key === 'Escape') {
+			} else if (e.key === 'Escape') {
 				$thisItem.removeClass('able-focus');
 				thisObj.closePopups();
 				e.stopPropagation;
@@ -1043,16 +1034,14 @@
 									'aria-controls': popupMenuId,
 									'aria-haspopup': 'menu',
 									'aria-expanded': 'false'
-							});
-							}
-							else if (this.prefCats.length === 1) {
+								});
+							} else if (this.prefCats.length === 1) {
 								// Prefs button will trigger a dialog
 								$newButton.attr({
 									'aria-haspopup': 'dialog'
 								});
 							}
-						}
-						else if (control === 'volume') {
+						} else if (control === 'volume') {
 							popupMenuId = this.mediaId + '-volume-slider';
 							// volume slider popup is not a menu or a dialog
 							// therefore, using aria-expanded rather than aria-haspopup to communicate properties/state
@@ -1110,8 +1099,7 @@
 						if ($(this).parent().hasClass('able-right-controls')) {
 							// this control is on the right side
 							buttonSide = 'right';
-						}
-						else {
+						} else {
 							// this control is on the left side
 							buttonSide = 'left';
 						}
@@ -1129,8 +1117,7 @@
 								right: '',
 								top: tooltipY + 'px'
 							};
-						}
-						else {
+						} else {
 							tooltipX = position.right - tooltipWidth/2;
 							if (tooltipX < 0) {
 								// tooltip would exceed the bounds of the player. Adjust.
@@ -1176,8 +1163,7 @@
 							// captions are available, but user has them turned off
 							if (this.captions.length > 1) {
 								captionLabel = this.tt.captions;
-							}
-							else {
+							} else {
 								captionLabel = this.tt.showCaptions;
 							}
 							$newButton.addClass('buttonOff').attr('title',captionLabel);

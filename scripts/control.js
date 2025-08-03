@@ -121,25 +121,21 @@
 			var duration;
 			if (this.player === 'html5') {
 				duration = this.media.duration;
-			}
-			else if (this.player === 'youtube') {
+			} else if (this.player === 'youtube') {
 				if (this.youTubePlayerReady) {
 					if (this.duration > 0) {
 						// duration was already retrieved while checking for captions
 						duration = this.duration;
-					}
-					else {
+					} else {
 						duration = this.youTubePlayer.getDuration();
 					}
-				}
-				else { // the YouTube player hasn't initialized yet
+				} else { // the YouTube player hasn't initialized yet
 					duration = 0;
 				}
 			}
 			if (duration === undefined || isNaN(duration) || duration === -1) {
 				deferred.resolve(0);
-			}
-			else {
+			} else {
 				deferred.resolve(duration);
 			}
 		}
@@ -162,33 +158,27 @@
 				this.vimeoPlayer.getCurrentTime().then(function(elapsed) {
 					if (elapsed === undefined || isNaN(elapsed) || elapsed === -1) {
 						deferred.resolve(0);
-					}
-					else {
+					} else {
 						deferred.resolve(elapsed);
 					}
 				});
-			}
-			else { // vimeoPlayer hasn't been initialized yet.
+			} else { // vimeoPlayer hasn't been initialized yet.
 				deferred.resolve(0);
 			}
-		}
-		else {
+		} else {
 			var elapsed;
 			if (this.player === 'html5') {
 				elapsed = this.media.currentTime;
-			}
-			else if (this.player === 'youtube') {
+			} else if (this.player === 'youtube') {
 				if (this.youTubePlayerReady) {
 					elapsed = this.youTubePlayer.getCurrentTime();
-				}
-				else { // the YouTube player hasn't initialized yet
+				} else { // the YouTube player hasn't initialized yet
 					elapsed = 0;
 				}
 			}
 			if (elapsed === undefined || isNaN(elapsed) || elapsed === -1) {
 				deferred.resolve(0);
-			}
-			else {
+			} else {
 				deferred.resolve(elapsed);
 			}
 		}
@@ -212,48 +202,37 @@
 		if (this.player === 'html5') {
 			if (this.media.ended) {
 				deferred.resolve('ended');
-			}
-			else if (this.media.paused) {
+			} else if (this.media.paused) {
 				deferred.resolve('paused');
-			}
-			else if (this.media.readyState !== 4) {
+			} else if (this.media.readyState !== 4) {
 				deferred.resolve('buffering');
-			}
-			else {
+			} else {
 				deferred.resolve('playing');
 			}
-		}
-		else if (this.player === 'youtube' && this.youTubePlayerReady) {
+		} else if (this.player === 'youtube' && this.youTubePlayerReady) {
 			var state = this.youTubePlayer.getPlayerState();
 			if (state === -1 || state === 5) {
 				deferred.resolve('stopped');
-			}
-			else if (state === 0) {
+			} else if (state === 0) {
 				deferred.resolve('ended');
-			}
-			else if (state === 1) {
+			} else if (state === 1) {
 				deferred.resolve('playing');
-			}
-			else if (state === 2) {
+			} else if (state === 2) {
 				deferred.resolve('paused');
-			}
-			else if (state === 3) {
+			} else if (state === 3) {
 				deferred.resolve('buffering');
 			}
-		}
-		else if (this.player === 'vimeo' && this.vimeoPlayer) {
+		} else if (this.player === 'vimeo' && this.vimeoPlayer) {
 				// curiously, Vimeo's API has no getPlaying(), getBuffering(), or getState() methods
 			// so maybe if it's neither paused nor ended, it must be playing???
 			this.vimeoPlayer.getPaused().then(function(paused) {
 				if (paused) {
 					deferred.resolve('paused');
-				}
-				else {
+				} else {
 					thisObj.vimeoPlayer.getEnded().then(function(ended) {
 						if (ended) {
 							deferred.resolve('ended');
-						}
-						else {
+						} else {
 							deferred.resolve('playing');
 						}
 					});

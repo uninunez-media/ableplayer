@@ -464,17 +464,14 @@
 							optionValue = options[j];
 							if (optionValue === 'overlay') {
 								optionText = this.tt.captionsPositionOverlay;
-							}
-							else if (optionValue === 'below') {
+							} else if (optionValue === 'below') {
 								optionValue = options[j];
 								optionText = this.tt.captionsPositionBelow;
 							}
-						}
-						else if (thisPref === 'prefCaptionsFont' || thisPref === 'prefCaptionsColor' || thisPref === 'prefCaptionsBGColor') {
+						} else if (thisPref === 'prefCaptionsFont' || thisPref === 'prefCaptionsColor' || thisPref === 'prefCaptionsBGColor') {
 							optionValue = options[j][0];
 							optionText = options[j][1];
-						}
-						else if (thisPref === 'prefCaptionsOpacity') {
+						} else if (thisPref === 'prefCaptionsOpacity') {
 							optionValue = options[j];
 							optionText = options[j];
 							if (optionValue === '0%') {
@@ -483,8 +480,7 @@
 							else if (optionValue === '100%') {
 								optionText += ' (' + this.tt.solid + ')';
 							}
-						}
-						else {
+						} else {
 							optionValue = options[j];
 							optionText = options[j];
 						}
@@ -540,12 +536,10 @@
 								$thisField.append($thisOption);
 							}
 							this.$voiceSelectField = $thisField;
-						}
-						else {
+						} else {
 							if (thisPref == 'prefDescPitch') { // 0 to 2
 								options = [0,0.5,1,1.5,2];
-							}
-							else if (thisPref == 'prefDescRate') { // 0.1 to 10
+							} else if (thisPref == 'prefDescRate') { // 0.1 to 10
 								// Tests with a variety of voices on MacOS and Windows
 								// yielded the following choices that seem reasonable for audio description:
 								// 0.5 - too slow (exclude this)
@@ -563,8 +557,7 @@
 								// Note: if these values are modified, must also modfiy them
 								// in makePrefsValueReadable()
 								options = [0.7,0.8,0.9,1,1.1,1.2,1.5,2,2.5,3];
-							}
-							else if (thisPref == 'prefDescVolume') { // 0 (mute) to 1
+							} else if (thisPref == 'prefDescVolume') { // 0 (mute) to 1
 								options = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1];
 							}
 							if (typeof options !== 'undefined') {
@@ -672,65 +665,52 @@
 				if (this.controls[i] === 'play') {
 					kbLabels.push(this.tt.play + '/' + this.tt.pause);
 					keys.push('p</span> <em>' + this.tt.or + '</em> <span class="able-help-modifiers"> ' + this.tt.spacebar);
-				}
-				else if (this.controls[i] === 'restart') {
+				} else if (this.controls[i] === 'restart') {
 					kbLabels.push(this.tt.restart);
 					keys.push('s');
-				}
-				else if (this.controls[i] === 'previous') {
+				} else if (this.controls[i] === 'previous') {
 					kbLabels.push(this.tt.prevTrack);
 					keys.push('b'); // b = back
-				}
-				else if (this.controls[i] === 'next') {
+				} else if (this.controls[i] === 'next') {
 					kbLabels.push(this.tt.nextTrack);
 					keys.push('n');
-				}
-				else if (this.controls[i] === 'rewind') {
+				} else if (this.controls[i] === 'rewind') {
 					kbLabels.push(this.tt.rewind);
 					keys.push('r');
-				}
-				else if (this.controls[i] === 'forward') {
+				} else if (this.controls[i] === 'forward') {
 					kbLabels.push(this.tt.forward);
 					keys.push('f');
-				}
-				else if (this.controls[i] === 'volume') {
+				} else if (this.controls[i] === 'volume') {
 					kbLabels.push(this.tt.volume);
 					keys.push('v</span> <em>' + this.tt.or + '</em> <span class="able-modkey">1-9');
 					// mute toggle
 					kbLabels.push(this.tt.mute + '/' + this.tt.unmute);
 					keys.push('m');
-				}
-				else if (this.controls[i] === 'captions') {
+				} else if (this.controls[i] === 'captions') {
 					if (this.captions.length > 1) {
 						// caption button launches a Captions popup menu
 						kbLabels.push(this.tt.captions);
-					}
-					else {
+					} else {
 						// there is only one caption track
 						// therefore caption button is a toggle
 						if (this.captionsOn) {
 							kbLabels.push(this.tt.hideCaptions);
-						}
-						else {
+						} else {
 							kbLabels.push(this.tt.showCaptions);
 						}
 					}
 					keys.push('c');
-				}
-				else if (this.controls[i] === 'descriptions') {
+				} else if (this.controls[i] === 'descriptions') {
 					if (this.descOn) {
 						kbLabels.push(this.tt.turnOffDescriptions);
-					}
-					else {
+					} else {
 						kbLabels.push(this.tt.turnOnDescriptions);
 					}
 					keys.push('d');
-				}
-				else if (this.controls[i] === 'prefs') {
+				} else if (this.controls[i] === 'prefs') {
 					kbLabels.push(this.tt.preferences);
 					keys.push('e');
-				}
-				else if (this.controls[i] === 'help') {
+				} else if (this.controls[i] === 'help') {
 					kbLabels.push(this.tt.help);
 					keys.push('h');
 				}
@@ -1053,21 +1033,18 @@
 						cookie.preferences[prefName] = 1;
 						if (this[prefName] === 1) {
 							// nothing has changed
-						}
-						else {
+						} else {
 							// user has just turned this pref on
 							this[prefName] = 1;
 							numChanges++;
 						}
-					}
-					else { // thisPref is not checked
+					} else { // thisPref is not checked
 						cookie.preferences[prefName] = 0;
 						if (this[prefName] === 1) {
 							// user has just turned this pref off
 							this[prefName] = 0;
 							numChanges++;
-						}
-						else {
+						} else {
 							// nothing has chaged
 						}
 					}

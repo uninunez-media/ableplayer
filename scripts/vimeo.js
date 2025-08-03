@@ -208,15 +208,13 @@
 						thisObj.hasCaptions = true;
 						if (thisObj.prefCaptions === 1) {
 								thisObj.captionsOn = true;
-						}
-						else {
+						} else {
 							thisObj.captionsOn = false;
 						}
 						// assign the default track based on language of the player
 						if (tracks[i]['language'] === thisObj.lang) {
 							isDefaultTrack = true;
-						}
-						else {
+						} else {
 								isDefaultTrack = false;
 						}
 						thisObj.tracks.push({

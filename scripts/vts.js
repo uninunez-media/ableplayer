@@ -236,13 +236,11 @@
 							if (content.length > 0) {
 								// add back the EOL between rows of content
 								content += "\n" + nextRow;
-							}
-							else {
+							} else {
 								// this is the first row of content. No need for an EOL
 								content += nextRow;
 							}
-						}
-						else {
+						} else {
 							blankRow = true;
 						}
 						j++;

@@ -134,20 +134,17 @@
 						if (this.hasDescTracks) {
 							// do nothing. Unable to seek ahead if there are descTracks
 							loadIsComplete = true;
-						}
-						else if (this.durationsAreCloseEnough(this.duration,this.prevDuration)) {
+						} else if (this.durationsAreCloseEnough(this.duration,this.prevDuration)) {
 							// durations of two sources are close enough to making seek ahead in new source ok
 							this.seekStatus = 'seeking';
 							this.seekTo(this.swapTime);
-						}
-						else {
+						} else {
 							// durations of two sources are too dissimilar to support seeking ahead to swapTime.
 							loadIsComplete = true;
 						}
 					}
 				}
-			}
-			else {
+			} else {
 				// swapTime is 0. No seeking required.
 				if (this.playing) {
 					this.playMedia();
@@ -155,8 +152,7 @@
 					loadIsComplete = true;
 				}
 			}
-		}
-		else if (!this.startedPlaying) {
+		} else if (!this.startedPlaying) {
 			if (this.startTime > 0) {
 				if (this.seeking) {
 					// a seek has already been initiated
@@ -166,24 +162,20 @@
 						this.playMedia();
 					}
 					loadIsComplete = true;
-				}
-				else {
+				} else {
 					// haven't started seeking yet
 					this.seekTo(this.startTime);
 				}
-			}
-			else if (this.defaultChapter && typeof this.selectedChapters !== 'undefined') {
+			} else if (this.defaultChapter && typeof this.selectedChapters !== 'undefined') {
 				this.seekToChapter(this.defaultChapter);
-			}
-			else {
+			} else {
 				// there is no startTime, therefore no seeking required
 				if (this.okToPlay) {
 					this.playMedia();
 				}
 				loadIsComplete = true;
 			}
-		}
-		else if (this.hasPlaylist) {
+		} else if (this.hasPlaylist) {
 			// new source media is part of a playlist, but user didn't click on it
 			// (and somehow, swappingSrc is false)
 			// this may happen when the previous track ends and next track loads
@@ -193,8 +185,7 @@
 				this.playMedia();
 				loadIsComplete = true;
 			}
-		}
-		else {
+		} else {
 			// None of the above.
 			// User is likely seeking to a new time, but not loading a new media source
 			// need to reset vars
