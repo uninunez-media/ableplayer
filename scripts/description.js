@@ -324,6 +324,7 @@
 		// after player is rebuilt, focus will return to that same element
 		// (if it exists)
 		this.$focusedElement = $(':focus');
+		this.activeMedia = this.mediaId;
 
 		// get current time of current source, and attempt to start new video at the same time
 		// whether this is possible will be determined after the new media source has loaded

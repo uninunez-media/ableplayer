@@ -214,6 +214,7 @@
 		if (this.$focusedElement) {
 			this.restoreFocus();
 			this.$focusedElement = null;
+			this.activeMedia = null;
 		}
 	};
 
@@ -244,15 +245,16 @@
 		// but this function finds a match in the new player
 		// and places focus there
 
-		var classList;
+		var classList, $mediaParent;
 
-		if (this.$focusedElement) {
-
-			if ((this.$focusedElement).attr('role') === 'button') {
+		if ( this.$focusedElement && null !== this.activeMedia ) {
+			$mediaParent = $( '#' + this.activeMedia ).closest( '.able' );
+			if ( (this.$focusedElement).attr('role') === 'button' ) {
 				classList = this.$focusedElement.attr("class").split(/\s+/);
 				$.each(classList, function(index, item) {
 					if (item.substring(0,20) === 'able-button-handler-') {
-						$('div.able-controller div.' + item).trigger('focus');
+						var target = $mediaParent.find('div.able-controller div.' + item);
+						$mediaParent.find('div.able-controller div.' + item).trigger('focus');
 					}
 				});
 			}
