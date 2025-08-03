@@ -203,18 +203,14 @@ var AblePlayerInstances = [];
 		// 2. "external" - Automatically generated, written to an external div (requires data-transcript-div & a valid target element)
 		// 3. "popup" - Automatically generated, written to a draggable, resizable popup window that can be toggled on/off with a button
 		// If data-include-transcript="false", there is no "popup" transcript
-		if ($(media).data('transcript-div') !== undefined
-			&& $(media).data('transcript-div') !== ""
-			&& null !== document.getElementById( $(media).data('transcript-div') ) ) {
-			this.transcriptDivLocation = $(media).data('transcript-div');
+		var transcriptDivLocation = $(media).data('transcript-div');
+		if ( transcriptDivLocation !== undefined && transcriptDivLocation !== "" && null !== document.getElementById( transcriptDivLocation ) ) {
+			this.transcriptDivLocation = transcriptDivLocation;
 		} else {
 			this.transcriptDivLocation = null;
 		}
-		if ($(media).data('include-transcript') !== undefined && $(media).data('include-transcript') === false) {
-			this.hideTranscriptButton = true;
-		} else {
-			this.hideTranscriptButton = null;
-		}
+		var includeTranscript = $(media).data('include-transcript');
+		this.hideTranscriptButton = ( includeTranscript !== undefined && includeTranscript === false) ? true : false;
 
 		this.transcriptType = null;
 		if ($(media).data('transcript-src') !== undefined) {
@@ -224,13 +220,13 @@ var AblePlayerInstances = [];
 			} else {
 				console.log('ERROR: Able Player transcript is missing required parts');
 			}
-		} else if ($(media).find('track[kind="captions"], track[kind="subtitles"],track:not([kind])').length > 0) {
+		} else if ($(media).find('track[kind="captions"],track[kind="subtitles"],track:not([kind])').length > 0) {
 			// required tracks are present. COULD automatically generate a transcript
 			this.transcriptType = (this.transcriptDivLocation) ? 'external' : 'popup';
 		}
 
 		// In "Lyrics Mode", line breaks in WebVTT caption files are supported in the transcript
-		// If false (default), line breaks are are removed from transcripts in order to provide a more seamless reading experience
+		// If false (default), line breaks are are removed from transcripts for a more seamless reading experience
 		// If true, line breaks are preserved, so content can be presented karaoke-style, or as lines in a poem
 		this.lyricsMode = ($(media).data('lyrics-mode') !== undefined && $(media).data('lyrics-mode') !== false) ? true : false;
 

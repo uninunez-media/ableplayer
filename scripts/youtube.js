@@ -191,7 +191,7 @@
 		// get data via YouTube IFrame Player API, and push data to this.tracks & this.captions
 		// NOTE: Caption tracks are not available through the IFrame Player API
 		// until AFTER the video has started playing.
-		// Therefore, this function plays the video briefly in order to load the captions module
+		// Therefore, this function plays the video briefly to load the captions module
 		// then stops the video and collects the data needed to build the cc menu
 		// This is stupid, but seemingly unavoidable.
 		// Caption tracks could be obtained through the YouTube Data API
@@ -207,7 +207,7 @@
 		if (!this.youTubePlayer.getOption('captions','tracklist') ) {
 
 			// no tracks were found, probably because the captions module hasn't loaded
-			// play video briefly (required in order to load the captions module)
+			// play video briefly (required to load the captions module)
 			// and after the apiChange event is triggered, try again to retrieve tracks
 			this.youTubePlayer.addEventListener('onApiChange',function(x) {
 

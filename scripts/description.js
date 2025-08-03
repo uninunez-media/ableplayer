@@ -481,7 +481,7 @@
 		}
 		if (typeof thisDescription !== 'undefined') {
 			if (this.currentDescription !== thisDescription) {
-				// temporarily remove aria-live from $status in order to prevent description from being interrupted
+				// temporarily remove aria-live from $status to prevent description from being interrupted
 				this.$status.removeAttr('aria-live');
 				descText = flattenComponentForDescription(cues[thisDescription].components);
 				if (this.descReader === 'screenreader') {

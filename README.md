@@ -25,9 +25,9 @@
 - Features high contrast, scalable controls that remain visible in Windows High Contrast mode, plus an easy-to-see focus indicator so keyboard users can easily tell which control currently has focus.
 - Supports closed captions and subtitles in Web Video Timed Text (WebVTT) format, the standard format recommended by the HTML5 specification.
 - Supports chapters, also using WebVTT. Chapters are specific landing points in the video, allowing video content to have structure and be more easily navigated.
-- Supports text-based audio description, also using WebVTT. At designated times, the description text is read aloud by browsers, or by screen readers for browsers that don't support the Web Speech API. Users can optionally set their player to pause when audio description starts in order to avoid conflicts between the description and program audio.
+- Supports text-based audio description, also using WebVTT. At designated times, the description text is read aloud by browsers, or by screen readers for browsers that don't support the Web Speech API. Users can optionally set their player to pause when audio description starts to avoid conflicts between the description and program audio.
 - Supports audio description as a separate video. When two videos are available (one with description and one without), both can be delivered together using the same player and users can toggle between the versions.
-- Supports adjustable playback rate. Users who need to slow down the video in order to better process and understand its content can do so; and users who need to speed up the video in order to maintain better focus can do so.
+- Supports adjustable playback rate. Users who need to slow down the video to better process and understand its content can do so; and users who need to speed up the video to maintain better focus can do so.
 - Includes an interactive transcript feature, built from the WebVTT chapter, caption and description files as the page is loaded. Users can click anywhere in the transcript to start playing the video (or audio) at that point.  Keyboard users can also choose to keyboard-enable the transcript, so they can tab through its content one caption at a time and press enter to play the media at the desired point.
 - Features automatic text highlighting within the transcript as the media plays. This feature is enabled by default but can be turned off if users find it distracting.
 - Supports YouTube and Vimeo videos.
@@ -223,7 +223,7 @@ The following attributes are supported on both the `<audio>` and `<video>` eleme
 
 ### Language
 
-- **data-lang** - optional; specify language of the player using 2-character language code. In order to work, the language specified must be one of Able Player's supported languages (see **Supported Languages** above). If **data-lang** is not included or specifies a language that is not supported, Able Player will default to the language of the web page if known and supported; otherwise it will default to English.
+- **data-lang** - optional; specify language of the player using 2-character language code. To work, the language specified must be one of Able Player's supported languages (see **Supported Languages** above). If **data-lang** is not included or specifies a language that is not supported, Able Player will default to the language of the web page if known and supported; otherwise it will default to English.
 
 ### Captions
 
@@ -526,8 +526,8 @@ If a described version of the video is available on Vimeo, include a **data-vime
 
 Note that Vimeo currently has some limitations:
 
-- A Plus, Pro or Business account is required in order to hide Vimeo's default controller. If videos are hosted on a free account, the Vimeo controller and Able Player controller are both shown. The Vimeo controller disappears temporarily after playback begins, but until then having both players present is cluttered and confusing.
-- A Pro or Business account is required in order to change playback rate (with faster and slower buttons). This functionality is *not* supported with a Plus account. Even with a Pro or Business account, this feature is off by default and "Speed controls" need to be enabled within the settings for each video.
+- A Plus, Pro or Business account is required to hide Vimeo's default controller. If videos are hosted on a free account, the Vimeo controller and Able Player controller are both shown. The Vimeo controller disappears temporarily after playback begins, but until then having both players present is cluttered and confusing.
+- A Pro or Business account is required to change playback rate (with faster and slower buttons). This functionality is *not* supported with a Plus account. Even with a Pro or Business account, this feature is off by default and "Speed controls" need to be enabled within the settings for each video.
 
 In addition, if captions and subtitles are hosted on Vimeo, Able Player can control toggling them on/off and choosing languages via the CC button. However, Able Player's full functionality is not available. See the section below on *Limitations of hosting captions and subtitles on YouTube or Vimeo*.
 
@@ -542,7 +542,7 @@ If captions and subtitles are hosted on YouTube or Vimeo, Able Player can contro
 Given these limitations, we recommend storing captions and subtitles locally and referencing them with a `<track>` element. In fact, all local `<track>` elements (captions, subtitles, chapters, descriptions, and metadata tracks) work for YouTube and Vimeo videos, just as they do for videos hosted locally.
 
 If captions and subtitles are hosted locally, in addition to being hosted on YouTube or Vimeo
-(i.e., to ensure accessibility of videos when viewed directly on these platforms), the local captions will take precedence in Able PLayer in order to provide full functionality.
+(i.e., to ensure accessibility of videos when viewed directly on these platforms), the local captions will take precedence in Able PLayer to provide full functionality.
 
 
 ## MIME Types

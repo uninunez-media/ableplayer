@@ -65,7 +65,7 @@
 		var loadIsComplete = false;
 
 		if (this.cueingPlaylistItem) {
-			// this variable was set in order to address bugs caused by multiple firings of media 'end' event
+			// this variable was set to address bugs caused by multiple firings of media 'end' event
 			// safe to reset now
 			this.cueingPlaylistItem = false;
 		}
