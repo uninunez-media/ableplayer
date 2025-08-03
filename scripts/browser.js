@@ -52,10 +52,7 @@
 
 	AblePlayer.prototype.nativeFullscreenSupported = function () {
 
-		return document.fullscreenEnabled ||
-			document.webkitFullscreenEnabled ||
-			document.mozFullscreenEnabled ||
-			document.msFullscreenEnabled;
+		return document.fullscreenEnabled || document.webkitFullscreenEnabled;
 	};
 
 })(jQuery);

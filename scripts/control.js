@@ -1336,9 +1336,7 @@
 		if (this.nativeFullscreenSupported()) {
 			return (document.fullscreenElement ||
 							document.webkitFullscreenElement ||
-							document.webkitCurrentFullscreenElement ||
-							document.mozFullscreenElement ||
-							document.msFullscreenElement) ? true : false;
+							document.webkitCurrentFullscreenElement ) ? true : false;
 		}
 		else {
 			return this.modalFullscreenActive ? true : false;
@@ -1362,15 +1360,8 @@
 
 				if (el.requestFullscreen) {
 					el.requestFullscreen();
-				}
-				else if (el.webkitRequestFullscreen) {
+				} else if (el.webkitRequestFullscreen) {
 					el.webkitRequestFullscreen();
-				}
-				else if (el.mozRequestFullscreen) {
-					el.mozRequestFullscreen();
-				}
-				else if (el.msRequestFullscreen) {
-					el.msRequestFullscreen();
 				}
 				this.fullscreen = true;
 			}
@@ -1379,18 +1370,10 @@
 				this.restoringAfterFullscreen = true;
 				if (document.exitFullscreen) {
 					document.exitFullscreen();
-				}
-				else if (document.webkitExitFullscreen) {
+				} else if (document.webkitExitFullscreen) {
 					document.webkitExitFullscreen();
-				}
-				else if (document.webkitCancelFullscreen) {
+				} else if (document.webkitCancelFullscreen) {
 					document.webkitCancelFullscreen();
-				}
-				else if (document.mozCancelFullscreen) {
-					document.mozCancelFullscreen();
-				}
-				else if (document.msExitFullscreen) {
-					document.msExitFullscreen();
 				}
 				this.fullscreen = false;
 			}
@@ -1452,7 +1435,7 @@
 		// add event handlers for changes in fullscreen mode.
 		// Browsers natively trigger this event with the Escape key,
 		// in addition to clicking the exit fullscreen button
-		$(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', function(e) {
+		$(document).on('fullscreenchange webkitfullscreenchange', function(e) {
 			// NOTE: e.type = the specific event that fired (in case needing to control for browser-specific idiosyncrasies)
 			if (!thisObj.fullscreen) {
 				// user has just exited full screen
@@ -1464,7 +1447,6 @@
 			}
 			thisObj.resizePlayer();
 			thisObj.refreshControls('fullscreen');
-
 			// NOTE: The fullscreenchange (or browser-equivalent) event is triggered twice
 			// when exiting fullscreen via the "Exit fullscreen" button (only once if using Escape)
 			// Not sure why, but consequently we need to be sure thisObj.clickedFullscreenButton
