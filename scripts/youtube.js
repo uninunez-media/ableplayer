@@ -74,11 +74,11 @@
 				disableKb: 1, // disable keyboard shortcuts, using our own
 				enablejsapi: 1,
 				hl: this.lang, // set the UI language to match Able Player
-				iv_load_policy: 3 // do not show video annotations
+				iv_load_policy: 3, // do not show video annotations
 				origin: window.location.origin,
 				playsinline: this.playsInline,
 				rel: 0, // when video ends, show only related videos from same channel (1 shows any)
-				start: this.startTime,
+				start: this.startTime
 			},
 			events: {
 				onReady: function () {
