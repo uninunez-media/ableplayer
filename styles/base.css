@@ -224,16 +224,13 @@
 	display: block; /* Prevents excess height after element */
 }
 
-/*
-	YouTube and Vimeo
-*/
+/* YouTube and Vimeo */
 .able-media-container iframe {
 	max-width: 100% !important;
+	display: block !important;
 }
 
-/*
-	Controller Buttons & Controls
-*/
+/* Controller Buttons & Controls */
 .able-wrapper .able button.able-big-play-button {
 	position: absolute;
 	color: var(--able-control-color);
@@ -405,9 +402,7 @@
 	background: transparent; /* Otherwise white in Chrome */
 }
 
-/*
-	Style slider in Firefox
-*/
+/* Style slider in Firefox */
 .able-volume-slider input[type=range]::-moz-range-track {
 	border: 1px solid #fff;
 	width: 7px;
