@@ -108,6 +108,7 @@
 			// Keep from moving focus out of dialog when clicking outside of it.
 			overlay.on('mousedown.accessibleModal', function (e) {
 				e.preventDefault();
+				thisObj.hide();
 			});
 		}
 
