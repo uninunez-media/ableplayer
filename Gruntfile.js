@@ -105,9 +105,13 @@ module.exports = function (grunt) {
     },
     decomment: {
       any: {
+		options: {
+			safe: true,
+		},
 		files: {
 			"build/<%= pkg.name %>.dist.js": "build/<%= pkg.name %>.dist.js",
-		}
+		},
+
       }
     },
     terser: {
