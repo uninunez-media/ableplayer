@@ -69,6 +69,7 @@
 			playerVars: {
 				autoplay: autoplay,
 				enablejsapi: 1,
+				origin: window.location.origin,
 				disableKb: 1, // disable keyboard shortcuts, using our own
 				playsinline: this.playsInline,
 				start: this.startTime,
