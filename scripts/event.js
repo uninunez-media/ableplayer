@@ -297,76 +297,94 @@
 		var whichButton, prefsPopup;
 
 		whichButton = this.getButtonNameFromClass($(el).attr('class'));
-
-		if (whichButton === 'play') {
-			this.clickedPlay = true;
-			this.handlePlay();
-		} else if (whichButton === 'restart') {
-			this.seekTrigger = 'restart';
-			this.handleRestart();
-		} else if (whichButton === 'previous') {
-			this.userClickedPlaylist = true;
-			this.okToPlay = true;
-			this.seekTrigger = 'previous';
-			this.buttonWithFocus = 'previous';
-			this.handlePrevTrack();
-		} else if (whichButton === 'next') {
-			this.userClickedPlaylist = true;
-			this.okToPlay = true;
-			this.seekTrigger = 'next';
-			this.buttonWithFocus = 'next';
-			this.handleNextTrack();
-		} else if (whichButton === 'rewind') {
-			this.seekTrigger = 'rewind';
-			this.handleRewind();
-		} else if (whichButton === 'forward') {
-			this.seekTrigger = 'forward';
-			this.handleFastForward();
-		} else if (whichButton === 'mute') {
-			this.handleMute();
-		} else if (whichButton === 'volume') {
-			this.handleVolumeButtonClick();
-		} else if (whichButton === 'faster') {
-			this.handleRateIncrease();
-		} else if (whichButton === 'slower') {
-			this.handleRateDecrease();
-		} else if (whichButton === 'captions') {
-			this.handleCaptionToggle();
-		} else if (whichButton === 'chapters') {
-			this.handleChapters();
-		} else if (whichButton === 'descriptions') {
-			this.handleDescriptionToggle();
-		} else if (whichButton === 'sign') {
-			if (!this.closingSign) {
-				this.handleSignToggle();
-			}
-		} else if (whichButton === 'preferences') {
-			if ($(el).attr('data-prefs-popup') === 'menu') {
-				this.handlePrefsClick();
-			} else {
-				this.showingPrefsDialog = true; // stopgap
-				this.closePopups();
-				prefsPopup = $(el).attr('data-prefs-popup');
-				if (prefsPopup === 'keyboard') {
-					this.keyboardPrefsDialog.show();
-				} else if (prefsPopup === 'captions') {
-					this.captionPrefsDialog.show();
-				} else if (prefsPopup === 'descriptions') {
-					this.descPrefsDialog.show();
-				} else if (prefsPopup === 'transcript') {
-					this.transcriptPrefsDialog.show();
+		switch ( whichButton ) {
+			case 'play':
+				this.clickedPlay = true;
+				this.handlePlay();
+				break;
+			case 'restart':
+				this.seekTrigger = 'restart';
+				this.handleRestart();
+				break;
+			case 'previous':
+				this.userClickedPlaylist = true;
+				this.okToPlay = true;
+				this.seekTrigger = 'previous';
+				this.buttonWithFocus = 'previous';
+				this.handlePrevTrack();
+				break;
+			case 'next':
+				this.userClickedPlaylist = true;
+				this.okToPlay = true;
+				this.seekTrigger = 'next';
+				this.buttonWithFocus = 'next';
+				this.handleNextTrack();
+				break;
+			case 'rewind':
+				this.seekTrigger = 'rewind';
+				this.handleRewind();
+				break;
+			case 'forward':
+				this.seekTrigger = 'forward';
+				this.handleFastForward();
+				break;
+			case 'mute':
+				this.handleMute();
+				break;
+			case 'volume':
+				this.handleVolumeButtonClick();
+				break;
+			case 'faster':
+				this.handleRateIncrease();
+				break;
+			case 'slower':
+				this.handleRateDecrease();
+				break;
+			case 'captions':
+				this.handleCaptionToggle();
+				break;
+			case 'chapters':
+				this.handleChapters();
+				break;
+			case 'descriptions':
+				this.handleDescriptionToggle();
+				break;
+			case 'sign':
+				if ( ! this.closingSign ) {
+					this.handleSignToggle();
 				}
-				this.showingPrefsDialog = false;
-			}
-		} else if (whichButton === 'help') {
-			this.handleHelpClick();
-		} else if (whichButton === 'transcript') {
-			if (!this.closingTranscript) {
-				this.handleTranscriptToggle();
-			}
-		} else if (whichButton === 'fullscreen') {
-			this.clickedFullscreenButton = true;
-			this.handleFullscreenToggle();
+				break;
+			case 'preferences':
+				if ($(el).attr('data-prefs-popup') === 'menu') {
+					this.handlePrefsClick();
+				} else {
+					this.showingPrefsDialog = true; // stopgap
+					this.closePopups();
+					prefsPopup = $(el).attr('data-prefs-popup');
+					if (prefsPopup === 'keyboard') {
+						this.keyboardPrefsDialog.show();
+					} else if (prefsPopup === 'captions') {
+						this.captionPrefsDialog.show();
+					} else if (prefsPopup === 'descriptions') {
+						this.descPrefsDialog.show();
+					} else if (prefsPopup === 'transcript') {
+						this.transcriptPrefsDialog.show();
+					}
+					this.showingPrefsDialog = false;
+				}
+				break;
+			case 'help':
+				this.handleHelpClick();
+				break;
+			case 'transcript':
+				if ( !this.closingTranscript ) {
+					this.handleTranscriptToggle();
+				}
+				break;
+			case 'fullscreen':
+				this.clickedFullscreenButton = true;
+				this.handleFullscreenToggle();
+				break;
 		}
 	};
 
