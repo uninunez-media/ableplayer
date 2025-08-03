@@ -203,6 +203,10 @@
 	padding: 0 4px;
 }
 
+.able-audio .able-controller {
+	padding-top: 8px;
+}
+
 .able-skin-legacy .able-controller {
 	padding: 0;
 }
