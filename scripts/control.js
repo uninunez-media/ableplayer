@@ -1357,15 +1357,13 @@
 			// Note: many varying names for options for browser compatibility.
 			if (fullscreen) {
 				// Initialize fullscreen
-
 				if (el.requestFullscreen) {
 					el.requestFullscreen();
 				} else if (el.webkitRequestFullscreen) {
 					el.webkitRequestFullscreen();
 				}
 				this.fullscreen = true;
-			}
-			else {
+			} else {
 				// Exit fullscreen
 				this.restoringAfterFullscreen = true;
 				if (document.exitFullscreen) {
@@ -1377,8 +1375,7 @@
 				}
 				this.fullscreen = false;
 			}
-		}
-		else {
+		} else {
 			// Non-native fullscreen support through modal dialog.
 			// Create dialog on first run through.
 			if (!this.fullscreenDialog) {
@@ -1406,22 +1403,12 @@
 				this.$modalFullscreenPlaceholder.insertAfter($el);
 				$el.appendTo(this.fullscreenDialog.modal);
 
-				// Column left css is 50% by default; set to 100% for full screen.
-				if ($el === this.$ableColumnLeft) {
-					$el.width('100%');
-				}
 				var newHeight = $(window).height() - this.$playerDiv.height();
-				if (typeof this.$descDiv !== 'undefined') {
-					if (!this.$descDiv.is(':hidden')) {
-						newHeight -= this.$descDiv.height();
-					}
+				if (typeof this.$descDiv !== 'undefined' && (!this.$descDiv.is(':hidden')) ) {
+					newHeight -= this.$descDiv.height();
 				}
-			}
-			else {
+			} else {
 				this.modalFullscreenActive = false;
-				if ($el === this.$ableColumnLeft) {
-					$el.width('50%');
-				}
 				$el.insertAfter(this.$modalFullscreenPlaceholder);
 				this.$modalFullscreenPlaceholder.remove();
 				this.fullscreenDialog.hide();
