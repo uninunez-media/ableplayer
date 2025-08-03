@@ -28,6 +28,7 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^3.0.0",
     "grunt-contrib-jshint": "^3.2.0",
+    "grunt-decomment": "^0.2.4",
     "grunt-remove-logging": ">=0.2.0",
     "grunt-terser": "^2.0.0",
     "jest": "^29.7.0",
