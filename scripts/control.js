@@ -1335,10 +1335,9 @@
 
 		if (this.nativeFullscreenSupported()) {
 			return (document.fullscreenElement ||
-							document.webkitFullscreenElement ||
-							document.webkitCurrentFullscreenElement ) ? true : false;
-		}
-		else {
+					document.webkitFullscreenElement ||
+					document.webkitCurrentFullscreenElement ) ? true : false;
+		} else {
 			return this.modalFullscreenActive ? true : false;
 		}
 	}
@@ -1356,6 +1355,11 @@
 		if (this.nativeFullscreenSupported()) {
 			// Note: many varying names for options for browser compatibility.
 			if (fullscreen) {
+				var scroll = {
+					x: window.pageXOffset || 0,
+					y: window.pageYOffset || 0
+				}
+				this.scrollPosition = scroll;
 				// Initialize fullscreen
 				if (el.requestFullscreen) {
 					el.requestFullscreen();
@@ -1434,6 +1438,11 @@
 			}
 			thisObj.resizePlayer();
 			thisObj.refreshControls('fullscreen');
+			// Reset scrollPosition after closing fullscreen.
+			if ( thisObj.scrollPosition ) {
+				scroll = thisObj.scrollPosition;
+				window.scrollTo( scroll.x, scroll.y );
+			}
 			// NOTE: The fullscreenchange (or browser-equivalent) event is triggered twice
 			// when exiting fullscreen via the "Exit fullscreen" button (only once if using Escape)
 			// Not sure why, but consequently we need to be sure thisObj.clickedFullscreenButton
