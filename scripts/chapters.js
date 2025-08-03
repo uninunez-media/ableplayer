@@ -54,20 +54,13 @@
 		}
 
 		if (typeof this.useChapterTimes === 'undefined') {
-			if (this.seekbarScope === 'chapter' && this.selectedChapters.cues.length) {
-				this.useChapterTimes = true;
-			}
-			else {
-				this.useChapterTimes = false;
-			}
+			this.useChapterTimes = (this.seekbarScope === 'chapter' && this.selectedChapters.cues.length) ? true : false;
 		}
 		if (this.useChapterTimes) {
 			cues = this.selectedChapters.cues;
-		}
-		else if (this.chapters.length >= 1) {
+		} else if (this.chapters.length >= 1) {
 			cues = this.chapters[0].cues;
-		}
-		else {
+		} else {
 			cues = [];
 		}
 		if (cues.length > 0) {
@@ -204,12 +197,10 @@
 				// chapter ends before or after video ends, adjust chapter end to match video end
 				chapterEnd = this.duration;
 				this.currentChapter.end = this.duration;
-			}
-			else {
+			} else {
 				chapterEnd = this.currentChapter.end;
 			}
-		}
-		else { // this is not the last chapter
+		} else { // this is not the last chapter
 			chapterEnd = this.currentChapter.end;
 		}
 		return chapterEnd - this.currentChapter.start;
@@ -225,8 +216,7 @@
 
 		if (this.elapsed > this.currentChapter.start) {
 			return this.elapsed - this.currentChapter.start;
-		}
-		else {
+		} else {
 			return 0;
 		}
 	};
@@ -239,12 +229,10 @@
 			var newTime = this.currentChapter.start + chapterTime;
 			if (newTime > this.currentChapter.end) {
 				return this.currentChapter.end;
-			}
-			else {
+			} else {
 				return newTime;
 			}
-		}
-		else {
+		} else {
 			return chapterTime;
 		}
 	};

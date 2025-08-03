@@ -116,11 +116,9 @@
 
 		if (this.player === 'youtube') {
 			return (this.activeYouTubeId === this.youTubeDescId);
-		}
-		else if (this.player === 'vimeo') {
+		} else if (this.player === 'vimeo') {
 			return (this.activeVimeoId === this.vimeoDescId);
-		}
-		else {
+		} else {
 			return (this.$sources.first().attr('data-desc-src') === this.$sources.first().attr('src'));
 		}
 	};
@@ -188,12 +186,8 @@
 
 		var voices, descLangs, voiceLang, preferredLang;
 
-		if (this.captionLang) {
-			preferredLang = this.captionLang.substring(0,2).toLowerCase();
-		}
-		else {
-			preferredLang = this.lang.substring(0,2).toLowerCase();
-		}
+		preferredLang = (this.captionLang) ? this.captionLang.substring(0,2).toLowerCase() : this.lang.substring(0,2).toLowerCase();
+
 		this.descVoices = [];
 		voices = this.synth.getVoices();
 		descLangs = this.getDescriptionLangs();
@@ -244,23 +238,16 @@
 
 		var cookie, voices, prefDescVoice, descVoice, descLang, prefVoiceFound;
 		cookie = this.getCookie();
-		if (typeof cookie.voices !== 'undefined') {
-			prefDescVoice = this.getPrefDescVoice();
-		}
-		else {
-			prefDescVoice = null;
-		}
+		prefDescVoice = (typeof cookie.voices !== 'undefined') ? this.getPrefDescVoice() : null;
 
 		this.getBrowserVoices();
 		this.rebuildDescPrefsForm();
 
 		if (this.selectedDescriptions) {
 			descLang = this.selectedDescriptions.language;
-		}
-		else if (this.captionLang) {
+		} else if (this.captionLang) {
 			descLang = this.captionLang;
-		}
-		else {
+		} else {
 			descLang = this.lang;
 		}
 
@@ -366,8 +353,7 @@
 						this.$sources[i].setAttribute('src',origSrc);
 					}
 				}
-			}
-			else {
+			} else {
 				// the non-described version is currently playing. Swap to described.
 				for (i=0; i < this.$sources.length; i++) {
 					// for all <source> elements, replace src with data-desc-src (if one exists)
@@ -399,24 +385,17 @@
 				// player is in the process of being created
 				// no need to recreate it
 			}
-		}
-		else if (this.player === 'youtube') {
+		} else if (this.player === 'youtube') {
 
-			if (this.usingDescribedVersion()) {
-				// the described version is currently playing. Swap to non-described
-				this.activeYouTubeId = this.youTubeId;
-			}
-			else {
-				// the non-described version is currently playing. Swap to described.
-				this.activeYouTubeId = this.youTubeDescId;
-			}
+			// if the described version is currently playing, swap to non-described
+			this.activeYouTubeId = (this.usingDescribedVersion()) ? this.youTubeId : this.youTubeDescId;
+
 			if (typeof this.youTubePlayer !== 'undefined') {
 				thisObj.swappingSrc = true;
 				if (thisObj.playing) {
 					// loadVideoById() loads and immediately plays the new video at swapTime
 					thisObj.youTubePlayer.loadVideoById(thisObj.activeYouTubeId,thisObj.swapTime);
-				}
-				else {
+				} else {
 					// cueVideoById() loads the new video and seeks to swapTime, but does not play
 					thisObj.youTubePlayer.cueVideoById(thisObj.activeYouTubeId,thisObj.swapTime);
 				}
@@ -434,14 +413,12 @@
 				// next steps occur when youtube onReady event fires
 				// see youtube.js > finalizeYoutubeInit()
 			});
-		}
-		else if (this.player === 'vimeo') {
+		} else if (this.player === 'vimeo') {
 			if (this.usingDescribedVersion()) {
 				// the described version is currently playing. Swap to non-described
 				this.activeVimeoId = this.vimeoId;
 				this.showAlert(this.tt.alertNonDescribedVersion);
-			}
-			else {
+			} else {
 				// the non-described version is currently playing. Swap to described.
 				this.activeVimeoId = this.vimeoDescId;
 				this.showAlert(this.tt.alertDescribedVersion);
@@ -461,8 +438,7 @@
 						// video was playing when user requested an alternative version
 						// seek to swapTime and continue playback (playback happens automatically)
 						thisObj.vimeoPlayer.setCurrentTime(thisObj.swapTime);
-					}
-					else {
+					} else {
 						// Vimeo autostarts immediately after video loads
 						// The "Described" button should not trigger playback, so stop this before the user notices.
 						thisObj.vimeoPlayer.pause();
@@ -533,8 +509,7 @@
 				}
 				this.currentDescription = thisDescription;
 			}
-		}
-		else {
+		} else {
 			this.$descDiv.html('');
 			this.currentDescription = -1;
 			// restore aria-live to $status
@@ -546,34 +521,25 @@
 
 		// called when user changed playback rate
 		// adjust rate of audio description to match
-
 		var speechRate;
 
 		if (rate === 0.5) {
 			speechRate = 0.7; // option 1 in prefs menu
-		}
-		else if (rate === 0.75) {
+		} else if (rate === 0.75) {
 			speechRate =  0.8; // option 2 in prefs menu
-		}
-		else if (rate === 1.0) {
+		} else if (rate === 1.0) {
 			speechRate =  1; // option 4 in prefs menu (normal speech, default)
-		}
-		else if (rate === 1.25) {
+		} else if (rate === 1.25) {
 			speechRate =  1.1; // option 5 in prefs menu
-		}
-		else if (rate === 1.5) {
+		} else if (rate === 1.5) {
 			speechRate =  1.2; // option 6 in prefs menu
-		}
-		else if (rate === 1.75) {
+		} else if (rate === 1.75) {
 			speechRate =  1.5; // option 7 in prefs menu
-		}
-		else if (rate === 2.0) {
+		} else if (rate === 2.0) {
 			speechRate =  2; // option 8 in prefs menu (fast)
-		}
-		else if (rate === 2.25) {
+		} else if (rate === 2.25) {
 			speechRate =  2.5; // option 9 in prefs menu (very fast)
-		}
-		else if (rate >= 2.5) {
+		} else if (rate >= 2.5) {
 			speechRate =  3; // option 10 in prefs menu (super fast)
 		}
 		this.prefDescRate = speechRate;
@@ -622,8 +588,7 @@
 			pitch = $('#' + this.mediaId + '_prefDescPitch').val();
 			rate = $('#' + this.mediaId + '_prefDescRate').val();
 			volume = $('#' + this.mediaId + '_prefDescVolume').val();
-		}
-		else {
+		} else {
 			// get settings from global prefs
 			voiceName = this.prefDescVoice;
 			pitch = this.prefDescPitch;
@@ -636,8 +601,7 @@
 			if (this.descVoices.length > 0) {
 				if (useFirstVoice) {
 					voice = this.descVoices[0];
-				}
-				else if (voiceName) {
+				} else if (voiceName) {
 					// get the voice that matches user's preferred voiceName
 					for (i = 0; i < this.descVoices.length; i++) {
 						if (this.descVoices[i].name == voiceName) {
@@ -652,8 +616,7 @@
 					voice = this.descVoices[0];
 				}
 			}
-		}
-		else {
+		} else {
 			voice = null;
 		}
 		utterance = new SpeechSynthesisUtterance();
@@ -684,14 +647,9 @@
 			// As of Firefox 95, e.elapsedTime is expressed in seconds
 			// Other browsers (tested in Chrome & Edge) express this in milliseconds
 			// Assume no utterance will require over 100 seconds to express...
-			if (timeElapsed > 100) {
-				// time is likely expressed in milliseconds
-				secondsElapsed = (e.elapsedTime/1000).toFixed(2);
-			}
-			else {
-				// time is likely already expressed in seconds; just need to round it
-				secondsElapsed = (e.elapsedTime).toFixed(2);
-			}
+			// If a large value, time is likely expressed in milliseconds.
+			secondsElapsed = (timeElapsed > 100) ? (e.elapsedTime/1000).toFixed(2) : (e.elapsedTime).toFixed(2);
+
 			if (this.debug) {
 				console.log('Finished speaking. That took ' + secondsElapsed + ' seconds.');
 			}

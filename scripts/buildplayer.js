@@ -41,8 +41,7 @@
 		captionsContainer = $('<div>');
 		if (this.mediaType === 'video') {
 			captionsContainer.addClass('able-vidcap-container');
-		}
-		else if (this.mediaType === 'audio') {
+		} else if (this.mediaType === 'audio') {
 			captionsContainer.addClass('able-audcap-container');
 			// hide this by default. It will be shown if captions are available
 			captionsContainer.addClass('captions-off');
@@ -67,8 +66,7 @@
 		var headingType;
 		if (this.playerHeadingLevel == '0') {
 			// do NOT inject a heading (at author's request)
-		}
-		else {
+		} else {
 			if (typeof this.playerHeadingLevel === 'undefined') {
 				this.playerHeadingLevel = this.getNextHeadingLevel(this.$ableDiv); // returns in integer 1-6
 			}
@@ -153,15 +151,13 @@
 		this.$statusBarDiv.append(this.$timer, this.$speed, this.$status);
 		if (this.showNowPlaying) {
 			this.$playerDiv.append(this.$nowPlayingDiv, this.$controllerDiv, this.$statusBarDiv);
-		}
-		else {
+		} else {
 			this.$playerDiv.append(this.$controllerDiv, this.$statusBarDiv);
 		}
 		if (this.mediaType === 'video') {
 			// the player controls go after the media & captions
 			this.$ableDiv.append(this.$playerDiv);
-		}
-		else {
+		} else {
 			// the player controls go before the media & captions
 			this.$ableDiv.prepend(this.$playerDiv);
 		}
@@ -194,8 +190,7 @@
 		// if users disagree, they can resize (and resposition) them
 		if (which === 'transcript') {
 			return ( viewportMaxwidth <= 450 ) ? viewportMaxwidth : 450;
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			return ( viewportMaxwidth <= 400 ) ? viewportMaxwidth : 400;
 		}
 	};
@@ -239,8 +234,7 @@
 			}
 			// since cookie is not page-specific, z-index needs may vary across different pages
 			this.updateZIndex(which);
-		}
-		else {
+		} else {
 			// position window using default values
 			windowPos = this.getOptimumPosition(which, width);
 			if (typeof width === 'undefined') {
@@ -289,18 +283,13 @@
 
 		if (targetWindow === 'transcript') {
 			// If placing the transcript window, check position of sign window first.
-			if (typeof this.$signWindow !== 'undefined') {
-				if (this.$signWindow.is(':visible')) {
-					otherWindowWidth = this.$signWindow.width() + gap;
-				}
+			if (typeof this.$signWindow !== 'undefined' && (this.$signWindow.is(':visible'))) {
+				otherWindowWidth = this.$signWindow.width() + gap;
 			}
-		}
-		else if (targetWindow === 'sign') {
+		} else if (targetWindow === 'sign') {
 			// If placing the sign window, check position of transcript window first.
-			if (typeof this.$transcriptArea !== 'undefined') {
-				if (this.$transcriptArea.is(':visible')) {
-					otherWindowWidth = this.$transcriptArea.width() + gap;
-				}
+			if (typeof this.$transcriptArea !== 'undefined' && (this.$transcriptArea.is(':visible'))) {
+				otherWindowWidth = this.$transcriptArea.width() + gap;
 			}
 		}
 		if (targetWidth < (windowWidth - (ableLeft + ableWidth + gap + otherWindowWidth))) {
@@ -308,14 +297,12 @@
 			position[0] = 'absolute';
 			position[1] = 0;
 			position[2] = ableWidth + otherWindowWidth + gap;
-		}
-		else if (targetWidth + gap < ableLeft) {
+		} else if (targetWidth + gap < ableLeft) {
 			// there's room to the right of $ableDiv
 			position[0] = 'absolute';
 			position[1] = 0;
 			position[2] = ableLeft - targetWidth - gap;
-		}
-		else {
+		} else {
 			// position element below $ableDiv
 			position[0] = 'relative';
 			// no need to define top, left, or z-index
@@ -393,14 +380,11 @@
 					prefCat = this.prefCats[i];
 					if (prefCat === 'captions') {
 						$menuItem.text(this.tt.prefMenuCaptions);
-					}
-					else if (prefCat === 'descriptions') {
+					} else if (prefCat === 'descriptions') {
 						$menuItem.text(this.tt.prefMenuDescriptions);
-					}
-					else if (prefCat === 'keyboard') {
+					} else if (prefCat === 'keyboard') {
 						$menuItem.text(this.tt.prefMenuKeyboard);
-					}
-					else if (prefCat === 'transcript') {
+					} else if (prefCat === 'transcript') {
 						$menuItem.text(this.tt.prefMenuTranscript);
 					}
 					$menuItem.on('click',function() {
@@ -409,14 +393,11 @@
 						thisObj.setFullscreen(false);
 						if (whichPref === thisObj.tt.prefMenuCaptions) {
 							thisObj.captionPrefsDialog.show();
-						}
-						else if (whichPref === thisObj.tt.prefMenuDescriptions) {
+						} else if (whichPref === thisObj.tt.prefMenuDescriptions) {
 							thisObj.descPrefsDialog.show();
-						}
-						else if (whichPref === thisObj.tt.prefMenuKeyboard) {
+						} else if (whichPref === thisObj.tt.prefMenuKeyboard) {
 							thisObj.keyboardPrefsDialog.show();
-						}
-						else if (whichPref === thisObj.tt.prefMenuTranscript) {
+						} else if (whichPref === thisObj.tt.prefMenuTranscript) {
 							thisObj.transcriptPrefsDialog.show();
 						}
 						thisObj.closePopups();
@@ -425,14 +406,12 @@
 					$menu.append($menuItem);
 				}
 				this.$prefsButton.attr('data-prefs-popup','menu');
-			}
-			else if (this.prefCats.length == 1) {
+			} else if (this.prefCats.length == 1) {
 				// only 1 category, so don't create a popup menu.
 				// Instead, open dialog directly when user clicks Prefs button
 				this.$prefsButton.attr('data-prefs-popup',this.prefCats[0]);
 			}
-		}
-		else if (which === 'captions' || which === 'chapters') {
+		} else if (which === 'captions' || which === 'chapters') {
 			hasDefault = false;
 			for (i = 0; i < tracks.length; i++) {
 				track = tracks[i];
@@ -457,8 +436,7 @@
 					if (which == 'captions') {
 						$menuItem.text(track.label);
 						$menuItem.on('click',this.getCaptionClickFunction(track));
-					}
-					else if (which == 'chapters') {
+					} else if (which == 'chapters') {
 						$menuItem.text(this.flattenCueForCaption(track) + ' - ' + this.formatSecondsAsColonTime(track.start));
 						$menuItem.on('click',this.getChapterClickFunction(track.start));
 					}
@@ -524,17 +502,14 @@
 			if ($menu.find('li[lang=' + this.captionLang + ']')) {
 				// a track exists for the default language. Check that item in the menu
 				$menu.find('li[lang=' + this.captionLang + ']').attr('aria-checked','true');
-			}
-			else {
+			} else {
 				// check the last item (captions off)
 				$menu.find('li').last().attr('aria-checked','true');
 			}
-		}
-		else if (which === 'chapters') {
+		} else if (which === 'chapters') {
 			if ($menu.find('li:contains("' + this.defaultChapter + '")')) {
 				$menu.find('li:contains("' + this.defaultChapter + '")').attr('aria-checked','true').addClass('able-focus');
-			}
-			else {
+			} else {
 				$menu.find('li').first().attr('aria-checked','true').addClass('able-focus');
 			}
 		}
@@ -546,13 +521,11 @@
 				// this is the first item in the menu
 				$prevItem = $(this).find('li').last(); // wrap to bottom
 				$nextItem = $thisItem.next();
-			}
-			else if ($thisItem.is(':last-child')) {
+			} else if ($thisItem.is(':last-child')) {
 				// this is the last Item
 				$prevItem = $thisItem.prev();
 				$nextItem = $(this).find('li').first(); // wrap to top
-			}
-			else {
+			} else {
 				$prevItem = $thisItem.prev();
 				$nextItem = $thisItem.next();
 			}
@@ -705,8 +678,7 @@
 			// fallback has already been implemented.
 			// stopgap to prevent this function from executing twice on the same media element
 			return;
-		}
-		else {
+		} else {
 			this.usingFallback = true;
 		}
 
@@ -726,8 +698,7 @@
 		// get/assign an id for the media element
 		if (this.$media.attr('id')) {
 			this.mediaId = this.$media.attr('id');
-		}
-		else {
+		} else {
 			this.mediaId = 'media' + Math.floor(Math.random() * 1000000000).toString();
 		}
 
@@ -837,8 +808,7 @@
 				controlLayout[2].push('slower');
 				controlLayout[2].push('faster');
 			}
-		}
-		else {
+		} else {
 			playbackSupported = false;
 		}
 
@@ -917,8 +887,7 @@
 			} else {
 				controlLayout[1].push('volume');
 			}
-		}
-		else {
+		} else {
 			this.volume = false;
 		}
 		return controlLayout;
@@ -973,8 +942,7 @@
 				$controllerSpan = $('<div>',{
 					'class': 'able-left-controls'
 				});
-			}
-			else { // odd keys on the right
+			} else { // odd keys on the right
 				$controllerSpan = $('<div>',{
 					'class': 'able-right-controls'
 				});
@@ -1169,8 +1137,7 @@
 							$newButton.addClass('buttonOff').attr('title',captionLabel);
 							$newButton.attr('aria-pressed', 'false');
 						}
-					}
-					else if (control === 'descriptions') {
+					} else if (control === 'descriptions') {
 						if (!this.prefDesc || this.prefDesc !== 1) {
 							// user prefer non-audio described version
 							// Therefore, load media without description
@@ -1184,8 +1151,7 @@
 					// create variables of buttons that are referenced throughout the AblePlayer object
 					if (control === 'play') {
 						this.$playpauseButton = $newButton;
-					}
-					else if (control == 'previous') {
+					} else if (control == 'previous') {
 						this.$prevButton = $newButton;
 						// if player is being rebuilt because user clicked the Prev button
 						// return focus to that (newly built) button
@@ -1193,8 +1159,7 @@
 							this.$prevButton.trigger('focus');
 							this.buttonWithFocus = null;
 						}
-					}
-					else if (control == 'next') {
+					} else if (control == 'next') {
 						this.$nextButton = $newButton;
 						// if player is being rebuilt because user clicked the Next button
 						// return focus to that (newly built) button
@@ -1202,41 +1167,32 @@
 							this.$nextButton.trigger('focus');
 							this.buttonWithFocus = null;
 						}
-					}
-					else if (control === 'captions') {
+					} else if (control === 'captions') {
 						this.$ccButton = $newButton;
-					}
-					else if (control === 'sign') {
+					} else if (control === 'sign') {
 						this.$signButton = $newButton;
 						// gray out sign button if sign language window is not active
 						if (!(this.$signWindow.is(':visible'))) {
 							this.$signButton.addClass('buttonOff');
 						}
-					}
-					else if (control === 'descriptions') {
+					} else if (control === 'descriptions') {
 						this.$descButton = $newButton;
 						// button will be enabled or disabled in description.js > initDescription()
-					}
-					else if (control === 'mute') {
+					} else if (control === 'mute') {
 						this.$muteButton = $newButton;
-					}
-					else if (control === 'transcript') {
+					} else if (control === 'transcript') {
 						this.$transcriptButton = $newButton;
 						// gray out transcript button if transcript is not active
 						if (!(this.$transcriptDiv.is(':visible'))) {
 							this.$transcriptButton.addClass('buttonOff').attr('title',this.tt.showTranscript);
 						}
-					}
-					else if (control === 'fullscreen') {
+					} else if (control === 'fullscreen') {
 						this.$fullscreenButton = $newButton;
-					}
-					else if (control === 'chapters') {
+					} else if (control === 'chapters') {
 						this.$chaptersButton = $newButton;
-					}
-					else if (control === 'preferences') {
+					} else if (control === 'preferences') {
 						this.$prefsButton = $newButton;
-					}
-					else if (control === 'volume') {
+					} else if (control === 'volume') {
 						this.$volumeButton = $newButton;
 					}
 				}
@@ -1283,9 +1239,8 @@
 
 		if (this.initializing) { // this is the first track - user hasn't pressed play yet
 			// do nothing.
-		}
-		else {
-				if (this.playerCreated) {
+		} else {
+			if (this.playerCreated) {
 				// remove the old
 				this.deletePlayer('playlist');
 			}
@@ -1298,8 +1253,7 @@
 		// it should be ok to play automatically, regardless of how it was requested
 		if (this.startedPlaying) {
 			this.okToPlay = true;
-		}
-		else {
+		} else {
 			this.okToPlay = false;
 		}
 
@@ -1316,16 +1270,14 @@
 				this.youTubeDescId = this.getYouTubeId($newItem.attr('data-youtube-desc-id'));
 			}
 			newPlayer = 'youtube';
-		}
-		else if (this.hasAttr($newItem,'data-vimeo-id')) {
+		} else if (this.hasAttr($newItem,'data-vimeo-id')) {
 			this.vimeoId = this.getVimeoId($newItem.attr('data-vimeo-id'));
 			if (this.hasAttr($newItem,'data-vimeo-desc-id')) {
 				this.vimeoDescId = this.getVimeoId($newItem.attr('data-vimeo-desc-id'));
 			}
 			newPlayer = 'vimeo';
-		}
-		else {
-				newPlayer = 'html5';
+		} else {
+			newPlayer = 'html5';
 		}
 		if (newPlayer === 'youtube') {
 			if (prevPlayer === 'html5') {
@@ -1335,9 +1287,8 @@
 				}
 				this.$media.hide();
 			}
-		}
-		else {
-				// the new player is not youtube
+		} else {
+			// the new player is not youtube
 			this.youTubeId = false;
 			if (prevPlayer === 'youtube') {
 				// unhide the media element
@@ -1474,15 +1425,13 @@
 			// if thisObj.swappingSrc is true, media will autoplay when ready
 			if (thisObj.initializing) { // this is the first track - user hasn't pressed play yet
 				thisObj.swappingSrc = false;
-			}
-			else {
+			} else {
 				if (thisObj.player === 'html5') {
 					if (!thisObj.loadingMedia) {
 						thisObj.media.load();
 						thisObj.loadingMedia = true;
 					}
-				}
-				else if (thisObj.player === 'youtube') {
+				} else if (thisObj.player === 'youtube') {
 					thisObj.okToPlay = true;
 				}
 			}

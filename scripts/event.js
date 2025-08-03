@@ -46,13 +46,11 @@
 					this.playlistIndex = 0;
 					this.cueingPlaylistItem = true; // stopgap to prevent multiple firings
 					this.cuePlaylistItem(0);
-				}
-				else {
+				} else {
 					this.playing = false;
 					this.paused = true;
 				}
-			}
-			else {
+			} else {
 				// this is not the last track. Play the next one.
 				this.playlistIndex++;
 				this.cueingPlaylistItem = true; // stopgap to prevent multiple firings
@@ -86,8 +84,7 @@
 				this.playMedia();
 				loadIsComplete = true;
 			 }
-		}
-		else if (this.seekTrigger == 'restart' ||
+		} else if (this.seekTrigger == 'restart' ||
 				this.seekTrigger == 'chapter' ||
 				this.seekTrigger == 'transcript' ||
 				this.seekTrigger == 'search'
@@ -97,8 +94,7 @@
 			// (i.e., 'rewind', 'forward', or seekbar); for these, video remains paused until user initiates play
 			this.playMedia();
 			loadIsComplete = true;
-		}
-		else if (this.swappingSrc) {
+		} else if (this.swappingSrc) {
 			// new source file has just been loaded
 			if (this.hasPlaylist) {
 				// a new source file from the playlist has just been loaded
@@ -107,18 +103,16 @@
 					this.playMedia();
 					loadIsComplete = true;
 				}
-			}
-			else if (this.swapTime > 0) {
+			} else if (this.swapTime > 0) {
 				if (this.seekStatus === 'complete') {
 					if (this.okToPlay) {
 						// should be able to resume playback
 						this.playMedia();
 					}
 					loadIsComplete = true;
-				}
-				else if (this.seekStatus === 'seeking') {
-				}
-				else {
+				} else if (this.seekStatus === 'seeking') {
+					// Do nothing.
+				} else {
 					if (this.swapTime === this.elapsed) {
 						// seek is finished!
 						this.seekStatus = 'complete';
@@ -127,8 +121,7 @@
 							this.playMedia();
 						}
 						loadIsComplete = true;
-					}
-					else {
+					} else {
 						// seeking hasn't started yet
 						// first, determine whether it's possible
 						if (this.hasDescTracks) {
@@ -218,15 +211,9 @@
 		var tolerance, diff;
 
 		tolerance = 1;  // number of seconds between rounded durations that is considered "close enough"
-
 		diff = Math.abs(Math.round(d1) - Math.round(d2));
 
-		if (diff <= tolerance) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return (diff <= tolerance) ? true : false;
 	};
 
 	AblePlayer.prototype.restoreFocus = function() {
@@ -271,8 +258,7 @@
 		}).on('stopTracking', function (e, position) {
 			if (thisObj.useChapterTimes) {
 				thisObj.seekTo(thisObj.convertChapterTimeToVideoTime(position));
-			}
-			else {
+			} else {
 				thisObj.seekTo(position);
 			}
 			if (!thisObj.pausedBeforeTracking) {
@@ -399,15 +385,9 @@
 
 		// returns true unless user's focus is on a UI element
 		// that is likely to need supported keystrokes, including space
-
 		var activeElement = AblePlayer.getActiveDOMElement();
 
-		if ($(activeElement).prop('tagName') === 'INPUT') {
-			return false;
-		}
-		else {
-			return true;
-		}
+		return ($(activeElement).prop('tagName') === 'INPUT') ? false : true;
 	};
 
 	AblePlayer.prototype.onPlayerKeyPress = function (e) {
@@ -456,8 +436,7 @@
 				this.closePopups();
 				this.$tooltipDiv.hide();
 				this.seekBar.hideSliderTooltips();
-			}
-			else if (key === ' ') {
+			} else if (key === ' ') {
 				// disable spacebar support for play/pause toggle as of 4.2.10
 				// spacebar should not be handled everywhere on the page, since users use that to scroll the page
 				// when the player has focus, most controls are buttons so spacebar should be used to trigger the buttons
@@ -466,86 +445,72 @@
 					e.preventDefault();
 					$thisElement.trigger( 'click' );
 				}
-			}
-			else if ( key === 'p' ) {
+			} else if ( key === 'p' ) {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handlePlay();
 				}
-			}
-			else if (key === 's') {
+			} else if (key === 's') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleRestart();
 				}
-			}
-			else if (key === 'm') {
+			} else if (key === 'm') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleMute();
 				}
-			}
-			else if (key === 'v') {
+			} else if (key === 'v') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleVolumeButtonClick();
 				}
-			}
-			else if (key >= 0 && key <= 9) {
+			} else if (key >= 0 && key <= 9) {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleVolumeKeystroke(key);
 				}
-			}
-			else if (key === 'c') {
+			} else if (key === 'c') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleCaptionToggle();
 				}
-			}
-			else if (key === 'd') {
+			} else if (key === 'd') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleDescriptionToggle();
 				}
-			}
-			else if (key === 'f') {
+			} else if (key === 'f') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleFastForward();
 				}
-			}
-			else if (key === 'r') {
+			} else if (key === 'r') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleRewind();
 				}
-			}
-			else if (key === 'b') {
+			} else if (key === 'b') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handlePrevTrack();
 				}
-			}
-			else if (key === 'n') {
+			} else if (key === 'n') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleNextTrack();
 				}
-			}
-			else if (key === 'e') {
+			} else if (key === 'e') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handlePrefsClick();
 				}
-			}
-			else if (key === 'Enter') {
+			} else if (key === 'Enter') {
 				if ($thisElement.attr('role') === 'button' || $thisElement.prop('tagName') === 'SPAN') {
 					// register a click on this element
 					// if it's a transcript span the transcript span click handler will take over
 					$thisElement.trigger( 'click' );
-				}
-				else if ($thisElement.prop('tagName') === 'LI') {
+				} else if ($thisElement.prop('tagName') === 'LI') {
 					$thisElement.trigger( 'click' );
 				}
 			}
@@ -622,13 +587,11 @@
 					if (thisObj.hasPlaylist || thisObj.swappingSrc) {
 						// do NOT set playing to false.
 						// doing so prevents continual playback after new track is loaded
-					}
-					else {
+					} else {
 						thisObj.playing = false;
 						thisObj.paused = true;
 					}
-				}
-				else {
+				} else {
 					thisObj.playing = false;
 					thisObj.paused = true;
 				}
@@ -722,13 +685,11 @@
 				if (thisObj.hasPlaylist || thisObj.swappingSrc) {
 						// do NOT set playing to false.
 					// doing so prevents continual playback after new track is loaded
-				}
-				else {
+				} else {
 					thisObj.playing = false;
 					thisObj.paused = true;
 				}
-			}
-			else {
+			} else {
 				thisObj.playing = false;
 				thisObj.paused = true;
 			}
@@ -843,8 +804,7 @@
 					// after showing controls, hide them again after a brief timeout
 					thisObj.invokeHideControlsTimeout();
 				}
-			}
-			else {
+			} else {
 				// if there's already an active timeout, clear it and start timer again
 				if (thisObj.hideControlsTimeoutStatus === 'active') {
 					window.clearTimeout(thisObj.hideControlsTimeout);
@@ -869,8 +829,7 @@
 					// after showing controls, hide them again after a brief timeout
 					thisObj.invokeHideControlsTimeout();
 				}
-			}
-			else {
+			} else {
 				// controls are visible
 				// if there's already an active timeout, clear it and start timer again
 				if (thisObj.hideControlsTimeoutStatus === 'active') {
@@ -929,11 +888,9 @@
 		// add listeners for media events
 		if (this.player === 'html5') {
 			this.addHtml5MediaListeners();
-		}
-		else if (this.player === 'vimeo') {
+		} else if (this.player === 'vimeo') {
 			 this.addVimeoListeners();
-		}
-		else if (this.player === 'youtube') {
+		} else if (this.player === 'youtube') {
 			// Youtube doesn't give us time update events, so we just periodically generate them ourselves
 			setInterval(function () {
 				thisObj.onMediaUpdateTime();

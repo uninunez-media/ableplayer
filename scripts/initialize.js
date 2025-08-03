@@ -57,8 +57,7 @@
 				$el =	 $('<div>', {
 					'class': 'able-controller'
 				}).hide();
-			}
-			else if ($elements[i] === 'toolbar') {
+			} else if ($elements[i] === 'toolbar') {
 				$el =	 $('<div>', {
 					'class': 'able-window-toolbar'
 				}).hide();
@@ -73,16 +72,11 @@
 			blue = rgb[2];
 			luminance = (0.2126 * red) + (0.7152 * green) + (0.0722 * blue);
 			// range is 1 - 255; therefore 125 is the tipping point
-			if (luminance < 125) { // background is dark
-				iconColor = 'white';
-			}
-			else { // background is light
-				iconColor = 'black';
-			}
+			iconColor = (luminance < 125) ? 'white' : 'black';
+
 			if ($elements[i] === 'controller') {
 				this.iconColor = iconColor;
-			}
-			else if ($elements[i] === 'toolbar') {
+			} else if ($elements[i] === 'toolbar') {
 				this.toolbarIconColor = iconColor;
 			}
 			$el.remove();
@@ -104,8 +98,7 @@
 		if (this.speedIcons === 'arrows') {
 			this.fasterButtonImg = this.imgPath + 'slower.png';
 			this.slowerButtonImg = this.imgPath + 'faster.png';
-		}
-		else if (this.speedIcons === 'animals') {
+		} else if (this.speedIcons === 'animals') {
 			this.fasterButtonImg = this.imgPath + 'rabbit.png';
 			this.slowerButtonImg = this.imgPath + 'turtle.png';
 		}
@@ -347,11 +340,9 @@
 		// Set media type to 'audio' or 'video'; this determines some of the behavior of player creation.
 		if (this.$media.is('audio')) {
 			this.mediaType = 'audio';
-		}
-		else if (this.$media.is('video')) {
+		} else if (this.$media.is('video')) {
 			this.mediaType = 'video';
-		}
-		else {
+		} else {
 			// Able Player was initialized with some element other than <video> or <audio>
 			this.provideFallback();
 			deferred.fail();
@@ -379,8 +370,7 @@
 			if (this.playerWidth) {
 				this.$ableWrapper.css('width',this.playerWidth + 'px');
 			}
-		}
-		else if (width > 0 && height > 0) {
+		} else if (width > 0 && height > 0) {
 			this.playerWidth = width;
 			this.playerHeight = height;
 			this.aspectRatio = height / width;
@@ -408,8 +398,7 @@
 
 		if (this.$media.attr('id')) {
 			this.mediaId = this.$media.attr('id');
-		}
-		else {
+		} else {
 			// Ensure the base media element always has an ID.
 			this.mediaId = "ableMediaId_" + this.ableIndex;
 			this.$media.attr('id', this.mediaId);
@@ -463,13 +452,8 @@
 				$(this).find('li span').attr('aria-hidden','true');
 				thisObj.playlistIndex = 0;
 				var dataEmbedded = $(this).data('embedded');
-				if (typeof dataEmbedded !== 'undefined' && dataEmbedded !== false) {
-					// embed playlist within player
-					thisObj.playlistEmbed = true;
-				}
-				else {
-					thisObj.playlistEmbed = false;
-				}
+				// is playlist embedded within player?
+				thisObj.playlistEmbed = (typeof dataEmbedded !== 'undefined' && dataEmbedded !== false) ? true : false;
 			}
 		});
 
@@ -629,11 +613,9 @@
 		// First run player specific initialization.
 		if (this.player === 'html5') {
 			playerPromise = this.initHtml5Player();
-		}
-		else if (this.player === 'youtube') {
+		} else if (this.player === 'youtube') {
 			playerPromise = this.initYouTubePlayer();
-		}
-		else if (this.player === 'vimeo') {
+		} else if (this.player === 'vimeo') {
 			playerPromise = this.initVimeoPlayer();
 		}
 		// After player specific initialization is done, run remaining general initialization.

@@ -111,8 +111,7 @@
 					thisObj.startMouseY = e.pageY;
 					thisObj.startResize(which, $window);
 				}
-			}
-			else if (e.type === 'mouseup' || e.type === 'touchend') {
+			} else if (e.type === 'mouseup' || e.type === 'touchend') {
 				if (thisObj.resizing) {
 					thisObj.endResize(which);
 				}
@@ -233,8 +232,7 @@
 		if (which === 'transcript') {
 			$windowPopup = this.$transcriptPopup;
 			$windowButton = this.$transcriptPopupButton;
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			$windowPopup = this.$signPopup;
 			$windowButton = this.$signPopupButton;
 		}
@@ -321,8 +319,7 @@
 		resizeDialog = new AccessibleDialog($resizeForm, $windowButton, 'dialog', true, this.tt.windowResizeHeading, $resizeWrapper, this.tt.closeButtonLabel, '20em');
 		if (which === 'transcript') {
 			this.transcriptResizeDialog = resizeDialog;
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			this.signResizeDialog = resizeDialog;
 		}
 	};
@@ -344,8 +341,7 @@
 			$windowPopup = this.$transcriptPopup;
 			$windowButton = this.$transcriptPopupButton;
 			$toolbar = this.$transcriptToolbar;
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			$windowPopup = this.$signPopup;
 			$windowButton = this.$signPopupButton;
 			$toolbar = this.$signToolbar;
@@ -355,8 +351,7 @@
 			// user pressed a key
 			if (e.key === ' ' || e.key === 'Enter') {
 				this.windowMenuClickRegistered = true;
-			}
-			else if (e.key === 'Escape') {
+			} else if (e.key === 'Escape') {
 				if ($windowPopup.is(':visible')) {
 					// close the popup menu
 					$windowPopup.hide('fast', function() {
@@ -367,22 +362,18 @@
 						// also return focus to window options button
 						$windowButton.trigger('focus');
 					});
-				}
-				else {
+				} else {
 					// popup isn't open. Close the window
 					if (which === 'sign') {
 						this.handleSignToggle();
-					}
-					else if (which === 'transcript') {
+					} else if (which === 'transcript') {
 						this.handleTranscriptToggle();
 					}
 				}
-			}
-			else {
+			} else {
 				return false;
 			}
-		}
-		else {
+		} else {
 			// this was a mouse event
 			this.windowMenuClickRegistered = true;
 		}
@@ -393,8 +384,7 @@
 			});
 			$windowPopup.find('li').removeClass('able-focus');
 			$windowButton.attr('aria-expanded','false').trigger('focus');
-		}
-		else {
+		} else {
 			// first, be sure window is on top
 			this.updateZIndex(which);
 			popupTop = $toolbar.outerHeight() - 1;
@@ -417,8 +407,7 @@
 			$windowPopup = this.$transcriptPopup;
 			$windowButton = this.$transcriptPopupButton;
 			resizeDialog = this.transcriptResizeDialog;
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			$window = this.$signWindow;
 			$windowPopup = this.$signPopup;
 			$windowButton = this.$signPopupButton;
@@ -439,8 +428,7 @@
 					$windowButton.trigger('focus');
 				});
 				return false;
-			}
-			else {
+			} else {
 				// all other keys will be handled by upstream functions
 				if (choice !== 'close') {
 					this.$activeWindow = $window;
@@ -470,16 +458,14 @@
 				this.showAlert(this.tt.windowMoveAlert,which);
 				if (which === 'transcript') {
 					this.showedTranscriptAlert = true;
-				}
-				else if (which === 'sign') {
+				} else if (which === 'sign') {
 					this.showedSignAlert = true;
 				}
 			}
 			this.dragDevice = (e.type === 'keydown') ? 'keyboard' : 'mouse';
 			this.startDrag(which, $window);
 			$windowPopup.hide().parent().attr( 'tabindex', '-1' ).trigger('focus');
-		}
-		else if (choice == 'resize') {
+		} else if (choice == 'resize') {
 			// resize through the menu uses a form, not drag
 			var resizeFields = resizeDialog.getInputs();
 			if (resizeFields) {
@@ -488,14 +474,12 @@
 				resizeFields[1].value = $window.height();
 			}
 			resizeDialog.show();
-		}
-		else if (choice == 'close') {
+		} else if (choice == 'close') {
 			// close window, place focus on corresponding button on controller bar
 			if (which === 'transcript') {
 				this.closingTranscript = true; // stopgrap to prevent double-firing of keypress
 				this.handleTranscriptToggle();
-			}
-			else if (which === 'sign') {
+			} else if (which === 'sign') {
 				this.closingSign = true; // stopgrap to prevent double-firing of keypress
 				this.handleSignToggle();
 			}
@@ -515,8 +499,7 @@
 
 		if (which === 'transcript') {
 			$windowPopup = this.$transcriptPopup;
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			$windowPopup = this.$signPopup;
 		}
 
@@ -665,8 +648,7 @@
 		if (which === 'transcript') {
 			$windowPopup = this.$transcriptPopup;
 			$windowButton = this.$transcriptPopupButton;
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			$windowPopup = this.$signPopup;
 			$windowButton = this.$signPopupButton;
 		}
@@ -709,12 +691,7 @@
 		this.$activeWindow = $element;
 		this.resizing = true;
 
-		if (which === 'transcript') {
-			$windowPopup = this.$transcriptPopup;
-		}
-		else if (which === 'sign') {
-			$windowPopup = this.$signPopup;
-		}
+		$windowPopup = (which === 'transcript') ? this.$transcriptPopup : this.$signPopup;
 
 		// if window's popup menu is open, close it & place focus on button (???)
 		if ($windowPopup.is(':visible')) {
@@ -748,8 +725,7 @@
 		if (which === 'transcript') {
 			$windowPopup = this.$transcriptPopup;
 			$windowButton = this.$transcriptPopupButton;
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			$windowPopup = this.$signPopup;
 			$windowButton = this.$signPopupButton;
 		}

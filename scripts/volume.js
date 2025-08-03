@@ -63,14 +63,12 @@
 				if (thisObj.$volumeSlider.is(':visible')) {
 					thisObj.closingVolume = true; // stopgap
 					thisObj.hideVolumePopup();
-				}
-				else {
+				} else {
 					if (!thisObj.closingVolume) {
 						thisObj.showVolumePopup();
 					}
 				}
-			}
-			else {
+			} else {
 				return;
 			}
 		});
@@ -110,8 +108,7 @@
 
 		if (this.$volumeSlider.is(':visible')) {
 			this.hideVolumePopup();
-		}
-		else {
+		} else {
 			this.showVolumePopup();
 		}
 	};
@@ -120,11 +117,9 @@
 		// keyboard shortcuts for changing volume
 		if (this.isMuted() && volume > 0) {
 			this.setMute(false);
-		}
-		else if (volume === 0) {
+		} else if (volume === 0) {
 			this.setMute(true);
-		}
-		else {
+		} else {
 			this.setVolume(volume); // this.volume will be updated after volumechange event fires (event.js)
 			this.refreshVolumeHelp(volume);
 			this.refreshVolumeButton(volume);
@@ -138,11 +133,9 @@
 
 		if (this.isMuted() && volume > 0) {
 			this.setMute(false);
-		}
-		else if (volume === 0) {
+		} else if (volume === 0) {
 			this.setMute(true);
-		}
-		else {
+		} else {
 			this.setVolume(volume); // this.volume will be updated after volumechange event fires (event.js)
 			this.refreshVolumeHelp(volume);
 			this.refreshVolumeButton(volume);
@@ -153,8 +146,7 @@
 
 		if (this.isMuted()) {
 			this.setMute(false);
-		}
-		else {
+		} else {
 			this.setMute(true);
 		}
 	};
@@ -186,8 +178,7 @@
 
 		if (this.player === 'html5') {
 			return this.media.muted;
-		}
-		else if (this.player === 'youtube') {
+		} else if (this.player === 'youtube') {
 			return this.youTubePlayer.isMuted();
 		}
 	};
@@ -199,8 +190,7 @@
 			// save current volume so it can be restored after unmute
 			this.lastVolume = this.volume;
 			this.volume = 0;
-		}
-		else { // restore to previous volume
+		} else { // restore to previous volume
 			if (typeof this.lastVolume !== 'undefined') {
 				this.volume = this.lastVolume;
 			}
@@ -208,12 +198,10 @@
 
 		if (this.player === 'html5') {
 			this.media.muted = mute;
-		}
-		else if (this.player === 'youtube') {
+		} else if (this.player === 'youtube') {
 			if (mute) {
 				this.youTubePlayer.mute();
-			}
-			else {
+			} else {
 				this.youTubePlayer.unMute();
 			}
 		}
@@ -233,14 +221,12 @@
 			// volume is 0 to 1
 			newVolume = volume / 10;
 			this.media.volume = newVolume;
-		}
-		else if (this.player === 'youtube') {
+		} else if (this.player === 'youtube') {
 			// volume is 0 to 100
 			newVolume = volume * 10;
 			this.youTubePlayer.setVolume(newVolume);
 			this.volume = volume;
-		}
-		else if (this.player === 'vimeo') {
+		} else if (this.player === 'vimeo') {
 			// volume is 0 to 1
 			newVolume = volume / 10;
 			this.vimeoPlayer.setVolume(newVolume).then(function() {
@@ -257,8 +243,7 @@
 		if (this.player === 'html5') {
 			// uses 0 to 1 scale
 			return this.media.volume * 10;
-		}
-		else if (this.player === 'youtube') {
+		} else if (this.player === 'youtube') {
 			// uses 0 to 100 scale
 			if (this.youTubePlayerReady) {
 				return this.youTubePlayer.getVolume() / 10;
@@ -277,14 +262,11 @@
 		// returns 'mute','soft','medium', or 'loud' depending on volume level
 		if (volume == 0) {
 			return 'mute';
-		}
-		else if (volume == 10) {
+		} else if (volume == 10) {
 			return 'loud';
-		}
-		else if (volume < 5) {
+		} else if (volume < 5) {
 			return 'soft';
-		}
-		else {
+		} else {
 			return 'medium';
 		}
 	};

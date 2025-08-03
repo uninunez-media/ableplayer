@@ -984,24 +984,13 @@
 		var lang, code, subTag;
 		lang = isoLangs[key.toLowerCase()];
 		if (lang) {
-			if (whichName === 'local') {
-				return lang.nativeName;
-			}
-			else {
-				return lang.name;
-			}
-		}
-		else if (key.includes('-')) {
+			return (whichName === 'local') ? lang.nativeName : lang.name;
+		} else if (key.includes('-')) {
 			code = key.substring(0,2);
 			subTag = key.substring(3);
 			lang = isoLangs[code.toLowerCase()];
 			if (lang) {
-				if (whichName === 'local') {
-					return lang.nativeName + ' (' + subTag + ')';
-				}
-				else {
-					return lang.name + ' (' + subTag + ')';
-				}
+				return (whichName === 'local') ? lang.nativeName + ' (' + subTag + ')' : lang.name + ' (' + subTag + ')';
 			}
 		}
 		// if all else has failed, use the key as the label

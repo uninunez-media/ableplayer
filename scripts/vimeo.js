@@ -13,14 +13,10 @@
 		// add container to which Vimeo player iframe will be appended
 		this.$mediaContainer.prepend($('<div>').attr('id', containerId));
 
-		// if a described version is available && user prefers desription
+		// if a described version is available && user prefers description
 		// init player using the described version
-		if (this.vimeoDescId && this.prefDesc) {
-			vimeoId = this.vimeoDescId;
-		}
-		else {
-			vimeoId = this.vimeoId;
-		}
+		vimeoId = (this.vimeoDescId && this.prefDesc) ? this.vimeoDescId : this.vimeoId;
+
 		this.activeVimeoId = vimeoId;
 
 		// Notes re. Vimeo Embed Options:
@@ -33,12 +29,7 @@
 		// - It automatically loops (but this can be overridden by initializing the player with loop:false)
 		// - It automatically sets volume to 0 (not sure if this can be overridden, since no longer using the background option)
 
-		if (this.okToPlay) {
-			autoplay = 'true';
-		}
-		else {
-			autoplay = 'false';
-		}
+		autoplay = (this.okToPlay) ? 'true' : 'false';
 
 		if (this.playerWidth) {
 			if (this.vimeoUrlHasParams) {
@@ -48,24 +39,21 @@
 					width: this.playerWidth,
 					controls: false
 				}
-			}
-			else {
+			} else {
 				options = {
 					id: vimeoId,
 					width: this.playerWidth,
 					controls: false
 				}
 			}
-		}
-		else {
+		} else {
 			// initialize without width & set width later
 			if (this.vimeoUrlHasParams) {
 				options = {
 					url: vimeoId,
 					controls: false
 				}
-			}
-			else {
+			} else {
 				options = {
 					id: vimeoId,
 					controls: false
@@ -230,8 +218,7 @@
 					// setupPopups again with new captions array, replacing original
 					thisObj.setupPopups('captions');
 					deferred.resolve();
-			 	}
-			 	else {
+			 	} else {
 					thisObj.hasCaptions = false;
 					thisObj.usingVimeoCaptions = false;
 					deferred.resolve();
@@ -245,8 +232,8 @@
 
 		// this is a placeholder, copied from getYouTubePosterUrl()
 		// Vimeo doesn't seem to have anything similar,
-		// nor does it seem to be possible to get the poster via the Vimeo API
-		// Vimeo playlist support (with thumbnail images) may require use of data-poster
+		// Vimeo API for images: https://vimeo.com/api/v2/video/328769500.json
+		// will require an unauthenticated API query.
 
 		// return a URL for retrieving a YouTube poster image
 		// supported values of width: 120, 320, 480, 640
@@ -255,16 +242,13 @@
 		if (width == '120') {
 			// default (small) thumbnail, 120 x 90
 			return url + '/default.jpg';
-		}
-		else if (width == '320') {
+		} else if (width == '320') {
 			// medium quality thumbnail, 320 x 180
 			return url + '/hqdefault.jpg';
-		}
-		else if (width == '480') {
+		} else if (width == '480') {
 			// high quality thumbnail, 480 x 360
 			return url + '/hqdefault.jpg';
-		}
-		else if (width == '640') {
+		} else if (width == '640') {
 			// standard definition poster image, 640 x 480
 			return url + '/sddefault.jpg';
 		}
@@ -302,8 +286,7 @@
 					return urlObject.pathname.replace( '/', '' );
 				}
 			}
-		}
-		else {
+		} else {
 			return url;
 		}
 	};

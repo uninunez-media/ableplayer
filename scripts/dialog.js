@@ -78,8 +78,7 @@
 						focusable.get(focusable.length - 1).trigger('focus');
 						e.preventDefault();
 					}
-				}
-				else {
+				} else {
 					if (currentIndex === focusable.length - 1) {
 						focusable.get(0).trigger('focus');
 						e.preventDefault();

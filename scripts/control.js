@@ -32,8 +32,7 @@
 				this.seekStatus = 'complete';
 				this.syncSignVideo( { 'time' : this.startTime } );
 			}
-		}
-		else if (this.player === 'youtube') {
+		} else if (this.player === 'youtube') {
 			this.youTubePlayer.seekTo(newTime,true);
 			if (newTime > 0) {
 				if (typeof this.$posterImg !== 'undefined') {
@@ -41,8 +40,7 @@
 				}
 			}
 			this.syncSignVideo( {'time' : newTime } );
-		}
-		else if (this.player === 'vimeo') {
+		} else if (this.player === 'vimeo') {
 			this.vimeoPlayer.setCurrentTime(newTime).then(function() {
 				// seek finished.
 				// successful completion also fires a 'seeked' event (see event.js)
@@ -79,8 +77,7 @@
 			mediaTimes['duration'] = duration;
 			mediaTimes['elapsed'] = elapsed;
 			deferred.resolve(mediaTimes);
-		}
-		else {
+		} else {
 			this.getDuration().then(function(duration) {
 				mediaTimes['duration'] = thisObj.roundDown(duration,6);
 				thisObj.getElapsed().then(function(elapsed) {
@@ -107,17 +104,14 @@
 				 this.vimeoPlayer.getDuration().then(function(duration) {
 					if (duration === undefined || isNaN(duration) || duration === -1) {
 						deferred.resolve(0);
-					}
-					else {
+					} else {
 						deferred.resolve(duration);
 					}
 				});
-			}
-			else { // vimeoPlayer hasn't been initialized yet.
+			} else { // vimeoPlayer hasn't been initialized yet.
 				deferred.resolve(0);
 			}
-		}
-		else {
+		} else {
 			var duration;
 			if (this.player === 'html5') {
 				duration = this.media.duration;
@@ -245,29 +239,16 @@
 	AblePlayer.prototype.isPlaybackRateSupported = function () {
 
 		if (this.player === 'html5') {
-			if (this.media.playbackRate) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-		else if (this.player === 'youtube') {
+			return (this.media.playbackRate) ? true : false;
+		} else if (this.player === 'youtube') {
 			// Youtube supports varying playback rates per video.
 			// Only expose controls if more than one playback rate is available.
 			if (this.youTubePlayerReady) {
-				if (this.youTubePlayer.getAvailablePlaybackRates().length > 1) {
-					return true;
-				}
-				else {
-					return false;
-				}
-			}
-			else {
+				return (this.youTubePlayer.getAvailablePlaybackRates().length > 1) ? true : false;
+			} else {
 				return false;
 			}
-		}
-		else if (this.player === 'vimeo') {
+		} else if (this.player === 'vimeo') {
 			// since this takes longer to determine, it was set previously in initVimeoPlayer()
 			return this.vimeoSupportsPlaybackRateChange;
 		}
@@ -286,11 +267,9 @@
 
 		if (this.player === 'html5') {
 			this.media.playbackRate = rate;
-		}
-		else if (this.player === 'youtube') {
+		} else if (this.player === 'youtube') {
 			this.youTubePlayer.setPlaybackRate(rate);
-		}
-		else if (this.player === 'vimeo') {
+		} else if (this.player === 'vimeo') {
 			this.vimeoPlayer.setPlaybackRate(rate);
 		}
 		this.syncSignVideo( { 'rate' : rate } );
@@ -302,11 +281,8 @@
 
 		if (this.player === 'html5') {
 			return this.media.playbackRate;
-		}
-		else if (this.player === 'youtube') {
-			if (this.youTubePlayerReady) {
-				return this.youTubePlayer.getPlaybackRate();
-			}
+		} else if (this.player === 'youtube' && (this.youTubePlayerReady)) {
+			return this.youTubePlayer.getPlaybackRate();
 		}
 	};
 
@@ -316,18 +292,10 @@
 		// and one of them is named 'paused'.
 		// A better name would be 'isCurrentlyNotPlayingOrBuffering'
 
-		var state;
-
 		if (this.player === 'vimeo') {
 			// just rely on value of this.playing
-			if (this.playing) {
-				return false;
-			}
-			else {
-				return true;
-			}
-		}
-		else {
+			return (this.playing) ? false : true;
+		} else {
 			this.getPlayerState().then(function(state) {
 				// if any of the following is true, consider the media 'paused'
 				return state === 'paused' || state === 'stopped' || state === 'ended';
@@ -357,17 +325,13 @@
 
 	AblePlayer.prototype.pauseMedia = function () {
 
-		var thisObj = this;
-
 		this.syncSignVideo( { 'pause' : true } );
 
 		if (this.player === 'html5') {
 			this.media.pause(true);
-		}
-		else if (this.player === 'youtube') {
+		} else if (this.player === 'youtube') {
 			this.youTubePlayer.pauseVideo();
-		}
-		else if (this.player === 'vimeo') {
+		} else if (this.player === 'vimeo') {
 			this.vimeoPlayer.pause();
 		}
 	};
@@ -380,16 +344,14 @@
 
 		if (this.player === 'html5') {
 			this.media.play(true);
-		}
-		else if (this.player === 'youtube') {
+		} else if (this.player === 'youtube') {
 
 			this.youTubePlayer.playVideo();
 			if (typeof this.$posterImg !== 'undefined') {
 				this.$posterImg.hide();
 			}
 			this.stoppingYouTube = false;
-		}
-		else if (this.player === 'vimeo') {
+		} else if (this.player === 'vimeo') {
 			 this.vimeoPlayer.play();
 		}
 		this.startedPlaying = true;
@@ -434,8 +396,7 @@
 				},500);
 				*/
 			});
-		}
-		else if (direction == 'in') {
+		} else if (direction == 'in') {
 			// restore captionsContainer to its original height (needs work)
 			// this.$mediaContainer.removeAttr('style');
 			// fade relatively quickly back to its original position with full opacity
@@ -805,8 +766,7 @@
 				// Player is too small for a speed span
 				this.$statusBarDiv.find('span.able-speed').hide();
 				this.hidingSpeed = true;
-			}
-			else {
+			} else {
 				if (this.hidingSpeed) {
 					this.$statusBarDiv.find('span.able-speed').show();
 					this.hidingSpeed = false;
@@ -827,8 +787,7 @@
 				// resume utterance
 				this.synth.resume();
 			}
-		}
-		else {
+		} else {
 			// user clicked pause
 			this.okToPlay = false;
 			this.pauseMedia();
@@ -854,28 +813,18 @@
 
 	AblePlayer.prototype.handlePrevTrack = function() {
 
-		if (this.playlistIndex === 0) {
-			// currently on the first track
-			// wrap to bottom and play the last track
-			this.playlistIndex = this.$playlist.length - 1;
-		}
-		else {
-			this.playlistIndex--;
-		}
+		// currently on the first track
+		// wrap to bottom and play the last track
+		this.playlistIndex = (this.playlistIndex === 0) ? this.$playlist.length - 1 : this.playlistIndex--;
 		this.cueingPlaylistItem = true; // stopgap to prevent multiple firings
 		this.cuePlaylistItem(this.playlistIndex);
 	};
 
 	AblePlayer.prototype.handleNextTrack = function() {
 
-		if (this.playlistIndex === this.$playlist.length - 1) {
-			// currently on the last track
-			// wrap to top and play the forst track
-			this.playlistIndex = 0;
-		}
-		else {
-			this.playlistIndex++;
-		}
+		// currently on the last track
+		// wrap to top and play the forst track
+		this.playlistIndex = (this.playlistIndex === this.$playlist.length - 1) ? 0 : this.playlistIndex++;
 		this.cueingPlaylistItem = true; // stopgap to prevent multiple firings
 		this.cuePlaylistItem(this.playlistIndex);
 	};
@@ -885,15 +834,10 @@
 		var targetTime;
 
 		targetTime = this.elapsed - this.seekInterval;
-		if (this.useChapterTimes) {
-			if (targetTime < this.currentChapter.start) {
-				targetTime = this.currentChapter.start;
-			}
-		}
-		else {
-			if (targetTime < 0) {
-				targetTime = 0;
-			}
+		if (this.useChapterTimes && (targetTime < this.currentChapter.start)) {
+			targetTime = this.currentChapter.start;
+		} else if (targetTime < 0) {
+			targetTime = 0;
 		}
 		this.seekTo(targetTime);
 	};
@@ -911,14 +855,12 @@
 					// targetTime would exceed the end of the video (or chapter)
 					// scrub to end of whichever is earliest
 					targetTime = Math.min(this.duration, this.currentChapter.end);
-				}
-				else if (this.duration % targetTime < this.seekInterval) {
+				} else if (this.duration % targetTime < this.seekInterval) {
 					// nothing left but pocket change after seeking to targetTime
 					// go ahead and seek to end of video (or chapter), whichever is earliest
 					targetTime = Math.min(this.duration, this.currentChapter.end);
 				}
-			}
-			else {
+			} else {
 				// this is not the last chapter
 				if (targetTime > this.currentChapter.end) {
 					// targetTime would exceed the end of the chapter
@@ -926,8 +868,7 @@
 					targetTime = this.currentChapter.end;
 				}
 			}
-		}
-		else {
+		} else {
 			// not using chapter times
 			if (targetTime > this.duration) {
 				targetTime = this.duration;
@@ -951,16 +892,14 @@
 
 		if (this.player === 'html5') {
 			this.setPlaybackRate(this.getPlaybackRate() + (0.25 * dir));
-		}
-		else if (this.player === 'youtube') {
+		} else if (this.player === 'youtube') {
 			if (this.youTubePlayerReady) {
 				rates = this.youTubePlayer.getAvailablePlaybackRates();
 				currentRate = this.getPlaybackRate();
 				index = rates.indexOf(currentRate);
 				if (index === -1) {
 					console.log('ERROR: Youtube returning unknown playback rate ' + currentRate.toString());
-				}
-				else {
+				} else {
 					index += dir;
 					// Can only increase or decrease rate if there's another rate available.
 					if (index < rates.length && index >= 0) {
@@ -968,27 +907,15 @@
 					}
 				}
 			}
-		}
-		else if (this.player === 'vimeo') {
+		} else if (this.player === 'vimeo') {
 			// range is 0.5 to 2
 			// increase/decrease in inrements of 0.5
 			vimeoMin = 0.5;
 			vimeoMax = 2;
 			if (dir === 1) {
-				if (this.vimeoPlaybackRate + 0.5 <= vimeoMax) {
-					newRate = this.vimeoPlaybackRate + 0.5;
-				}
-				else {
-					newRate = vimeoMax;
-				}
-			}
-			else if (dir === -1) {
-				if (this.vimeoPlaybackRate - 0.5 >= vimeoMin) {
-					newRate = this.vimeoPlaybackRate - 0.5;
-				}
-				else {
-					newRate = vimeoMin;
-				}
+				newRate = (this.vimeoPlaybackRate + 0.5 <= vimeoMax) ? this.vimeoPlaybackRate + 0.5 : vimeoMax;
+			} else if (dir === -1) {
+				newRate = (this.vimeoPlaybackRate - 0.5 >= vimeoMin) ? this.vimeoPlaybackRate - 0.5 : vimeoMin;
 			}
 			this.setPlaybackRate(newRate);
 		}
@@ -1004,12 +931,8 @@
 			this.hidingPopup = false;
 			return false;
 		}
-		if (this.captions.length) {
-			captions = this.captions;
-		}
-		else {
-			captions = [];
-		}
+
+		captions = (this.captions.length) ? this.captions : [];
 		if (captions.length === 1) {
 			// When there's only one set of captions, just do an on/off toggle.
 			if (this.captionsOn === true) {
@@ -1020,15 +943,12 @@
 				this.updateCookie('prefCaptions');
 				if (this.usingYouTubeCaptions) {
 					this.youTubePlayer.unloadModule('captions');
-				}
-				else if (this.usingVimeoCaptions) {
+				} else if (this.usingVimeoCaptions) {
 					this.vimeoPlayer.disableTextTrack();
-				}
-				else {
+				} else {
 					this.$captionsWrapper.hide();
 				}
-			}
-			else {
+			} else {
 				// captions are off. Turn them on.
 				this.captionsOn = true;
 				this.prefCaptions = 1;
@@ -1036,8 +956,7 @@
 				this.updateCookie('prefCaptions');
 				if (this.usingYouTubeCaptions) {
 					this.youTubePlayer.loadModule('captions');
-				}
-				else if (this.usingVimeoCaptions) {
+				} else if (this.usingVimeoCaptions) {
 					this.vimeoPlayer.enableTextTrack(this.captionLang).then(function(track) {
 						// track.language = the iso code for the language
 						// track.kind = 'captions' or 'subtitles'
@@ -1058,8 +977,7 @@
 								break;
 							}
 					});
-				}
-				else {
+				} else {
 					this.$captionsWrapper.show();
 				}
 				for (var i=0; i<captions.length; i++) {
@@ -1073,8 +991,7 @@
 				}
 			}
 			this.refreshControls('captions');
-		}
-		else {
+		} else {
 			// there is more than one caption track.
 			// clicking on a track is handled via caption.js > getCaptionClickFunction()
 			if (this.captionsPopup && this.captionsPopup.is(':visible')) {
@@ -1082,8 +999,7 @@
 				this.hidingPopup = false;
 				this.$ccButton.attr('aria-expanded', 'false')
 				this.waitThenFocus(this.$ccButton);
-			}
-			else {
+			} else {
 				this.closePopups();
 				if (this.captionsPopup) {
 					this.captionsPopup.show();
@@ -1130,8 +1046,7 @@
 			this.chaptersPopup.hide();
 			this.hidingPopup = false;
 			this.$chaptersButton.attr('aria-expanded','false').trigger('focus');
-		}
-		else {
+		} else {
 			this.closePopups();
 			this.chaptersPopup.show();
 			this.$chaptersButton.attr('aria-expanded','true');
@@ -1143,8 +1058,7 @@
 			this.chaptersPopup.find('li').removeClass('able-focus');
 			if (this.chaptersPopup.find('li[aria-checked="true"]').length) {
 				this.chaptersPopup.find('li[aria-checked="true"]').trigger('focus').addClass('able-focus');
-			}
-			else {
+			} else {
 				this.chaptersPopup.find('li').first().addClass('able-focus').attr('aria-checked','true').trigger('focus');
 			}
 		}
@@ -1202,8 +1116,7 @@
 			setTimeout(function() {
 				thisObj.hidingPopup = false;
 			},100);
-		}
-		else {
+		} else {
 			this.closePopups();
 			this.prefsPopup.show();
 			this.$prefsButton.attr('aria-expanded','true');
@@ -1283,8 +1196,7 @@
 			setTimeout(function() {
 				thisObj.closingSign = false;
 			}, 100);
-		}
-		else {
+		} else {
 			this.positionDraggableWindow('sign');
 			this.$signWindow.show();
 			// showing signWindow has a cascading effect of showing all content *within* signWindow
@@ -1442,8 +1354,7 @@
 		this.setFullscreen(!this.fullscreen);
 		if (stillPaused) {
 			this.pauseMedia(); // when toggling fullscreen and media is just paused, keep media paused.
-		}
-		else if (!stillPaused) {
+		} else if (!stillPaused) {
 			this.playMedia(); // when toggling fullscreen and media is playing, continue playing.
 		}
 		// automatically hide controller in fullscreen mode
@@ -1560,8 +1471,7 @@
 
 		if (($tooltip).is(':animated')) {
 			$tooltip.stop(true,true).show();
-		}
-		else {
+		} else {
 			$tooltip.stop().show();
 		}
 	};
@@ -1744,8 +1654,7 @@
 
 		if (which == 'transcript') {
 			window = this.$transcriptArea;
-		}
-		else if (which == 'sign') {
+		} else if (which == 'sign') {
 			window = this.$signWindow;
 		}
 		windowWidth = window.width();
@@ -1799,8 +1708,7 @@
 					// restore to the default
 					this.$transcriptArea.css('z-index',defLowZ);
 				}
-			}
-			else if (typeof this.$signWindow !== 'undefined') {
+			} else if (typeof this.$signWindow !== 'undefined') {
 				signZ = parseInt(this.$signWindow.css('z-index'));
 				if (signZ > defHighZ) {
 					// restore to the default
@@ -1820,24 +1728,20 @@
 			// the two windows are equal; restore defaults (the target window will be on top)
 			newHighZ = defHighZ;
 			newLowZ = defLowZ;
-		}
-		else if (transcriptZ > signZ) {
+		} else if (transcriptZ > signZ) {
 			if (which === 'transcript') {
 				// transcript is already on top; nothing to do
 				return false;
-			}
-			else {
+			} else {
 				// swap z's
 				newHighZ = transcriptZ;
 				newLowZ = signZ;
 			}
-		}
-		else { // signZ is greater
+		} else { // signZ is greater
 			if (which === 'sign') {
 				// sign is already on top; nothing to do
 				return false;
-			}
-			else {
+			} else {
 				newHighZ = signZ;
 				newLowZ = transcriptZ;
 			}
@@ -1846,8 +1750,7 @@
 		if (which === 'transcript') {
 			this.$transcriptArea.css('z-index',newHighZ);
 			this.$signWindow.css('z-index',newLowZ);
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			this.$signWindow.css('z-index',newHighZ);
 			this.$transcriptArea.css('z-index',newLowZ);
 		}
@@ -1906,8 +1809,7 @@
 			// chapters popup is setup automatically when setupPopups() is called later with no param
 			// not sure why it was included here.
 			// this.setupPopups('chapters');
-		}
-		else if (source === 'transcript') {
+		} else if (source === 'transcript') {
 			this.transcriptCaptions = captions;
 			this.transcriptChapters = chapters;
 			this.transcriptDescriptions = descriptions;

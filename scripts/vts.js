@@ -114,20 +114,16 @@
 								// assume they correctly typed the first character
 								if (editedContent.substring(0,1) === 's') {
 									$(this).text('subtitles');
-								}
-								else if (editedContent.substring(0,1) === 'd') {
+								} else if (editedContent.substring(0,1) === 'd') {
 									$(this).text('descriptions');
-								}
-								else if (editedContent.substring(0,2) === 'ch') {
+								} else if (editedContent.substring(0,2) === 'ch') {
 									$(this).text('chapters');
-								}
-								else {
+								} else {
 									// whatever else they types, assume 'captions'
 									$(this).text('captions');
 								}
 							}
-						}
-						else if (editedCell === 2 || editedCell === 3) {
+						} else if (editedCell === 2 || editedCell === 3) {
 							// start or end time
 							// ensure proper formatting (with 3 decimal places)
 							$(this).text(thisObj.formatTimestamp(editedContent));
@@ -151,8 +147,7 @@
 						$('#able-vts table').remove();
 						$('#able-vts-icon-credit').remove();
 						thisObj.parseVtsOutput($savedTable);
-					}
-					else {
+					} else {
 						// cancel saving, and restore the table using edited content
 						$(this).attr('value','save').text('Save Changes'); // TODO: Localize this
 						$('#able-vts-output').remove();
@@ -190,15 +185,9 @@
 	AblePlayer.prototype.getFilenameFromPath = function(path) {
 
 		var lastSlash;
-
 		lastSlash = path.lastIndexOf('/');
-		if (lastSlash === -1) {
-			// there are no slashes in path.
-			return path;
-		}
-		else {
-			return path.substring(lastSlash+1);
-		}
+		// fix slashes.
+		return (lastSlash === -1) ? path : path.substring(lastSlash+1);
 	};
 
 	AblePlayer.prototype.getFilenameFromTracks = function(kind,lang) {
@@ -252,8 +241,7 @@
 					});
 					i = j; //skip ahead
 				}
-			}
-			else {
+			} else {
 				i++;
 			}
 		}
@@ -263,12 +251,7 @@
 	AblePlayer.prototype.isValidTimestamp = function(timestamp) {
 
 		// return true if timestamp contains only numbers or expected punctuation
-		if (/^[0-9:,.]*$/.test(timestamp)) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return (/^[0-9:,.]*$/.test(timestamp)) ? true : false;
 	};
 
 	AblePlayer.prototype.formatTimestamp = function(timestamp) {
@@ -290,8 +273,7 @@
 		if (lastPart.length > 3) {
 			// chop off any extra digits
 			lastPart = lastPart.substring(0,3);
-		}
-		else if (lastPart.length < 3) {
+		} else if (lastPart.length < 3) {
 			// add trailing zeros
 			while (lastPart.length < 3) {
 				lastPart += '0';
@@ -427,8 +409,7 @@
 					$button.html($button.html());
 					$td.append($button);
 				}
-			}
-			else if (button === 'down') {
+			} else if (button === 'down') {
 				if (rowNum < numRows) {
 					$button = $('<button>',{
 						'id': 'able-vts-button-down-' + rowNum,
@@ -460,8 +441,7 @@
 					$button.html($button.html());
 					$td.append($button);
 				}
-			}
-			else if (button === 'insert') {
+			} else if (button === 'insert') {
 				// Add Insert button to all rows
 				$button = $('<button>',{
 					'id': 'able-vts-button-insert-' + rowNum,
@@ -495,8 +475,7 @@
 				// Refresh button in the DOM in order for browser to process & display the SVG
 				$button.html($button.html());
 				$td.append($button);
-			}
-			else if (button === 'delete') {
+			} else if (button === 'delete') {
 				// Add Delete button to all rows
 				$button = $('<button>',{
 					'id': 'able-vts-button-delete-' + rowNum,
@@ -625,16 +604,13 @@
 		if (action == 'up') {
 			// move the row up
 			this.moveRow(rowNum,'up');
-		}
-		else if (action == 'down') {
+		} else if (action == 'down') {
 			// move the row down
 			this.moveRow(rowNum,'down');
-		}
-		else if (action == 'insert') {
+		} else if (action == 'insert') {
 			// insert a row below
 			this.insertRow(rowNum);
-		}
-		else if (action == 'delete') {
+		} else if (action == 'delete') {
 			// delete the row
 			this.deleteRow(rowNum);
 		}
@@ -767,8 +743,7 @@
 			otherRowNum = parseInt(rowNum) - 1;
 			$otherRow = $('#able-vts table').find('tr').eq(otherRowNum);
 			$otherRow.before($thisRow);
-		}
-		else if (direction == 'down') {
+		} else if (direction == 'down') {
 			otherRowNum = parseInt(rowNum) + 1;
 			$otherRow = $('#able-vts table').find('tr').eq(otherRowNum);
 			$otherRow.after($thisRow);
@@ -823,16 +798,10 @@
 
 		// Get kind, start, and end from current row
 		$row = $rows.eq(rowNum);
-		if ($row.is('[class^="kind-"]')) {
-			// row has a class that starts with "kind-"
-			// Extract kind from the class name
-			kind = this.getKindFromClass($row.attr('class'));
-		}
-		else {
-			// Kind has not been assigned (e.g., newly inserted row)
-			// Set as captions row by default
-			kind = 'captions';
-		}
+		// row has a class that starts with "kind-"
+		// Extract kind from the class name
+		kind = ($row.is('[class^="kind-"]')) ? this.getKindFromClass($row.attr('class')) : 'captions';
+
 		start = this.getSecondsFromColonTime($row.find('td').eq(2).text());
 		end = this.getSecondsFromColonTime($row.find('td').eq(3).text());
 
@@ -841,19 +810,12 @@
 			// this is not the first row. Include the previous row
 			prevRowNum = rowNum - 1;
 			$prevRow = $rows.eq(prevRowNum);
-			if ($prevRow.is('[class^="kind-"]')) {
-				// row has a class that starts with "kind-"
-				// Extract kind from the class name
-			 prevKind = this.getKindFromClass($prevRow.attr('class'));
-			}
-			else {
-				// Kind has not been assigned (e.g., newly inserted row)
-				prevKind = null;
-			}
+			// row has a class that starts with "kind-"
+			// Extract kind from the class name
+			prevKind = ($prevRow.is('[class^="kind-"]')) ? this.getKindFromClass($prevRow.attr('class')) : null;
 			prevStart = this.getSecondsFromColonTime($prevRow.find('td').eq(2).text());
 			prevEnd = this.getSecondsFromColonTime($prevRow.find('td').eq(3).text());
-		}
-		else {
+		} else {
 			// this is the first row
 			prevRowNum = null;
 			$prevRow = null;
@@ -867,19 +829,12 @@
 			// this is not the last row. Include the next row
 			nextRowNum = rowNum + 1;
 			$nextRow = $rows.eq(nextRowNum);
-			if ($nextRow.is('[class^="kind-"]')) {
-				// row has a class that starts with "kind-"
-				// Extract kind from the class name
-			 nextKind = this.getKindFromClass($nextRow.attr('class'));
-			}
-			else {
-				// Kind has not been assigned (e.g., newly inserted row)
-				nextKind = null;
-			}
+			// row has a class that starts with "kind-"
+			// Extract kind from the class name
+			nextKind = ($nextRow.is('[class^="kind-"]')) ? this.getKindFromClass($nextRow.attr('class')) : null;
 			nextStart = this.getSecondsFromColonTime($nextRow.find('td').eq(2).text());
 			nextEnd = this.getSecondsFromColonTime($nextRow.find('td').eq(3).text());
-		}
-		else {
+		} else {
 			// this is the last row
 			nextRowNum = null;
 			$nextRow = null;
@@ -900,62 +855,43 @@
 			if (prevKind === 'captions') {
 				// start the new row immediately after the captions end
 				start = (parseFloat(prevEnd) + .001).toFixed(3);
-				if (nextStart) {
-					// end the new row immediately before the next row starts
-					end = (parseFloat(nextStart) - .001).toFixed(3);
-				}
-				else {
-					// this is the last row. Use minDuration to calculate end time.
-					end = (parseFloat(start) + minDuration[kind]).toFixed(3);
-				}
-			}
-			else if (prevKind === 'chapters') {
+				// end the new row immediately before the next row starts
+				end = (nextStart) ? (parseFloat(nextStart) - .001).toFixed(3) : (parseFloat(start) + minDuration[kind]).toFixed(3);
+			} else if (prevKind === 'chapters') {
 				// start the new row immediately after the chapter start (not end)
 				start = (parseFloat(prevStart) + .001).toFixed(3);
-				if (nextStart) {
-					// end the new row immediately before the next row starts
-					end = (parseFloat(nextStart) - .001).toFixed(3);
-				}
-				else {
-					// this is the last row. Use minDuration to calculate end time.
-					end = (parseFloat(start) + minDurartion[kind]).toFixed(3);
-				}
-			}
-			else if (prevKind === 'descriptions') {
+				// end the new row immediately before the next row starts
+				end = (nextStart) ? (parseFloat(nextStart) - .001).toFixed(3) : (parseFloat(start) + minDurartion[kind]).toFixed(3);
+			} else if (prevKind === 'descriptions') {
 				// start the new row minDuration['descriptions'] after the description starts
 				// this will theoretically allow at least a small cushion for the description to be read
 				start = (parseFloat(prevStart) + minDuration['descriptions']).toFixed(3);
 				end = (parseFloat(start) + minDuration['descriptions']).toFixed(3);
 			}
-		}
-		else {
+		} else {
 			// current row has a start time (i.e., an existing row has been moved))
 			if (prevStart) {
 				// this is not the first row.
 				if (prevStart < start) {
 					if (start < nextStart) {
 						// No change is necessary
-					}
-					else {
+					} else {
 						// nextStart needs to be incremented
 						nextStart = (parseFloat(start) + minDuration[kind]).toFixed(3);
 						nextEnd = (parseFloat(nextStart) + minDuration[nextKind]).toFixed(3);
 						// TODO: Ensure nextEnd does not exceed the following start (nextNextStart)
 						// Or... maybe this is getting too complicated and should be left up to the user
 					}
-				}
-				else {
+				} else {
 					// start needs to be incremented
 					start = (parseFloat(prevStart) + minDuration[prevKind]).toFixed(3);
 					end = (parseFloat(start) + minDuration[kind]).toFixed(3);
 				}
-			}
-			else {
+			} else {
 				// this is the first row
 				if (start < nextStart) {
 					// No change is necessary
-				}
-				else {
+				} else {
 					// nextStart needs to be incremented
 					nextStart = (parseFloat(start) + minDuration[kind]).toFixed(3);
 					nextEnd = (parseFloat(nextStart) + minDuration[nextKind]).toFixed(3);
@@ -998,8 +934,7 @@
 		if (kindEnd == -1) {
 			// no spaces found, "kind-" must be the only myclass
 			return myclass.substring(kindStart);
-		}
-		else {
+		} else {
 			// kind-* is one of multiple classes
 			// the following will find it regardless of position of "kind-*" within the class string
 			return myclass.substring(kindStart,kindEnd);
@@ -1069,8 +1004,7 @@
 		if (filename) {
 			pText += 'to replace the original content of your ' + this.getLanguageName(lang) + ' ';
 			pText += '<em>' + kind + '</em> WebVTT file (<strong>' + filename + '</strong>).';
-		}
-		else {
+		} else {
 			pText += 'into a new ' + this.getLanguageName(lang) + ' <em>' + kind + '</em> WebVTT file.';
 		}
 		$p = $('<p>',{
