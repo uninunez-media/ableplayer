@@ -151,24 +151,16 @@
 		containerId = this.mediaId + '_youtube_sign';
 
 		this.$signWindow.append($('<div>').attr('id', containerId));
-
-		// cc_load_policy:
-		// 0 - show captions depending on user's preference on YouTube
-		// 1 - show captions by default, even if the user has turned them off
-		// IMPORTANT: This *must* be set to 1 or some browsers
-		// fail to load any text tracks (observed in Chrome, not in Firefox)
-		ccLoadPolicy = 1;
 		autoplay = (this.okToPlay) ? 1 : 0;
 
 		// Documentation https://developers.google.com/youtube/player_parameters
-
 		this.youTubeSignPlayer = new YT.Player(containerId, {
 			videoId: this.getYouTubeId(this.signYoutubeId),
 			host: this.youTubeNoCookie ? 'https://www.youtube-nocookie.com' : 'https://www.youtube.com',
 			playerVars: {
 				autoplay: autoplay,
 				cc_lang_pref: this.captionLang, // set the caption language
-				cc_load_policy: ccLoadPolicy,
+				cc_load_policy: 0,
 				controls: 0, // no controls, using our own
 				disableKb: 1, // disable keyboard shortcuts, using our own
 				enablejsapi: 1,
@@ -181,6 +173,7 @@
 			},
 			events: {
 				onReady: function (player) {
+					console.log( player.target );
 					player.target.mute();
 					thisObj.youTubeSignPlayerReady = true;
 
@@ -201,7 +194,7 @@
 					// no actions
 				},
 			}
-		}).mute();
+		});
 
 		return promise;
 	};
