@@ -7,14 +7,14 @@
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
 <link rel="stylesheet" href="../build/ableplayer.min.css" type="text/css"/>
 
 <!-- Able Player JavaScript -->
-<script src="../build/ableplayer.js"></script>
+<script src="../build/ableplayer.dist.js"></script>
 </head>
 
 <body>
@@ -32,24 +32,23 @@
 
 		<div id="intro">
 
-			<p>This page features an example of Able Player being used to play a YouTube video. 
+			<p>This page features an example of Able Player being used to play a YouTube video.
 			Its features include:</p>
-		
+
 			<ul>
 				<li>A described and non-described version of the video, both hosted on YouTube. Swap between the two versions using the <em>Description</em> button.</li>
 				<li>Captions and subtitles <strong>hosted on YouTube</strong> (NOTE: without locally-hosted captions, Able Player is unable to generate an interactive transcript).</li>
 				<li>Limited options in the Captions Preferences dialog (users can control the font size of captions)</li>
-			</ul> 
+			</ul>
 
-			<p>For more information about the limitations of hosting captions on 
-				YouTube and Vimeo, see the 
+			<p>For more information about the limitations of hosting captions on
+				YouTube and Vimeo, see the
 				<a href="https://ableplayer.github.io/ableplayer">Able Player documentation</a>.
 			</p>
-		
-		</div>
 
+		</div>
 		<div class="wrapper">
-			<video id="video1" data-able-player preload="auto" data-youtube-id="dhwpLACAls8" data-youtube-desc-id="Ck2TdVMhWcU" playsinline>
+			<video id="video1" data-able-player preload="auto" data-youtube-nocookie="true" data-youtube-id="dhwpLACAls8" data-youtube-desc-id="Ck2TdVMhWcU" playsinline>
 			</video>
 		</div>
 

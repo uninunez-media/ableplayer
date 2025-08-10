@@ -7,14 +7,14 @@
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
 <link rel="stylesheet" href="../build/ableplayer.min.css" type="text/css"/>
 
 <!-- Able Player JavaScript -->
-<script src="../build/ableplayer.js"></script>
+<script src="../build/ableplayer.dist.js"></script>
 
 <!-- CSS for this example -->
 <style>
@@ -81,31 +81,26 @@ $(document).ready(function() {
 			if (player.playing) {
 				player.pauseMedia();
 				$(this).text('Play');
-			}
-			else {
+			} else {
 				player.playMedia();
 				$(this).text('Pause');
 			}
-		}
-		else if (button === 'mute') {
+		} else if (button === 'mute') {
 			if (player.isMuted()) {
 				player.setMute(false);
 				$(this).text('Mute');
-			}
-			else {
+			} else {
 				player.setMute(true);
 				$(this).text('Unmute');
 			}
-		}
-		else if (button === 'go') {
+		} else if (button === 'go') {
 			var seconds = $('#skipTo').val();
 			var duration = player.getDuration();
 			if (seconds >= 0 && seconds < duration) {
 				player.seekTo(seconds);
 				player.playMedia();
 				$('#play').text('Pause');
-			}
-			else {
+			} else {
 				var error = "You can't play at ";
 				error += seconds + " seconds in a " + Math.round(duration);
 				error += " second video!";
@@ -142,10 +137,10 @@ $(document).ready(function() {
 		<h1>Controlling Able Player with external controls</h1>
 
 		<p>To control Able Player via external controls, assign a new AblePlayer instance to a variable
-			and omit the <strong>data-able-player</strong> attribute from the media element.
+			and omit the <code>data-able-player</code> attribute from the media element.
 			Then, all Able Player functions are exposed and can be accessed via your custom JavaScript.</p>
 		<div id="wrapper">
-			<video id="video1" preload="auto" width="480" height="360" poster="../media/wwa.jpg" playsinline>
+			<video id="video1" preload="auto" poster="../media/wwa.jpg" playsinline>
 				<source type="video/mp4" src="../media/wwa.mp4" data-desc-src="../media/wwa_described.mp4"/>
 				<source type="video/webm" src="../media/wwa.webm" data-desc-src="../media/wwa_described.webm"/>
 				<track kind="captions" src="../media/wwa_captions_de.vtt" srclang="de" label="Deutsche"/>

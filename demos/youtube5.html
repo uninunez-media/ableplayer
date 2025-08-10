@@ -7,14 +7,14 @@
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
 <link rel="stylesheet" href="../build/ableplayer.min.css" type="text/css"/>
 
 <!-- Able Player JavaScript -->
-<script src="../build/ableplayer.js"></script>
+<script src="../build/ableplayer.dist.js"></script>
 </head>
 
 <body>
@@ -32,17 +32,17 @@
 
 		<div id="intro">
 
-			<p>This page features an example of Able Player being used to play a YouTube video. 
+			<p>This page features an example of Able Player being used to play a YouTube video.
 			This video does not have captions, and is used solely to test Able Player's ability to handle uncaptioned videos. However, all videos <em>should</em> be captioned.</p>
-				
+
 		</div>
 
-		<!-- Example YouTube IDs for testing: 
+		<!-- Example YouTube IDs for testing:
 		Video with machine-generated captions: r13a8d5YGFY
 		Video with no captions at all: zaonYTmFaBU
 		-->
 		<div class="wrapper">
-			<video id="video1" data-able-player preload="auto" data-youtube-id="zaonYTmFaBU" playsinline>
+			<video id="video1" data-able-player preload="auto" data-youtube-nocookie="true" data-youtube-id="zaonYTmFaBU" playsinline>
 			</video>
 		</div>
 

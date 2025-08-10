@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Video with synchronized sign language from local sources | Able Player Demos</title>
+<title>Video with synchronized sign language sourced from YouTube | Able Player Demos</title>
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
@@ -35,17 +35,16 @@
 		</ul>
 	</nav>
 	<main>
-		<h1>Video with sign language</h1>
+		<h1>Video with sign language sourced from YouTube</h1>
 
-		<p>An accompanying sign language video is provided for each <code>&lt;source&gt;</code> element using the
-			<code>data-sign-src</code> attribute. This results in a sign language video being played in a pop-up window
-			in sync with the program video. Unfortunately, this does not currently work in iOS.
+		<p>An accompanying sign language video is provided using the
+			<code>data-youtube-sign-src</code> attribute. This results in a sign language video being played in a pop-up window
+			in sync with the program video. Unfortunately, this does not work in iOS.
 		</p>
 
 		<div id="video-wrapper">
 			<video id="video1" preload="auto" poster="../media/wwa.jpg" data-icon-type="image" data-able-player playsinline>
-				<source type="video/mp4" src="../media/wwa.mp4" data-desc-src="../media/wwa_described.mp4" data-sign-src="../media/wwa_sign.mp4"/>
-				<source type="video/webm" src="../media/wwa.webm" data-desc-src="../media/wwa_described.webm" data-sign-src="../media/wwa_sign.webm"/>
+				<source type="video/mp4" src="../media/wwa.mp4" data-desc-src="../media/wwa_described.mp4" data-youtube-sign-src="https://youtu.be/bf6214F7srY"/>
 				<track kind="captions" src="../media/wwa_captions_de.vtt" srclang="de" label="Deutsche"/>
 				<track kind="captions" src="../media/wwa_captions_en.vtt" srclang="en" label="English" default/>
 				<track kind="captions" src="../media/wwa_captions_es.vtt" srclang="es" label="Español"/>

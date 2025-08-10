@@ -7,22 +7,22 @@
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
 <link rel="stylesheet" href="../build/ableplayer.min.css" type="text/css"/>
 
 <!-- Able Player JavaScript -->
-<script src="../build/ableplayer.js"></script>
+<script src="../build/ableplayer.dist.js"></script>
 
 <!-- Example CSS for fallback content -->
 <style>
 	.fallback {
 		padding: 1em;
-		border: 3px solid #340449; 
+		border: 3px solid #340449;
 		background-color: #FFC;
-		color: #000; 
+		color: #000;
 	}
 </style>
 </head>
@@ -42,12 +42,15 @@
 
 		<p>This page includes several examples of media elements with fallback content:</p>
 		<ul>
-			<li>If there is an error building Able Player, the browser's native media player should appear (emulated here with <strong>data-test-fallback="1"</strong>).</li>
-			<li>If the browser doesn't support HTML media, the browser should display fallback content that's nested within the &lt;audio&gt; or &lt;video&gt; elements (emulated here with <strong>data-test-fallback="2"</strong>).</li>
+			<li>If there is an error building Able Player, the browser's native media player should appear
+				(emulated here with <code>data-test-fallback="1"</code>).</li>
+			<li>If the browser doesn't support HTML media, the browser should display fallback content that's
+				nested within the <code><code>&lt;audio&gt;</code></code> or <code><code>&lt;video&gt;</code></code> elements
+				(emulated here with <code>data-test-fallback="2"</code>).</li>
 		</ul>
 
 		<p>
-			<strong>NOTE:</strong> On this example page, the fallback content has been stylized using CSS. If no fallback content is provided, Able Player will display a short error message in Engish (see Video Example 4). This content is not stylized; it's better to provide your own fallback than to rely on ours. 
+			<strong>NOTE:</strong> On this example page, the fallback content has been stylized using CSS. If no fallback content is provided, Able Player will display a short error message in Engish (see Video Example 4). This content is not stylized; it's better to provide your own fallback than to rely on ours.
 		</p>
 
 		<section aria-labelledby="audio1-heading">
@@ -56,10 +59,10 @@
 				<li><strong>Issue emulated:</strong> Error building player</li>
 				<li><strong>HTML fallback nested in code:</strong> Yes</li>
 			</ul>
-			<audio id="audio1" width="480" preload="auto" data-able-player data-test-fallback="1">
+			<audio id="audio1" preload="auto" data-able-player data-test-fallback="1">
 				<source type="audio/mpeg" src="../media/smallf.mp3"/>
 				<source type="audio/ogg" src="../media/smallf.ogg"/>
-				<p class="fallback">This is example fallback content, nested within the &lt;audio&gt; element.
+				<p class="fallback">This is example fallback content, nested within the <code>&lt;audio&gt;</code> element.
 					It could provide alternative content, such as a link for downloading the audio file
 					or a link to a transcript.</p>
 			</audio>
@@ -71,10 +74,10 @@
 				<li><strong>Issue emulated:</strong> Browser does not support HTML media</li>
 				<li><strong>HTML fallback nested in code:</strong> Yes</li>
 			</ul>
-			<audio id="audio2" width="480" preload="auto" data-able-player data-test-fallback="2">
+			<audio id="audio2" preload="auto" data-able-player data-test-fallback="2">
 				<source type="audio/mpeg" src="../media/smallf.mp3"/>
 				<source type="audio/ogg" src="../media/smallf.ogg"/>
-				<p class="fallback">This is example fallback content, nested within the &lt;audio&gt; element.
+				<p class="fallback">This is example fallback content, nested within the <code>&lt;audio&gt;</code> element.
 					It could provide alternative content, such as a link for downloading the audio file
 					or a link to a transcript.</p>
 			</audio>
@@ -86,13 +89,13 @@
 				<li><strong>Issue emulated:</strong> Error building player</li>
 				<li><strong>HTML fallback nested in code:</strong> Yes</li>
 			</ul>
-			<video id="video1" preload="auto" width="480" height="360" poster="../media/wwa.jpg" data-able-player data-test-fallback="1">
+			<video id="video1" preload="auto" poster="../media/wwa.jpg" data-able-player data-test-fallback="1">
 				<source type="video/mp4" src="../media/wwa.mp4" data-desc-src="../media/wwa_described.mp4"/>
 				<source type="video/webm" src="../media/wwa.webm" data-desc-src="../media/wwa_described.webm"/>
 				<track kind="captions" src="../media/wwa_captions_en.vtt" srclang="en" label="English"/>
 				<track kind="descriptions" src="../media/wwa_description_en.vtt" srclang="en"/>
 				<track kind="chapters" src="../media/wwa_chapters_en.vtt" srclang="en"/>
-				<p class="fallback">This is example fallback content, nested within the &lt;video&gt; element.
+				<p class="fallback">This is example fallback content, nested within the <code>&lt;video&gt;</code> element.
 					It could provide alternative content, such as a link for downloading the video file (with open or embedded captions)
 					or a link to a transcript.</p>
 			</video>
@@ -104,13 +107,13 @@
 				<li><strong>Issue emulated:</strong> Browser does not support HTML media</li>
 				<li><strong>HTML fallback nested in code:</strong> Yes</li>
 			</ul>
-			<video id="video2" preload="auto" width="480" height="360" poster="../media/wwa.jpg" data-able-player data-test-fallback="2">
+			<video id="video2" preload="auto" poster="../media/wwa.jpg" data-able-player data-test-fallback="2">
 				<source type="video/mp4" src="../media/wwa.mp4" data-desc-src="../media/wwa_described.mp4"/>
 				<source type="video/webm" src="../media/wwa.webm" data-desc-src="../media/wwa_described.webm"/>
 				<track kind="captions" src="../media/wwa_captions_en.vtt" srclang="en" label="English"/>
 				<track kind="descriptions" src="../media/wwa_description_en.vtt" srclang="en"/>
 				<track kind="chapters" src="../media/wwa_chapters_en.vtt" srclang="en"/>
-				<p class="fallback">This is example fallback content, nested within the &lt;video&gt; element.
+				<p class="fallback">This is example fallback content, nested within the <code>&lt;video&gt;</code> element.
 					It could provide alternative content, such as a link for downloading the video file (with open or embedded captions)
 					or a link to a transcript.</p>
 			</video>
@@ -122,7 +125,7 @@
 				<li><strong>Issue emulated:</strong> Error building player</li>
 				<li><strong>HTML fallback nested in code:</strong> No</li>
 			</ul>
-			<video id="video3" preload="auto" width="480" height="360" poster="../media/wwa.jpg" data-able-player data-test-fallback="1">
+			<video id="video3" preload="auto" poster="../media/wwa.jpg" data-able-player data-test-fallback="1">
 				<source type="video/mp4" src="../media/wwa.mp4" data-desc-src="../media/wwa_described.mp4"/>
 				<source type="video/webm" src="../media/wwa.webm" data-desc-src="../media/wwa_described.webm"/>
 				<track kind="captions" src="../media/wwa_captions_en.vtt" srclang="en" label="English"/>
@@ -137,7 +140,7 @@
 				<li><strong>Issue emulated:</strong> Browser does not support HTML media</li>
 				<li><strong>HTML fallback nested in code:</strong> No</li>
 			</ul>
-			<video id="video4" preload="auto" width="480" height="360" poster="../media/wwa.jpg" data-able-player data-test-fallback="2">
+			<video id="video4" preload="auto" poster="../media/wwa.jpg" data-able-player data-test-fallback="2">
 				<source type="video/mp4" src="../media/wwa.mp4" data-desc-src="../media/wwa_described.mp4"/>
 				<source type="video/webm" src="../media/wwa.webm" data-desc-src="../media/wwa_described.webm"/>
 				<track kind="captions" src="../media/wwa_captions_en.vtt" srclang="en" label="English"/>

@@ -7,14 +7,14 @@
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
 <link rel="stylesheet" href="../build/ableplayer.min.css" type="text/css"/>
 
 <!-- Able Player JavaScript -->
-<script src="../build/ableplayer.js"></script>
+<script src="../build/ableplayer.dist.js"></script>
 
 <!-- CSS for this example page -->
 <style>
@@ -32,15 +32,11 @@
 		width: 640px;
 		margin: 0;
 	}
-	#playlist {
-		border: 1px solid #DDD;
-		margin: 20px;
-	}
 	#playlist h2 {
 		text-align: center;
+		margin-top: 0;
 	}
 </style>
-
 </head>
 
 <body>
@@ -56,15 +52,15 @@
 	<main>
 		<h1>Video player with a playlist (Local Sources)</h1>
 
-		<p>This page includes a playlist of three videos, all stored locally. 
-			They each have a variety of different assets to test how gracefully the player can adapt 
+		<p>This page includes a playlist of three videos, all stored locally.
+			They each have a variety of different assets to test how gracefully the player can adapt
 			to these changes as new media sources are loaded.
 			</p>
 
 		<div id="wrapper">
 			<div id="player">
 				<!-- video source and track elements will be populated from playlist -->
-				<video id="video1" width="640" height="480" preload="auto" data-able-player playsinline loop></video>
+				<video id="video1" preload="auto" data-able-player playsinline loop></video>
 			</div>
 			<div id="playlist">
 				<h2>Playlist</h2>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Native HTML5 Media Player | Able Player Demos</title>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link rel="stylesheet" href="demos.css" type="text/css">
 <style>
 :focus {
@@ -39,8 +39,7 @@ $(document).ready(function () {
 					audioDuration = event.target.duration;
 					audioElapsed = 0;
 					prevAudioElapsed = 0;
-				}
-				else {
+				} else {
 					videoDuration = event.target.duration;
 					videoElapsed = 0;
 					prevVideoElapsed = 0;
@@ -113,8 +112,7 @@ $(document).ready(function () {
 						}
 						prevAudioElapsed = audioElapsed;
 					}
-				}
-				else {
+				} else {
 					videoTime = event.target.currentTime;
 					videoElapsed = Math.floor((videoTime/videoDuration)*100);
 					if (videoElapsed !== prevVideoElapsed) {
@@ -161,9 +159,9 @@ $(document).ready(function () {
 	<main>
 		<h1>Native HTML5 Media Player</h1>
 
-		<p>This page features HTML5 &lt;audio&gt; and &lt;video&gt; elements, 
-			each with multiple source files to ensure cross-browser support. 
-			This page was included among the examples for comparison with <em>Able Player</em>; 
+		<p>This page features HTML5 <code>&lt;audio&gt;</code> and <code>&lt;video&gt;</code> elements,
+			each with multiple source files to ensure cross-browser support.
+			This page was included among the examples for comparison with <em>Able Player</em>;
 			<em>Able Player</em> is not used on this page.</p>
 
 		<div id="wrapper">
@@ -175,7 +173,7 @@ $(document).ready(function () {
 
 			<h2>Video (with English captions, Spanish subtitles, description, and chapters tracks)</h2>
 
-			<video id="video1" preload="auto" width="480" height="360" poster="../media/wwa.jpg" controls>
+			<video id="video1" preload="auto" poster="../media/wwa.jpg" controls>
 				<source type="video/mp4" src="../media/wwa.mp4">
 				<source type="video/webm" src="../media/wwa.webm">
 				<track kind="captions" src="../media/wwa_captions_de.vtt" srclang="de" label="Deutsche"/>

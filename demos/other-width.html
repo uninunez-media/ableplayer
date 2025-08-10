@@ -7,14 +7,14 @@
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
 <link rel="stylesheet" href="../build/ableplayer.min.css" type="text/css"/>
 
 <!-- Able Player JavaScript -->
-<script src="../build/ableplayer.js"></script>
+<script src="../build/ableplayer.dist.js"></script>
 
 <!-- Vimeo JavaScript -->
 <script src="https://player.vimeo.com/api/player.js"></script>
@@ -38,23 +38,27 @@
 	<main>
 		<h1>Able Player Width Tests</h1>
 
-		<p>This page includes various combinations of audio and video elements. 
+		<p>This page includes various combinations of audio and video elements.
 			The following rules apply for defining the size of an Able Player instance:</p>
 		<ul>
-			<li>If <strong>width</strong> and <strong>height</strong> attributes are present, 
+			<li>If <code>width</code> and <code>height</code> attributes are present,
 				these are used to set the default size of the player.</li>
-			<li>The above attributes are not valid HTML for &lt;audio&gt;, but are still supported. 
-				However, to ensure valid code, <strong>data-width</strong> should be used instead.</li>
+			<li>The above attributes are not valid HTML for <code>&lt;audio&gt;</code>, but are still supported.
+				However, to ensure valid code, <code>data-width</code> can be used instead.</li>
 			<li>If no size attributes are present, the player defaults to the intrinsic width of the video.</li>
 			<li>The player will not exceed the width of its container, and will scale appropriately in a responsive design.</li>
 		</ul>
+
+		<p>
+			You can use the <code>width</code> and <code>height</code> attributes to set the player to a size smaller than its container, but not larger.
+		</p>
 
 		<p>For additional demos see the <a href="index.html">Index of <em>Able Player</em> Examples</a>.</p>
 
 		<section aria-labelledby="audio1-heading">
 			<h2 id="audio1-heading">Audio Example 1 (default width)</h2>
 			<ul>
-				<li><strong>Width attribute:</strong> No</li>		
+				<li><strong>Width attribute:</strong> No</li>
 				<li><strong>CSS width of container:</strong> Unspecified</li>
 				<li><strong>Expected outcome:</strong> Player fills width of the screen</li>
 			</ul>
@@ -67,7 +71,7 @@
 		<section aria-labelledby="audio2-heading">
 			<h2 id="audio2-heading">Audio Example 2 (width attribute)</h2>
 			<ul>
-				<li><strong>Width attribute:</strong> 800</li>		
+				<li><strong>Width attribute:</strong> 800</li>
 				<li><strong>CSS width of container:</strong> Unspecified</li>
 				<li><strong>Expected outcome:</strong> Player is 800px wide</li>
 			</ul>
@@ -80,11 +84,11 @@
 		<section aria-labelledby="audio3-heading" style="width:500px;max-width:100%">
 			<h2 id="audio3-heading">Audio Example 3 (width controlled by container)</h2>
 			<ul>
-				<li><strong>Width attribute:</strong> 800</li>		
+				<li><strong>Width attribute:</strong> 800</li>
 				<li><strong>CSS width of container:</strong> 500px</li>
 				<li><strong>Expected outcome:</strong> Player fills width of container (500px)</li>
 			</ul>
-			<audio id="audio3" width="800" preload="auto" data-able-player data-skin="legacy" playsinline>
+			<audio id="audio3" preload="auto" data-able-player data-skin="legacy" playsinline>
 				<source type="audio/mpeg" src="../media/smallf.mp3"/>
 				<source type="audio/ogg" src="../media/smallf.ogg"/>
 			</audio>
@@ -95,8 +99,8 @@
 			<ul>
 				<li><strong>Video intrinsic size:</strong> 1920 x 1080</li>
 				<li><strong>Aspect ratio:</strong> 16:9</li>
-				<li><strong>Width/height attributes:</strong> Unspecified</li>		
-				<li><strong>Width of container:</strong> Unspecified</li>		
+				<li><strong>Width/height attributes:</strong> Unspecified</li>
+				<li><strong>Width of container:</strong> Unspecified</li>
 				<li><strong>Expected outcome:</strong> Player fills width of the screen</li>
 			</ul>
 			<video id="video1" preload="auto" data-able-player data-skin="legacy" poster="../media/deadline.jpg" playsinline>
@@ -116,12 +120,11 @@
 			<ul>
 				<li><strong>Video dimensions:</strong> 1920 x 1080</li>
 				<li><strong>Aspect ratio:</strong> 16:9</li>
-				<li><strong>Width/height attributes:</strong> 800 x 450</li>		
-				<li><strong>Width of container:</strong> Unspecified</li>		
+				<li><strong>Width/height attributes:</strong> 800 x 450</li>
+				<li><strong>Width of container:</strong> Unspecified</li>
 				<li><strong>Expected outcome:</strong> Video displayed at 800 x 450</li>
 			</ul>
-			<video id="video2" preload="auto" data-able-player data-skin="legacy" poster="../media/deadline.jpg"  playsinline 
-				width="800" height="450">
+			<video id="video2" preload="auto" data-able-player data-skin="legacy" poster="../media/deadline.jpg"  playsinline>
 				<source type="video/mp4" src="../media/deadline.mp4" data-desc-src="../media/deadline_desc.mp4"/>
 				<track kind="captions" src="../media/deadline_captions_en.vtt" srclang="en" label="English" default/>
 				<track kind="captions" src="../media/deadline_captions_ar.vtt" srclang="ar" label="Arabic"/>
@@ -138,8 +141,8 @@
 			<ul>
 				<li><strong>Video dimensions:</strong> 1920 x 1080</li>
 				<li><strong>Aspect ratio:</strong> 16:9</li>
-				<li><strong>Width/height attributes:</strong> Unspecified</li>		
-				<li><strong>Width of container:</strong> 500px (max-width 100%)</li>		
+				<li><strong>Width/height attributes:</strong> Unspecified</li>
+				<li><strong>Width of container:</strong> 500px (max-width 100%)</li>
 				<li><strong>Expected outcome:</strong> Video fills the width of its container, 500px or less.</li>
 			</ul>
 			<video id="video3" preload="auto" data-able-player data-skin="legacy" poster="../media/deadline.jpg" playsinline>
@@ -159,8 +162,8 @@
 			<ul>
 				<li><strong>Video dimensions:</strong> 640 x 480</li>
 				<li><strong>Aspect ratio:</strong> 4:3</li>
-				<li><strong>Width/height attributes:</strong> Unspecified </li>		
-				<li><strong>Width of container:</strong> 500px (max-width 100%)</li>	
+				<li><strong>Width/height attributes:</strong> Unspecified </li>
+				<li><strong>Width of container:</strong> 500px (max-width 100%)</li>
 				<li><strong>Expected outcome:</strong> Video fills the width of its container, 500px or less.</li>
 			</ul>
 			<video id="video4" preload="auto" poster="../media/wwa.jpg" data-able-player data-skin="legacy" playsinline>
@@ -177,12 +180,12 @@
 			<ul>
 				<li><strong>Video dimensions:</strong> 640 x 360</li>
 				<li><strong>Aspect ratio:</strong> 16:9</li>
-				<li><strong>Width/height attributes:</strong> Unspecified </li>		
-				<li><strong>Width of container:</strong> Unspecified</li>	
+				<li><strong>Width/height attributes:</strong> Unspecified </li>
+				<li><strong>Width of container:</strong> Unspecified</li>
 				<li><strong>Expected outcome:</strong>  Player fills width of the screen</li>
 			</ul>
-			<video id="youtube1" data-able-player data-skin="legacy" preload="auto" 
-				data-youtube-id="dhwpLACAls8" data-youtube-desc-id="Ck2TdVMhWcU">
+			<video id="youtube1" data-able-player data-skin="legacy" preload="auto"
+				data-youtube-nocookie="true" data-youtube-id="dhwpLACAls8" data-youtube-desc-id="Ck2TdVMhWcU">
 			</video>
 		</section>
 
@@ -191,12 +194,12 @@
 			<ul>
 				<li><strong>Video dimensions:</strong> 640 x 360</li>
 				<li><strong>Aspect ratio:</strong> 16:9</li>
-				<li><strong>Width/height attributes:</strong> 800 x 450</li>		
-				<li><strong>Width of container:</strong> Unspecified</li>	
+				<li><strong>Width/height attributes:</strong> 800 x 450</li>
+				<li><strong>Width of container:</strong> Unspecified</li>
 				<li><strong>Expected outcome:</strong> Video will be displayed at 800 x 450.</li>
 			</ul>
-			<video id="youtube2" width="800" data-able-player data-skin="legacy" preload="auto" 
-			data-youtube-id="dhwpLACAls8" data-youtube-desc-id="Ck2TdVMhWcU">
+			<video id="youtube2" width="800" data-able-player data-skin="legacy" preload="auto"
+			data-youtube-nocookie="true" data-youtube-id="dhwpLACAls8" data-youtube-desc-id="Ck2TdVMhWcU">
 			</video>
 		</section>
 
@@ -205,12 +208,12 @@
 			<ul>
 				<li><strong>Video dimensions:</strong> 640 x 360</li>
 				<li><strong>Aspect ratio:</strong> 16:9</li>
-				<li><strong>Width/height attributes:</strong> Unspecified </li>		
-				<li><strong>Width of container:</strong> 500px (max-width 100%)</li>	
+				<li><strong>Width/height attributes:</strong> Unspecified </li>
+				<li><strong>Width of container:</strong> 500px (max-width 100%)</li>
 				<li><strong>Expected outcome:</strong>  Video fills the width of its container, 500px or less.</li>
 			</ul>
-			<video id="youtube3" data-able-player data-skin="legacy" preload="auto" 
-				data-youtube-id="dhwpLACAls8" data-youtube-desc-id="Ck2TdVMhWcU">
+			<video id="youtube3" data-able-player data-skin="legacy" preload="auto"
+				data-youtube-nocookie="true" data-youtube-id="dhwpLACAls8" data-youtube-desc-id="Ck2TdVMhWcU">
 			</video>
 		</section>
 
@@ -220,10 +223,10 @@
 				<li><strong>Video dimensions:</strong> Unknown</li>
 				<li><strong>Aspect ratio:</strong> Unknown</li>
 				<li><strong>Inline style dimensions:</strong> N/A</li>
-				<li><strong>Width/height attributes:</strong> N/A</li>		
+				<li><strong>Width/height attributes:</strong> N/A</li>
 				<li><strong>Expected outcome:</strong> Player fills width of the screen.</li>
 			</ul>
-			<video id="vimeo1" data-able-player data-skin="legacy" preload="auto" 
+			<video id="vimeo1" data-able-player data-skin="legacy" preload="auto"
 				data-vimeo-id="328769500" data-vimeo-desc-id="328769442">
 			</video>
 		</section>
@@ -233,7 +236,7 @@
 			<ul>
 				<li><strong>Video dimensions:</strong> Unknown</li>
 				<li><strong>Aspect ratio:</strong> Unknown</li>
-				<li><strong>Width/height attributes:</strong> 800 x 450</li>		
+				<li><strong>Width/height attributes:</strong> 800 x 450</li>
 				<li><strong>Expected outcome:</strong> Video displayed at 800px wide</li>
 			</ul>
 			<video id="vimeo2" data-able-player data-skin="legacy" preload="auto" width="800" height="450"
@@ -246,11 +249,11 @@
 			<ul>
 				<li><strong>Video dimensions:</strong> Unknown</li>
 				<li><strong>Aspect ratio:</strong> Unknown</li>
-				<li><strong>Width/height attributes:</strong> Unspecified</li>		
-				<li><strong>Width of container:</strong> 500px (max-width 100%)</li>	
+				<li><strong>Width/height attributes:</strong> Unspecified</li>
+				<li><strong>Width of container:</strong> 500px (max-width 100%)</li>
 				<li><strong>Expected outcome:</strong> Video fills the width of its container, 500px or less.</li>
 			</ul>
-			<video id="vimeo3" data-able-player data-skin="legacy" preload="auto" 
+			<video id="vimeo3" data-able-player data-skin="legacy" preload="auto"
 				data-vimeo-id="328769500" data-vimeo-desc-id="328769442">
 			</video>
 		</section>

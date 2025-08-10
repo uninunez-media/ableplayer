@@ -7,14 +7,14 @@
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
 <link rel="stylesheet" href="../build/ableplayer.min.css" type="text/css"/>
 
 <!-- Able Player JavaScript -->
-<script src="../build/ableplayer.js"></script>
+<script src="../build/ableplayer.dist.js"></script>
 
 <!-- styles for this example page -->
 <style>
@@ -24,24 +24,24 @@
 		gap: 20px;
 		max-width: 1120px;
 	}
-	div#col1 { 
+	div#col1 {
 		background-color: #e8ddf0;
 		border: 1px solid #340449;
 		margin-right: 1em;
 	}
-	div#col2 div.able-wrapper { 
+	div#col2 div.able-wrapper {
 		margin-top: 0;
 	}
-	section#intro p, 
-	section#intro ul {		
-		width: 80em; 	
-		max-width: 95%;	
+	section#intro p,
+	section#intro ul {
+		width: 80em;
+		max-width: 95%;
 	}
-	section#intro a { 
+	section#intro a {
 		color: #512a69;
 	}
-	section#player, 
-	section#transcript-wrapper { 
+	section#player,
+	section#transcript-wrapper {
 		width: 640px;
 		max-width: 100%;
 	}
@@ -51,32 +51,6 @@
 	section#speakers p {
 		margin: 0.5em 0;
 		padding: 0 0.5em;
-	}
-	#chapters nav ul {
-		display: block;
-		border-radius: 0 0 0 0;
-		box-shadow: none;
-		padding: 0;
-	}
-	#chapters nav li {
-		margin: 0;
-	}
-	#chapters nav li button { 
-		outline: 3px solid transparent;
-		margin: 0;
-	}
-	#chapters nav li button {
-		padding: 3px;
-	}
-	#chapters nav li button:hover { 
-		outline: 3px solid #C00;
-	}
-	#chapters nav li button:hover button { 
-		color: black !important;
-	}
-	#chapters nav li:hover button[aria-current="true"], 
-	#chapters nav li.able-focus button { 
-		color: white !important;
 	}
 </style>
 </head>
@@ -100,7 +74,7 @@
 
 			<ul>
 				<li>A described and non-described version of the video, both hosted on YouTube. Swap between the two versions using the <em>Description</em> button.</li>
-				<li>Captions, subtitles, and chapters, all hosted in local WebVTT files, and referenced within &lt;track&gt; elements.</li>
+				<li>Captions, subtitles, and chapters, all hosted in local WebVTT files, and referenced within <code>&lt;track&gt;</code> elements.</li>
 				<li>An interactive transcript that combines all of the above text tracks.</li>
 				<li>External containers to which Able Player adds chapters and the interactive transcript.</li>
 			</ul>
@@ -109,8 +83,8 @@
 		<div id="columns">
 			<div class="column" id="col1">
 				<section id="speakers" aria-labelledby="speakers-heading">
-					<h2 id="speakers-heading">Speakers</h2>	
-					<p>Click the name of a speaker to jump to their section 
+					<h2 id="speakers-heading">Speakers</h2>
+					<p>Click the name of a speaker to jump to their section
 						of the video.
 					</p>
 					<div id="chapters"></div>
@@ -123,12 +97,12 @@
 						data-skin="2020"
 						id="video1"
 						preload="auto"
-						data-youtube-id="dhwpLACAls8"
+						data-youtube-nocookie="true" data-youtube-id="dhwpLACAls8"
 						data-youtube-desc-id="Ck2TdVMhWcU"
 						data-transcript-div="transcript"
 						data-transcript-title=""
 						data-chapters-div="chapters"
-						data-chapters-title="" 
+						data-chapters-title=""
 						data-use-chapters-button="false"
 						data-include-transcript="false"
 						playsinline
@@ -145,7 +119,7 @@
 				</section>
 			</div>
 		</div>
-	
+
 	</main>
 </body>
 </html>
