@@ -367,11 +367,17 @@ Sign language translation is supported in a separate video player, synchronized 
 * [Filming the Signer][]
 * [Editing the Signer][]
 
-If multiple video sources are already provided (e.g., an MP4 and WebM file), then the sign language video must be available in both of these formats. For each video source that has a sign language version available, add a `data-sign-src` attribute to the `<source>` element for that video. The value of this attribute is a path pointing to the sign language version of the video. If a sign language version is available, a sign language button will be added to the media controller.
+#### Loading from local source
 
-This button will toggle the display of a pop-up window in which the sign language video will appear. Users can move or resize the pop-up window with either mouse or keyboard.
+If multiple video sources are already provided (e.g., an MP4 and WebM file), then the sign language video must be available in both of these formats. For each video source that has a sign language version available, add a `data-sign-src` attribute to the `<source>` element for that video with the path pointing to the sign language version of the video.
 
-Unfortunately this feature is not currently supported on iOS.
+#### Loading from YouTube
+
+You can also load your sign language source video from YouTube. Add the attribute `data-youtube-sign-src` to your `<source>` element with a YouTube video ID or URL.
+
+If a sign language version is available, a sign language button will be added to the media controller. This button will toggle the display of a pop-up window in which the sign language video will appear. Users can move or resize the pop-up window with either mouse or keyboard.
+
+Unfortunately this feature is not supported on iOS.
 
 ### Playlists
 
