@@ -304,21 +304,34 @@
 	};
 
 	AblePlayer.prototype.syncSignVideo = function(options) {
-		if (this.hasSignLanguage && this.signVideo) {
+		if (this.hasSignLanguage && ( this.signVideo || this.signYoutube ) ) {
 			if (options && typeof options.time !== 'undefined') {
-				this.signVideo.currentTime = options.time;
+				if ( this.signVideo ) {
+					this.signVideo.currentTime = options.time;
+				} else {
+					this.youTubeSignPlayer.seekTo(options.time,true);
+				}
 			}
 			if (options && typeof options.rate !== 'undefined') {
-				this.signVideo.playbackRate = options.rate;
+				if ( this.signVideo ) {
+					this.signVideo.playbackRate = options.rate;
+				} else {
+					this.youTubeSignPlayer.setPlaybackRate(options.rate);
+				}
 			}
 			if (options && typeof options.pause !== 'undefined') {
-				this.signVideo.pause(true);
+				if ( this.signVideo ) {
+					this.signVideo.pause(true);
+				} else {
+					this.youTubeSignPlayer.pauseVideo();
+				}
 			}
 			if (options && typeof options.play !== 'undefined') {
-				this.signVideo.play(true);
-			}
-			if (options && typeof options.volume !== 'undefined') {
-				this.signVideo.volume = 0;
+				if ( this.signVideo ) {
+					this.signVideo.play(true);
+				} else {
+					this.youTubeSignPlayer.playVideo();
+				}
 			}
 		}
 	};
