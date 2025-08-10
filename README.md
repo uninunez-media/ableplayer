@@ -84,7 +84,7 @@ During development, *Able Player* is routinely tested with the latest versions o
 - Chrome
 - Firefox
 
-With the release of version 4.4, we are no longer actively supporting Internet Explorer.
+Since the release of version 4.4, we are no longer supporting Internet Explorer.
 
 ## Dependencies
 
@@ -94,8 +94,7 @@ With the release of version 4.4, we are no longer actively supporting Internet E
     The example code below uses Google’s hosted libraries; no download required.
 - *Able Player* uses [js-cookie][] to store and retrieve user
     preferences in cookies. The example code below uses CDN’s hosted libraries;
-    no download required. Prior to version 2.3, Able Player used [jquery.cookie][]
-    for this same purpose.
+    no download required. All Able Player cookies are functional cookies.
 - *AblePlayer*, as of 4.5.1, requires the use of the DOMPurify sanitizing library.
   - The default files in the root of the `/build` directory have DOMPurify bundled in.
   - Alternatively, the `build/separate-dompurify` directory houses copies of the AblePlayer files with AblePlayer code only and a stand-alone copy of the current version of DOMPurify that the project is currently using. These files are available for those who want to load DOMPurify via a separate file or want to use a CDN hosted version.
@@ -103,7 +102,6 @@ With the release of version 4.4, we are no longer actively supporting Internet E
 To install Able Player, copy the following files from the Able Player repo into a folder on your web server:
 - `build/*`
 - `button-icons/*` (optional, not required for svg)
-- `images/*`
 - `styles/*` (optional, see note below)
 - `translations/*`
 - `LICENSE`
@@ -139,7 +137,7 @@ Copy and paste the following code into your web page. This code applies to all u
 
 ```HTML
 <!-- Dependencies -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- CSS -->
