@@ -173,8 +173,8 @@
 			},
 			events: {
 				onReady: function (player) {
-					console.log( player.target );
 					player.target.mute();
+					player.target.unloadModule( 'captions' );
 					thisObj.youTubeSignPlayerReady = true;
 
 					deferred.resolve();
