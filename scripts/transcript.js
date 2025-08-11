@@ -637,7 +637,7 @@
           if (typeof result === "string") {
            	if (thisObj.lyricsMode) {
 				// add <br> WITHIN each caption (if payload includes "\n")
-				result = result.replace('\n','<br>');
+				result = result.replace(/\n/g,'<br>');
 
 				// add <br> BETWEEN each caption, but do not consider sibling style tags within this caption as the next caption!
 				if ( !next_child_tagname || ( next_child_tagname !== 'i' && next_child_tagname !== 'b' ) ) {
