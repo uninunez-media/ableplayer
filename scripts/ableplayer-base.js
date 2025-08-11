@@ -325,7 +325,7 @@ var AblePlayerInstances = [];
 		this.forceIconType = false;
 		if ($(media).data('icon-type') !== undefined && $(media).data('icon-type') !== "") {
 			var iconType = $(media).data('icon-type');
-			if (iconType === 'font' || iconType == 'image' || iconType == 'svg') {
+			if (iconType === 'font' || iconType === 'image' || iconType === 'svg') {
 				this.iconType = iconType;
 				this.forceIconType = true;
 			}
