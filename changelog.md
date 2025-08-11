@@ -1,5 +1,75 @@
 # AblePlayer Changelog
 
+## 4.7.0
+
+### Styling
+
+- New default theme with modernized layout and variables for colors.
+  - This summarizes a large number of individually small changes to the layour of AblePlayer elements.
+- Removed many instances of positioning imposed from JS so that more positioning is controllable from CSS.
+- Significant improvements to responsive desgin and behaviors.
+
+### Features
+
+- Add support for synchronized sign language sourced from YouTube
+- Allow modal dialogs to be closed by clicking on the modal overlay.
+- Support toggling the transcript area when using a pre-defined transcript area.
+- Allow non-standard support for single character hours value in VTT timestamp formats.
+
+### Bug fixes
+
+- Fix window resizing issue in sign language windows.
+- Reset scroll position after closing fullscreen to prevent unexpected shift of position.
+- Remove deprecated `modestbranding` parameter from YouTube player params.
+- Add `origin` property to YouTube player params.
+- Reduce fullscreen timeout from 1000ms to 100ms. Ensures the resize method executes when leaving fullscreen quickly.
+- Track active media so focus is sent to correct player after refreshing controls.
+- Change modal dialog positioning to fixed to prevent unexpected shifts of position.
+- Properly disable `transcript` with `data-include-transcript="false"`
+- Cookie referred to wrong variable when setting sign language data.
+- Prevent scrolling of background content when modals are active.
+- Allow the audio description text panel to show when there is both a VTT and a described video.
+- Handle `data-skin` set to invalid value.
+- Prevent floating windows from being positioned above the top of the viewport.
+- Ensure last block of captions in transcript are wrapped in `.able-transcript-block`.
+- Use `outerHeight` in several places where `height` was used so calculations account for whole element height.
+- Fix unwanted lines generated in lyrics mode.
+- Verify the target transcript div exists before setting the external div flag.
+- Support the default value for the `kind` attribute on `source` when omitted.
+
+### Accessibility
+
+- Ensure all Able Player controls meet WCAG SC 2.5.8 by being a minimum of 24px by 24px.
+- Make visible alerts dismissible
+- Extend default period of visibility for expiring alerts to 20 seconds.
+- Improve accessibility of draggable containers when using a screen reader. More predictable keyboard handling & audible feedback.
+
+### Internationalization
+
+- Change all translation files from JS containing a JSON object to `.json`.
+- Add `ms` and `pl` to list of supported languages.
+- Add several new strings to translation files. (Translations needed.)
+
+### Build tools & Code clean up
+
+- Change `ableplayer.dist.js` build to remove comments, reducing the dist file size by about 150Kb.
+- Simplify if/else statements. Use ternary or swithc where appropriate or collapse arguments.
+- Reformat if/else statements to remove line breaks before `else`.
+- Remove `$ableColumnLeft` - unused and unidentified variable.
+- Remove unneeed -moz and -mix prefixed fullscreen properties.
+- Only create a single alertBox container and move in DOM as needed instead of managing three separate containers.
+- Add new prototype to set the text for buttons.
+- Add new prototype to set icons for buttons.
+- Make use of existing `ucfirst` prototype.
+- Remove `number.isInteger` polyfill (already unused).
+- Remove tests for `svg` support.
+- Remove remaining IE compatibility supports.
+- Replace `e.which` with `e.key`.
+- Remove obsolete Safari keycodes.
+- Add prototype for syncing sign language video.
+- Remove unused prototype `AblePlayer.prototype.isCloseToCorner`.
+- Remove unused `mediaType` argument from AccessibleSlider prototype.
+
 ## 4.6.0
 
 ### Styling
