@@ -15,7 +15,6 @@
 		if (this.player === 'html5') {
 			// check to see if there's a sign language video accompanying this video
 			// check only the first source
-			console.log( this.youTubeSignId );
 			// If sign language is provided, it must be provided for all sources
 			this.signYoutubeId = this.youTubeSignId ?? DOMPurify.sanitize( this.$sources.first().attr('data-youtube-sign-src') );
 			this.signFile = DOMPurify.sanitize( this.$sources.first().attr('data-sign-src') );
