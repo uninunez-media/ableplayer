@@ -276,6 +276,11 @@ var AblePlayerInstances = [];
 			this.youTubeDescId = this.getYouTubeId(youTubeDescId);
 		}
 
+		var youTubeSignId = $(media).data('youtube-sign-src');
+		if ( youTubeSignId !== undefined && youTubeSignId !== "") {
+			this.youTubeSignId = this.getYouTubeId(youTubeSignId);
+		}
+
 		var youTubeNoCookie = $(media).data('youtube-nocookie');
 		this.youTubeNoCookie = (youTubeNoCookie !== undefined && youTubeNoCookie) ? true : false;
 

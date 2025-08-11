@@ -2,16 +2,22 @@
 	AblePlayer.prototype.initSignLanguage = function() {
 
 		// Sign language is only currently supported in HTML5 player and YouTube.
-		if ( ! this.isIOS() && this.$media.data('sign-src') !== undefined && this.$media.data('sign-src') !== "" ) {
+		var hasLocalSrc = ( this.$media.data('sign-src') !== undefined && this.$media.data('sign-src') !== "" );
+		var hasRemoteSrc = ( this.$media.data('youtube-sign-src') !== undefined && this.$media.data('youtube-sign-src') !== "" );
+		if ( ! this.isIOS() && ( hasLocalSrc || hasRemoteSrc ) ) {
 			this.hasSignLanguage = true;
+			if ( hasRemoteSrc ) {
+				this.signYoutubeId = this.youTubeSignId;
+			}
 			this.injectSignPlayerCode();
 			return;
 		}
 		if (this.player === 'html5') {
 			// check to see if there's a sign language video accompanying this video
 			// check only the first source
+			console.log( this.youTubeSignId );
 			// If sign language is provided, it must be provided for all sources
-			this.signYoutubeId = DOMPurify.sanitize( this.$sources.first().attr('data-youtube-sign-src') );
+			this.signYoutubeId = this.youTubeSignId ?? DOMPurify.sanitize( this.$sources.first().attr('data-youtube-sign-src') );
 			this.signFile = DOMPurify.sanitize( this.$sources.first().attr('data-sign-src') );
 			if (this.signFile || this.signYoutubeId) {
 				if (this.isIOS()) {
