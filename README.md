@@ -371,7 +371,7 @@ If multiple video sources are already provided (e.g., an MP4 and WebM file), the
 
 #### Loading from YouTube
 
-You can also load your sign language source video from YouTube. Add the attribute `data-youtube-sign-src` to your `<source>` element with a YouTube video ID or URL.
+You can also load your sign language source video from YouTube. If you're using a local source, add the attribute `data-youtube-sign-src` to your `<source>` element with a YouTube video ID or URL. If all your sources are remote, add the attribute directly to your `video` element.
 
 If a sign language version is available, a sign language button will be added to the media controller. This button will toggle the display of a pop-up window in which the sign language video will appear. Users can move or resize the pop-up window with either mouse or keyboard.
 
