@@ -12,9 +12,11 @@
 		var thisObj = this;
 		var modal = modalDiv;
 		this.modal = modal;
-		modal.css({
-			'width': width || '50%'
-		});
+		if ( width ) {
+			modal.css({
+				'width': width
+			});
+		}
 		modal.addClass('able-modal-dialog');
 
 		if (!fullscreen) {
@@ -24,8 +26,7 @@
 				 'aria-label': thisObj.closeButtonLabel
 			}).text('×');
 			closeButton.on( 'keydown', function (e) {
-				// Space key down
-				if (e.which === 32) {
+				if (e.key === ' ') {
 					thisObj.hide();
 				}
 			}).on( 'click', function () {
@@ -53,18 +54,14 @@
 		}
 
 		modal.on( 'keydown', function (e) {
-			// Escape
-			if (e.which === 27) {
+			if (e.key === 'Escape') {
 				if (thisObj.escapeHook) {
 					thisObj.escapeHook(e, this);
-				}
-				else {
+				} else {
 					thisObj.hide();
 					e.preventDefault();
 				}
-			}
-			// Tab
-			else if (e.which === 9) {
+			} else if (e.key === 'Tab') {
 				// Manually loop tab navigation inside the modal.
 				var parts = modal.find('*');
 				var focusable = parts.filter(focusableElementsSelector).filter(':visible');
@@ -81,8 +78,7 @@
 						focusable.get(focusable.length - 1).trigger('focus');
 						e.preventDefault();
 					}
-				}
-				else {
+				} else {
 					if (currentIndex === focusable.length - 1) {
 						focusable.get(0).trigger('focus');
 						e.preventDefault();
@@ -92,7 +88,10 @@
 			e.stopPropagation();
 		});
 
-		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').removeAttr('inert');
+		if ( $( 'body' ).hasClass( 'able-modal-active' ) ) {
+			$( 'body > *') .not('.able-modal-overlay').not('.able-modal-dialog').removeAttr('inert');
+			$( 'body' ).removeClass( 'able-modal-active' );
+		}
 	};
 
 	AccessibleDialog.prototype.show = function () {
@@ -108,10 +107,12 @@
 			// Keep from moving focus out of dialog when clicking outside of it.
 			overlay.on('mousedown.accessibleModal', function (e) {
 				e.preventDefault();
+				thisObj.hide();
 			});
 		}
 
 		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').attr('inert', true);
+		$( 'body' ).addClass( 'able-modal-active' );
 
 		this.overlay.css('display', 'block');
 		this.modal.css('display', 'block');
@@ -138,6 +139,7 @@
 		this.modal.css('display', 'none');
 		this.modal.attr('aria-hidden', 'true');
 		$('body > *').not('.able-modal-overlay').not('.able-modal-dialog').removeAttr('inert');
+		$( 'body' ).removeClass( 'able-modal-active' );
 
 		this.focusedElementBeforeModal.trigger('focus');
 	};

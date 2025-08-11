@@ -7,14 +7,14 @@
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
 <link rel="stylesheet" href="../build/ableplayer.min.css" type="text/css"/>
 
 <!-- Able Player JavaScript -->
-<script src="../build/ableplayer.js"></script>
+<script src="../build/ableplayer.dist.js"></script>
 
 </head>
 
@@ -31,26 +31,26 @@
 	<main>
 		<h1>Audio description via VTT track, read by screen readers</h1>
 
-		<p>This demo uses WebVTT files to deliver text-based audio description. 
-			WebVTT description tracks are available in multiple languages, 
-			which correspond with the subtitle languages. 
-			If the user switches the subtitle language via the Captions button, 
+		<p>This demo uses WebVTT files to deliver text-based audio description.
+			WebVTT description tracks are available in multiple languages,
+			which correspond with the subtitle languages.
+			If the user switches the subtitle language via the Captions button,
 			the description language will change as well.</p>
 
-		<p>If Description is toggled on, description text will be exposed 
-			to screen readers in an ARIA live region. 
-			This differs from <a href="desc1.html">Audio Description Demo #1</a>, 
-			which uses the Web Speech API to read the description text. 
-			The latter is preferable when browsers support it, but if they don't, 
-			the ARIA live region method is used as a fallback. 
-			By setting <strong>data-desc-reader="screenreader"</strong>, 
-			Able Player uses the ARIA live region method by default. 
-			This is generally discouraged, but might be preferable for websites in languages 
-			where few if any voices are available through the Web Speech API. </p> 
-			
+		<p>If Description is toggled on, description text will be exposed
+			to screen readers in an ARIA live region.
+			This differs from <a href="desc1.html">Audio Description Demo #1</a>,
+			which uses the Web Speech API to read the description text.
+			The latter is preferable when browsers support it, but if they don't,
+			the ARIA live region method is used as a fallback.
+			By setting <code>data-desc-reader="screenreader"</code>,
+			Able Player uses the ARIA live region method by default.
+			This is generally discouraged, but might be preferable for websites in languages
+			where few if any voices are available through the Web Speech API. </p>
+
 		<div id="wrapper">
 			<!-- use the following markup for each media element -->
-			<video id="video1" preload="auto" width="480" height="360" poster="../media/wwa.jpg" data-able-player playsinline data-desc-reader="screenreader">
+			<video id="video1" preload="auto" poster="../media/wwa.jpg" data-able-player playsinline data-desc-reader="screenreader">
 				<source type="video/mp4" src="../media/wwa.mp4"/>
 				<source type="video/webm" src="../media/wwa.webm"/>
 				<track kind="captions" src="../media/wwa_captions_de.vtt" srclang="de" label="Deutsche"/>

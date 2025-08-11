@@ -7,18 +7,27 @@
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
 <link rel="stylesheet" href="../build/ableplayer.min.css" type="text/css"/>
 
 <!-- Able Player JavaScript -->
-<script src="../build/ableplayer.js"></script>
+<script src="../build/ableplayer.dist.js"></script>
 
 </head>
 <body>
-
+	<header>
+		<div class="title">Able Player Demos</div>
+	</header>
+	<nav>
+		<ul>
+			<li><a href="index.html">More demos</a></li>
+			<li><a href="https://ableplayer.github.io/ableplayer">Able Player Home</a></li>
+		</ul>
+	</nav>
+	<main>
 	<h1>The Deadline: Open Video with Accessibility Enhancements</h1>
 
 	<p><a href="https://morevnaproject.org/school/deadline/">The Deadline</a> is a video from the Morevna Project,
@@ -28,7 +37,7 @@
 	<p>For additional demos see the <a href="index.html">Index of <em>Able Player</em> Examples</a>.</p>
 
 	<div id="wrapper">
-		<video id="video1" preload="auto" width="800" height="450" data-able-player poster="../media/deadline.jpg" playsinline>
+		<video id="video1" preload="auto" data-able-player poster="../media/deadline.jpg" playsinline>
 			<source type="video/mp4" src="../media/deadline.mp4" data-desc-src="../media/deadline_desc.mp4"/>
 			<track kind="captions" src="../media/deadline_captions_en.vtt" srclang="en" label="English" default/>
 			<track kind="captions" src="../media/deadline_captions_ar.vtt" srclang="ar" label="Arabic"/>
@@ -41,6 +50,6 @@
 	</div>
 
 	<p>This work is licensed under the terms of Creative Commons Attribution 4.0 license. You are free to  share (copy and redistribute) and adapt (remix, transform) this work for any purpose, even commercially as long as you comply to licensing terms.</p>
-
+	</main>
 </body>
 </html>

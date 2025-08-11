@@ -4,6 +4,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks("grunt-contrib-cssmin");
   grunt.loadNpmTasks("grunt-contrib-clean");
   grunt.loadNpmTasks("grunt-remove-logging");
+  grunt.loadNpmTasks("grunt-decomment");
   grunt.loadNpmTasks("grunt-contrib-jshint");
   grunt.loadNpmTasks("grunt-terser");
 
@@ -102,6 +103,17 @@ module.exports = function (grunt) {
         // Remove all console output (see https://www.npmjs.com/package/grunt-remove-logging)
       },
     },
+    decomment: {
+      any: {
+		options: {
+			safe: true,
+		},
+		files: {
+			"build/<%= pkg.name %>.dist.js": "build/<%= pkg.name %>.dist.js",
+		},
+
+      }
+    },
     terser: {
       min: {
         files: {
@@ -160,6 +172,7 @@ module.exports = function (grunt) {
   grunt.registerTask("default", [
     "concat:build",
     "removelogging:dist",
+	"decomment",
     "terser:min",
     "cssmin",
   ]);

@@ -3,17 +3,12 @@
 	AblePlayer.prototype.injectPlayerCode = function() {
 
 		// create and inject surrounding HTML structure
-		// If IOS:
+		// If iOS:
 		//  If video:
-		//   IOS does not support any of the player's functionality
+		//   iOS does not support any of the player's functionality
 		//   - everything plays in its own player
 		//   Therefore, AblePlayer is not loaded & all functionality is disabled
-		//   (this all determined. If this is IOS && video, this function is never called)
-		//  If audio:
-		//   HTML cannot be injected as a *parent* of the <audio> element
-		//   It is therefore injected *after* the <audio> element
-		//   This is only a problem in IOS 6 and earlier,
-		//   & is a known bug, fixed in IOS 7
+		//   (this all determined. If this is iOS && video, this function is never called)
 
 		var thisObj, captionsContainer, i;
 		thisObj = this;
@@ -46,8 +41,7 @@
 		captionsContainer = $('<div>');
 		if (this.mediaType === 'video') {
 			captionsContainer.addClass('able-vidcap-container');
-		}
-		else if (this.mediaType === 'audio') {
+		} else if (this.mediaType === 'audio') {
 			captionsContainer.addClass('able-audcap-container');
 			// hide this by default. It will be shown if captions are available
 			captionsContainer.addClass('captions-off');
@@ -55,7 +49,7 @@
 
 		this.injectPlayerControlArea(); // this may need to be injected after captions???
 		this.$captionsContainer = this.$mediaContainer.wrap(captionsContainer).parent();
-		this.injectAlert();
+		this.injectAlert(this.$ableDiv);
 		this.injectPlaylist();
 
 		// Do this last, as it should be prepended to the top of this.$ableDiv
@@ -72,8 +66,7 @@
 		var headingType;
 		if (this.playerHeadingLevel == '0') {
 			// do NOT inject a heading (at author's request)
-		}
-		else {
+		} else {
 			if (typeof this.playerHeadingLevel === 'undefined') {
 				this.playerHeadingLevel = this.getNextHeadingLevel(this.$ableDiv); // returns in integer 1-6
 			}
@@ -99,28 +92,7 @@
 			'tabindex': 0
 		});
 
-		if (this.iconType == 'svg') {
-			svgData = this.getSvgData('play');
-			buttonIcon = $('<svg>',{
-				'focusable': 'false',
-				'aria-hidden': 'true',
-				'viewBox': svgData[0]
-			});
-			svgPath = $('<path>',{
-				'd': svgData[1]
-			});
-			buttonIcon.append(svgPath);
-			this.$bigPlayButton.html(buttonIcon);
-
-			// Final step: Need to refresh the DOM in order for browser to process & display the SVG
-			this.$bigPlayButton.html(this.$bigPlayButton.html());
-		}
-		else { // use icon font
-			this.$bigPlayIcon = $('<span>', {
-				'class': 'icon-play',
-			});
-			this.$bigPlayButton.append(this.$bigPlayIcon);
-		}
+		this.getIcon( this.$bigPlayButton, 'play' );
 
 		this.$bigPlayButton.on( 'click', function () {
 			thisObj.handlePlay();
@@ -179,15 +151,13 @@
 		this.$statusBarDiv.append(this.$timer, this.$speed, this.$status);
 		if (this.showNowPlaying) {
 			this.$playerDiv.append(this.$nowPlayingDiv, this.$controllerDiv, this.$statusBarDiv);
-		}
-		else {
+		} else {
 			this.$playerDiv.append(this.$controllerDiv, this.$statusBarDiv);
 		}
 		if (this.mediaType === 'video') {
 			// the player controls go after the media & captions
 			this.$ableDiv.append(this.$playerDiv);
-		}
-		else {
+		} else {
 			// the player controls go before the media & captions
 			this.$ableDiv.prepend(this.$playerDiv);
 		}
@@ -220,8 +190,7 @@
 		// if users disagree, they can resize (and resposition) them
 		if (which === 'transcript') {
 			return ( viewportMaxwidth <= 450 ) ? viewportMaxwidth : 450;
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			return ( viewportMaxwidth <= 400 ) ? viewportMaxwidth : 400;
 		}
 	};
@@ -232,15 +201,13 @@
 		var cookie, cookiePos, $window, windowPos;
 
 		cookie = this.getCookie();
+		$window = ( which === 'transcript' ) ? this.$transcriptArea : this.$signWindow;
 		if (which === 'transcript') {
-			$window = this.$transcriptArea;
 			if (typeof cookie.transcript !== 'undefined') {
 				cookiePos = cookie.transcript;
 			}
-		}
-		else if (which === 'sign') {
-			$window = this.$signWindow;
-			if (typeof cookie.transcript !== 'undefined') {
+		} else if (which === 'sign') {
+			if (typeof cookie.sign !== 'undefined') {
 				cookiePos = cookie.sign;
 			}
 		}
@@ -256,11 +223,18 @@
 					'top': cookiePos['top'],
 					'left': cookiePos['left']
 				});
+				// Check whether the window is above the top of the viewport.
+				topPosition = $window.offset().top;
+				if ( topPosition < 0 ) {
+					$window.css({
+						'top': cookiePos['top'] - topPosition,
+						'left': cookiePos['left']
+					});
+				}
 			}
 			// since cookie is not page-specific, z-index needs may vary across different pages
 			this.updateZIndex(which);
-		}
-		else {
+		} else {
 			// position window using default values
 			windowPos = this.getOptimumPosition(which, width);
 			if (typeof width === 'undefined') {
@@ -308,17 +282,14 @@
 		otherWindowWidth = 0; // width of other visiable draggable windows will be added to this
 
 		if (targetWindow === 'transcript') {
-			if (typeof this.$signWindow !== 'undefined') {
-				if (this.$signWindow.is(':visible')) {
-					otherWindowWidth = this.$signWindow.width() + gap;
-				}
+			// If placing the transcript window, check position of sign window first.
+			if (typeof this.$signWindow !== 'undefined' && (this.$signWindow.is(':visible'))) {
+				otherWindowWidth = this.$signWindow.width() + gap;
 			}
-		}
-		else if (targetWindow === 'sign') {
-			if (typeof this.$transcriptArea !== 'undefined') {
-				if (this.$transcriptArea.is(':visible')) {
-					otherWindowWidth = this.$transcriptArea.width() + gap;
-				}
+		} else if (targetWindow === 'sign') {
+			// If placing the sign window, check position of transcript window first.
+			if (typeof this.$transcriptArea !== 'undefined' && (this.$transcriptArea.is(':visible'))) {
+				otherWindowWidth = this.$transcriptArea.width() + gap;
 			}
 		}
 		if (targetWidth < (windowWidth - (ableLeft + ableWidth + gap + otherWindowWidth))) {
@@ -326,14 +297,12 @@
 			position[0] = 'absolute';
 			position[1] = 0;
 			position[2] = ableWidth + otherWindowWidth + gap;
-		}
-		else if (targetWidth + gap < ableLeft) {
+		} else if (targetWidth + gap < ableLeft) {
 			// there's room to the right of $ableDiv
 			position[0] = 'absolute';
 			position[1] = 0;
 			position[2] = ableLeft - targetWidth - gap;
-		}
-		else {
+		} else {
 			// position element below $ableDiv
 			position[0] = 'relative';
 			// no need to define top, left, or z-index
@@ -341,32 +310,31 @@
 		return position;
 	};
 
-	AblePlayer.prototype.injectAlert = function () {
-
+	AblePlayer.prototype.injectAlert = function ($container) {
 		// inject two alerts, one visible for all users and one for screen reader users only
-
-		var top;
-
 		this.$alertBox = $('<div role="alert"></div>');
 		this.$alertBox.addClass('able-alert');
 		this.$alertBox.hide();
-		this.$alertBox.appendTo(this.$ableDiv);
-		if (this.mediaType == 'audio') {
-			top = '-10';
-		}
-		else {
-			// position just below top of video by default
-			// but this will change after video player is fully sized
-			// see control.js > resizePlayer()
-			top = '10';
-		}
-		this.$alertBox.css({
-			top: top + 'px'
+
+		var $alertText = $( '<span></span>' );
+		$alertText.appendTo(this.$alertBox);
+
+		var $alertDismiss = $('<button type="button"></button>' );
+		$alertDismiss.attr( 'aria-label', this.tt.dismissButton );
+		$alertDismiss.text( '×' );
+		$alertDismiss.appendTo(this.$alertBox);
+
+		$alertDismiss.on( 'click', function(e) {
+			$(this).parent('div').hide();
 		});
 
-		this.$srAlertBox = $('<div role="alert"></div>');
-		this.$srAlertBox.addClass('able-screenreader-alert');
-		this.$srAlertBox.appendTo(this.$ableDiv);
+		this.$alertBox.appendTo($container);
+
+		if ( ! this.$srAlertBox ) {
+			this.$srAlertBox = $('<div role="alert"></div>');
+			this.$srAlertBox.addClass('able-screenreader-alert');
+			this.$srAlertBox.appendTo($container);
+		}
 	};
 
 	AblePlayer.prototype.injectPlaylist = function () {
@@ -386,7 +354,7 @@
 		// 'which' parameter is either 'captions', 'chapters', 'prefs', 'transcript-window' or 'sign-window'
 		// 'tracks', if provided, is a list of tracks to be used as menu items
 
-		var thisObj, $menu, includeMenuItem, i, $menuItem, prefCat, whichPref, hasDefault, track, 
+		var thisObj, $menu, includeMenuItem, i, $menuItem, prefCat, whichPref, hasDefault, track,
 		windowOptions, $thisItem, $prevItem, $nextItem;
 
 		thisObj = this;
@@ -412,14 +380,11 @@
 					prefCat = this.prefCats[i];
 					if (prefCat === 'captions') {
 						$menuItem.text(this.tt.prefMenuCaptions);
-					}
-					else if (prefCat === 'descriptions') {
+					} else if (prefCat === 'descriptions') {
 						$menuItem.text(this.tt.prefMenuDescriptions);
-					}
-					else if (prefCat === 'keyboard') {
+					} else if (prefCat === 'keyboard') {
 						$menuItem.text(this.tt.prefMenuKeyboard);
-					}
-					else if (prefCat === 'transcript') {
+					} else if (prefCat === 'transcript') {
 						$menuItem.text(this.tt.prefMenuTranscript);
 					}
 					$menuItem.on('click',function() {
@@ -428,14 +393,11 @@
 						thisObj.setFullscreen(false);
 						if (whichPref === thisObj.tt.prefMenuCaptions) {
 							thisObj.captionPrefsDialog.show();
-						}
-						else if (whichPref === thisObj.tt.prefMenuDescriptions) {
+						} else if (whichPref === thisObj.tt.prefMenuDescriptions) {
 							thisObj.descPrefsDialog.show();
-						}
-						else if (whichPref === thisObj.tt.prefMenuKeyboard) {
+						} else if (whichPref === thisObj.tt.prefMenuKeyboard) {
 							thisObj.keyboardPrefsDialog.show();
-						}
-						else if (whichPref === thisObj.tt.prefMenuTranscript) {
+						} else if (whichPref === thisObj.tt.prefMenuTranscript) {
 							thisObj.transcriptPrefsDialog.show();
 						}
 						thisObj.closePopups();
@@ -444,21 +406,18 @@
 					$menu.append($menuItem);
 				}
 				this.$prefsButton.attr('data-prefs-popup','menu');
-			}
-			else if (this.prefCats.length == 1) {
+			} else if (this.prefCats.length == 1) {
 				// only 1 category, so don't create a popup menu.
 				// Instead, open dialog directly when user clicks Prefs button
 				this.$prefsButton.attr('data-prefs-popup',this.prefCats[0]);
 			}
-		}
-		else if (which === 'captions' || which === 'chapters') {
+		} else if (which === 'captions' || which === 'chapters') {
 			hasDefault = false;
 			for (i = 0; i < tracks.length; i++) {
 				track = tracks[i];
 				if (which === 'captions' && this.player === 'html5' && typeof track.cues === 'undefined') {
 					includeMenuItem = false;
-				}
-				else {
+				} else {
 					includeMenuItem = true;
 				}
 				if (includeMenuItem) {
@@ -470,16 +429,14 @@
 					if (track.def && this.prefCaptions == 1) {
 						$menuItem.attr('aria-checked','true');
 						hasDefault = true;
-					}
-					else {
+					} else {
 						$menuItem.attr('aria-checked','false');
 					}
 					// Get a label using track data
 					if (which == 'captions') {
 						$menuItem.text(track.label);
 						$menuItem.on('click',this.getCaptionClickFunction(track));
-					}
-					else if (which == 'chapters') {
+					} else if (which == 'chapters') {
 						$menuItem.text(this.flattenCueForCaption(track) + ' - ' + this.formatSecondsAsColonTime(track.start));
 						$menuItem.on('click',this.getChapterClickFunction(track.start));
 					}
@@ -495,15 +452,13 @@
 				if (this.prefCaptions === 0) {
 					$menuItem.attr('aria-checked','true');
 					hasDefault = true;
-				}
-				else {
+				} else {
 					$menuItem.attr('aria-checked','false');
 				}
 				$menuItem.on('click',this.getCaptionOffFunction());
 				$menu.append($menuItem);
 			}
-		}
-		else if (which === 'transcript-window' || which === 'sign-window') {
+		} else if (which === 'transcript-window' || which === 'sign-window') {
 			windowOptions = [];
 			windowOptions.push({
 				'name': 'move',
@@ -547,17 +502,14 @@
 			if ($menu.find('li[lang=' + this.captionLang + ']')) {
 				// a track exists for the default language. Check that item in the menu
 				$menu.find('li[lang=' + this.captionLang + ']').attr('aria-checked','true');
-			}
-			else {
+			} else {
 				// check the last item (captions off)
 				$menu.find('li').last().attr('aria-checked','true');
 			}
-		}
-		else if (which === 'chapters') {
+		} else if (which === 'chapters') {
 			if ($menu.find('li:contains("' + this.defaultChapter + '")')) {
 				$menu.find('li:contains("' + this.defaultChapter + '")').attr('aria-checked','true').addClass('able-focus');
-			}
-			else {
+			} else {
 				$menu.find('li').first().attr('aria-checked','true').addClass('able-focus');
 			}
 		}
@@ -569,38 +521,31 @@
 				// this is the first item in the menu
 				$prevItem = $(this).find('li').last(); // wrap to bottom
 				$nextItem = $thisItem.next();
-			}
-			else if ($thisItem.is(':last-child')) {
+			} else if ($thisItem.is(':last-child')) {
 				// this is the last Item
 				$prevItem = $thisItem.prev();
 				$nextItem = $(this).find('li').first(); // wrap to top
-			}
-			else {
+			} else {
 				$prevItem = $thisItem.prev();
 				$nextItem = $thisItem.next();
 			}
-			if (e.which === 9) { // Tab
+			if (e.key === 'Tab') {
 				if (e.shiftKey) {
 					$thisItem.removeClass('able-focus');
 					$prevItem.trigger('focus').addClass('able-focus');
-				}
-				else {
+				} else {
 					$thisItem.removeClass('able-focus');
 					$nextItem.trigger('focus').addClass('able-focus');
 				}
-			}
-			else if (e.which === 40 || e.which === 39) { // down or right arrow
+			} else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
 				$thisItem.removeClass('able-focus');
 				$nextItem.trigger('focus').addClass('able-focus');
-			}
-			else if (e.which == 38 || e.which === 37) { // up or left arrow
+			} else if (e.key == 'ArrowUp' || e.key === 'ArrowLeft') {
 				$thisItem.removeClass('able-focus');
 				$prevItem.trigger('focus').addClass('able-focus');
-			}
-			else if (e.which === 32 || e.which === 13) { // space or enter
+			} else if (e.key === ' ' || e.key === 'Enter') {
 				$thisItem.trigger( 'click' );
-			}
-			else if (e.which === 27) {	// Escape
+			} else if (e.key === 'Escape') {
 				$thisItem.removeClass('able-focus');
 				thisObj.closePopups();
 				e.stopPropagation;
@@ -696,30 +641,24 @@
 				var popup = popups[i];
 				if (popup == 'prefs') {
 					this.prefsPopup = this.createPopup('prefs');
-				}
-				else if (popup == 'captions') {
+				} else if (popup == 'captions') {
 					if (typeof this.captionsPopup === 'undefined' || !this.captionsPopup) {
 						this.captionsPopup = this.createPopup('captions',this.captions);
 					}
-				}
-				else if (popup == 'chapters') {
+				} else if (popup == 'chapters') {
 					if (this.selectedChapters) {
 						tracks = this.selectedChapters.cues;
-					}
-					else if (this.chapters.length >= 1) {
+					} else if (this.chapters.length >= 1) {
 						tracks = this.chapters[0].cues;
-					}
-					else {
+					} else {
 						tracks = [];
 					}
 					if (typeof this.chaptersPopup === 'undefined' || !this.chaptersPopup) {
 						this.chaptersPopup = this.createPopup('chapters',tracks);
 					}
-				}
-				else if (popup == 'transcript-window') {
+				} else if (popup == 'transcript-window') {
 					return this.createPopup('transcript-window');
-				}
-				else if (popup == 'sign-window') {
+				} else if (popup == 'sign-window') {
 					return this.createPopup('sign-window');
 				}
 			}
@@ -739,8 +678,7 @@
 			// fallback has already been implemented.
 			// stopgap to prevent this function from executing twice on the same media element
 			return;
-		}
-		else {
+		} else {
 			this.usingFallback = true;
 		}
 
@@ -760,8 +698,7 @@
 		// get/assign an id for the media element
 		if (this.$media.attr('id')) {
 			this.mediaId = this.$media.attr('id');
-		}
-		else {
+		} else {
 			this.mediaId = 'media' + Math.floor(Math.random() * 1000000000).toString();
 		}
 
@@ -859,8 +796,7 @@
 			if (this.skin === 'legacy') {
 				controlLayout[0].push('previous');
 				controlLayout[0].push('next');
-			}
-			else if (this.skin == '2020') {
+			} else {
 				controlLayout[0].push('previous');
 				controlLayout[0].push('next');
 			}
@@ -872,8 +808,7 @@
 				controlLayout[2].push('slower');
 				controlLayout[2].push('faster');
 			}
-		}
-		else {
+		} else {
 			playbackSupported = false;
 		}
 
@@ -882,8 +817,7 @@
 			numA11yButtons++;
 			if (this.skin === 'legacy') {
 				controlLayout[2].push('captions');
-			}
-			else if (this.skin == '2020') {
+			} else {
 				controlLayout[1].push('captions');
 			}
 		}
@@ -891,8 +825,7 @@
 			numA11yButtons++;
 			if (this.skin === 'legacy') {
 				controlLayout[2].push('sign');
-			}
-			else if (this.skin == '2020') {
+			} else {
 				controlLayout[1].push('sign');
 			}
 		}
@@ -901,18 +834,16 @@
 				numA11yButtons++;
 				if (this.skin === 'legacy') {
 					controlLayout[2].push('descriptions');
-				}
-				else if (this.skin == '2020') {
+				} else {
 					controlLayout[1].push('descriptions');
 				}
 			}
 		}
-		if (this.transcriptType === 'popup' && !(this.hideTranscriptButton)) {
+		if (this.transcriptType !== null && !(this.hideTranscriptButton)) {
 			numA11yButtons++;
 			if (this.skin === 'legacy') {
 				controlLayout[2].push('transcript');
-			}
-			else if (this.skin == '2020') {
+			} else {
 				controlLayout[1].push('transcript');
 			}
 		}
@@ -920,8 +851,7 @@
 			numA11yButtons++;
 			if (this.skin === 'legacy') {
 				controlLayout[2].push('chapters');
-			}
-			else if (this.skin == '2020') {
+			} else {
 				controlLayout[1].push('chapters');
 			}
 		}
@@ -938,16 +868,14 @@
 
 		if (this.skin === 'legacy') {
 			controlLayout[3].push('preferences');
-		}
-		else if (this.skin == '2020') {
+		} else {
 			controlLayout[1].push('preferences');
 		}
 
 		if (this.mediaType === 'video' && this.allowFullscreen) {
 			if (this.skin === 'legacy') {
 				controlLayout[3].push('fullscreen');
-			}
-			else {
+			} else {
 				controlLayout[1].push('fullscreen');
 			}
 		}
@@ -956,12 +884,10 @@
 			this.volumeButton = 'volume-' + this.getVolumeName(this.volume);
 			if (this.skin === 'legacy') {
 				controlLayout[1].push('volume');
-			}
-			else if (this.skin == '2020') {
+			} else {
 				controlLayout[1].push('volume');
 			}
-		}
-		else {
+		} else {
 			this.volume = false;
 		}
 		return controlLayout;
@@ -977,12 +903,10 @@
 		// some controls are aligned on the left, and others on the right
 
 		var thisObj, baseSliderWidth, controlLayout, numSections,
-		i, j, k, controls, $controllerSpan, $sliderDiv, sliderLabel, $pipe, $pipeImg,
-		svgData, svgPath, control,
-		$buttonLabel, $buttonImg, buttonImgSrc, buttonTitle, $newButton, iconClass, buttonIcon,
-		buttonText, position, buttonHeight, buttonWidth, buttonSide, controllerWidth,
-		tooltipId, tooltipY, tooltipX, tooltipWidth, tooltipStyle, tooltip, tooltipTimerId,
-		captionLabel, popupMenuId;
+		i, j, controls, $controllerSpan, $sliderDiv, sliderLabel, $pipe, control,
+		$buttonLabel, buttonTitle, $newButton, buttonText, position, buttonHeight,
+		buttonWidth, buttonSide, controllerWidth, tooltipId, tooltipY, tooltipX,
+		tooltipWidth, tooltipStyle, tooltip, tooltipTimerId, captionLabel, popupMenuId;
 
 		thisObj = this;
 
@@ -1005,7 +929,7 @@
 			$sliderDiv = $('<div class="able-seekbar"></div>');
 			sliderLabel = this.mediaType + ' ' + this.tt.seekbarLabel;
 			this.$controllerDiv.append($sliderDiv);
-			this.seekBar = new AccessibleSlider(this.mediaType, $sliderDiv, 'horizontal', baseSliderWidth, 0, this.duration, this.seekInterval, sliderLabel, 'seekbar', true, 'visible');
+			this.seekBar = new AccessibleSlider($sliderDiv, 'horizontal', baseSliderWidth, 0, this.duration, this.seekInterval, sliderLabel, 'seekbar', true, 'visible');
 		}
 
 		// add a full-width seek bar
@@ -1018,8 +942,7 @@
 				$controllerSpan = $('<div>',{
 					'class': 'able-left-controls'
 				});
-			}
-			else { // odd keys on the right
+			} else { // odd keys on the right
 				$controllerSpan = $('<div>',{
 					'class': 'able-right-controls'
 				});
@@ -1038,53 +961,17 @@
 						// also set elapsed to 0
 						this.elapsed = 0;
 					}
-					this.seekBar = new AccessibleSlider(this.mediaType, $sliderDiv, 'horizontal', baseSliderWidth, 0, this.duration, this.seekInterval, sliderLabel, 'seekbar', true, 'visible');
-				}
-				else if (control === 'pipe') {
+					this.seekBar = new AccessibleSlider($sliderDiv, 'horizontal', baseSliderWidth, 0, this.duration, this.seekInterval, sliderLabel, 'seekbar', true, 'visible');
+				} else if (control === 'pipe') {
 					$pipe = $('<span>', {
 						'tabindex': '-1',
-						'aria-hidden': 'true'
+						'aria-hidden': 'true',
+						'class': 'able-pipe',
 					});
-					if (this.iconType === 'font') {
-						$pipe.addClass('icon-pipe');
-					}
-					else {
-						$pipeImg = $('<img>', {
-							src: this.rootPath + 'button-icons/' + this.iconColor + '/pipe.png',
-							alt: '',
-							role: 'presentation'
-						});
-						$pipe.append($pipeImg);
-					}
+					$pipe.append('|');
 					$controllerSpan.append($pipe);
-				}
-				else {
+				} else {
 					// this control is a button
-					if (control === 'volume') {
-						buttonImgSrc = this.rootPath + 'button-icons/' + this.iconColor + '/' + this.volumeButton + '.png';
-					}
-					else if (control === 'fullscreen') {
-						buttonImgSrc = this.rootPath + 'button-icons/' + this.iconColor + '/fullscreen-expand.png';
-					}
-					else if (control === 'slower') {
-						if (this.speedIcons === 'animals') {
-							buttonImgSrc = this.rootPath + 'button-icons/' + this.iconColor + '/turtle.png';
-						}
-						else {
-							buttonImgSrc = this.rootPath + 'button-icons/' + this.iconColor + '/slower.png';
-						}
-					}
-					else if (control === 'faster') {
-						if (this.speedIcons === 'animals') {
-							buttonImgSrc = this.rootPath + 'button-icons/' + this.iconColor + '/rabbit.png';
-						}
-						else {
-							buttonImgSrc = this.rootPath + 'button-icons/' + this.iconColor + '/faster.png';
-						}
-					}
-					else {
-						buttonImgSrc = this.rootPath + 'button-icons/' + this.iconColor + '/' + control + '.png';
-					}
 					buttonTitle = this.getButtonTitle(control);
 
 					// icomoon documentation recommends the following markup for screen readers:
@@ -1102,7 +989,6 @@
 					$newButton = $('<div>',{
 						'role': 'button',
 						'tabindex': '0',
-						'aria-label': buttonTitle,
 						'class': 'able-button-handler-' + control
 					});
 
@@ -1116,16 +1002,14 @@
 									'aria-controls': popupMenuId,
 									'aria-haspopup': 'menu',
 									'aria-expanded': 'false'
-							});
-							}
-							else if (this.prefCats.length === 1) {
+								});
+							} else if (this.prefCats.length === 1) {
 								// Prefs button will trigger a dialog
 								$newButton.attr({
 									'aria-haspopup': 'dialog'
 								});
 							}
-						}
-						else if (control === 'volume') {
+						} else if (control === 'volume') {
 							popupMenuId = this.mediaId + '-volume-slider';
 							// volume slider popup is not a menu or a dialog
 							// therefore, using aria-expanded rather than aria-haspopup to communicate properties/state
@@ -1141,91 +1025,23 @@
 							}
 						}
 					}
-					if (this.iconType === 'font') {
-						if (control === 'volume') {
-							iconClass = 'icon-' + this.volumeButton;
-						}
-						else if (control === 'slower') {
-							if (this.speedIcons === 'animals') {
-								iconClass = 'icon-turtle';
-							}
-							else {
-								iconClass = 'icon-slower';
-							}
-						}
-						else if (control === 'faster') {
-							if (this.speedIcons === 'animals') {
-								iconClass = 'icon-rabbit';
-							}
-							else {
-								iconClass = 'icon-faster';
-							}
-						}
-						else {
-							iconClass = 'icon-' + control;
-						}
-						buttonIcon = $('<span>',{
-							'class': iconClass,
-							'aria-hidden': 'true'
-						});
-						$newButton.append(buttonIcon);
+					var getControl = control;
+					if ( control === 'faster' && this.speedIcons === 'animals' ) {
+						getControl = 'rabbit';
 					}
-					else if (this.iconType === 'svg') {
+					if ( control === 'slower' && this.speedIcons === 'animals' ) {
+						getControl = 'turtle';
+					}
+					if ( control === 'volume' ) {
+						this.getIcon( $newButton, this.volumeButton );
+					} else {
+						if ( 'fullscreen' === getControl ) {
+							getControl = ( this.fullscreen ) ? 'fullscreen-collapse' : 'fullscreen-expand';
+						}
+						this.getIcon( $newButton, getControl );
+					}
 
-						svgData;
-						if (control === 'volume') {
-							svgData = this.getSvgData(this.volumeButton);
-						}
-						else if (control === 'fullscreen') {
-							svgData = this.getSvgData('fullscreen-expand');
-						}
-						else if (control === 'slower') {
-							if (this.speedIcons === 'animals') {
-								svgData = this.getSvgData('turtle');
-							}
-							else {
-								svgData = this.getSvgData('slower');
-							}
-						}
-						else if (control === 'faster') {
-							if (this.speedIcons === 'animals') {
-								svgData = this.getSvgData('rabbit');
-							}
-							else {
-								svgData = this.getSvgData('faster');
-							}
-						}
-						else {
-							svgData = this.getSvgData(control);
-						}
-						buttonIcon = $('<svg>',{
-							'focusable': 'false',
-							'aria-hidden': 'true',
-							'viewBox': svgData[0]
-						});
-						svgPath = $('<path>',{
-							'd': svgData[1]
-						});
-						buttonIcon.append(svgPath);
-						$newButton.html(buttonIcon);
-
-						// Final step: Need to refresh the DOM in order for browser to process & display the SVG
-						$newButton.html($newButton.html());
-					}
-					else {
-						// use images
-						$buttonImg = $('<img>',{
-							'src': buttonImgSrc,
-							'alt': '',
-							'role': 'presentation'
-						});
-						$newButton.append($buttonImg);
-					}
-					// add the visibly-hidden label for screen readers that don't support aria-label on the button
-					$buttonLabel = $('<span>',{
-						'class': 'able-clipped'
-					}).text(buttonTitle);
-					$newButton.append($buttonLabel);
+					this.setText($newButton,buttonTitle);
 					// add an event listener that displays a tooltip on mouseenter or focus
 					$newButton.on('mouseenter focus',function(e) {
 
@@ -1251,8 +1067,7 @@
 						if ($(this).parent().hasClass('able-right-controls')) {
 							// this control is on the right side
 							buttonSide = 'right';
-						}
-						else {
+						} else {
 							// this control is on the left side
 							buttonSide = 'left';
 						}
@@ -1270,8 +1085,7 @@
 								right: '',
 								top: tooltipY + 'px'
 							};
-						}
-						else {
+						} else {
 							tooltipX = position.right - tooltipWidth/2;
 							if (tooltipX < 0) {
 								// tooltip would exceed the bounds of the player. Adjust.
@@ -1317,15 +1131,13 @@
 							// captions are available, but user has them turned off
 							if (this.captions.length > 1) {
 								captionLabel = this.tt.captions;
-							}
-							else {
+							} else {
 								captionLabel = this.tt.showCaptions;
 							}
 							$newButton.addClass('buttonOff').attr('title',captionLabel);
 							$newButton.attr('aria-pressed', 'false');
 						}
-					}
-					else if (control === 'descriptions') {
+					} else if (control === 'descriptions') {
 						if (!this.prefDesc || this.prefDesc !== 1) {
 							// user prefer non-audio described version
 							// Therefore, load media without description
@@ -1339,8 +1151,7 @@
 					// create variables of buttons that are referenced throughout the AblePlayer object
 					if (control === 'play') {
 						this.$playpauseButton = $newButton;
-					}
-					else if (control == 'previous') {
+					} else if (control == 'previous') {
 						this.$prevButton = $newButton;
 						// if player is being rebuilt because user clicked the Prev button
 						// return focus to that (newly built) button
@@ -1348,8 +1159,7 @@
 							this.$prevButton.trigger('focus');
 							this.buttonWithFocus = null;
 						}
-					}
-					else if (control == 'next') {
+					} else if (control == 'next') {
 						this.$nextButton = $newButton;
 						// if player is being rebuilt because user clicked the Next button
 						// return focus to that (newly built) button
@@ -1357,41 +1167,32 @@
 							this.$nextButton.trigger('focus');
 							this.buttonWithFocus = null;
 						}
-					}
-					else if (control === 'captions') {
+					} else if (control === 'captions') {
 						this.$ccButton = $newButton;
-					}
-					else if (control === 'sign') {
+					} else if (control === 'sign') {
 						this.$signButton = $newButton;
 						// gray out sign button if sign language window is not active
 						if (!(this.$signWindow.is(':visible'))) {
 							this.$signButton.addClass('buttonOff');
 						}
-					}
-					else if (control === 'descriptions') {
+					} else if (control === 'descriptions') {
 						this.$descButton = $newButton;
 						// button will be enabled or disabled in description.js > initDescription()
-					}
-					else if (control === 'mute') {
+					} else if (control === 'mute') {
 						this.$muteButton = $newButton;
-					}
-					else if (control === 'transcript') {
+					} else if (control === 'transcript') {
 						this.$transcriptButton = $newButton;
 						// gray out transcript button if transcript is not active
 						if (!(this.$transcriptDiv.is(':visible'))) {
 							this.$transcriptButton.addClass('buttonOff').attr('title',this.tt.showTranscript);
 						}
-					}
-					else if (control === 'fullscreen') {
+					} else if (control === 'fullscreen') {
 						this.$fullscreenButton = $newButton;
-					}
-					else if (control === 'chapters') {
+					} else if (control === 'chapters') {
 						this.$chaptersButton = $newButton;
-					}
-					else if (control === 'preferences') {
+					} else if (control === 'preferences') {
 						this.$prefsButton = $newButton;
-					}
-					else if (control === 'volume') {
+					} else if (control === 'volume') {
 						this.$volumeButton = $newButton;
 					}
 				}
@@ -1421,184 +1222,7 @@
 		}
 
 		// Update state-based display of controls.
-		this.refreshControls('init');
-	};
-
-	AblePlayer.prototype.useSvg = function () {
-
-		// Modified from IcoMoon.io svgxuse
-		// @copyright Copyright (c) 2016 IcoMoon.io
-		// @license		Licensed under MIT license
-		// See https://github.com/Keyamoon/svgxuse
-		// @version		1.1.16
-
-		var cache = Object.create(null); // holds xhr objects to prevent multiple requests
-		var checkUseElems,
-				tid; // timeout id
-		var debouncedCheck = function () {
-			clearTimeout(tid);
-			tid = setTimeout(checkUseElems, 100);
-		};
-		var unobserveChanges = function () {
-			return;
-		};
-		var observeChanges = function () {
-			var observer;
-			window.addEventListener('resize', debouncedCheck, false);
-			window.addEventListener('orientationchange', debouncedCheck, false);
-			if (window.MutationObserver) {
-				observer = new MutationObserver(debouncedCheck);
-				observer.observe(document.documentElement, {
-					childList: true,
-					subtree: true,
-					attributes: true
-				});
-				unobserveChanges = function () {
-					try {
-						observer.disconnect();
-						window.removeEventListener('resize', debouncedCheck, false);
-						window.removeEventListener('orientationchange', debouncedCheck, false);
-					} catch (ignore) {}
-				};
-			}
-			else {
-				document.documentElement.addEventListener('DOMSubtreeModified', debouncedCheck, false);
-				unobserveChanges = function () {
-					document.documentElement.removeEventListener('DOMSubtreeModified', debouncedCheck, false);
-					window.removeEventListener('resize', debouncedCheck, false);
-					window.removeEventListener('orientationchange', debouncedCheck, false);
-				};
-			}
-		};
-		var xlinkNS = 'http://www.w3.org/1999/xlink';
-		checkUseElems = function () {
-			var base,
-					bcr,
-					fallback = '', // optional fallback URL in case no base path to SVG file was given and no symbol definition was found.
-					hash,
-					i,
-					Request,
-					inProgressCount = 0,
-					isHidden,
-					url,
-					uses,
-					xhr;
-			if (window.XMLHttpRequest) {
-				Request = new XMLHttpRequest();
-				if (Request.withCredentials !== undefined) {
-					Request = XMLHttpRequest;
-				}
-				else {
-					Request = XDomainRequest || undefined;
-				}
-			}
-			if (Request === undefined) {
-				return;
-			}
-			function observeIfDone() {
-				// If done with making changes, start watching for chagnes in DOM again
-				inProgressCount -= 1;
-				if (inProgressCount === 0) { // if all xhrs were resolved
-					observeChanges(); // watch for changes to DOM
-				}
-			}
-			function attrUpdateFunc(spec) {
-				return function () {
-					if (cache[spec.base] !== true) {
-						spec.useEl.setAttributeNS(xlinkNS, 'xlink:href', '#' + spec.hash);
-					}
-				};
-			}
-			function onloadFunc(xhr) {
-				return function () {
-					var body = document.body;
-					var x = document.createElement('x');
-					var svg;
-					xhr.onload = null;
-					x.innerHTML = xhr.responseText;
-					svg = x.getElementsByTagName('svg')[0];
-					if (svg) {
-						svg.setAttribute('aria-hidden', 'true');
-						svg.style.position = 'absolute';
-						svg.style.width = 0;
-						svg.style.height = 0;
-						svg.style.overflow = 'hidden';
-						body.insertBefore(svg, body.firstChild);
-					}
-					observeIfDone();
-				};
-			}
-			function onErrorTimeout(xhr) {
-				return function () {
-					xhr.onerror = null;
-					xhr.ontimeout = null;
-					observeIfDone();
-				};
-			}
-			unobserveChanges(); // stop watching for changes to DOM
-			// find all use elements
-			uses = document.getElementsByTagName('use');
-			for (i = 0; i < uses.length; i += 1) {
-				try {
-					bcr = uses[i].getBoundingClientRect();
-				} catch (ignore) {
-					// failed to get bounding rectangle of the use element
-					bcr = false;
-				}
-				url = uses[i].getAttributeNS(xlinkNS, 'href').split('#');
-				base = url[0];
-				hash = url[1];
-				isHidden = bcr && bcr.left === 0 && bcr.right === 0 && bcr.top === 0 && bcr.bottom === 0;
-				if (bcr && bcr.width === 0 && bcr.height === 0 && !isHidden) {
-					// the use element is empty
-					// if there is a reference to an external SVG, try to fetch it
-					// use the optional fallback URL if there is no reference to an external SVG
-					if (fallback && !base.length && hash && !document.getElementById(hash)) {
-						base = fallback;
-					}
-					if (base.length) {
-						// schedule updating xlink:href
-						xhr = cache[base];
-						if (xhr !== true) {
-							// true signifies that prepending the SVG was not required
-							setTimeout(attrUpdateFunc({
-								useEl: uses[i],
-								base: base,
-								hash: hash
-							}), 0);
-						}
-						if (xhr === undefined) {
-							xhr = new Request();
-							cache[base] = xhr;
-							xhr.onload = onloadFunc(xhr);
-							xhr.onerror = onErrorTimeout(xhr);
-							xhr.ontimeout = onErrorTimeout(xhr);
-							xhr.open('GET', base);
-							xhr.send();
-							inProgressCount += 1;
-						}
-					}
-				}
-				else {
-					if (!isHidden) {
-						if (cache[base] === undefined) {
-							// remember this URL if the use element was not empty and no request was sent
-							cache[base] = true;
-						}
-						else if (cache[base].onload) {
-							// if it turns out that prepending the SVG is not necessary,
-							// abort the in-progress xhr.
-							cache[base].abort();
-							cache[base].onload = undefined;
-							cache[base] = true;
-						}
-					}
-				}
-			}
-			uses = '';
-			inProgressCount += 1;
-			observeIfDone();
-		};
+		this.refreshControls();
 	};
 
 	AblePlayer.prototype.cuePlaylistItem = function(sourceIndex) {
@@ -1615,9 +1239,8 @@
 
 		if (this.initializing) { // this is the first track - user hasn't pressed play yet
 			// do nothing.
-		}
-		else {
-				if (this.playerCreated) {
+		} else {
+			if (this.playerCreated) {
 				// remove the old
 				this.deletePlayer('playlist');
 			}
@@ -1630,8 +1253,7 @@
 		// it should be ok to play automatically, regardless of how it was requested
 		if (this.startedPlaying) {
 			this.okToPlay = true;
-		}
-		else {
+		} else {
 			this.okToPlay = false;
 		}
 
@@ -1648,16 +1270,14 @@
 				this.youTubeDescId = this.getYouTubeId($newItem.attr('data-youtube-desc-id'));
 			}
 			newPlayer = 'youtube';
-		}
-		else if (this.hasAttr($newItem,'data-vimeo-id')) {
+		} else if (this.hasAttr($newItem,'data-vimeo-id')) {
 			this.vimeoId = this.getVimeoId($newItem.attr('data-vimeo-id'));
 			if (this.hasAttr($newItem,'data-vimeo-desc-id')) {
 				this.vimeoDescId = this.getVimeoId($newItem.attr('data-vimeo-desc-id'));
 			}
 			newPlayer = 'vimeo';
-		}
-		else {
-				newPlayer = 'html5';
+		} else {
+			newPlayer = 'html5';
 		}
 		if (newPlayer === 'youtube') {
 			if (prevPlayer === 'html5') {
@@ -1667,9 +1287,8 @@
 				}
 				this.$media.hide();
 			}
-		}
-		else {
-				// the new player is not youtube
+		} else {
+			// the new player is not youtube
 			this.youTubeId = false;
 			if (prevPlayer === 'youtube') {
 				// unhide the media element
@@ -1697,7 +1316,7 @@
 		if ($sourceSpans.length) {
 			$sourceSpans.each(function() {
 				const $this = $(this);
- 
+
 				// Check if the required data-src attribute exists
 				if (thisObj.hasAttr($this, "data-src")) {
 					const sanitizedSrc = DOMPurify.sanitize($this.attr("data-src"));
@@ -1706,20 +1325,20 @@
 					if (validate.isProtocolSafe(sanitizedSrc)) {
 						// Create a new <source> element with the sanitized src
 						const $newSource = $("<source>", { src: sanitizedSrc });
-			
+
 						// List of optional attributes to sanitize and add
 						const optionalAttributes = [
 							"data-type",
 							"data-desc-src",
 							"data-sign-src",
 						];
-	
+
 						// Process optional attributes
 						optionalAttributes.forEach((attr) => {
 							if (thisObj.hasAttr($this, attr)) {
 								const attrValue = $this.attr(attr); // Get the attribute value
 								const sanitizedValue = DOMPurify.sanitize(attrValue); // Sanitize the value
-				
+
 								// If the attribute ends with "-src", validate the protocol
 								if (attr.endsWith("-src") && validate.isProtocolSafe(sanitizedValue)) {
 									$newSource.attr(attr, sanitizedValue); // Add the sanitized and validated attribute
@@ -1728,7 +1347,7 @@
 								}
 							}
              			});
- 
+
 						// Append the new <source> element to the media object
 						thisObj.$media.append($newSource);
 					}
@@ -1806,15 +1425,13 @@
 			// if thisObj.swappingSrc is true, media will autoplay when ready
 			if (thisObj.initializing) { // this is the first track - user hasn't pressed play yet
 				thisObj.swappingSrc = false;
-			}
-			else {
+			} else {
 				if (thisObj.player === 'html5') {
 					if (!thisObj.loadingMedia) {
 						thisObj.media.load();
 						thisObj.loadingMedia = true;
 					}
-				}
-				else if (thisObj.player === 'youtube') {
+				} else if (thisObj.player === 'youtube') {
 					thisObj.okToPlay = true;
 				}
 			}
@@ -1885,94 +1502,54 @@
 
 		if (control === 'playpause') {
 			return this.tt.play;
-		}
-		else if (control === 'play') {
+		} else if (control === 'play') {
 			return this.tt.play;
-		}
-		else if (control === 'pause') {
+		} else if (control === 'pause') {
 			return this.tt.pause;
-		}
-		else if (control === 'restart') {
+		} else if (control === 'restart') {
 			return this.tt.restart;
-		}
-		else if (control === 'previous') {
+		} else if (control === 'previous') {
 			return this.tt.prevTrack;
-		}
-		else if (control === 'next') {
+		} else if (control === 'next') {
 			return this.tt.nextTrack;
-		}
-		else if (control === 'rewind') {
+		} else if (control === 'rewind') {
 			return this.tt.rewind;
-		}
-		else if (control === 'forward') {
+		} else if (control === 'forward') {
 			return this.tt.forward;
-		}
-		else if (control === 'captions') {
+		} else if (control === 'captions') {
 			if (this.captions.length > 1) {
 				return this.tt.captions;
+			} else {
+				return (this.captionsOn) ? this.tt.hideCaptions : this.tt.showCaptions;
 			}
-			else {
-				if (this.captionsOn) {
-					return this.tt.hideCaptions;
-				}
-				else {
-					return this.tt.showCaptions;
-				}
-			}
-		}
-		else if (control === 'descriptions') {
-			if (this.descOn) {
-				return this.tt.turnOffDescriptions;
-			}
-			else {
-				return this.tt.turnOnDescriptions;
-			}
-		}
-		else if (control === 'transcript') {
-			if (this.$transcriptDiv.is(':visible')) {
-				return this.tt.hideTranscript;
-			}
-			else {
-				return this.tt.showTranscript;
-			}
-		}
-		else if (control === 'chapters') {
+		} else if (control === 'descriptions') {
+			return (this.descOn) ? this.tt.turnOffDescriptions : this.tt.turnOnDescriptions;
+		} else if (control === 'transcript') {
+			return (this.$transcriptDiv.is(':visible')) ? this.tt.hideTranscript : this.tt.showTranscript;
+		} else if (control === 'chapters') {
 			return this.tt.chapters;
-		}
-		else if (control === 'sign') {
+		} else if (control === 'sign') {
 			return this.tt.sign;
-		}
-		else if (control === 'volume') {
+		} else if (control === 'volume') {
 			return this.tt.volume;
-		}
-		else if (control === 'faster') {
+		} else if (control === 'faster') {
 			return this.tt.faster;
-		}
-		else if (control === 'slower') {
+		} else if (control === 'slower') {
 			return this.tt.slower;
-		}
-		else if (control === 'preferences') {
+		} else if (control === 'preferences') {
 			return this.tt.preferences;
-		}
-		else if (control === 'help') {
+		} else if (control === 'help') {
 			// return this.tt.help;
-		}
-		else if (control === 'fullscreen') {
-			if (!this.fullscreen) {
-				return this.tt.enterFullScreen;
-			}
-			else {
-				return this.tt.exitFullScreen;
-			}
-		}
-		else {
+		} else if (control === 'fullscreen') {
+			return (!this.fullscreen) ? this.tt.enterFullScreen : this.tt.exitFullScreen;
+		} else {
 			// there should be no other controls, but just in case:
 			// return the name of the control with first letter in upper case
 			// ultimately will need to get a translated label from this.tt
 			if (this.debug) {
 				console.log('Found an untranslated label: ' + control);
 			}
-			return control.charAt(0).toUpperCase() + control.slice(1);
+			return this.capitalizeFirstLetter( control );
 		}
 	};
 })(jQuery);

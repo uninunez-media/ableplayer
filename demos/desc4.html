@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 
@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="../build/ableplayer.min.css" type="text/css"/>
 
 <!-- Able Player JavaScript -->
-<script src="../build/ableplayer.js"></script>
+<script src="../build/ableplayer.dist.js"></script>
 
 </head>
 
@@ -34,11 +34,11 @@
 
 		<p>This demo uses a separate video to deliver audio description. If Description is toggled on,
 			the user gets the described version; otherwise they get the non-described version.
-			Unlike <a href="desc3.html">Audio Description Demo #3</a>, the described version uses 
-			<strong>extended audio description</strong> (i.e., the video is paused during description). 
+			Unlike <a href="desc3.html">Audio Description Demo #3</a>, the described version uses
+			<strong>extended audio description</strong> (i.e., the video is paused during description).
 			This results in a described version and non-described version that have different durations.
-			Therefore, any track elements (in this case, captions and chapters) that are intended for 
-			the described version must include the <strong>data-desc</strong> attribute.  
+			Therefore, any track elements (in this case, captions and chapters) that are intended for
+			the described version must include the <code>data-desc</code> attribute.
 		</p>
 
 		<p>For this example:</p>
@@ -52,7 +52,7 @@
 				<source type="video/mp4" src="../media/itaccess-excerpt.mp4" data-desc-src="../media/itaccess-excerpt-described.mp4"/>
 				<!-- captions and chapters for the non-described version -->
 				<track kind="captions" src="../media/itaccess-excerpt-captions_en.vtt" srclang="en" label="English"/>
-				<track kind="subtitles" src="../media/itaccess-excerpt-subtitles_es.vtt" srclang="es" label="Español"/>
+				<track src="../media/itaccess-excerpt-subtitles_es.vtt" srclang="es" label="Español"/>
 				<track kind="chapters" src="../media/itaccess-excerpt-chapters_en.vtt" srclang="en"/>
 				<!-- captions and chapters for the version with extended description -->
 				<track data-desc kind="captions" src="../media/itaccess-excerpt-described-captions_en.vtt" srclang="en" label="English"/>

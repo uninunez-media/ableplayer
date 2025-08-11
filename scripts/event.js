@@ -46,20 +46,18 @@
 					this.playlistIndex = 0;
 					this.cueingPlaylistItem = true; // stopgap to prevent multiple firings
 					this.cuePlaylistItem(0);
-				}
-				else {
+				} else {
 					this.playing = false;
 					this.paused = true;
 				}
-			}
-			else {
+			} else {
 				// this is not the last track. Play the next one.
 				this.playlistIndex++;
 				this.cueingPlaylistItem = true; // stopgap to prevent multiple firings
 				this.cuePlaylistItem(this.playlistIndex)
 			}
 		}
-		this.refreshControls('init');
+		this.refreshControls();
 	};
 
 	AblePlayer.prototype.onMediaNewSourceLoad = function () {
@@ -67,7 +65,7 @@
 		var loadIsComplete = false;
 
 		if (this.cueingPlaylistItem) {
-			// this variable was set in order to address bugs caused by multiple firings of media 'end' event
+			// this variable was set to address bugs caused by multiple firings of media 'end' event
 			// safe to reset now
 			this.cueingPlaylistItem = false;
 		}
@@ -86,8 +84,7 @@
 				this.playMedia();
 				loadIsComplete = true;
 			 }
-		}
-		else if (this.seekTrigger == 'restart' ||
+		} else if (this.seekTrigger == 'restart' ||
 				this.seekTrigger == 'chapter' ||
 				this.seekTrigger == 'transcript' ||
 				this.seekTrigger == 'search'
@@ -97,8 +94,7 @@
 			// (i.e., 'rewind', 'forward', or seekbar); for these, video remains paused until user initiates play
 			this.playMedia();
 			loadIsComplete = true;
-		}
-		else if (this.swappingSrc) {
+		} else if (this.swappingSrc) {
 			// new source file has just been loaded
 			if (this.hasPlaylist) {
 				// a new source file from the playlist has just been loaded
@@ -107,18 +103,16 @@
 					this.playMedia();
 					loadIsComplete = true;
 				}
-			}
-			else if (this.swapTime > 0) {
+			} else if (this.swapTime > 0) {
 				if (this.seekStatus === 'complete') {
 					if (this.okToPlay) {
 						// should be able to resume playback
 						this.playMedia();
 					}
 					loadIsComplete = true;
-				}
-				else if (this.seekStatus === 'seeking') {
-				}
-				else {
+				} else if (this.seekStatus === 'seeking') {
+					// Do nothing.
+				} else {
 					if (this.swapTime === this.elapsed) {
 						// seek is finished!
 						this.seekStatus = 'complete';
@@ -127,27 +121,23 @@
 							this.playMedia();
 						}
 						loadIsComplete = true;
-					}
-					else {
+					} else {
 						// seeking hasn't started yet
 						// first, determine whether it's possible
 						if (this.hasDescTracks) {
 							// do nothing. Unable to seek ahead if there are descTracks
 							loadIsComplete = true;
-						}
-						else if (this.durationsAreCloseEnough(this.duration,this.prevDuration)) {
+						} else if (this.durationsAreCloseEnough(this.duration,this.prevDuration)) {
 							// durations of two sources are close enough to making seek ahead in new source ok
 							this.seekStatus = 'seeking';
 							this.seekTo(this.swapTime);
-						}
-						else {
+						} else {
 							// durations of two sources are too dissimilar to support seeking ahead to swapTime.
 							loadIsComplete = true;
 						}
 					}
 				}
-			}
-			else {
+			} else {
 				// swapTime is 0. No seeking required.
 				if (this.playing) {
 					this.playMedia();
@@ -155,8 +145,7 @@
 					loadIsComplete = true;
 				}
 			}
-		}
-		else if (!this.startedPlaying) {
+		} else if (!this.startedPlaying) {
 			if (this.startTime > 0) {
 				if (this.seeking) {
 					// a seek has already been initiated
@@ -166,24 +155,20 @@
 						this.playMedia();
 					}
 					loadIsComplete = true;
-				}
-				else {
+				} else {
 					// haven't started seeking yet
 					this.seekTo(this.startTime);
 				}
-			}
-			else if (this.defaultChapter && typeof this.selectedChapters !== 'undefined') {
+			} else if (this.defaultChapter && typeof this.selectedChapters !== 'undefined') {
 				this.seekToChapter(this.defaultChapter);
-			}
-			else {
+			} else {
 				// there is no startTime, therefore no seeking required
 				if (this.okToPlay) {
 					this.playMedia();
 				}
 				loadIsComplete = true;
 			}
-		}
-		else if (this.hasPlaylist) {
+		} else if (this.hasPlaylist) {
 			// new source media is part of a playlist, but user didn't click on it
 			// (and somehow, swappingSrc is false)
 			// this may happen when the previous track ends and next track loads
@@ -193,8 +178,7 @@
 				this.playMedia();
 				loadIsComplete = true;
 			}
-		}
-		else {
+		} else {
 			// None of the above.
 			// User is likely seeking to a new time, but not loading a new media source
 			// need to reset vars
@@ -210,10 +194,11 @@
 			this.userClickedPlaylist = false;
 			this.okToPlay = false;
 		}
-		this.refreshControls('init');
+		this.refreshControls();
 		if (this.$focusedElement) {
 			this.restoreFocus();
 			this.$focusedElement = null;
+			this.activeMedia = null;
 		}
 	};
 
@@ -226,15 +211,9 @@
 		var tolerance, diff;
 
 		tolerance = 1;  // number of seconds between rounded durations that is considered "close enough"
-
 		diff = Math.abs(Math.round(d1) - Math.round(d2));
 
-		if (diff <= tolerance) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return (diff <= tolerance) ? true : false;
 	};
 
 	AblePlayer.prototype.restoreFocus = function() {
@@ -244,15 +223,15 @@
 		// but this function finds a match in the new player
 		// and places focus there
 
-		var classList;
+		var classList, $mediaParent;
 
-		if (this.$focusedElement) {
-
-			if ((this.$focusedElement).attr('role') === 'button') {
+		if ( this.$focusedElement && null !== this.activeMedia ) {
+			$mediaParent = $( '#' + this.activeMedia ).closest( '.able' );
+			if ( (this.$focusedElement).attr('role') === 'button' ) {
 				classList = this.$focusedElement.attr("class").split(/\s+/);
 				$.each(classList, function(index, item) {
 					if (item.substring(0,20) === 'able-button-handler-') {
-						$('div.able-controller div.' + item).trigger('focus');
+						$mediaParent.find('div.able-controller div.' + item).trigger('focus');
 					}
 				});
 			}
@@ -275,12 +254,11 @@
 			thisObj.showDescription(position);
 			thisObj.updateChapter(thisObj.convertChapterTimeToVideoTime(position));
 			thisObj.updateMeta(position);
-			thisObj.refreshControls('init');
+			thisObj.refreshControls();
 		}).on('stopTracking', function (e, position) {
 			if (thisObj.useChapterTimes) {
 				thisObj.seekTo(thisObj.convertChapterTimeToVideoTime(position));
-			}
-			else {
+			} else {
 				thisObj.seekTo(position);
 			}
 			if (!thisObj.pausedBeforeTracking) {
@@ -296,97 +274,94 @@
 		var whichButton, prefsPopup;
 
 		whichButton = this.getButtonNameFromClass($(el).attr('class'));
-
-		if (whichButton === 'play') {
-			this.clickedPlay = true;
-			this.handlePlay();
-		}
-		else if (whichButton === 'restart') {
-			this.seekTrigger = 'restart';
-			this.handleRestart();
-		}
-		else if (whichButton === 'previous') {
-			this.userClickedPlaylist = true;
-			this.okToPlay = true;
-			this.seekTrigger = 'previous';
-			this.buttonWithFocus = 'previous';
-			this.handlePrevTrack();
-		}
-		else if (whichButton === 'next') {
-			this.userClickedPlaylist = true;
-			this.okToPlay = true;
-			this.seekTrigger = 'next';
-			this.buttonWithFocus = 'next';
-			this.handleNextTrack();
-		}
-		else if (whichButton === 'rewind') {
-			this.seekTrigger = 'rewind';
-			this.handleRewind();
-		}
-		else if (whichButton === 'forward') {
-			this.seekTrigger = 'forward';
-			this.handleFastForward();
-		}
-		else if (whichButton === 'mute') {
-			this.handleMute();
-		}
-		else if (whichButton === 'volume') {
-			this.handleVolumeButtonClick();
-		}
-		else if (whichButton === 'faster') {
-			this.handleRateIncrease();
-		}
-		else if (whichButton === 'slower') {
-			this.handleRateDecrease();
-		}
-		else if (whichButton === 'captions') {
-			this.handleCaptionToggle();
-		}
-		else if (whichButton === 'chapters') {
-			this.handleChapters();
-		}
-		else if (whichButton === 'descriptions') {
-			this.handleDescriptionToggle();
-		}
-		else if (whichButton === 'sign') {
-			if (!this.closingSign) {
-				this.handleSignToggle();
-			}
-		}
-		else if (whichButton === 'preferences') {
-			if ($(el).attr('data-prefs-popup') === 'menu') {
-				this.handlePrefsClick();
-			}
-			else {
-				this.showingPrefsDialog = true; // stopgap
-				this.closePopups();
-				prefsPopup = $(el).attr('data-prefs-popup');
-				if (prefsPopup === 'keyboard') {
-					this.keyboardPrefsDialog.show();
+		switch ( whichButton ) {
+			case 'play':
+				this.clickedPlay = true;
+				this.handlePlay();
+				break;
+			case 'restart':
+				this.seekTrigger = 'restart';
+				this.handleRestart();
+				break;
+			case 'previous':
+				this.userClickedPlaylist = true;
+				this.okToPlay = true;
+				this.seekTrigger = 'previous';
+				this.buttonWithFocus = 'previous';
+				this.handlePrevTrack();
+				break;
+			case 'next':
+				this.userClickedPlaylist = true;
+				this.okToPlay = true;
+				this.seekTrigger = 'next';
+				this.buttonWithFocus = 'next';
+				this.handleNextTrack();
+				break;
+			case 'rewind':
+				this.seekTrigger = 'rewind';
+				this.handleRewind();
+				break;
+			case 'forward':
+				this.seekTrigger = 'forward';
+				this.handleFastForward();
+				break;
+			case 'mute':
+				this.handleMute();
+				break;
+			case 'volume':
+				this.handleVolumeButtonClick();
+				break;
+			case 'faster':
+				this.handleRateIncrease();
+				break;
+			case 'slower':
+				this.handleRateDecrease();
+				break;
+			case 'captions':
+				this.handleCaptionToggle();
+				break;
+			case 'chapters':
+				this.handleChapters();
+				break;
+			case 'descriptions':
+				this.handleDescriptionToggle();
+				break;
+			case 'sign':
+				if ( ! this.closingSign ) {
+					this.handleSignToggle();
 				}
-				else if (prefsPopup === 'captions') {
-					this.captionPrefsDialog.show();
+				break;
+			case 'preferences':
+				if ($(el).attr('data-prefs-popup') === 'menu') {
+					this.handlePrefsClick();
+				} else {
+					this.showingPrefsDialog = true; // stopgap
+					this.closePopups();
+					prefsPopup = $(el).attr('data-prefs-popup');
+					if (prefsPopup === 'keyboard') {
+						this.keyboardPrefsDialog.show();
+					} else if (prefsPopup === 'captions') {
+						this.captionPrefsDialog.show();
+					} else if (prefsPopup === 'descriptions') {
+						this.descPrefsDialog.show();
+					} else if (prefsPopup === 'transcript') {
+						this.transcriptPrefsDialog.show();
+					}
+					this.showingPrefsDialog = false;
 				}
-				else if (prefsPopup === 'descriptions') {
-					this.descPrefsDialog.show();
+				break;
+			case 'help':
+				this.handleHelpClick();
+				break;
+			case 'transcript':
+				if ( !this.closingTranscript ) {
+					this.handleTranscriptToggle();
 				}
-				else if (prefsPopup === 'transcript') {
-					this.transcriptPrefsDialog.show();
-				}
-				this.showingPrefsDialog = false;
-			}
-		}
-		else if (whichButton === 'help') {
-			this.handleHelpClick();
-		}
-		else if (whichButton === 'transcript') {
-			if (!this.closingTranscript) {
-				this.handleTranscriptToggle();
-			}
-		}
-		else if (whichButton === 'fullscreen') {
-			this.clickedFullscreenButton = true;
-			this.handleFullscreenToggle();
+				break;
+			case 'fullscreen':
+				this.clickedFullscreenButton = true;
+				this.handleFullscreenToggle();
+				break;
 		}
 	};
 
@@ -410,15 +385,9 @@
 
 		// returns true unless user's focus is on a UI element
 		// that is likely to need supported keystrokes, including space
-
 		var activeElement = AblePlayer.getActiveDOMElement();
 
-		if ($(activeElement).prop('tagName') === 'INPUT') {
-			return false;
-		}
-		else {
-			return true;
-		}
+		return ($(activeElement).prop('tagName') === 'INPUT') ? false : true;
 	};
 
 	AblePlayer.prototype.onPlayerKeyPress = function (e) {
@@ -434,16 +403,13 @@
 		// including removal of the "media player" design pattern. There's an issue about that:
 		// https://github.com/w3c/aria-practices/issues/27
 
-		var which, $thisElement;
+		var key, $thisElement;
 
 		// Convert to lower case.
-		which = e.which;
-		if (which >= 65 && which <= 90) {
-			which += 32;
-		}
+		key = e.key;
 		$thisElement = $(document.activeElement);
 
-		if (which === 27) { // escape
+		if (key === 'Escape') {
 			if (this.$transcriptArea && $.contains(this.$transcriptArea[0],$thisElement[0]) && !this.hidingPopup) {
 				// This element is part of transcript area.
 				this.handleTranscriptToggle();
@@ -466,12 +432,11 @@
 			(e.target.tagName === 'TEXTAREA' && !this.stenoMode) ||
 			e.target.tagName === 'SELECT'
 		)){
-			if (which === 27) { // escape
+			if (key === 'Escape') {
 				this.closePopups();
 				this.$tooltipDiv.hide();
 				this.seekBar.hideSliderTooltips();
-			}
-			else if (which === 32) { // spacebar = play/pause
+			} else if (key === ' ') {
 				// disable spacebar support for play/pause toggle as of 4.2.10
 				// spacebar should not be handled everywhere on the page, since users use that to scroll the page
 				// when the player has focus, most controls are buttons so spacebar should be used to trigger the buttons
@@ -480,86 +445,72 @@
 					e.preventDefault();
 					$thisElement.trigger( 'click' );
 				}
-			}
-			else if (which === 112) { // p = play/pause
+			} else if ( key === 'p' ) {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handlePlay();
 				}
-			}
-			else if (which === 115) { // s = stop (now restart)
+			} else if (key === 's') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleRestart();
 				}
-			}
-			else if (which === 109) { // m = mute
+			} else if (key === 'm') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleMute();
 				}
-			}
-			else if (which === 118) { // v = volume
+			} else if (key === 'v') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleVolumeButtonClick();
 				}
-			}
-			else if (which >= 49 && which <= 57) { // set volume 1-9
+			} else if (key >= 0 && key <= 9) {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
-					this.handleVolumeKeystroke(which);
+					this.handleVolumeKeystroke(key);
 				}
-			}
-			else if (which === 99) { // c = caption toggle
+			} else if (key === 'c') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleCaptionToggle();
 				}
-			}
-			else if (which === 100) { // d = description
+			} else if (key === 'd') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleDescriptionToggle();
 				}
-			}
-			else if (which === 102) { // f = forward
+			} else if (key === 'f') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleFastForward();
 				}
-			}
-			else if (which === 114) { // r = rewind
+			} else if (key === 'r') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleRewind();
 				}
-			}
-			else if (which === 98) { // b = back (previous track)
+			} else if (key === 'b') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handlePrevTrack();
 				}
-			}
-			else if (which === 110) { // n = next track
+			} else if (key === 'n') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handleNextTrack();
 				}
-			}
-			else if (which === 101) { // e = preferences
+			} else if (key === 'e') {
 				if (this.usingModifierKeys(e)) {
 					e.preventDefault();
 					this.handlePrefsClick();
 				}
-			}
-			else if (which === 13) { // Enter
+			} else if (key === 'Enter') {
 				if ($thisElement.attr('role') === 'button' || $thisElement.prop('tagName') === 'SPAN') {
 					// register a click on this element
 					// if it's a transcript span the transcript span click handler will take over
 					$thisElement.trigger( 'click' );
-				}
-				else if ($thisElement.prop('tagName') === 'LI') {
+				} else if ($thisElement.prop('tagName') === 'LI') {
 					$thisElement.trigger( 'click' );
 				}
 			}
@@ -636,13 +587,11 @@
 					if (thisObj.hasPlaylist || thisObj.swappingSrc) {
 						// do NOT set playing to false.
 						// doing so prevents continual playback after new track is loaded
-					}
-					else {
+					} else {
 						thisObj.playing = false;
 						thisObj.paused = true;
 					}
-				}
-				else {
+				} else {
 					thisObj.playing = false;
 					thisObj.paused = true;
 				}
@@ -736,13 +685,11 @@
 				if (thisObj.hasPlaylist || thisObj.swappingSrc) {
 						// do NOT set playing to false.
 					// doing so prevents continual playback after new track is loaded
-				}
-				else {
+				} else {
 					thisObj.playing = false;
 					thisObj.paused = true;
 				}
-			}
-			else {
+			} else {
 				thisObj.playing = false;
 				thisObj.paused = true;
 			}
@@ -780,10 +727,8 @@
 
 	AblePlayer.prototype.addEventListeners = function () {
 
-		var thisObj, whichButton, thisElement;
-
 		// Save the current object context in thisObj for use with inner functions.
-		thisObj = this;
+		var thisObj = this;
 
 		// Appropriately resize media player for full screen.
 		$(window).on('resize',function () {
@@ -801,7 +746,7 @@
 					if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
 						// the player's style attribute has changed. Check to see if it's visible
 						if (thisObj.$ableDiv.is(':visible')) {
-							thisObj.refreshControls('init');
+							thisObj.refreshControls();
 						}
 					}
 				});
@@ -811,8 +756,7 @@
 		}
 		if (typeof this.seekBar !== 'undefined') {
 			this.addSeekbarListeners();
-		}
-		else {
+		} else {
 			// wait a bit and try again
 			// TODO: Should set this up to keep trying repeatedly.
 			// Seekbar listeners are critical.
@@ -830,7 +774,7 @@
 		});
 
 		// handle clicks (left only) anywhere on the page. If any popups are open, close them.
-		$(document).on('click',function(e) {
+		$('body').on('click', function(e) {
 
 			if (e.button !== 0) { // not a left click
 				return false;
@@ -860,8 +804,7 @@
 					// after showing controls, hide them again after a brief timeout
 					thisObj.invokeHideControlsTimeout();
 				}
-			}
-			else {
+			} else {
 				// if there's already an active timeout, clear it and start timer again
 				if (thisObj.hideControlsTimeoutStatus === 'active') {
 					window.clearTimeout(thisObj.hideControlsTimeout);
@@ -886,8 +829,7 @@
 					// after showing controls, hide them again after a brief timeout
 					thisObj.invokeHideControlsTimeout();
 				}
-			}
-			else {
+			} else {
 				// controls are visible
 				// if there's already an active timeout, clear it and start timer again
 				if (thisObj.hideControlsTimeoutStatus === 'active') {
@@ -946,11 +888,9 @@
 		// add listeners for media events
 		if (this.player === 'html5') {
 			this.addHtml5MediaListeners();
-		}
-		else if (this.player === 'vimeo') {
+		} else if (this.player === 'vimeo') {
 			 this.addVimeoListeners();
-		}
-		else if (this.player === 'youtube') {
+		} else if (this.player === 'youtube') {
 			// Youtube doesn't give us time update events, so we just periodically generate them ourselves
 			setInterval(function () {
 				thisObj.onMediaUpdateTime();

@@ -1,5 +1,4 @@
 (function ($) {
-
 	AblePlayer.prototype.initDragDrop = function ( which ) {
 
 		// supported values of which: 'sign', 'transcript'
@@ -22,15 +21,17 @@
 			$window = this.$transcriptArea;
 			windowName = 'transcript-window';
 			$toolbar = this.$transcriptToolbar;
-		}
-		else if (which === 'sign') {
+			$toolbar.attr( 'aria-label', this.tt.transcriptControls );
+		} else if (which === 'sign') {
 			$window = this.$signWindow;
 			windowName = 'sign-window';
 			$toolbar = this.$signToolbar;
+			$toolbar.attr( 'aria-label', this.tt.signControls );
 		}
 
 		// add class to trigger change in cursor on hover
 		$toolbar.addClass('able-draggable');
+		$toolbar.attr( 'role', 'application' );
 
 		// add resize handle selector to bottom right corner
 		$resizeHandle = $('<div>',{
@@ -50,14 +51,12 @@
 				y1 = '0';
 				x2 = '0';
 				y2 = '100';
-			}
-			else if (i === 2) {
+			} else if (i === 2) {
 				x1 = '33';
 				y1 = '100';
 				x2 = '100';
 				y2 = '33';
-			}
-			else if (i === 3) {
+			} else if (i === 3) {
 				x1 = '67';
 				y1 = '100';
 				x2 = '100';
@@ -86,7 +85,7 @@
 		// other event listeners will be added when drag starts
 		$toolbar.on('mousedown mouseup touchstart touchend', function(e) {
 			e.stopPropagation();
-			if (e.type === 'mousedown' || e.type === 'touchstart') {
+			if (e.type === 'mousedown' || e.type === 'touchstart' ) {
 				if (!thisObj.windowMenuClickRegistered) {
 					thisObj.windowMenuClickRegistered = true;
 					thisObj.startMouseX = e.pageX;
@@ -94,8 +93,7 @@
 					thisObj.dragDevice = 'mouse'; // ok to use this even if device is a touchpad
 					thisObj.startDrag(which, $window);
 				}
-			}
-			else if (e.type === 'mouseup' || e.type === 'touchend') {
+			} else if (e.type === 'mouseup' || e.type === 'touchend') {
 				if (thisObj.dragging && thisObj.dragDevice === 'mouse') {
 					thisObj.endDrag(which);
 				}
@@ -113,8 +111,7 @@
 					thisObj.startMouseY = e.pageY;
 					thisObj.startResize(which, $window);
 				}
-			}
-			else if (e.type === 'mouseup' || e.type === 'touchend') {
+			} else if (e.type === 'mouseup' || e.type === 'touchend') {
 				if (thisObj.resizing) {
 					thisObj.endResize(which);
 				}
@@ -136,8 +133,7 @@
 
 	AblePlayer.prototype.addWindowMenu = function(which, $window, windowName) {
 
-		var thisObj, $windowAlert, menuId, $newButton, $buttonIcon, buttonImgSrc,
-			$buttonLabel, tooltipId, $tooltip, $popup, menuId;
+		var thisObj, $windowAlert, menuId, $newButton, tooltipId, $tooltip, $popup, menuId;
 
 		thisObj = this;
 
@@ -150,51 +146,18 @@
 		// this will prevent the click event from being triggered
 		this.finishingDrag = false;
 
-		// create an alert div and add it to window
-		$windowAlert = $('<div role="alert"></div>');
-		$windowAlert.addClass('able-alert');
-		$windowAlert.hide();
-		$windowAlert.appendTo(this.$activeWindow);
-		$windowAlert.css({
-			top: $window.offset().top
-		});
-
 		// add button to draggable window which triggers a popup menu
-		// for now, re-use preferences icon for this purpose
 		menuId = this.mediaId + '-' + windowName + '-menu';
 		$newButton = $('<button>',{
 			'type': 'button',
 			'tabindex': '0',
-			'aria-label': this.tt.windowButtonLabel,
 			'aria-haspopup': 'true',
 			'aria-controls': menuId,
 			'aria-expanded': 'false',
 			'class': 'able-button-handler-preferences'
 		});
-		if (this.iconType === 'font') {
-			$buttonIcon = $('<span>',{
-				'class': 'icon-preferences',
-				'aria-hidden': 'true'
-			});
-			$newButton.append($buttonIcon);
-		}
-		// Inexplicably, SVG images aren't working in the dragdrop UI.
-		else {
-			// use image
-			buttonImgSrc = this.rootPath + 'button-icons/' + this.toolbarIconColor + '/preferences.png';
-			$buttonIcon = $('<img>',{
-				'src': buttonImgSrc,
-				'alt': '',
-				'role': 'presentation'
-			});
-			$newButton.append($buttonIcon);
-		}
-
-		// add the visibly-hidden label for screen readers that don't support aria-label on the button
-		$buttonLabel = $('<span>',{
-			'class': 'able-clipped'
-		}).text(this.tt.windowButtonLabel);
-		$newButton.append($buttonLabel);
+		this.getIcon( $newButton, 'preferences' );
+		this.setText( $newButton, this.tt.windowButtonLabel );
 
 		// add a tooltip that displays aria-label on mouseenter or focus
 		tooltipId = this.mediaId + '-' + windowName + '-tooltip';
@@ -202,6 +165,7 @@
 			'class' : 'able-tooltip',
 			'id' : tooltipId
 		}).hide();
+
 		$newButton.on('mouseenter focus',function(e) {
 			var label = $(this).attr('aria-label');
 			var tooltip = AblePlayer.localGetElementById($newButton[0], tooltipId).text(label);
@@ -225,13 +189,10 @@
 		$popup = this.setupPopups(windowName); // 'transcript-window' or 'sign-window'
 		// define vars and assemble all the parts
 		if (which === 'transcript') {
-			this.$transcriptAlert = $windowAlert;
 			this.$transcriptPopupButton = $newButton;
 			this.$transcriptPopup = $popup;
 			this.$transcriptToolbar.prepend($windowAlert,$newButton,$tooltip,$popup);
-		}
-		else if (which === 'sign') {
-			this.$signAlert = $windowAlert;
+		} else if (which === 'sign') {
 			this.$signPopupButton = $newButton;
 			this.$signPopup = $popup;
 			this.$signToolbar.append($windowAlert,$newButton,$tooltip,$popup);
@@ -260,28 +221,22 @@
 
 	AblePlayer.prototype.addResizeDialog = function (which, $window) {
 
-		var thisObj, $windowPopup, $windowButton,
-			widthId, heightId, startingWidth, startingHeight, aspectRatio,
+		var thisObj, $windowPopup, $windowButton, widthId, heightId,
 			$resizeForm, $resizeWrapper, $resizeWidthDiv, $resizeWidthInput, $resizeWidthLabel,
-			$resizeHeightDiv, $resizeHeightInput, $resizeHeightLabel,
-			tempWidth, tempHeight, $saveButton, $cancelButton, newWidth, newHeight, resizeDialog;
+			$resizeHeightDiv, $resizeHeightInput, $resizeHeightLabel, $saveButton, $cancelButton, newWidth, newHeight, resizeDialog;
 
 		thisObj = this;
 
 		if (which === 'transcript') {
 			$windowPopup = this.$transcriptPopup;
 			$windowButton = this.$transcriptPopupButton;
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			$windowPopup = this.$signPopup;
 			$windowButton = this.$signPopupButton;
 		}
 
 		widthId = this.mediaId + '-resize-' + which + '-width';
 		heightId = this.mediaId + '-resize-' + which + '-height';
-		startingWidth = $window.width();
-		startingHeight = $window.height();
-		aspectRatio = startingWidth / startingHeight;
 
 		$resizeForm = $('<div></div>',{
 			'class' : 'able-resize-form'
@@ -289,13 +244,15 @@
 
 		// inner container for all content, will be assigned to modal div's aria-describedby
 		$resizeWrapper = $('<div></div>');
+		$resizeControls = $( '<div class="able-prefs-buttons"></div>' );
 
 		// width field
 		$resizeWidthDiv = $('<div></div>');
 		$resizeWidthInput = $('<input>',{
-			'type': 'text',
+			'type': 'number',
 			'id': widthId,
-			'value': startingWidth
+			'min': 0,
+			'value': '',
 		});
 		$resizeWidthLabel = $('<label>',{
 			'for': widthId
@@ -304,24 +261,14 @@
 		// height field
 		$resizeHeightDiv = $('<div></div>');
 		$resizeHeightInput = $('<input>',{
-			'type': 'text',
+			'type': 'number',
 			'id': heightId,
-			'value': startingHeight
+			'min': 0,
+			'value': '',
 		});
 		$resizeHeightLabel = $('<label>',{
 			'for': heightId
 		}).text(this.tt.height);
-
-		if (which === 'sign') {
-			// make height a read-only field
-			// and calculate its value based on width to preserve aspect ratio
-			$resizeHeightInput.prop('readonly',true);
-			$resizeWidthInput.on('input',function() {
-				tempWidth = $(this).val();
-				tempHeight = Math.round(tempWidth/aspectRatio, 0);
-				$resizeHeightInput.val(tempHeight);
-			})
-		}
 
 		// Add save and cancel buttons.
 		$saveButton = $('<button class="modal-button">' + this.tt.save + '</button>');
@@ -329,10 +276,9 @@
 		$saveButton.on('click',function () {
 			newWidth = $('#' + widthId).val();
 			newHeight = $('#' + heightId).val();
-			if (newWidth !== startingWidth || newHeight !== startingHeight) {
-				thisObj.resizeObject(which,newWidth,newHeight);
-				thisObj.updateCookie(which);
-			}
+			thisObj.resizeObject(which,newWidth,newHeight);
+			thisObj.updateCookie(which);
+
 			resizeDialog.hide();
 			$windowPopup.hide();
 			$windowButton.trigger('focus');
@@ -347,7 +293,8 @@
 		$resizeWidthDiv.append($resizeWidthLabel,$resizeWidthInput);
 		$resizeHeightDiv.append($resizeHeightLabel,$resizeHeightInput);
 		$resizeWrapper.append($resizeWidthDiv,$resizeHeightDiv);
-		$resizeForm.append($resizeWrapper,'<hr>',$saveButton,$cancelButton);
+		$resizeControls.append($saveButton,$cancelButton);
+		$resizeForm.append($resizeWrapper,$resizeControls);
 
 		// must be appended to the BODY!
 		// otherwise when aria-hidden="true" is applied to all background content
@@ -357,8 +304,7 @@
 		resizeDialog = new AccessibleDialog($resizeForm, $windowButton, 'dialog', true, this.tt.windowResizeHeading, $resizeWrapper, this.tt.closeButtonLabel, '20em');
 		if (which === 'transcript') {
 			this.transcriptResizeDialog = resizeDialog;
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			this.signResizeDialog = resizeDialog;
 		}
 	};
@@ -380,8 +326,7 @@
 			$windowPopup = this.$transcriptPopup;
 			$windowButton = this.$transcriptPopupButton;
 			$toolbar = this.$transcriptToolbar;
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			$windowPopup = this.$signPopup;
 			$windowButton = this.$signPopupButton;
 			$toolbar = this.$signToolbar;
@@ -389,11 +334,9 @@
 
 		if (e.type === 'keydown') {
 			// user pressed a key
-			if (e.which === 32 || e.which === 13) {
-				// this was Enter or space
+			if (e.key === ' ' || e.key === 'Enter') {
 				this.windowMenuClickRegistered = true;
-			}
-			else if (e.which === 27) { // escape
+			} else if (e.key === 'Escape') {
 				if ($windowPopup.is(':visible')) {
 					// close the popup menu
 					$windowPopup.hide('fast', function() {
@@ -404,22 +347,18 @@
 						// also return focus to window options button
 						$windowButton.trigger('focus');
 					});
-				}
-				else {
+				} else {
 					// popup isn't open. Close the window
 					if (which === 'sign') {
 						this.handleSignToggle();
-					}
-					else if (which === 'transcript') {
+					} else if (which === 'transcript') {
 						this.handleTranscriptToggle();
 					}
 				}
-			}
-			else {
+			} else {
 				return false;
 			}
-		}
-		else {
+		} else {
 			// this was a mouse event
 			this.windowMenuClickRegistered = true;
 		}
@@ -430,8 +369,7 @@
 			});
 			$windowPopup.find('li').removeClass('able-focus');
 			$windowButton.attr('aria-expanded','false').trigger('focus');
-		}
-		else {
+		} else {
 			// first, be sure window is on top
 			this.updateZIndex(which);
 			popupTop = $toolbar.outerHeight() - 1;
@@ -446,7 +384,8 @@
 
 	AblePlayer.prototype.handleMenuChoice = function (which, choice, e) {
 
-		var thisObj, $window, $windowPopup, $windowButton, resizeDialog;
+		var thisObj, $window, $windowPopup, $windowButton, resizeDialog, startingWidth, startingHeight,
+		aspectRatio, tempWidth, tempHeight;
 
 		thisObj = this;
 		if (which === 'transcript') {
@@ -454,17 +393,30 @@
 			$windowPopup = this.$transcriptPopup;
 			$windowButton = this.$transcriptPopupButton;
 			resizeDialog = this.transcriptResizeDialog;
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			$window = this.$signWindow;
 			$windowPopup = this.$signPopup;
 			$windowButton = this.$signPopupButton;
 			resizeDialog = this.signResizeDialog;
+
+			startingWidth = $window.outerWidth();
+			startingHeight = $window.outerHeight();
+			aspectRatio = startingWidth / startingHeight;
+			// make height a read-only field
+			// and calculate its value based on width to preserve aspect ratio
+			widthId = this.mediaId + '-resize-' + which + '-width';
+			heightId = this.mediaId + '-resize-' + which + '-height';
+			$( '#' + heightId ).prop('readonly',true);
+			$( '#' + widthId ).on('input',function() {
+				tempWidth = $(this).val();
+				tempHeight = Math.round(tempWidth/aspectRatio);
+				$( '#' + heightId ).val(tempHeight);
+			});
 		}
 		this.$activeWindow = $window;
 
 		if (e.type === 'keydown') {
-			if (e.which === 27) { // escape
+			if (e.key === 'Escape') { // escape
 				// hide the popup menu
 				$windowPopup.hide('fast', function() {
 					// also reset the Boolean
@@ -476,8 +428,7 @@
 					$windowButton.trigger('focus');
 				});
 				return false;
-			}
-			else {
+			} else {
 				// all other keys will be handled by upstream functions
 				if (choice !== 'close') {
 					this.$activeWindow = $window;
@@ -498,7 +449,6 @@
 			$windowButton.trigger('focus');
 		}
 		if (choice === 'move') {
-
 			// temporarily add role="application" to activeWindow
 			// otherwise, screen readers incercept arrow keys and moving window will not work
 			this.$activeWindow.attr('role','application');
@@ -507,38 +457,29 @@
 				this.showAlert(this.tt.windowMoveAlert,which);
 				if (which === 'transcript') {
 					this.showedTranscriptAlert = true;
-				}
-				else if (which === 'sign') {
+				} else if (which === 'sign') {
 					this.showedSignAlert = true;
 				}
 			}
-			if (e.type === 'keydown') {
-				this.dragDevice = 'keyboard';
-			}
-			else {
-				this.dragDevice = 'mouse';
-			}
+			this.dragDevice = (e.type === 'keydown') ? 'keyboard' : 'mouse';
 			this.startDrag(which, $window);
 			$windowPopup.hide().parent().attr( 'tabindex', '-1' ).trigger('focus');
-		}
-		else if (choice == 'resize') {
+		} else if (choice == 'resize') {
 			// resize through the menu uses a form, not drag
 			var resizeFields = resizeDialog.getInputs();
 			if (resizeFields) {
 				// reset width and height values in form
-				resizeFields[0].value = $window.width();
-				resizeFields[1].value = $window.height();
+				resizeFields[0].value = Math.round( $window.outerWidth() );
+				resizeFields[1].value = Math.round( $window.outerHeight() );
 			}
 			resizeDialog.show();
-		}
-		else if (choice == 'close') {
+		} else if (choice == 'close') {
 			// close window, place focus on corresponding button on controller bar
 			if (which === 'transcript') {
-				this.closingTranscript = true; // stopgrap to prevent double-firing of keypress
+				this.closingTranscript = true; // stopgap to prevent double-firing of keypress
 				this.handleTranscriptToggle();
-			}
-			else if (which === 'sign') {
-				this.closingSign = true; // stopgrap to prevent double-firing of keypress
+			} else if (which === 'sign') {
+				this.closingSign = true; // stopgap to prevent double-firing of keypress
 				this.handleSignToggle();
 			}
 		}
@@ -557,8 +498,7 @@
 
 		if (which === 'transcript') {
 			$windowPopup = this.$transcriptPopup;
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			$windowPopup = this.$signPopup;
 		}
 
@@ -581,8 +521,7 @@
 			this.dragKeyY = this.dragStartY;
 			// add stopgap to prevent the Enter that triggered startDrag() from also triggering dragEnd()
 			this.startingDrag = true;
-		}
-		else {
+		} else {
 			this.dragDevice = 'mouse';
 			// get offset between mouse position and top left corner of draggable element
 			this.dragOffsetX = this.startMouseX - this.dragStartX;
@@ -596,6 +535,7 @@
 			'left': this.dragStartX + 'px'
 		}).trigger('focus');
 
+		var dragDevice = this.dragDevice;
 		// add device-specific event listeners
 		if (this.dragDevice === 'mouse') { // might also be a touchpad
 			$(document).on('mousemove touchmove',function(e) {
@@ -606,8 +546,7 @@
 					thisObj.resetDraggedObject( newX, newY );
 				}
 			});
-		}
-		else if (this.dragDevice === 'keyboard') {
+		} else if (this.dragDevice === 'keyboard') {
 			this.$activeWindow.on('keydown',function(e) {
 				if (thisObj.dragging) {
 					thisObj.dragKeys(which, e);
@@ -617,6 +556,12 @@
 		return false;
 	};
 
+	/**
+	 * Handle moving the transcript or sign window from the keyboard.
+	 *
+	 * @param {string} which 'transcript' or 'sign' window.
+	 * @param {Event} e Triggered event.
+	 */
 	AblePlayer.prototype.dragKeys = function(which, e) {
 
 		var key, keySpeed;
@@ -629,28 +574,29 @@
 			this.startingDrag = false;
 			return false;
 		}
-		key = e.which;
+		key = e.key;
 		keySpeed = 10; // pixels per keypress event
 
 		switch (key) {
-			case 37:	// left
-			case 63234:
+			case 'ArrowLeft':	// left
 				 this.dragKeyX -= keySpeed;
+				 this.$srAlertBox.text( this.tt.windowMoveLeft );
 				break;
-			case 38:	// up
-			case 63232:
+			case 'ArrowUp':	// up
 				this.dragKeyY -= keySpeed;
+				this.$srAlertBox.text( this.tt.windowMoveUp );
 				break;
-			case 39:	// right
-			case 63235:
+			case 'ArrowRight':	// right
 				this.dragKeyX += keySpeed;
+				this.$srAlertBox.text( this.tt.windowMoveRight );
 				break;
-			case 40:	// down
-			case 63233:
+			case 'ArrowDown':	// down
 				this.dragKeyY += keySpeed;
+				this.$srAlertBox.text( this.tt.windowMoveDown );
 				break;
-			case 13: 	// enter
-			case 27: 	// escape
+			case 'Enter': 	// enter
+			case 'Escape': 	// escape
+				this.$srAlertBox.text( this.tt.windowMoveStopped );
 				this.endDrag(which);
 				return false;
 			default:
@@ -664,6 +610,9 @@
 	};
 
 	AblePlayer.prototype.resetDraggedObject = function ( x, y) {
+		setTimeout( () => {
+			this.$srAlertBox.text( '' );
+		}, 2000 );
 
 		this.$activeWindow.css({
 			'left': x + 'px',
@@ -698,8 +647,7 @@
 		if (which === 'transcript') {
 			$windowPopup = this.$transcriptPopup;
 			$windowButton = this.$transcriptPopupButton;
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			$windowPopup = this.$signPopup;
 			$windowButton = this.$signPopupButton;
 		}
@@ -725,34 +673,13 @@
 		// Boolean to stop stray events from firing
 		this.windowMenuClickRegistered = false;
 		this.finishingDrag = true; // will be reset after window click event
-		// finishingDrag should e reset after window click event,
+		// finishingDrag should be reset after window click event,
 		// which is triggered automatically after mouseup
 		// However, in case that's not reliable in some browsers
 		// need to ensure this gets cancelled
 		setTimeout(function() {
 			thisObj.finishingDrag = false;
 		}, 100);
-	};
-
-	AblePlayer.prototype.isCloseToCorner = function($window, mouseX, mouseY) {
-
-		// return true if mouse is close to bottom right corner (resize target)
-		var tolerance, position, top, left, width, height, bottom, right;
-
-		tolerance = 10; // number of pixels in both directions considered "close enough"
-
-		// first, get position of element
-		position = $window.offset();
-		top = position.top;
-		left = position.left;
-		width = $window.width();
-		height = $window.height();
-		bottom = top + height;
-		right = left + width;
-		if ((Math.abs(bottom-mouseY) <= tolerance) && (Math.abs(right-mouseX) <= tolerance)) {
-			return true;
-		}
-		return false;
 	};
 
 	AblePlayer.prototype.startResize = function(which, $element) {
@@ -763,12 +690,7 @@
 		this.$activeWindow = $element;
 		this.resizing = true;
 
-		if (which === 'transcript') {
-			$windowPopup = this.$transcriptPopup;
-		}
-		else if (which === 'sign') {
-			$windowPopup = this.$signPopup;
-		}
+		$windowPopup = (which === 'transcript') ? this.$transcriptPopup : this.$signPopup;
 
 		// if window's popup menu is open, close it & place focus on button (???)
 		if ($windowPopup.is(':visible')) {
@@ -780,7 +702,7 @@
 		this.dragKeyX = this.dragStartX;
 		this.dragKeyY = this.dragStartY;
 		this.dragStartWidth = this.$activeWindow.width();
-		this.dragStartHeight = this.$activeWindow.height();
+		this.dragStartHeight = this.$activeWindow.outerHeight();
 
 		// add event listeners
 		$(document).on('mousemove touchmove',function(e) {
@@ -791,6 +713,7 @@
 				thisObj.resizeObject( which, newWidth, newHeight );
 			}
 		});
+
 		return false;
 	};
 
@@ -801,8 +724,7 @@
 		if (which === 'transcript') {
 			$windowPopup = this.$transcriptPopup;
 			$windowButton = this.$transcriptPopupButton;
-		}
-		else if (which === 'sign') {
+		} else if (which === 'sign') {
 			$windowPopup = this.$signPopup;
 			$windowButton = this.$signPopupButton;
 		}

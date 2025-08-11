@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Able Player Video Demo #10</title>
+<title>Video with synchronized sign language from local sources | Able Player Demos</title>
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
@@ -37,13 +37,13 @@
 	<main>
 		<h1>Video with sign language</h1>
 
-		<p>An accompanying sign language video is provided for each &lt;source&gt; element using the
-			<em>data-sign-src</em> attribute. This results in a sign language video being played in a pop-up window
-			in sync with the program video. Unfortunately, this does not currently work in IOS.
+		<p>An accompanying sign language video is provided for each <code>&lt;source&gt;</code> element using the
+			<code>data-sign-src</code> attribute. This results in a sign language video being played in a pop-up window
+			in sync with the program video. Unfortunately, this does not currently work in iOS.
 		</p>
 
 		<div id="video-wrapper">
-			<video id="video1" preload="auto" poster="../media/wwa.jpg" data-able-player playsinline>
+			<video id="video1" preload="auto" poster="../media/wwa.jpg" data-icon-type="image" data-able-player playsinline>
 				<source type="video/mp4" src="../media/wwa.mp4" data-desc-src="../media/wwa_described.mp4" data-sign-src="../media/wwa_sign.mp4"/>
 				<source type="video/webm" src="../media/wwa.webm" data-desc-src="../media/wwa_described.webm" data-sign-src="../media/wwa_sign.webm"/>
 				<track kind="captions" src="../media/wwa_captions_de.vtt" srclang="de" label="Deutsche"/>

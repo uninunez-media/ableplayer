@@ -25,12 +25,7 @@
 			this.setCookie(defaultCookie);
 			cookie = defaultCookie;
 		}
-		if (cookie) {
-			return cookie;
-		}
-		else {
-			return defaultCookie;
-		}
+		return (cookie) ? cookie : defaultCookie;
 	};
 
 	AblePlayer.prototype.updateCookie = function( setting ) {
@@ -55,8 +50,7 @@
 				cookie.transcript['left'] = windowPos.left;
 				cookie.transcript['width'] = $window.width();
 				cookie.transcript['height'] = $window.height();
-			}
-			else if (setting === 'sign') {
+			} else if (setting === 'sign') {
 				$window = this.$signWindow;
 				windowPos = $window.position();
 				if (typeof cookie.sign === 'undefined') {
@@ -69,8 +63,7 @@
 				cookie.sign['width'] = $window.width();
 				cookie.sign['height'] = $window.height();
 			}
-		}
-		else if (setting === 'voice') {
+		} else if (setting === 'voice') {
 			if (typeof cookie.voices === 'undefined') {
 				cookie.voices = [];
 			}
@@ -88,8 +81,7 @@
 				newVoice = {'name':this.prefDescVoice, 'lang':this.prefDescVoiceLang};
 				cookie.voices.push(newVoice);
 			}
-		}
-		else {
+		} else {
 			available = this.getAvailablePreferences();
 			// Rebuild cookie with current cookie values,
 			// replacing the one value that's been changed
@@ -113,13 +105,11 @@
 		if (this.usingYouTubeCaptions) {
 			// no transcript is possible
 			return ['captions','descriptions','keyboard'];
-		}
-		else if (this.usingVimeoCaptions) {
+		} else if (this.usingVimeoCaptions) {
 			// users cannot control caption appearance
 			// and no transcript is possible
 			return ['descriptions','keyboard'];
-		}
-		else {
+		} else {
 			return ['captions','descriptions','keyboard','transcript'];
 		}
 	}
@@ -279,12 +269,15 @@
 				'group': 'descriptions',
 				'default': 1 // 0 to 1
 			});
-			prefs.push({
-				'name': 'prefDescPause', // automatically pause when closed description starts
-				'label': this.tt.prefDescPause,
-				'group': 'descriptions',
-				'default': this.defaultDescPause
-			});
+			// Don't enable pause option if video described files in use.
+			if ( this.descMethod !== 'video' ) {
+				prefs.push({
+					'name': 'prefDescPause', // automatically pause when closed description starts
+					'label': this.tt.prefDescPause,
+					'group': 'descriptions',
+					'default': this.defaultDescPause
+				});
+			}
 			prefs.push({
 				'name': 'prefDescVisible', // visibly show closed description (if avilable and used)
 				'label': this.tt.prefDescVisible,
@@ -315,8 +308,7 @@
 			var defaultValue = available[ii]['default'];
 			if (cookie.preferences[prefName] !== undefined) {
 				this[prefName] = cookie.preferences[prefName];
-			}
-			else {
+			} else {
 				cookie.preferences[prefName] = defaultValue;
 				this[prefName] = defaultValue;
 			}
@@ -335,19 +327,12 @@
 		// Creates a preferences form and injects it.
 		// form is one of the supported forms (groups) defined in getPreferencesGroups()
 
-		var thisObj, available, descLangs,
-			$prefsDiv, formTitle, introText,
-			$prefsIntro,$prefsIntroP2,p3Text,$prefsIntroP3,i, j,
-			$fieldset, fieldsetClass, fieldsetId,
-			$descFieldset, $descLegend, $legend, legendId,
-			thisPref, $thisDiv, thisClass, thisId, $thisLabel, $thisField,
-			$div1,id1,$radio1,$label1,
-			$div2,id2,$radio2,$label2,
-			options,$thisOption,optionValue,optionLang,optionText,sampleCapsDiv,
-			changedPref,changedSpan,changedText,
-			currentDescState, prefDescVoice,
-			$kbHeading,$kbList,kbLabels,keys,kbListText,$kbListItem,
-			dialog,saveButton,cancelButton;
+		var thisObj, available,
+			$prefsDiv, formTitle, introText, $prefsIntro,$prefsIntroP2,p3Text,$prefsIntroP3,i, j,
+			$fieldset, fieldsetClass, fieldsetId, $legend, legendId, thisPref, $thisDiv, thisClass,
+			thisId, $thisLabel, $thisField, options,$thisOption,optionValue,optionLang,optionText,
+			changedPref,changedSpan,changedText, currentDescState, prefDescVoice, $kbHeading,$kbList,
+			kbLabels,keys,kbListText,$kbListItem, dialog,$saveButton,$cancelButton,$buttonContainer;
 
 		thisObj = this;
 		available = this.getAvailablePreferences();
@@ -363,8 +348,7 @@
 		if (form == 'captions') {
 			formTitle = this.tt.prefTitleCaptions;
 			// Intro text removed in 4.4.32 to cut down on unnecessary verbiage
-		}
-		else if (form == 'descriptions') {
+		} else if (form == 'descriptions') {
 			formTitle = this.tt.prefTitleDescriptions;
 			var $prefsIntro = $('<p>',{
 				text: this.tt.prefIntroDescription1
@@ -382,16 +366,13 @@
 				currentDescState = this.tt.prefIntroDescription2 + ' ';
 				currentDescState += '<strong>' + this.tt.prefDescFormatOption1b + '</strong>';
 				currentDescState += ' <em>' + this.tt.and + '</em> <strong>' + this.tt.prefDescFormatOption2b + '</strong>.';
-			}
-			else if (this.hasOpenDesc) {
+			} else if (this.hasOpenDesc) {
 				currentDescState = this.tt.prefIntroDescription2;
 				currentDescState += ' <strong>' + this.tt.prefDescFormatOption1b + '</strong>.';
-			}
-			else if (this.hasClosedDesc) {
+			} else if (this.hasClosedDesc) {
 				currentDescState = this.tt.prefIntroDescription2;
 				currentDescState += ' <strong>' + this.tt.prefDescFormatOption2b + '</strong>.';
-			}
-			else {
+			} else {
 				currentDescState = this.tt.prefIntroDescriptionNone;
 			}
 			$prefsIntroP2 = $('<p>',{
@@ -407,8 +388,7 @@
 			});
 
 			$prefsDiv.append($prefsIntro,$prefsIntroUL,$prefsIntroP2,$prefsIntroP3);
-		}
-		else if (form == 'keyboard') {
+		} else if (form == 'keyboard') {
 			formTitle = this.tt.prefTitleKeyboard;
 			introText = this.tt.prefIntroKeyboard1;
 			introText += ' ' + this.tt.prefIntroKeyboard2;
@@ -417,8 +397,7 @@
 				text: introText
 			});
 			$prefsDiv.append($prefsIntro);
-		}
-		else if (form == 'transcript') {
+		} else if (form == 'transcript') {
 			formTitle = this.tt.prefTitleTranscript;
 			// Intro text removed in 4.4.32 to cut down on unnecessary verbiage
 		}
@@ -433,8 +412,7 @@
 			$legend.attr('id',legendId);
 			$fieldset.attr('aria-labelledby',legendId);
 			$fieldset.append($legend);
-		}
-		else if (form === 'descriptions') {
+		} else if (form === 'descriptions') {
 			$legend = $('<h2>' + this.tt.prefHeadingTextDescription + '</h2>');
 			$legend.attr('id',legendId);
 			$fieldset.attr('aria-labelledby',legendId);
@@ -469,27 +447,18 @@
 							optionValue = options[j];
 							if (optionValue === 'overlay') {
 								optionText = this.tt.captionsPositionOverlay;
-							}
-							else if (optionValue === 'below') {
+							} else if (optionValue === 'below') {
 								optionValue = options[j];
 								optionText = this.tt.captionsPositionBelow;
 							}
-						}
-						else if (thisPref === 'prefCaptionsFont' || thisPref === 'prefCaptionsColor' || thisPref === 'prefCaptionsBGColor') {
+						} else if (thisPref === 'prefCaptionsFont' || thisPref === 'prefCaptionsColor' || thisPref === 'prefCaptionsBGColor') {
 							optionValue = options[j][0];
 							optionText = options[j][1];
-						}
-						else if (thisPref === 'prefCaptionsOpacity') {
+						} else if (thisPref === 'prefCaptionsOpacity') {
 							optionValue = options[j];
 							optionText = options[j];
-							if (optionValue === '0%') {
-								optionText += ' (' + this.tt.transparent + ')';
-							}
-							else if (optionValue === '100%') {
-								optionText += ' (' + this.tt.solid + ')';
-							}
-						}
-						else {
+							optionText += (optionValue === '0%') ? ' (' + this.tt.transparent + ')' : ' (' + this.tt.solid + ')';
+						} else {
 							optionValue = options[j];
 							optionText = options[j];
 						}
@@ -503,8 +472,7 @@
 						$thisField.append($thisOption);
 					}
 					$thisDiv.append($thisLabel,$thisField);
-				}
-				else if (form === 'descriptions') {
+				} else if (form === 'descriptions') {
 					$thisLabel = $('<label for="' + thisId + '"> ' + available[i]['label'] + '</label>');
 					if (thisPref === 'prefDescPause' || thisPref === 'prefDescVisible') {
 						// these preferences are checkboxes
@@ -520,14 +488,13 @@
 							$thisField.prop('checked',true);
 						}
 						$thisDiv.append($thisField,$thisLabel);
-					}
-					else if (this.synth) {
+					} else if (this.synth) {
 						// Only show these options if browser supports speech synthesis
 						$thisDiv.addClass('able-prefs-select');
 						$thisField = $('<select>',{
 							name: thisPref,
 							id: thisId,
-						});						
+						});
 						if (thisPref === 'prefDescVoice' && this.descVoices.length) {
 							prefDescVoice = this.getPrefDescVoice();
 							for (j=0; j < this.descVoices.length; j++) {
@@ -545,12 +512,10 @@
 								$thisField.append($thisOption);
 							}
 							this.$voiceSelectField = $thisField;
-						}
-						else {
+						} else {
 							if (thisPref == 'prefDescPitch') { // 0 to 2
 								options = [0,0.5,1,1.5,2];
-							}
-							else if (thisPref == 'prefDescRate') { // 0.1 to 10
+							} else if (thisPref == 'prefDescRate') { // 0.1 to 10
 								// Tests with a variety of voices on MacOS and Windows
 								// yielded the following choices that seem reasonable for audio description:
 								// 0.5 - too slow (exclude this)
@@ -568,8 +533,7 @@
 								// Note: if these values are modified, must also modfiy them
 								// in makePrefsValueReadable()
 								options = [0.7,0.8,0.9,1,1.1,1.2,1.5,2,2.5,3];
-							}
-							else if (thisPref == 'prefDescVolume') { // 0 (mute) to 1
+							} else if (thisPref == 'prefDescVolume') { // 0 (mute) to 1
 								options = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1];
 							}
 							if (typeof options !== 'undefined') {
@@ -594,8 +558,7 @@
 						});
 						$thisDiv.append($thisLabel,$thisField);
 					}
-				}
-				else { // all other fields are checkboxes
+				} else { // all other fields are checkboxes
 					$thisLabel = $('<label for="' + thisId + '"> ' + available[i]['label'] + '</label>');
 					$thisField = $('<input>',{
 						type: 'checkbox',
@@ -614,30 +577,25 @@
 							if (changedPref === 'prefAltKey') {
 								changedSpan = '.able-modkey-alt';
 								changedText = thisObj.tt.prefAltKey + ' + ';
-							}
-							else if (changedPref === 'prefCtrlKey') {
+							} else if (changedPref === 'prefCtrlKey') {
 								changedSpan = '.able-modkey-ctrl';
 								changedText = thisObj.tt.prefCtrlKey + ' + ';
-							}
-							else if (changedPref === 'prefShiftKey') {
+							} else if (changedPref === 'prefShiftKey') {
 								changedSpan = '.able-modkey-shift';
 								changedText = thisObj.tt.prefShiftKey + ' + ';
 							}
 							if ($(this).is(':checked')) {
 								$(changedSpan).text(changedText);
-							}
-							else {
+							} else {
 								$(changedSpan).text('');
 							}
 						});
 					}
 					$thisDiv.append($thisField,$thisLabel);
 				}
-				if (thisPref === 'prefDescVoice' && !this.descVoices.length) { 
+				if (thisPref === 'prefDescVoice' && !this.descVoices.length) {
 					// No voices are available (e.g., in Safari 15.4 on Mac OS)
-					// Do not add a Voice select field 
-				}
-				else { 
+				} else {
 					$fieldset.append($thisDiv);
 				}
 			}
@@ -654,8 +612,7 @@
 				$prefsDiv.append(this.$sampleCapsDiv);
 				this.stylizeCaptions(this.$sampleCapsDiv);
 			}
-		}
-		else if (form === 'descriptions') {
+		} else if (form === 'descriptions') {
 			if (this.synth) {
 				// add a div with sample audio description text
 				this.$sampleDescDiv = $('<div>',{
@@ -664,8 +621,7 @@
 				$prefsDiv.append(this.$sampleDescDiv);
 				this.currentSampleText = this.tt.sampleDescriptionText;
 			}
-		}
-		else if (form === 'keyboard') {
+		} else if (form === 'keyboard') {
 			// add a current list of keyboard shortcuts
 			$kbHeading = $('<h2>',{
 				text: this.tt.prefHeadingKeyboard2
@@ -678,65 +634,52 @@
 				if (this.controls[i] === 'play') {
 					kbLabels.push(this.tt.play + '/' + this.tt.pause);
 					keys.push('p</span> <em>' + this.tt.or + '</em> <span class="able-help-modifiers"> ' + this.tt.spacebar);
-				}
-				else if (this.controls[i] === 'restart') {
+				} else if (this.controls[i] === 'restart') {
 					kbLabels.push(this.tt.restart);
 					keys.push('s');
-				}
-				else if (this.controls[i] === 'previous') {
+				} else if (this.controls[i] === 'previous') {
 					kbLabels.push(this.tt.prevTrack);
 					keys.push('b'); // b = back
-				}
-				else if (this.controls[i] === 'next') {
+				} else if (this.controls[i] === 'next') {
 					kbLabels.push(this.tt.nextTrack);
 					keys.push('n');
-				}
-				else if (this.controls[i] === 'rewind') {
+				} else if (this.controls[i] === 'rewind') {
 					kbLabels.push(this.tt.rewind);
 					keys.push('r');
-				}
-				else if (this.controls[i] === 'forward') {
+				} else if (this.controls[i] === 'forward') {
 					kbLabels.push(this.tt.forward);
 					keys.push('f');
-				}
-				else if (this.controls[i] === 'volume') {
+				} else if (this.controls[i] === 'volume') {
 					kbLabels.push(this.tt.volume);
 					keys.push('v</span> <em>' + this.tt.or + '</em> <span class="able-modkey">1-9');
 					// mute toggle
 					kbLabels.push(this.tt.mute + '/' + this.tt.unmute);
 					keys.push('m');
-				}
-				else if (this.controls[i] === 'captions') {
+				} else if (this.controls[i] === 'captions') {
 					if (this.captions.length > 1) {
 						// caption button launches a Captions popup menu
 						kbLabels.push(this.tt.captions);
-					}
-					else {
+					} else {
 						// there is only one caption track
 						// therefore caption button is a toggle
 						if (this.captionsOn) {
 							kbLabels.push(this.tt.hideCaptions);
-						}
-						else {
+						} else {
 							kbLabels.push(this.tt.showCaptions);
 						}
 					}
 					keys.push('c');
-				}
-				else if (this.controls[i] === 'descriptions') {
+				} else if (this.controls[i] === 'descriptions') {
 					if (this.descOn) {
 						kbLabels.push(this.tt.turnOffDescriptions);
-					}
-					else {
+					} else {
 						kbLabels.push(this.tt.turnOnDescriptions);
 					}
 					keys.push('d');
-				}
-				else if (this.controls[i] === 'prefs') {
+				} else if (this.controls[i] === 'prefs') {
 					kbLabels.push(this.tt.preferences);
 					keys.push('e');
-				}
-				else if (this.controls[i] === 'help') {
+				} else if (this.controls[i] === 'help') {
 					kbLabels.push(this.tt.help);
 					keys.push('h');
 				}
@@ -779,28 +722,23 @@
 		}
 
 		// $prefsDiv (dialog) must be appended to the BODY!
-		// otherwise when aria-hidden="true" is applied to all background content
-		// that will include an ancestor of the dialog,
-		// which will render the dialog unreadable by screen readers
 		$('body').append($prefsDiv);
-		dialog = new AccessibleDialog($prefsDiv, this.$prefsButton, 'dialog', true, formTitle, $prefsIntro, thisObj.tt.closeButtonLabel, '32em');
+		dialog = new AccessibleDialog($prefsDiv, this.$prefsButton, 'dialog', true, formTitle, $prefsIntro, thisObj.tt.closeButtonLabel, false);
 
 		// Add save and cancel buttons.
-		$prefsDiv.append('<hr>');
-		saveButton = $('<button class="modal-button">' + this.tt.save + '</button>');
-		cancelButton = $('<button class="modal-button">' + this.tt.cancel + '</button>');
-		saveButton.on( 'click', function () {
+		$buttonContainer = $( '<div class="able-prefs-buttons"></div>' );
+		$saveButton = $('<button class="modal-button">' + this.tt.save + '</button>');
+		$cancelButton = $('<button class="modal-button">' + this.tt.cancel + '</button>');
+		$saveButton.on( 'click', function () {
 			dialog.hide();
 			thisObj.savePrefsFromForm();
 		});
-		cancelButton.on( 'click', function () {
+		$cancelButton.on( 'click', function () {
 			dialog.hide();
 			thisObj.resetPrefsForm();
 		});
-
-		$prefsDiv.append(saveButton);
-		$prefsDiv.append(cancelButton);
-
+		$buttonContainer.append( $saveButton,$cancelButton );
+		$prefsDiv.append($buttonContainer);
 		// Associate the dialog's H1 as aria-labelledby for groups of fields
 		// (alternative to fieldset and legend)
 		if (form === 'captions' || form === 'transcript') {
@@ -810,14 +748,11 @@
 		// add global reference for future control
 		if (form === 'captions') {
 			this.captionPrefsDialog = dialog;
-		}
-		else if (form === 'descriptions') {
+		} else if (form === 'descriptions') {
 			this.descPrefsDialog = dialog;
-		}
-		else if (form === 'keyboard') {
+		} else if (form === 'keyboard') {
 			this.keyboardPrefsDialog = dialog;
-		}
-		else if (form === 'transcript') {
+		} else if (form === 'transcript') {
 			this.transcriptPrefsDialog = dialog;
 		}
 
@@ -828,7 +763,7 @@
 		})
 		// Add handler for escape key
 		$('div.able-prefs-form').on( 'keydown', function(e) {
-			if (e.which === 27) { // escape
+			if (e.key === 'Escape') {
 				thisObj.resetPrefsForm();
 			}
 		});
@@ -841,11 +776,9 @@
 
 		if (this.selectedDescriptions) {
 			lang = this.selectedDescriptions.language;
-		}
-		else if (this.captionLang) {
+		} else if (this.captionLang) {
 			lang = this.captionLang;
-		}
-		else {
+		} else {
 			lang = this.lang;
 		}
 		cookie = this.getCookie();
@@ -893,57 +826,42 @@
 		if (pref === 'prefDescPitch') {
 			if (value === 0) {
 				return this.tt.prefDescPitch1;
-			}
-			else if (value === 0.5) {
+			} else if (value === 0.5) {
 				return this.tt.prefDescPitch2;
-			}
-			else if (value === 1) {
+			} else if (value === 1) {
 				return this.tt.prefDescPitch3;
-			}
-			else if (value === 1.5) {
+			} else if (value === 1.5) {
 				return this.tt.prefDescPitch4;
-			}
-			else if (value === 2) {
+			} else if (value === 2) {
 				return this.tt.prefDescPitch5;
 			}
-		}
-		else if (pref === 'prefDescRate') {
+		} else if (pref === 'prefDescRate') {
 			// default in the API is 0.1 to 10, where 1 is normal speaking voice
 			// our custom range offers several rates close to 1
 			// plus a couple of crazy fast ones for sport
 			// Our more readable options (1-10) or mapped here to API values
 			if (value === 0.7) {
 				return 1;
-			}
-			else if (value === 0.8) {
+			} else if (value === 0.8) {
 				return 2;
-			}
-			else if (value === 0.9) {
+			} else if (value === 0.9) {
 				return 3;
-			}
-			else if (value === 1) {
+			} else if (value === 1) {
 				return 4;
-			}
-			else if (value === 1.1) {
+			} else if (value === 1.1) {
 				return 5;
-			}
-			else if (value === 1.2) {
+			} else if (value === 1.2) {
 				return 6;
-			}
-			else if (value === 1.5) {
+			} else if (value === 1.5) {
 				return 7;
-			}
-			else if (value === 2) {
+			} else if (value === 2) {
 				return 8;
-			}
-			else if (value === 2.5) {
+			} else if (value === 2.5) {
 				return 9;
-			}
-			else if (value === 3) {
+			} else if (value === 3) {
 				return 10;
 			}
-		}
-		else if (pref === 'prefDescVolume') {
+		} else if (pref === 'prefDescVolume') {
 			// values range from 0.1 to 1.0
 			return value * 10;
 		}
@@ -969,12 +887,10 @@
 			if ((prefName.indexOf('Captions') !== -1) && (prefName !== 'prefCaptions')) {
 				// this is a caption-related select box
 				$('select[name="' + prefName + '"]').val(cookie.preferences[prefName]);
-			}
-			else { // all others are checkboxes
+			} else { // all others are checkboxes
 				if (this[prefName] === 1) {
 					$('input[name="' + prefName + '"]').prop('checked',true);
-				}
-				else {
+				} else {
 					$('input[name="' + prefName + '"]').prop('checked',false);
 				}
 			}
@@ -1024,8 +940,7 @@
 						cookie.voices.push(newVoice);
 					}
 					numChanges++;
-				}
-				else if (prefName == 'prefDescMethod') {
+				} else if (prefName == 'prefDescMethod') {
 					// As of v4.0.10, prefDescMethod is no longer a choice
 					// this.prefDescMethod = $('input[name="' + prefName + '"]:checked').val();
 					this.prefDescMethod = 'video';
@@ -1033,8 +948,7 @@
 						cookie.preferences['prefDescMethod'] = this.prefDescMethod;
 						numChanges++;
 					}
-				}
-				else if ((prefName.indexOf('Captions') !== -1) && (prefName !== 'prefCaptions')) {
+				} else if ((prefName.indexOf('Captions') !== -1) && (prefName !== 'prefCaptions')) {
 					// this is one of the caption-related select fields
 					newValue = $('select[id="' + prefId + '"]').val();
 					if (cookie.preferences[prefName] !== newValue) { // user changed setting
@@ -1048,8 +962,7 @@
 						capSizeChanged = true;
 						capSizeValue = newValue;
 					}
-				}
-				else if ((prefName.indexOf('Desc') !== -1) && (prefName !== 'prefDescPause') && prefName !== 'prefDescVisible') {
+				} else if ((prefName.indexOf('Desc') !== -1) && (prefName !== 'prefDescPause') && prefName !== 'prefDescVisible') {
 					// this is one of the description-related select fields
 					newValue = $('select[id="' + prefId + '"]').val();
 					if (cookie.preferences[prefName] !== newValue) { // user changed setting
@@ -1058,27 +971,23 @@
 						this[prefName] = newValue;
 						numChanges++;
 					}
-				}
-				else { // all other fields are checkboxes
+				} else { // all other fields are checkboxes
 					if ($('input[id="' + prefId + '"]').is(':checked')) {
 						cookie.preferences[prefName] = 1;
 						if (this[prefName] === 1) {
 							// nothing has changed
-						}
-						else {
+						} else {
 							// user has just turned this pref on
 							this[prefName] = 1;
 							numChanges++;
 						}
-					}
-					else { // thisPref is not checked
+					} else { // thisPref is not checked
 						cookie.preferences[prefName] = 0;
 						if (this[prefName] === 1) {
 							// user has just turned this pref off
 							this[prefName] = 0;
 							numChanges++;
-						}
-						else {
+						} else {
 							// nothing has chaged
 						}
 					}
@@ -1088,8 +997,7 @@
 		if (numChanges > 0) {
 			this.setCookie(cookie);
 			this.showAlert(this.tt.prefSuccess);
-		}
-		else {
+		} else {
 			this.showAlert(this.tt.prefNoChange);
 		}
 		if (this.player === 'youtube' &&
@@ -1113,8 +1021,7 @@
 					}
 				}
 			}
-		}
-		else {
+		} else {
 			// there is only one player
 			this.updatePrefs();
 			if (numCapChanges > 0) {
@@ -1135,8 +1042,7 @@
 			// tabbable transcript
 			if (this.prefTabbable === 1) {
 				this.$transcriptDiv.find('span.able-transcript-seekpoint').attr('tabindex','0');
-			}
-			else {
+			} else {
 				this.$transcriptDiv.find('span.able-transcript-seekpoint').removeAttr('tabindex');
 			}
 

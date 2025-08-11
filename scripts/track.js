@@ -30,20 +30,17 @@
     }
     for (i = 0; i < tracks.length; i++) {
       track = tracks[i];
-      kind = track.kind;
+      kind = ( track.kind ) ? track.kind : 'subtitles';
 
       if (!track.src) {
         if (thisObj.usingYouTubeCaptions || thisObj.usingVimeoCaptions) {
           // skip all the hullabaloo and go straight to setupCaptions
           thisObj.setupCaptions(track);
-        } else {
-          // Nothing to load!
-          // Skip this track; move on to next i
         }
         continue;
       }
-      var trackSrc = track.src;
-      loadingPromise = this.loadTextObject(track.src); // resolves with src, trackText
+	  var trackSrc = track.src;
+      loadingPromise = this.loadTextObject(trackSrc); // resolves with src, trackText
       loadingPromises.push(
         loadingPromise.catch(function (src) {
           console.warn("Failed to load captions track from " + src);
@@ -51,7 +48,7 @@
       );
       loadingPromise.then(
         (function (track, kind) {
-          var trackSrc = track.src;
+          trackSrc = track.src;
           var trackLang = track.language;
           var trackLabel = track.label;
           var trackDesc = track.desc;
@@ -72,14 +69,14 @@
                 trackContents
               );
             }
-            if (kind === "captions" || kind === "subtitles") {
+            if (kind === 'captions' || kind === 'subtitles') {
               thisObj.setupCaptions(track, cues);
-            } else if (kind === "descriptions") {
+            } else if (kind === 'descriptions') {
               thisObj.setupDescriptions(track, cues);
-            } else if (kind === "chapters") {
+            } else if (kind === 'chapters') {
               thisObj.setupChapters(track, cues);
-            } else if (kind === "metadata") {
-              thisObj.setupMetadata(track, cues);
+            } else if (kind === 'metadata') {
+              thisObj.setupMetadata(cues);
             }
           };
         })(track, kind)
@@ -105,8 +102,8 @@
     // cues - array with startTime, endTime, and payload
     // desc - Boolean, true if track includes a data-desc attribute
 
-    var thisObj, deferred, promise, trackLang, trackLabel, isDefault, forDesc, 
-	hasDefault, hasTrackInDefLang, trackFound, i, j;
+    var thisObj, deferred, promise, trackLang, trackLabel, isDefault, forDesc,
+	hasDefault, hasTrackInDefLang, trackFound, i;
 
     thisObj = this;
     hasDefault = false;
@@ -114,7 +111,7 @@
     deferred = new $.Deferred();
     promise = deferred.promise();
 
-    this.$tracks = this.$media.find("track");
+    this.$tracks = this.$media.find('track');
     this.tracks = []; // only includes tracks that do NOT have data-desc
     this.altTracks = []; // only includes tracks that DO have data-desc
 
@@ -131,31 +128,30 @@
       this.usingYouTubeCaptions = false;
       // create object from HTML5 tracks
       this.$tracks.each(function (index, element) {
-        if ($(this).attr("kind") === "captions") {
+        if ($(this).attr('kind') === 'captions') {
           thisObj.hasCaptionsTrack = true;
-        } else if ($(this).attr("kind") === "descriptions") {
+        } else if ($(this).attr('kind') === 'descriptions') {
           thisObj.hasClosedDesc = true;
         }
 
         // srcLang should always be included with <track>, but HTML5 spec doesn't require it
         // if not provided, assume track is the same language as the default player language
-        if ($(this).attr("srclang")) {
-          trackLang = $(this).attr("srclang");
+        if ($(this).attr('srclang')) {
+          trackLang = $(this).attr('srclang');
         } else {
           trackLang = thisObj.lang;
         }
-        if ($(this).attr("label")) {
-          trackLabel = $(this).attr("label");
+        if ($(this).attr('label')) {
+          trackLabel = $(this).attr('label');
         } else {
           trackLabel = thisObj.getLanguageName(trackLang);
         }
 
-        if (typeof $(this).attr("default") !== "undefined" && !hasDefault) {
+        if (typeof $(this).attr('default') !== 'undefined' && !hasDefault) {
           isDefault = true;
           hasDefault = true;
         } else if (trackLang === thisObj.lang) {
           // this track is in the default lang of the player
-          // save this for later
           // if there is no other default track specified
           // this will be the default
           hasTrackInDefLang = true;
@@ -176,8 +172,8 @@
         }
         if (forDesc) {
           thisObj.altTracks.push({
-            kind: $(this).attr("kind"),
-            src: $(this).attr("src"),
+            kind: $(this).attr('kind'),
+            src: $(this).attr('src'),
             language: trackLang,
             label: trackLabel,
             def: isDefault,
@@ -185,8 +181,8 @@
           });
         } else {
           thisObj.tracks.push({
-            kind: $(this).attr("kind"),
-            src: $(this).attr("src"),
+            kind: $(this).attr('kind'),
+            src: $(this).attr('src'),
             language: trackLang,
             label: trackLabel,
             def: isDefault,
@@ -202,16 +198,16 @@
               trackFound = false;
               i = 0;
               while (i < thisObj.tracks.length && !trackFound) {
-                if (thisObj.tracks[i]["language"] === thisObj.lang) {
-                  thisObj.tracks[i]["def"] = true;
+                if (thisObj.tracks[i]['language'] === thisObj.lang) {
+                  thisObj.tracks[i]['def'] = true;
                   trackFound = true;
                 }
                 i++;
               }
             } else {
               // use the first track
-              thisObj.tracks[0]["def"] = true;
-              thisObj.captionLang = thisObj.tracks[0]["language"];
+              thisObj.tracks[0]['def'] = true;
+              thisObj.captionLang = thisObj.tracks[0]['language'];
             }
           }
           // Remove 'default' attribute from all <track> elements
@@ -225,7 +221,7 @@
     if (!this.$tracks.length || !this.hasCaptionsTrack) {
       // this media has no track elements
       // if this is a youtube or vimeo player, check there for captions/subtitles
-      if (this.player === "youtube") {
+      if (this.player === 'youtube') {
         this.getYouTubeCaptionTracks(this.youTubeId).then(function () {
           if (thisObj.hasCaptions) {
             thisObj.usingYouTubeCaptions = true;
@@ -235,7 +231,7 @@
           }
           deferred.resolve();
         });
-      } else if (this.player === "vimeo") {
+      } else if (this.player === 'vimeo') {
         this.getVimeoCaptionTracks().then(function () {
           if (thisObj.hasCaptions) {
             thisObj.usingVimeoCaptions = true;
@@ -329,8 +325,8 @@
         this.captionsOn = false;
       }
     }
-    if (this.mediaType === "audio" && this.captionsOn) {
-      this.$captionsContainer.removeClass("captions-off");
+    if (this.mediaType === 'audio' && this.captionsOn) {
+      this.$captionsContainer.removeClass('captions-off');
     }
 
     if (
@@ -340,17 +336,17 @@
     ) {
       // captionsWrapper either doesn't exist, or exists in an orphaned state
       // Either way, it needs to be rebuilt...
-      this.$captionsDiv = $("<div>", {
+      this.$captionsDiv = $('<div>', {
         class: "able-captions",
       });
-      this.$captionsWrapper = $("<div>", {
-        class: "able-captions-wrapper",
-        "aria-hidden": "true",
+      this.$captionsWrapper = $('<div>', {
+        class: 'able-captions-wrapper',
+        'aria-hidden': 'true',
       }).hide();
-      if (this.prefCaptionsPosition === "below") {
-        this.$captionsWrapper.addClass("able-captions-below");
+      if (this.prefCaptionsPosition === 'below') {
+        this.$captionsWrapper.addClass('able-captions-below');
       } else {
-        this.$captionsWrapper.addClass("able-captions-overlay");
+        this.$captionsWrapper.addClass('able-captions-overlay');
       }
       this.$captionsWrapper.append(this.$captionsDiv);
       this.$captionsContainer.append(this.$captionsWrapper);
@@ -381,19 +377,19 @@
     });
   };
 
-  AblePlayer.prototype.setupMetadata = function (track, cues, trackDesc) {
-    if (this.metaType === "text") {
+  AblePlayer.prototype.setupMetadata = function (cues) {
+    if (this.metaType === 'text') {
       // Metadata is only supported if data-meta-div is provided
       // The player does not display metadata internally
       if (this.metaDiv) {
-        if ($("#" + this.metaDiv)) {
+        if ($('#' + this.metaDiv)) {
           // container exists
-          this.$metaDiv = $("#" + this.metaDiv);
+          this.$metaDiv = $('#' + this.metaDiv);
           this.hasMeta = true;
           this.meta = cues;
         }
       }
-    } else if (this.metaType === "selector") {
+    } else if (this.metaType === 'selector') {
       this.hasMeta = true;
       this.visibleSelectors = [];
       this.meta = cues;
@@ -415,14 +411,14 @@
     thisObj = this;
 
     // create a temp div for holding data
-    $tempDiv = $("<div>", {
-      style: "display:none",
+    $tempDiv = $('<div>', {
+      style: 'display:none',
     });
 
     // Fetch the content manually so it can be sanitized
     $.ajax({
       url: src,
-      dataType: "text",
+      dataType: 'text',
       success: function (data) {
         // Sanitize the fetched content
         var sanitizedTrackText = validate.sanitizeVttContent(data);

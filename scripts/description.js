@@ -36,72 +36,47 @@
 		this.descFile = this.$sources.first().attr('data-desc-src');
 		if (typeof this.descFile !== 'undefined') {
 			this.hasOpenDesc = true;
-		}
-		else {
+		} else {
 			// there's no open-described version via data-desc-src,
 			// but what about data-youtube-desc-src or data-vimeo-desc-src?
 			// if these exist, they would have been defined earlier
-			if (this.youTubeDescId || this.vimeoDescId) {
-				this.hasOpenDesc = true;
-			}
-			else { // there are no open-described versions from any source
-				this.hasOpenDesc = false;
-			}
+			this.hasOpenDesc = (this.youTubeDescId || this.vimeoDescId) ? true : false;
 		}
 
 		// Set this.descMethod based on media availability & user preferences
+		// no description is available for this video
+		this.descMethod = null;
 		if (this.hasOpenDesc && this.hasClosedDesc) {
 			// both formats are available. User gets their preference.
-			if (this.prefDescMethod) {
-				this.descMethod = this.prefDescMethod;
-			}
-			else {
-				// user has no preference. Video is default.
-				this.descMethod = 'video';
-			}
-		}
-		else if (this.hasOpenDesc) {
+			this.descMethod = (this.prefDescMethod) ? this.prefDescMethod : 'video';
+		} else if (this.hasOpenDesc) {
 			this.descMethod = 'video';
-		}
-		else if (this.hasClosedDesc) {
+		} else if (this.hasClosedDesc) {
 			this.descMethod = 'text';
-		}
-		else {
-			// no description is available for this video
-			this.descMethod = null;
 		}
 
 		// Set the default state of descriptions
+		this.descOn = false;
 		if (this.descMethod) {
 			if (this.prefDesc === 1) {
 				this.descOn = true;
-			}
-			else if (this.prefDesc === 0) {
+			} else if (this.prefDesc === 0) {
 				this.descOn = false;
-			}
-			else {
+			} else {
 				// user has no prefs. Use default state.
-				if (this.defaultStateDescriptions === 1)	{
-					this.descOn = true;
-				}
-				else {
-					this.descOn = false;
-				}
+				this.descOn = (this.defaultStateDescriptions === 1) ? true : false;
 			}
 		}
-		else {
-			this.descOn = false;
-		}
-		if (typeof this.$descDiv === 'undefined' && this.hasClosedDesc && this.descMethod === 'text') {
+
+		// If a video has text audio descriptions, inject the description area.
+		if (typeof this.$descDiv === 'undefined' && this.hasClosedDesc ) {
 			this.injectTextDescriptionArea();
 		}
 
 		if (this.descOn) {
-			if (this.descMethod === 'video') {
-				if (!this.usingDescribedVersion()) {
-					// switched from non-described to described version
-					this.swapDescription();
-				}
+			if (this.descMethod === 'video' && !this.usingDescribedVersion() ) {
+				// switched from non-described to described version
+				this.swapDescription();
 			}
 			if (this.hasClosedDesc) {
 				if (this.prefDescVisible) {
@@ -110,23 +85,20 @@
 						this.$descDiv.show();
 						this.$descDiv.removeClass('able-clipped');
 					}
-				}
-				else {
+				} else {
 					// keep it visible to screen readers, but hide it visibly
 					if (typeof this.$descDiv !== 'undefined') {
 						this.$descDiv.addClass('able-clipped');
 					}
 				}
 			}
-		}
-		else { // description is off.
+		} else { // description is off.
 			if (this.descMethod === 'video') { // user has turned off described version of video
 				if (this.usingDescribedVersion()) {
 					// user was using the described verion. Swap for non-described version
 					this.swapDescription();
 				}
-			}
-			else if (this.descMethod === 'text') { // user has turned off text description
+			} else if (this.descMethod === 'text') { // user has turned off text description
 				// hide description div from everyone, including screen reader users
 				if (typeof this.$descDiv !== 'undefined') {
 					this.$descDiv.hide();
@@ -144,11 +116,9 @@
 
 		if (this.player === 'youtube') {
 			return (this.activeYouTubeId === this.youTubeDescId);
-		}
-		else if (this.player === 'vimeo') {
+		} else if (this.player === 'vimeo') {
 			return (this.activeVimeoId === this.vimeoDescId);
-		}
-		else {
+		} else {
 			return (this.$sources.first().attr('data-desc-src') === this.$sources.first().attr('src'));
 		}
 	};
@@ -216,12 +186,8 @@
 
 		var voices, descLangs, voiceLang, preferredLang;
 
-		if (this.captionLang) {
-			preferredLang = this.captionLang.substring(0,2).toLowerCase();
-		}
-		else {
-			preferredLang = this.lang.substring(0,2).toLowerCase();
-		}
+		preferredLang = (this.captionLang) ? this.captionLang.substring(0,2).toLowerCase() : this.lang.substring(0,2).toLowerCase();
+
 		this.descVoices = [];
 		voices = this.synth.getVoices();
 		descLangs = this.getDescriptionLangs();
@@ -272,23 +238,16 @@
 
 		var cookie, voices, prefDescVoice, descVoice, descLang, prefVoiceFound;
 		cookie = this.getCookie();
-		if (typeof cookie.voices !== 'undefined') {
-			prefDescVoice = this.getPrefDescVoice();
-		}
-		else {
-			prefDescVoice = null;
-		}
+		prefDescVoice = (typeof cookie.voices !== 'undefined') ? this.getPrefDescVoice() : null;
 
 		this.getBrowserVoices();
 		this.rebuildDescPrefsForm();
 
 		if (this.selectedDescriptions) {
 			descLang = this.selectedDescriptions.language;
-		}
-		else if (this.captionLang) {
+		} else if (this.captionLang) {
 			descLang = this.captionLang;
-		}
-		else {
+		} else {
 			descLang = this.lang;
 		}
 
@@ -339,7 +298,7 @@
 		// 2. User is toggling description
 		// (playerCreated == true)
 
-		var thisObj, i, origSrc, descSrc, srcType, newSource;
+		var thisObj, i, origSrc, descSrc, srcType;
 
 		thisObj = this;
 
@@ -352,14 +311,14 @@
 		// after player is rebuilt, focus will return to that same element
 		// (if it exists)
 		this.$focusedElement = $(':focus');
+		this.activeMedia = this.mediaId;
 
 		// get current time of current source, and attempt to start new video at the same time
 		// whether this is possible will be determined after the new media source has loaded
 		// see onMediaNewSourceLoad()
 		if (this.elapsed > 0) {
 			this.swapTime = this.elapsed;
-		}
-		else {
+		} else {
 			this.swapTime = 0;
 		}
 		if (this.duration > 0) {
@@ -374,8 +333,7 @@
 		if (this.descOn) {
 			// user has requested the described version
 			this.showAlert(this.tt.alertDescribedVersion);
-		}
-		else {
+		} else {
 			// user has requested the non-described version
 			this.showAlert(this.tt.alertNonDescribedVersion);
 		}
@@ -395,8 +353,7 @@
 						this.$sources[i].setAttribute('src',origSrc);
 					}
 				}
-			}
-			else {
+			} else {
 				// the non-described version is currently playing. Swap to described.
 				for (i=0; i < this.$sources.length; i++) {
 					// for all <source> elements, replace src with data-desc-src (if one exists)
@@ -424,29 +381,21 @@
 						thisObj.loadingMedia = true;
 					}
 				});
-			}
-			else {
+			} else {
 				// player is in the process of being created
 				// no need to recreate it
 			}
-		}
-		else if (this.player === 'youtube') {
+		} else if (this.player === 'youtube') {
 
-			if (this.usingDescribedVersion()) {
-				// the described version is currently playing. Swap to non-described
-				this.activeYouTubeId = this.youTubeId;
-			}
-			else {
-				// the non-described version is currently playing. Swap to described.
-				this.activeYouTubeId = this.youTubeDescId;
-			}
+			// if the described version is currently playing, swap to non-described
+			this.activeYouTubeId = (this.usingDescribedVersion()) ? this.youTubeId : this.youTubeDescId;
+
 			if (typeof this.youTubePlayer !== 'undefined') {
 				thisObj.swappingSrc = true;
 				if (thisObj.playing) {
 					// loadVideoById() loads and immediately plays the new video at swapTime
 					thisObj.youTubePlayer.loadVideoById(thisObj.activeYouTubeId,thisObj.swapTime);
-				}
-				else {
+				} else {
 					// cueVideoById() loads the new video and seeks to swapTime, but does not play
 					thisObj.youTubePlayer.cueVideoById(thisObj.activeYouTubeId,thisObj.swapTime);
 				}
@@ -464,14 +413,12 @@
 				// next steps occur when youtube onReady event fires
 				// see youtube.js > finalizeYoutubeInit()
 			});
-		}
-		else if (this.player === 'vimeo') {
+		} else if (this.player === 'vimeo') {
 			if (this.usingDescribedVersion()) {
 				// the described version is currently playing. Swap to non-described
 				this.activeVimeoId = this.vimeoId;
 				this.showAlert(this.tt.alertNonDescribedVersion);
-			}
-			else {
+			} else {
 				// the non-described version is currently playing. Swap to described.
 				this.activeVimeoId = this.vimeoDescId;
 				this.showAlert(this.tt.alertDescribedVersion);
@@ -491,8 +438,7 @@
 						// video was playing when user requested an alternative version
 						// seek to swapTime and continue playback (playback happens automatically)
 						thisObj.vimeoPlayer.setCurrentTime(thisObj.swapTime);
-					}
-					else {
+					} else {
 						// Vimeo autostarts immediately after video loads
 						// The "Described" button should not trigger playback, so stop this before the user notices.
 						thisObj.vimeoPlayer.pause();
@@ -503,8 +449,7 @@
 	};
 
 	AblePlayer.prototype.showDescription = function(now) {
-
-		if (!this.hasClosedDesc || this.swappingSrc || !this.descOn || this.descMethod === 'video') {
+		if (!this.hasClosedDesc || this.swappingSrc || !this.descOn || ( this.descMethod === 'video' && !this.prefDescVisible ) ) {
 			return;
 		}
 
@@ -515,23 +460,18 @@
 			var result = [];
 			if (component.type === 'string') {
 				result.push(component.value);
-			}
-			else {
+			} else {
 				for (var i = 0; i < component.children.length; i++) {
 					result.push(flattenComponentForDescription(component.children[i]));
 				}
 			}
 			return result.join('');
 		};
-
+		cues = [];
 		if (this.selectedDescriptions) {
 			cues = this.selectedDescriptions.cues;
-		}
-		else if (this.descriptions.length >= 1) {
+		} else if (this.descriptions.length >= 1) {
 			cues = this.descriptions[0].cues;
-		}
-		else {
-			cues = [];
 		}
 		for (d = 0; d < cues.length; d++) {
 			if ((cues[d].start <= now) && (cues[d].end > now)) {
@@ -541,35 +481,35 @@
 		}
 		if (typeof thisDescription !== 'undefined') {
 			if (this.currentDescription !== thisDescription) {
-				// temporarily remove aria-live from $status in order to prevent description from being interrupted
+				// temporarily remove aria-live from $status to prevent description from being interrupted
 				this.$status.removeAttr('aria-live');
 				descText = flattenComponentForDescription(cues[thisDescription].components);
 				if (this.descReader === 'screenreader') {
 					// load the new description into the container div for screen readers to read
 					this.$descDiv.html(descText);
-				}
-				else if (this.speechEnabled) {
-					// use browser's built-in speech synthesis
-					this.announceDescriptionText('description',descText);
+				} else if (this.speechEnabled) {
+					if ( 'video' !== this.descMethod ) {
+						// use browser's built-in speech synthesis
+						this.announceDescriptionText('description',descText);
+					}
 					if (this.prefDescVisible) {
 						// write description to the screen for sighted users
 						// but remove ARIA attributes since it isn't intended to be read by screen readers
 						this.$descDiv.html(descText).removeAttr('aria-live aria-atomic');
 					}
-				}
-				else {
+				} else {
 					// browser does not support speech synthesis
 					// load the new description into the container div for screen readers to read
 					this.$descDiv.html(descText);
 				}
+				// Only pause video if not using a described video.
 				if (this.prefDescPause && this.descMethod === 'text') {
 					this.pauseMedia();
 					this.pausedForDescription = true;
 				}
 				this.currentDescription = thisDescription;
 			}
-		}
-		else {
+		} else {
 			this.$descDiv.html('');
 			this.currentDescription = -1;
 			// restore aria-live to $status
@@ -581,34 +521,25 @@
 
 		// called when user changed playback rate
 		// adjust rate of audio description to match
-
 		var speechRate;
 
 		if (rate === 0.5) {
 			speechRate = 0.7; // option 1 in prefs menu
-		}
-		else if (rate === 0.75) {
+		} else if (rate === 0.75) {
 			speechRate =  0.8; // option 2 in prefs menu
-		}
-		else if (rate === 1.0) {
+		} else if (rate === 1.0) {
 			speechRate =  1; // option 4 in prefs menu (normal speech, default)
-		}
-		else if (rate === 1.25) {
+		} else if (rate === 1.25) {
 			speechRate =  1.1; // option 5 in prefs menu
-		}
-		else if (rate === 1.5) {
+		} else if (rate === 1.5) {
 			speechRate =  1.2; // option 6 in prefs menu
-		}
-		else if (rate === 1.75) {
+		} else if (rate === 1.75) {
 			speechRate =  1.5; // option 7 in prefs menu
-		}
-		else if (rate === 2.0) {
+		} else if (rate === 2.0) {
 			speechRate =  2; // option 8 in prefs menu (fast)
-		}
-		else if (rate === 2.25) {
+		} else if (rate === 2.25) {
 			speechRate =  2.5; // option 9 in prefs menu (very fast)
-		}
-		else if (rate >= 2.5) {
+		} else if (rate >= 2.5) {
 			speechRate =  3; // option 10 in prefs menu (super fast)
 		}
 		this.prefDescRate = speechRate;
@@ -657,8 +588,7 @@
 			pitch = $('#' + this.mediaId + '_prefDescPitch').val();
 			rate = $('#' + this.mediaId + '_prefDescRate').val();
 			volume = $('#' + this.mediaId + '_prefDescVolume').val();
-		}
-		else {
+		} else {
 			// get settings from global prefs
 			voiceName = this.prefDescVoice;
 			pitch = this.prefDescPitch;
@@ -671,8 +601,7 @@
 			if (this.descVoices.length > 0) {
 				if (useFirstVoice) {
 					voice = this.descVoices[0];
-				}
-				else if (voiceName) {
+				} else if (voiceName) {
 					// get the voice that matches user's preferred voiceName
 					for (i = 0; i < this.descVoices.length; i++) {
 						if (this.descVoices[i].name == voiceName) {
@@ -687,12 +616,11 @@
 					voice = this.descVoices[0];
 				}
 			}
-		}
-		else { 
-			voice = null; 
+		} else {
+			voice = null;
 		}
 		utterance = new SpeechSynthesisUtterance();
-		if (voice) { 
+		if (voice) {
 			utterance.voice = voice;
 		}
 		utterance.voiceURI = 'native';
@@ -719,14 +647,9 @@
 			// As of Firefox 95, e.elapsedTime is expressed in seconds
 			// Other browsers (tested in Chrome & Edge) express this in milliseconds
 			// Assume no utterance will require over 100 seconds to express...
-			if (timeElapsed > 100) {
-				// time is likely expressed in milliseconds
-				secondsElapsed = (e.elapsedTime/1000).toFixed(2);
-			}
-			else {
-				// time is likely already expressed in seconds; just need to round it
-				secondsElapsed = (e.elapsedTime).toFixed(2);
-			}
+			// If a large value, time is likely expressed in milliseconds.
+			secondsElapsed = (timeElapsed > 100) ? (e.elapsedTime/1000).toFixed(2) : (e.elapsedTime).toFixed(2);
+
 			if (this.debug) {
 				console.log('Finished speaking. That took ' + secondsElapsed + ' seconds.');
 			}

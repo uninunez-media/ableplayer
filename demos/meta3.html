@@ -7,14 +7,14 @@
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
 <link rel="stylesheet" href="../build/ableplayer.min.css" type="text/css"/>
 
 <!-- Able Player JavaScript -->
-<script src="../build/ableplayer.js"></script>
+<script src="../build/ableplayer.dist.js"></script>
 
 <!-- CSS for hidden blocks on content in this example -->
 <style>
@@ -84,7 +84,7 @@
 <script>
 	$(document).ready(function() {
 
-		// In order to absolute-position block overlays on video,
+		// To absolute-position block overlays on video,
 		// a parent of both video & overlays (in this case, div#video-and-meta-wrapper)
 		// must be positioned with width and height
 		// However, with fixed width and height the video is not responsive using CSS alone
@@ -138,8 +138,7 @@
 	function toggleResponse() {
 		if ($('#response').is(':visible')) {
 			$('#response').hide();
-		}
-		else {
+		} else {
 			// response is an interactive element not included in metadata file
 			// therefore it doesn't disappear automatically
 			$('#response').show().delay(5000).fadeOut();
@@ -161,17 +160,19 @@
 	<main>
 		<h1>Responsive video with clickable hotspots</h1>
 
-		<p>This example has the same functionality as <a href="meta2.html">Metadata Demo #2</a>.  
+		<p>This example has the same functionality as <a href="meta2.html">Metadata Demo #2</a>.
 			Both examples demonstrate using a WebVTT metadata track to expose content
-			as an overlay on the video. 
+			as an overlay on the video.
+		</p>
+		<p>
 			However, in the other demo the video is positioned with fixed width and height.
-			This is necessary to precisely position overlay content atop the video using pixel values. 
-			The current example implements this same feature in a responsive design, 
+			This is necessary to precisely position overlay content atop the video using pixel values.
+			The current example implements this same feature in a responsive design,
 			with overlay content positioned using percentage values.
 		</p>
 
 		<div id="video-and-meta-wrapper">
-			<video id="video1" preload="auto" width="640" height="480" poster="../media/wwa.jpg" data-able-player data-meta-type="selector" playsinline>
+			<video id="video1" preload="auto" poster="../media/wwa.jpg" data-able-player data-meta-type="selector" playsinline>
 				<source type="video/mp4" src="../media/wwa.mp4" data-desc-src="../media/wwa_described.mp4"/>
 				<source type="video/webm" src="../media/wwa.webm" data-desc-src="../media/wwa_described.webm"/>
 				<!-- Able Player will display tracks alphabetically by label -->

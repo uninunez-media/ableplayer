@@ -1,7 +1,7 @@
 (function ($) {
 	AblePlayer.prototype.getSupportedLangs = function() {
 		// returns an array of languages for which AblePlayer has translation tables
-		var langs = ['ca','cs','da','de','en','es','fr','he','id','it','ja','nb','nl','pt','pt-br','sv','tr','zh-tw'];
+		var langs = ['ca','cs','da','de','en','es','fr','he','id','it','ja','ms','nb','nl','pl','pt','pt-br','sv','tr','zh-tw'];
 		return langs;
 	};
 
@@ -20,17 +20,9 @@
 				if (this.lang.indexOf('-') == 2) {
 					// this is a localized lang attribute (e.g., fr-CA)
 					// try the parent language, given the first two characters
-					if ($.inArray(this.lang.substring(0,2),supportedLangs) !== -1) {
-						// parent lang is supported. Use that.
-						this.lang = this.lang.substring(0,2);
-					}
-					else {
-						// the parent language is not supported either
-						// unable to use the specified language
-						this.lang = null;
-					}
-				}
-				else {
+					// if parent lang is supported. Use that, else null.
+					this.lang = ($.inArray(this.lang.substring(0,2),supportedLangs) !== -1) ? this.lang.substring(0,2) : null;
+				} else {
 					// this is not a localized language.
 					// but maybe there's a similar localized language supported
 					// that has the same parent?
@@ -55,19 +47,16 @@
 			// try the language of the web page, if specified
 			if ($('body').attr('lang')) {
 				docLang = $('body').attr('lang').toLowerCase();
-			}
-			else if ($('html').attr('lang')) {
+			} else if ($('html').attr('lang')) {
 				docLang = $('html').attr('lang').toLowerCase();
-			}
-			else {
+			} else {
 				docLang = null;
 			}
 			if (docLang) {
 				if ($.inArray(docLang,supportedLangs) !== -1) {
 					// the document language is supported
 					this.lang = docLang;
-				}
-				else {
+				} else {
 					// the document language is not supported
 					if (docLang.indexOf('-') == 2) {
 						// this is a localized lang attribute (e.g., fr-CA)
@@ -90,7 +79,7 @@
 		if (!this.searchLang) {
 			this.searchLang = this.lang;
 		}
-		translationFile = this.rootPath + 'translations/' + this.lang + '.js';
+		translationFile = this.rootPath + 'translations/' + this.lang + '.json';
 		$.getJSON(translationFile, function(data) {
 			// success!
 			thisObj.tt = data;
@@ -117,14 +106,14 @@
 
 		this.sampleText = [];
 		for (i=0; i < supportedLangs.length; i++) {
-			translationFile = this.rootPath + 'translations/' + supportedLangs[i] + '.js';
+			translationFile = this.rootPath + 'translations/' + supportedLangs[i] + '.json';
 			$.getJSON(translationFile, thisLang, (function(thisLang) {
 					return function(data) {
 						thisText = data.sampleDescriptionText;
 						translation = {'lang':thisLang, 'text': thisText};
 						thisObj.sampleText.push(translation);
 					};
-			}(supportedLangs[i])) // pass lang to callback function
+				}(supportedLangs[i])) // pass lang to callback function
 			);
 		}
 	};

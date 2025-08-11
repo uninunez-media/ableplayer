@@ -3,8 +3,8 @@
     var deferred = new $.Deferred();
     var promise = deferred.promise();
 
-    if (this.usingYouTubeCaptions || this.usingVimeoCaptions) {
-      // a transcript is not possible
+    if (this.usingYouTubeCaptions || this.usingVimeoCaptions || this.hideTranscriptButton ) {
+      // a transcript is not possible or is disabled.
       this.transcriptType = null;
       deferred.resolve();
     } else {
@@ -19,10 +19,7 @@
         }
       }
       if (this.transcriptType) {
-        if (
-          this.transcriptType === "popup" ||
-          this.transcriptType === "external"
-        ) {
+        if ( this.transcriptType === "popup" || this.transcriptType === "external" ) {
           this.injectTranscriptArea();
           deferred.resolve();
         } else if (this.transcriptType === "manual") {
@@ -617,7 +614,7 @@
             }
           }
           if (comp.type === "b" || comp.type == "i") {
-            result.push($tag, " ");
+            result.push($tag);
           }
         } else {
           for (var i = 0; i < comp.children.length; i++) {
@@ -630,13 +627,22 @@
       };
 
       for (var i = 0; i < cap.components.children.length; i++) {
+		var next_child_tagname;
+		if ( i < cap.components.children.length - 1 ) {
+			next_child_tagname = cap.components.children[i + 1].tagName;
+		}
         var results = flattenComponentForCaption(cap.components.children[i]);
         for (var jj = 0; jj < results.length; jj++) {
           var result = results[jj];
           if (typeof result === "string") {
-            if (thisObj.lyricsMode) {
-              // add <br> BETWEEN each caption and WITHIN each caption (if payload includes "\n")
-              result = result.replace(/\n/g, "<br>") + "<br>";
+           	if (thisObj.lyricsMode) {
+				// add <br> WITHIN each caption (if payload includes "\n")
+				result = result.replace(/\n/g,'<br>');
+
+				// add <br> BETWEEN each caption, but do not consider sibling style tags within this caption as the next caption!
+				if ( !next_child_tagname || ( next_child_tagname !== 'i' && next_child_tagname !== 'b' ) ) {
+					result += '<br>';
+				}
             } else {
               // just add a space between captions
               result += " ";
@@ -734,10 +740,7 @@
           // this caption includes a bracket or parenth. Start a new block
           // close the previous block first
           if (spanCount > 0) {
-            $main
-              .find(".able-block-temp")
-              .removeClass("able-block-temp")
-              .wrapAll('<div class="able-transcript-block"></div>');
+            $main = wrapTranscriptBlocks( $main );
             spanCount = 0;
           }
         }
@@ -746,14 +749,22 @@
       } else {
         // this is not a caption. Close the caption block
         if (spanCount > 0) {
-          $main
-            .find(".able-block-temp")
-            .removeClass("able-block-temp")
-            .wrapAll('<div class="able-transcript-block"></div>');
+          $main = wrapTranscriptBlocks( $main );
           spanCount = 0;
         }
       }
     });
+	// Close out remaining temp blocks.
+	$main = wrapTranscriptBlocks( $main );
+
     return $main;
   };
+
+  var wrapTranscriptBlocks = function( $main ) {
+	$main.find(".able-block-temp")
+		.removeClass("able-block-temp")
+		.wrapAll('<div class="able-transcript-block"></div>');
+
+	return $main;
+  }
 })(jQuery);

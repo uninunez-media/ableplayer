@@ -7,41 +7,40 @@
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
 <link rel="stylesheet" href="../build/ableplayer.min.css" type="text/css"/>
 
 <!-- Able Player JavaScript -->
-<script src="../build/ableplayer.js"></script>
+<script src="../build/ableplayer.dist.js"></script>
 
 <!-- Style for this example only -->
 <style>
 	div#wrapper {
-		display: flex; 
-		flex-direction: row; 
+		display: flex;
+		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: flex-start;
 		width: 1280px;
 		max-width: 98%;
 		background: #fff;
 		margin-top: 2rem;
+		gap: 20px;
+		padding: 1rem;
 	}
 	#player {
 		width: 480px;
-		margin: 0 20px;
 	}
 	#transcript {
 		width: 500px;
-		margin: 1em;
 	}
 	#transcript div.able-desc {
 		width: 90%;
 		font-style: italic;
-		border: 1px solid #ccc; 
-		padding: 1em;
-		background-color: #eee; 
+		border: 1px solid #ccc;
+		background-color: #eee;
 	}
 </style>
 
@@ -60,17 +59,16 @@
 	<main>
 		<h1>Manually coded external transcript</h1>
 
-		<p>The <strong>data-transcript-src</strong> attribute is used to identify 
-			the <em>id</em> of a container that contains a pre-existing manually coded transcript.
-			Manually-created transcripts can include better overall structure than automated ones, 
-			and can include additional HTML markup beyond the simple markup 
-			that is generated automatically by Able Player. 
-			This feature therefore gives authors greater control 
-			over the content of their transcripts.</p>
+		<p>The <code>data-transcript-src</code> attribute is used to identify
+			the <code>id</code> of a container that contains a pre-existing manually coded transcript.
+			Manually-created transcripts can include better overall structure than automated ones,
+			and can include additional HTML markup beyond the simple markup that is generated automatically by Able Player.
+			This feature therefore gives authors greater control over the content of their transcripts.
+		</p>
 
 		<div id="wrapper">
 			<div id="player">
-				<video id="video1" preload="auto" width="480" height="360" poster="../media/wwa.jpg" data-able-player data-transcript-src="transcript" playsinline>
+				<video id="video1" preload="auto" poster="../media/wwa.jpg" data-able-player data-transcript-src="transcript" playsinline>
 					<source type="video/mp4" src="../media/wwa.mp4" data-desc-src="../media/wwa_described.mp4"/>
 					<source type="video/webm" src="../media/wwa.webm" data-desc-src="../media/wwa_described.webm"/>
 					<track kind="captions" src="../media/wwa_captions_de.vtt" srclang="de" label="Deutsche"/>

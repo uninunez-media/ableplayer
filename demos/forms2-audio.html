@@ -7,14 +7,14 @@
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
 <link rel="stylesheet" href="../build/ableplayer.min.css" type="text/css"/>
 
 <!-- Able Player JavaScript -->
-<script src="../build/ableplayer.js"></script>
+<script src="../build/ableplayer.dist.js"></script>
 
 <style>
 .form {
@@ -61,7 +61,7 @@
 		<h1>Audio player in "Steno Mode"</h1>
 
 		<div id="wrapper">
-			<audio id="audio1" width="480" preload="auto" data-able-player data-steno-mode>
+			<audio id="audio1" preload="auto" data-able-player data-steno-mode>
 				<source type="audio/mpeg" src="../media/smallf.mp3"/>
 				<source type="audio/ogg" src="../media/smallf.ogg"/>
 			</audio>
@@ -69,7 +69,10 @@
 			<h2>Audio Transcription Example</h2>
 
 			<p>
-				Ordinarily, when users are interacting with form fields, their keystrokes should not be handled by the player. However, in some contexts (e.g., in a transcription application), users may want to control the player from within a textarea field. To enable this functionality, add <strong>data-steno-mode</strong> to the &lt;audio&gt; or &lt;video&gt; element. Note: Modifier keys for keyboard shortcuts can be configured within <em>Preferences > Keyboard</em>.
+			Ordinarily, when users are interacting with form fields, their keystrokes should not be handled by the player.
+			However, in some contexts (e.g., in a transcription application), users may want to control the player
+			from within a textarea field. To enable this functionality, add <code>data-steno-mode</code> to the
+			<code><code>&lt;audio&gt;</code></code> or <code><code>&lt;video&gt;</code></code> element. Note: Modifier keys for keyboard shortcuts can be configured within <em>Preferences > Keyboard</em>.
 			</p>
 
 			<div class="form">

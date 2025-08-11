@@ -7,14 +7,14 @@
 <link rel="stylesheet" href="demos.css" type="text/css">
 
 <!-- Dependencies -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 <!-- Able Player CSS -->
 <link rel="stylesheet" href="../build/ableplayer.min.css" type="text/css"/>
 
 <!-- Able Player JavaScript -->
-<script src="../build/ableplayer.js"></script>
+<script src="../build/ableplayer.dist.js"></script>
 
 </head>
 
@@ -31,19 +31,22 @@
 	<main>
 		<h1>Able Player with no HTML tracks<br/>(don't do this)</h1>
 
-		<p>Why would you use an accessible media player to deliver inaccessible media? 
-			Makes no sense.</p>
-			
-		<p>But if you have a compelling reason 
-			(e.g., you have to share the video with a small private audience while waiting 
-			for captions and descriptions to be finished) this test shows that Able Player 
-			is capable of handling it.</p>
+		<p>Why would you use an accessible media player to deliver inaccessible media? Makes no sense.</p>
+
+		<p>But if you have a compelling reason (e.g., you have to share the video with a small private audience while waiting for captions and descriptions to be finished) this test shows that Able Player is capable of handling it.</p>
 
 		<div id="wrapper">
-			<video id="video1" preload="auto" width="480" height="360" poster="../media/wwa.jpg" data-able-player>
+			<video id="video1" preload="auto" poster="../media/wwa.jpg" data-able-player>
 				<source type="video/mp4" src="../media/wwa.mp4"/>
 				<source type="video/webm" src="../media/wwa.webm"/>
 			</video>
+		</div>
+
+		<h2>YouTube Player with no Captions</h2>
+		<p>This also makes relatively little sense, but it would be nice if it worked.</p>
+
+		<div class="wrapper">
+			<video id="video1" data-able-player preload="auto" data-youtube-nocookie="true" data-youtube-nocookie="true" data-youtube-id="G5M1mdiEesw" playsinline></video>
 		</div>
 	</main>
 </body>

@@ -2,13 +2,13 @@
   * Styles for Able Player demo pages
   * Not affiliated with with Able Player itself
 */
-html { 
+html {
 	height: 100%;
 }
 body {
 	min-height: 100%;
-	margin: 0; 
-	padding: 0; 
+	margin: 0;
+	padding: 0;
 	font-family: 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
 	color: #373737;
 	background-color: #f2f2f2;
@@ -17,12 +17,16 @@ body {
 }
 header {
 	min-height: 209px; /* same as logo */
-	padding: 0; 
-	color: white; 
+	padding: 0;
+	color: white;
 	background: #212121;
 	background: linear-gradient(to top, #373737, #212121);
 	display: flex;
 	align-items: center;
+}
+
+main {
+	padding-bottom: 2rem;
 }
 
 header .title,
@@ -38,7 +42,7 @@ main > * {
 	margin: 0 auto 1.5rem;
 }
 
-header .title { 
+header .title {
 	font-size: 2.6em;
 	font-weight: 700;
 }
@@ -47,10 +51,10 @@ nav {
 	max-width: 680px;
 }
 
-body > nav ul { 
+body > nav ul {
 	display: flex;
 	flex-wrap: wrap;
-	list-style-type: none; 
+	list-style-type: none;
 	margin: 0 0 2em;
 	padding: 1em;
 	gap: 10px;
@@ -58,17 +62,17 @@ body > nav ul {
 	border-radius: 0 0 8px 8px;
 	box-shadow: 3px 3px 3px #ccc;
 }
-nav li { 
-	font-size: 1.2rem; 
+nav li {
+	font-size: 1.2rem;
 }
 h1, h2, h3 {
   line-height: 1.5;
   margin-top: 0.75em;
 }
-h2 { 
+h2 {
 	font-size: 1.5em;
 }
-h3 { 
+h3 {
 	font-size: 1.1em;
 }
 
@@ -100,6 +104,12 @@ a:hover, a:focus, a:active {
 	text-decoration: none !important;
 	border: none !important;
 }
+
+code {
+	background: #fff;
+	padding: 2px;
+}
+
 /*
  * Class example from WebVTT caption file
  */

@@ -28,7 +28,7 @@ Copy the `en.js` source file, then replace the English version of the text with 
 The source JavaScript files for Able Player are in the */scripts* directory, and the source CSS files are in the */styles* directory. These source files are ultimately combined into several different files (in the */build* directory) using [npm][] and [Grunt][]:
 
 ```sh
-# Install Grunt globally 
+# Install Grunt globally
 npm install -g grunt-cli
 
 # Install project dependencies
@@ -45,7 +45,7 @@ Files created by the build process are put into the */build* directory:
 - **build/ableplayer.js** -
   the default build of *ableplayer.js*
 - **build/ableplayer.dist.js** -
-  a build of *ableplayer.js* without console logging
+  a build of *ableplayer.js* without console logging or comments
 - **build/ableplayer.min.js** -
   a minified version of the *dist* file
 - **build/ableplayer.min.css** -
@@ -55,4 +55,4 @@ Files created by the build process are put into the */build* directory:
 
 ## Code of Conduct
 
-All contributors to Able Player are expected to follow our [published Code of Conduct](https://github.com/ableplayer/ableplayer/blob/main/code-of-conduct.md). 
+All contributors to Able Player are expected to follow our [published Code of Conduct](https://github.com/ableplayer/ableplayer/blob/main/code-of-conduct.md).

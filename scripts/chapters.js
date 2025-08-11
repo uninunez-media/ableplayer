@@ -3,7 +3,9 @@
 	AblePlayer.prototype.populateChaptersDiv = function() {
 
 		var headingLevel, headingType, headingId, $chaptersHeading;
-
+		if ( ! this.chaptersDivLocation ) {
+			return;
+		}
 		if ($('#' + this.chaptersDivLocation)) {
 
 			this.$chaptersDiv = $('#' + this.chaptersDivLocation);
@@ -27,8 +29,7 @@
 			this.$chaptersNav = $('<nav>');
 			if (this.chaptersTitle) {
 				this.$chaptersNav.attr('aria-labelledby',headingId);
-			}
-			else {
+			} else {
 				this.$chaptersNav.attr('aria-label',this.tt.chapters);
 			}
 			this.$chaptersDiv.append(this.$chaptersNav);
@@ -42,7 +43,7 @@
 
 		var thisObj, cues, $chaptersList, c, thisChapter,
 			$chapterItem, $chapterButton, hasDefault,
-			getClickFunction, $clickedItem, $chaptersList, thisChapterIndex;
+			getClickFunction, $clickedItem, $chaptersList;
 
 		thisObj = this;
 
@@ -53,20 +54,13 @@
 		}
 
 		if (typeof this.useChapterTimes === 'undefined') {
-			if (this.seekbarScope === 'chapter' && this.selectedChapters.cues.length) {
-				this.useChapterTimes = true;
-			}
-			else {
-				this.useChapterTimes = false;
-			}
+			this.useChapterTimes = (this.seekbarScope === 'chapter' && this.selectedChapters.cues.length) ? true : false;
 		}
 		if (this.useChapterTimes) {
 			cues = this.selectedChapters.cues;
-		}
-		else if (this.chapters.length >= 1) {
+		} else if (this.chapters.length >= 1) {
 			cues = this.chapters[0].cues;
-		}
-		else {
+		} else {
 			cues = [];
 		}
 		if (cues.length > 0) {
@@ -85,7 +79,6 @@
 						thisObj.seekTrigger = 'chapter';
 						$clickedItem = $(this).closest('li');
 						$chaptersList = $(this).closest('ul').find('li');
-						thisChapterIndex = $chaptersList.index($clickedItem);
 						$chaptersList.removeClass('able-current-chapter')
 							.children('button').removeAttr('aria-current');
 						$clickedItem.addClass('able-current-chapter')
@@ -204,12 +197,10 @@
 				// chapter ends before or after video ends, adjust chapter end to match video end
 				chapterEnd = this.duration;
 				this.currentChapter.end = this.duration;
-			}
-			else {
+			} else {
 				chapterEnd = this.currentChapter.end;
 			}
-		}
-		else { // this is not the last chapter
+		} else { // this is not the last chapter
 			chapterEnd = this.currentChapter.end;
 		}
 		return chapterEnd - this.currentChapter.start;
@@ -225,8 +216,7 @@
 
 		if (this.elapsed > this.currentChapter.start) {
 			return this.elapsed - this.currentChapter.start;
-		}
-		else {
+		} else {
 			return 0;
 		}
 	};
@@ -239,12 +229,10 @@
 			var newTime = this.currentChapter.start + chapterTime;
 			if (newTime > this.currentChapter.end) {
 				return this.currentChapter.end;
-			}
-			else {
+			} else {
 				return newTime;
 			}
-		}
-		else {
+		} else {
 			return chapterTime;
 		}
 	};
