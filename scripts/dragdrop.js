@@ -221,11 +221,9 @@
 
 	AblePlayer.prototype.addResizeDialog = function (which, $window) {
 
-		var thisObj, $windowPopup, $windowButton,
-			widthId, heightId, startingWidth, startingHeight, aspectRatio,
+		var thisObj, $windowPopup, $windowButton, widthId, heightId,
 			$resizeForm, $resizeWrapper, $resizeWidthDiv, $resizeWidthInput, $resizeWidthLabel,
-			$resizeHeightDiv, $resizeHeightInput, $resizeHeightLabel,
-			tempWidth, tempHeight, $saveButton, $cancelButton, newWidth, newHeight, resizeDialog;
+			$resizeHeightDiv, $resizeHeightInput, $resizeHeightLabel, $saveButton, $cancelButton, newWidth, newHeight, resizeDialog;
 
 		thisObj = this;
 
@@ -239,9 +237,6 @@
 
 		widthId = this.mediaId + '-resize-' + which + '-width';
 		heightId = this.mediaId + '-resize-' + which + '-height';
-		startingWidth = $window.width();
-		startingHeight = $window.height();
-		aspectRatio = startingWidth / startingHeight;
 
 		$resizeForm = $('<div></div>',{
 			'class' : 'able-resize-form'
@@ -254,9 +249,10 @@
 		// width field
 		$resizeWidthDiv = $('<div></div>');
 		$resizeWidthInput = $('<input>',{
-			'type': 'text',
+			'type': 'number',
 			'id': widthId,
-			'value': startingWidth
+			'min': 0,
+			'value': '',
 		});
 		$resizeWidthLabel = $('<label>',{
 			'for': widthId
@@ -265,24 +261,14 @@
 		// height field
 		$resizeHeightDiv = $('<div></div>');
 		$resizeHeightInput = $('<input>',{
-			'type': 'text',
+			'type': 'number',
 			'id': heightId,
-			'value': startingHeight
+			'min': 0,
+			'value': '',
 		});
 		$resizeHeightLabel = $('<label>',{
 			'for': heightId
 		}).text(this.tt.height);
-
-		if (which === 'sign') {
-			// make height a read-only field
-			// and calculate its value based on width to preserve aspect ratio
-			$resizeHeightInput.prop('readonly',true);
-			$resizeWidthInput.on('input',function() {
-				tempWidth = $(this).val();
-				tempHeight = Math.round(tempWidth/aspectRatio, 0);
-				$resizeHeightInput.val(tempHeight);
-			})
-		}
 
 		// Add save and cancel buttons.
 		$saveButton = $('<button class="modal-button">' + this.tt.save + '</button>');
@@ -290,10 +276,9 @@
 		$saveButton.on('click',function () {
 			newWidth = $('#' + widthId).val();
 			newHeight = $('#' + heightId).val();
-			if (newWidth !== startingWidth || newHeight !== startingHeight) {
-				thisObj.resizeObject(which,newWidth,newHeight);
-				thisObj.updateCookie(which);
-			}
+			thisObj.resizeObject(which,newWidth,newHeight);
+			thisObj.updateCookie(which);
+
 			resizeDialog.hide();
 			$windowPopup.hide();
 			$windowButton.trigger('focus');
@@ -399,7 +384,8 @@
 
 	AblePlayer.prototype.handleMenuChoice = function (which, choice, e) {
 
-		var thisObj, $window, $windowPopup, $windowButton, resizeDialog;
+		var thisObj, $window, $windowPopup, $windowButton, resizeDialog, startingWidth, startingHeight,
+		aspectRatio, tempWidth, tempHeight;
 
 		thisObj = this;
 		if (which === 'transcript') {
@@ -412,6 +398,20 @@
 			$windowPopup = this.$signPopup;
 			$windowButton = this.$signPopupButton;
 			resizeDialog = this.signResizeDialog;
+
+			startingWidth = $window.outerWidth();
+			startingHeight = $window.outerHeight();
+			aspectRatio = startingWidth / startingHeight;
+			// make height a read-only field
+			// and calculate its value based on width to preserve aspect ratio
+			widthId = this.mediaId + '-resize-' + which + '-width';
+			heightId = this.mediaId + '-resize-' + which + '-height';
+			$( '#' + heightId ).prop('readonly',true);
+			$( '#' + widthId ).on('input',function() {
+				tempWidth = $(this).val();
+				tempHeight = Math.round(tempWidth/aspectRatio);
+				$( '#' + heightId ).val(tempHeight);
+			});
 		}
 		this.$activeWindow = $window;
 
@@ -449,7 +449,6 @@
 			$windowButton.trigger('focus');
 		}
 		if (choice === 'move') {
-
 			// temporarily add role="application" to activeWindow
 			// otherwise, screen readers incercept arrow keys and moving window will not work
 			this.$activeWindow.attr('role','application');
@@ -470,17 +469,17 @@
 			var resizeFields = resizeDialog.getInputs();
 			if (resizeFields) {
 				// reset width and height values in form
-				resizeFields[0].value = $window.width();
-				resizeFields[1].value = $window.height();
+				resizeFields[0].value = Math.round( $window.outerWidth() );
+				resizeFields[1].value = Math.round( $window.outerHeight() );
 			}
 			resizeDialog.show();
 		} else if (choice == 'close') {
 			// close window, place focus on corresponding button on controller bar
 			if (which === 'transcript') {
-				this.closingTranscript = true; // stopgrap to prevent double-firing of keypress
+				this.closingTranscript = true; // stopgap to prevent double-firing of keypress
 				this.handleTranscriptToggle();
 			} else if (which === 'sign') {
-				this.closingSign = true; // stopgrap to prevent double-firing of keypress
+				this.closingSign = true; // stopgap to prevent double-firing of keypress
 				this.handleSignToggle();
 			}
 		}

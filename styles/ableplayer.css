@@ -683,7 +683,7 @@ span.able-modkey {
 	display: block;
 }
 
-.able-resize-form input[type="text"] {
+.able-resize-form input {
 	font-size: 1.25rem;
 	padding: 4px;
 }
